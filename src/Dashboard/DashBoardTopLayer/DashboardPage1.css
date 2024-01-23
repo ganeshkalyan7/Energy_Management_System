@@ -1,0 +1,78 @@
+.maincontainer{
+    margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+
+.ReactanleRoot{
+position: relative;
+border-radius: 10px;
+background-color: #fff;
+box-shadow: 0px 4px 28.3px rgba(0, 0, 0, 0.05);
+width: 100%;
+height: 150px;
+display: flex;
+}
+.TodaysCo2ReductionRoot{
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Poppins;
+    color: #2b2b2b;
+    text-align: left;
+    margin-left: 2%;
+    width: 100%;
+}
+.DivRoot{
+position: relative;
+font-size: 50px;
+font-weight: 700;
+font-family: Poppins;
+color: #69b931;
+text-align: left;
+ margin-left: 2%;
+}
+.DivRoot2{
+    position: relative;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: Poppins;
+    color: #2b2b2b;
+    text-align: left;
+    display: inline-block;
+    width: 315px;
+
+}
+
+.TonsOfCo2Root{
+    position: relative;
+font-size: 14px;
+font-family: Poppins;
+color: #2b2b2b;
+text-align: left;
+display: inline-block;
+width: 166px;
+}
+.savingsRoot{
+top: 0%;
+right: 0%;
+bottom: 0%;
+left: 0%;
+width: 100%;
+height: 150px;
+background: radial-gradient(50% 50% at 50% 50%, #26b843, #597e3e);
+box-shadow: -1px 3px 10px #00000000,  inset, 20px -20px 50px #000000 inset, -20px 20px 60px #fff inset;
+border-radius: 10px;
+padding: 3%;
+padding-left: 10%;
+color: #fff;
+
+}
+.savingsRootItem1{
+position: relative;
+font-size: 18px;
+font-weight: 600;
+font-family: Poppins;
+color: #fff;
+
+}
