@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ipAddress } from '../../ipAdress';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Link } from "react-router-dom";
+import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function WheeledInSolarCard() {
     const [WheeledInSolar, setWheeledInSolarCard] = useState([])
@@ -45,9 +47,12 @@ function WheeledInSolarCard() {
 
       }
 
+
+      const longText = "Performance Ratio %= Daily Energy in kWh /(irradiation in kWh/m2 * Capacity in kWp) Capacity: 2008.36 kWp"
    
   return (
     <div>
+       
         <div class="card" style={{width:"auto",height:"100%",marginTop:"0%",background:'white',color:"white"}}>
       <div class="card-body">
       <div class="container">
@@ -56,10 +61,13 @@ function WheeledInSolarCard() {
     <h5 class="card-title" style={{color:"#145369"}}><b>Wheeled in Solar </b></h5>
     </div>
     <div class="col-6" >
-    <Link to='/Wheeledgraph' style={{marginLeft:"70px"}}>
-         {/* <button type="button" class="btn btn-outline-success">Explore</button> */}
-         <QueryStatsIcon style={{ fontSize: '35px', color: 'black', marginLeft: '10px',width:"100px" }}/>
-      </Link>
+    {/*
+        
+         <InfoOutlinedIcon style={{ fontSize: '35px', color: 'black', marginLeft: '10px',width:"100px" }}/>
+       */}
+      <InfoTooltip title={longText} style={{color:"gray"}}>
+       <InfoOutlinedIcon  style={{ fontSize: '30px', color: 'black', marginLeft: '90px',width:"100px",color:"gray" }}/>
+      </InfoTooltip>
     </div>
     </div>
     </div>
@@ -93,11 +101,6 @@ function WheeledInSolarCard() {
     <td><b style={{color:"#5e5d5c"}}>Performance %:</b></td>
     <td><span style={{color:"black"}}>{WheeledinsolarperformanceValue}</span></td>
   </tr>
-
-  {/* <tr>
-    <td><b style={{color:"#5e5d5c"}}>Specific yield (kWh/kWp):</b></td>
-    <td><span style={{color:"black"}}>{WISspecificyeild}</span></td>
-  </tr> */}
 
 
   <tr>

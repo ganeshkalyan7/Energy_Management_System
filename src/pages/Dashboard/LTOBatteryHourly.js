@@ -90,7 +90,7 @@ function LTOBatteryHourly() {
         },
         series: [
           {
-            name: 'charging  Energy',
+            name: 'Charging  Energy',
             data: LTObattery.map((val) => (val.chargingEnergy)),
             type: 'column',
             yAxis: 0, // Primary y-axis
@@ -111,7 +111,7 @@ function LTOBatteryHourly() {
             color: '#FEBE00',
           },
           {
-            name: 'packsoc',
+            name: 'Pack SoC (%)',
             data: LTObattery.map((val) => val.Pacsoc),
             type: 'line',
             color: '#FF6666',
@@ -161,7 +161,7 @@ function LTOBatteryHourly() {
         },
         series: [
           {
-            name: 'charging  Energy',
+            name: 'Charging  Energy',
             data: singledaydata.map((val) => (val.chargingEnergy)),
             type: 'column',
             yAxis: 0, // Primary y-axis
@@ -182,7 +182,7 @@ function LTOBatteryHourly() {
             color: '#FEBE00',
           },
           {
-            name: 'packsoc',
+            name: 'Pack Soc(%)',
             data: singledaydata.map((val) => val.Pacsoc),
             type: 'line',
             color: '#FF6666',

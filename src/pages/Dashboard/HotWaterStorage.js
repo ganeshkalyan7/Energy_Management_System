@@ -51,7 +51,7 @@ function HotWaterStorage() {
         <td><span style={{ color: "black" }}>{Stored_Water_Temperature}</span></td>
       </tr> */}
       <span style={{color:"black"}}><b>StoredWater<br/>Temperature</b></span>
-      <p style={{color:"black"}} ><b>(deg C ): <p style={{color:"blue"}}><b>{Math.trunc(Stored_Water_Temperature)}</b></p></b></p>
+      <p style={{color:"black"}} ><b>(°C): <p style={{color:"blue"}}><b>{Math.trunc(Stored_Water_Temperature)}</b></p></b></p>
       
     </div>
   
@@ -67,7 +67,7 @@ function HotWaterStorage() {
     >
       {/* Add information for the bottom position */}
       <tr>
-        <td><b style={{ color: "black" }}>Mass_of_stored_water</b></td>
+        <td><b style={{ color: "black" }}>Mass of stored water</b></td>
         <td style={{ color: "black" }}>:</td>
         <td><span style={{ color: "red" }}><b>{Math.trunc(Mass_of_stored_water)}</b></span></td>
       </tr>
@@ -86,9 +86,9 @@ function HotWaterStorage() {
       }}
     >
       <div>
-      <span style={{color:"black"}}><b>HotWaterDelivery/</b></span>
+      <span style={{color:"black"}}><b>Hot Water Delivery</b></span>
       <br/>
-      <span style={{color:"black"}}><b>Flow_rate(m3/h):<span style={{color:"red"}}>{Math.trunc(Hot_water_delivery_Flow_rate)}</span></b></span>
+      <span style={{color:"black"}}><b>Flow rate(m<sup>3</sup>/h):<span style={{color:"red"}}>{Math.trunc(Hot_water_delivery_Flow_rate)}</span></b></span>
       </div>
     </div>
 
@@ -102,11 +102,11 @@ function HotWaterStorage() {
         textAlign: 'center',
       }}
     >
-      <div>
+      {/* <div>
       <span style={{color:"black"}}><b>Delivery_</b></span>
       <br/>
       <span style={{color:"black"}}><b><span>Temp(deg C):</span><span style={{color:"red"}}>{Math.trunc(Delivery_Temperature)}</span></b></span>
-      </div>
+      </div> */}
     </div>
 
     
@@ -127,9 +127,11 @@ function HotWaterStorage() {
         <td style={{ color: "black" }}>:</td>
         <td><span style={{ color: "black" }}>{Energy_Delivered}</span></td>
       </tr> */}
-      <span style={{color:"black"}}><b>Energy</b></span>
+ <div>
+      <span style={{color:"black"}}><b>Delivery Temp</b></span>
       <br/>
-      <span style={{color:"black"}}><b>Delivered(kWh):<span style={{color:"red"}}>{Math.trunc(Energy_Delivered)}</span></b></span>
+      <span style={{color:"black"}}><b><span>(°C):</span><span style={{color:"red"}}>{Math.trunc(Delivery_Temperature)}</span></b></span>
+      </div>
   
     </div>
 

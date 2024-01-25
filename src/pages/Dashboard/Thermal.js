@@ -108,7 +108,7 @@ const Thermal = () => {
           
       },
       series: [{
-          name: 'Cooling_energy',
+          name: 'Discharge (ckW)',
           data: selectedDate==null?result.map((value) => (value.coolingEnergy)):singledaydata.map((value) => (value.coolingEnergy))
       }]
   };

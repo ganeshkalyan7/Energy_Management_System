@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ipAddress } from '../../ipAdress';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Link } from "react-router-dom";
+import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 
 function RoofTopCard() {
@@ -43,6 +45,8 @@ function RoofTopCard() {
         sensorradiation=RoofTopSolar[i].sensorradiation
       }
 
+
+      const longText = "Performance Ratio %= Daily Energy in kWh /(irradiation in kWh/m2 * Capacity in kWp) Capacity: 1075.8 kWp"
   return (
     <div>
 
@@ -54,10 +58,12 @@ function RoofTopCard() {
     <h5 class="card-title" style={{color:"#145369"}}><b>Rooftop Solar </b></h5>
     </div>
     <div class="col-6" >
-    <Link to='/RoofTopSolar' style={{marginLeft:"70px"}}>
-         {/* <button type="button" class="btn btn-outline-success">Explore</button> */}
+    {/* <Link to='/RoofTopSolar' style={{marginLeft:"70px"}}>
          <QueryStatsIcon style={{ fontSize: '35px', color: 'black', marginLeft: '10px',width:"100px" }}/>
-      </Link>
+      </Link> */}
+      <InfoTooltip title={longText} style={{color:"gray"}}>
+       <InfoOutlinedIcon  style={{ fontSize: '30px', color: 'black', marginLeft: '90px',width:"100px",color:"gray" }}/>
+      </InfoTooltip>
     </div>
     </div>
     </div>

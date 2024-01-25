@@ -43,7 +43,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   return (
     <div>
 
-<div class="card"  style={{width:"100%",height:"410px", background: 'lineargradient(to top, rgb(184, 204, 195), white)',color:"white"}}>
+<div class="card"  style={{width:"100%",height:"405px", background: 'lineargradient(to top, rgb(184, 204, 195), white)',color:"white",marginTop:"23px"}}>
       <div class="card-body">
         <div class="row"> 
         <div class="col-10"> 

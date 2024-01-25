@@ -75,7 +75,7 @@ function BatteryHourly() {
             text:null
         },
         xAxis: {
-            categories: battery.map((val)=>val.PolledTime)
+            categories: battery.map((val)=>val.polledTime)
         },
         credits: {
             enabled: false
@@ -88,13 +88,20 @@ function BatteryHourly() {
                     enabled: false, // Enable data labels for the columns
                   },
             },
+            tooltip: {
+              shared: true, // Set to true if you want a single tooltip for all series
+              crosshairs: true, // Show crosshair lines for each point
+              headerFormat: '<b>{point.key}</b><br>', // Format for the header of the tooltip
+              pointFormat: '{series.name}: {point.y}<br>', // Format for each data point in the tooltip
+              footerFormat: '', // Format for the footer of the tooltip
+          },
 
             // line: {
             //     lineWidth: 2, // Increase the line thickness
             //   },
         },
         series: [{
-            name: 'charging  Energy',
+            name: 'Charging  Energy',
             data: battery.map((val)=>val.chargingEnergy),
             type: 'column',
             yAxis: 0, // Primary y-axis,
@@ -113,7 +120,7 @@ function BatteryHourly() {
             color:"#FEBE00"
         },
         {
-            name: 'packsoc',
+            name: 'Pack SoC(%)',
             data: battery.map((val)=>val.Pacsoc),
             type: 'line',
             color:"#FF6666",
@@ -151,7 +158,7 @@ function BatteryHourly() {
           text:null
       },
       xAxis: {
-          categories: singledaydata.map((val)=>val.PolledTime)
+          categories: singledaydata.map((val)=>val.polledTime)
       },
       credits: {
           enabled: false
@@ -170,7 +177,7 @@ function BatteryHourly() {
           //   },
       },
       series: [{
-          name: 'charging  Energy',
+          name: 'Charging  Energy',
           data: singledaydata.map((val)=>val.chargingEnergy),
           type: 'column',
           yAxis: 0, // Primary y-axis,
@@ -189,7 +196,7 @@ function BatteryHourly() {
           color:"#FEBE00"
       },
       {
-          name: 'packsoc',
+          name: 'Pack SoC(%)',
           data: singledaydata.map((val)=>val.Pacsoc),
           type: 'line',
           color:"#FF6666",
@@ -268,7 +275,7 @@ function BatteryHourly() {
     <td><span style={{color:"black",marginLeft:"10px"}}> {Packsoc[Packsoc.length-1]}</span></td>
     </tr>
     <tr>
-    <td><b style={{color:"#5e5d5c"}}>energy  available(kWh)</b></td>
+    <td><b style={{color:"#5e5d5c"}}>Energy  available(kWh)</b></td>
     <td style={{color:"black"}}>:</td>
     <td><span style={{color:"black",marginLeft:"10px"}}> {AvailableEnergy[AvailableEnergy.length-1]}</span></td>
    </tr>
