@@ -13,7 +13,7 @@ function BatteryEnergyPac() {
   const host='43.205.196.66'
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
-    const energy=`http://${ipAddress}:5000/analytics/battery`
+    const energy=`http://${ipAddress}:5003/Upsanalytics/energy_VS_packsoc`
     const [graphData, setGraphData] = useState([]);
     const [data, setData] = useState([]);
     const [filterDate, setFilterDate] = useState(null);
@@ -45,7 +45,7 @@ function BatteryEnergyPac() {
         try {
           const formattedStartDate = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${ipAddress}:5000/analytics/fivemingraphs`, {
+          const response = await axios.post(`http://${ipAddress}:5003/filtered/Upsanalytics/energy_VS_packsoc`, {
             date: formattedStartDate,
           });
         
@@ -75,7 +75,7 @@ function BatteryEnergyPac() {
   },
     series: [   {
         name: "Energy(kWh)",
-        data: graphData.map((val) => val.batteryEnergy),
+        data: graphData.map((val) => (val.batteryEnergy)/1000),
         yAxis: 1,
         type: "area",
         color:'#9ACCFB',

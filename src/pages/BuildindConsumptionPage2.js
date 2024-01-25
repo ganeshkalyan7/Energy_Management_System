@@ -16,11 +16,14 @@ function BuildindConsumptionPage2() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const [graph,setGraph]=useState([])
-    const graphDataUrl=`http://${host}:5001/BuildingConsumptionPage2`
+    const graphDataUrl="http://43.205.196.66:5003/minWise"
     const buildingHighlightsApi=`http://${host}:5001/buildingConsumptionHighlights`
     const [buildingHighlights,setBuildingHighlights]=useState([])
 
 
+    // hourly Graph data
+    // http://${host}:5001/BuildingConsumptionPage2
+    // http://${host}:5001/filteredGraph/BuildingConsumptionPage2
     const [data, setData] = useState([]);
     
     const [buildingHighlightsDateFilter,setBuildingHighlightsDateFilter]=useState([])
@@ -63,7 +66,7 @@ function BuildindConsumptionPage2() {
         try {
           const formattedDate = systemOverviewfilterDate ? new Date(systemOverviewfilterDate.getTime() - systemOverviewfilterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${host}:5001/filteredGraph/BuildingConsumptionPage2`, {date: formattedDate,});
+          const response = await axios.post(`http://${host}:5003/filtered/minWise`, {date: formattedDate,});
           const buildingHighlightsResponse= await axios.post(`http://${host}:5001/filtered/buildingConsumptionHighlights`, {date: formattedDate,});
         
           setData(response.data);
@@ -82,144 +85,203 @@ function BuildindConsumptionPage2() {
     }, [systemOverviewfilterDate]);
 
 
-      
+      console.log(graph)
       
               // Render the Highcharts line graph using the fetched data
-  const options = {
-    // Highcharts configuration options
-    chart: {
-      zoomType: 'x'
-  },
-    series: [
-      {
-            name:"Roof Top Solar(kWh)",
-            data: graph.map((val)=>(val.RooftopEnergy)),
-            yAxis: 0,
-            type: "line",
-            color:"#00008B"
-          },
-          {
-            name: "Grid(kWh)",
-    data: graph.map((data)=>data.GridEnergy), 
-    yAxis: 0, // Primary y-axis
-    type: "line",
-    color: "#FF0000",
-    dashStyle: "dash",
-          // ...
-        },
-        {
-          name:"Wheeled In Solar(kWh)",
-          data: graph.map((val)=>(val.WheeledInSolar)),
-          yAxis: 0,
-          type: "line",
-          color:"#fcba03"
-        },
-        {
-            name: 'Thermal Discharging Energy',
-            data: graph.map((val)=>val.thermalDischarge),
-            type: 'column',
-            yAxis: 0, // Primary y-axis,
-            color:"#528AAE"
-        }, 
-      ],
-      title: {
-        text: null, // Set title text to null
-      },
-      yAxis: [
-        {
-          title: {
-            text: "Energy(kWh)",
-          },
-        },
-        {
-          title: {
-            text: "TS Discharge Energy",
-          },
-          opposite: true, // Display the secondary y-axis on the opposite side of the chart
-        },
-      ],
-    //   xAxis: {
-    //     type: 'category', // Specify the x-axis as a category axis
-    //     categories: voltcurrent.map((val) => val.timestamp),
-    //     labels: {
-    //       formatter: function () {
-    //         return Highcharts.dateFormat('%H:%M', new Date(this.value)); // Format the x-axis labels as desired
-    //       }
-    //     },
-    //   },
-    // xAxis: {
-    //     type: "category", // Specify the x-axis as a category axis
-    //     categories: voltcurrent.map((val) => val.timestamp),
-    //     labels: {
-    //       formatter: function () {
-    //         const timestamp = this.value;
-    //         return timestamp; // Display the timestamp as the x-axis label
-    //       },
-    //     },
-    //   },
-    xAxis: {
-        type: "category",
-        categories:  graph.map((data)=>data.Timestamp), // Use the pre-formatted timestamp from the API
-      },
-      plotOptions: {
-        line: {
-            lineWidth: 3, // Increase the line thickness
-            // Set the line to dashed
-          },
-      },
-      
-      exporting: {
-        enabled: true, // Enable exporting
-        buttons: {
-          contextButton: {
-            menuItems: [
-              {
-                text: 'View Data Table', // Set the text for the custom menu item
-                onclick: function () {
-                  const chart = this;
-                  const data = chart.getDataRows(); // Get the data rows from the chart
-                  const table = document.createElement('table'); // Create a table element
-                  const thead = table.createTHead(); // Create the table header
-                  const tbody = table.createTBody(); // Create the table body
-    
-                  // Create and append the table header row
-                  const headerRow = thead.insertRow();
-                  data[0].forEach((header) => {
-                    const th = document.createElement('th');
-                    th.textContent = header;
-                    headerRow.appendChild(th);
-                  });
-    
-                  // Create and append the table body rows
-                  for (let i = 1; i < data.length; i++) {
-                    const bodyRow = tbody.insertRow();
-                    data[i].forEach((cell) => {
-                      const td = document.createElement('td');
-                      td.textContent = cell;
-                      bodyRow.appendChild(td);
-                    });
-                  }
-    
-                  // Open a new window and append the table
-                  const win = window.open();
-                  win.document.body.appendChild(table);
-                },
+              const currentGraph= {
+                // Highcharts configuration options
+                chart: {
+                  zoomType: 'x'
               },
-              'toggleDataLabels', // Add option for toggling data labels
-              'viewFullscreen', // Add option for full-screen mode
-              'separator', // Add a separator line
-              'downloadPNG', // Enable PNG download option
-              'downloadSVG', // Enable SVG download option
-              'downloadPDF', // Enable PDF download option
-            ],
-          },
-        },
-      },
-    
-    
-     
-    // ...
-  };
+                series: [   {
+                    name: "Wheeled In Solar(kWh)",
+                    data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy)):data.map((val)=>(val.wheeledEnergy)),
+                    
+                    //yAxis: 1,
+                    type: "line",
+                    color:'#6F00FF',
+                    marker: {
+                      enabled: false, // Disable markers for the series
+                    },
+                  },
+
+                  {
+                    name: "Grid(kWh)",
+                    data:  systemOverviewfilterDate==null?graph.map((val)=>(val.gridEnergy)):data.map((val)=>(val.gridEnergy)),
+                    
+                    //yAxis: 1,
+                    type: "line",
+                    
+                    marker: {
+                      enabled: false, // Disable markers for the series
+                    },
+                  },
+           
+                
+                
+                ],
+                //   title: {
+                //     text: "Daily Energy cycle v/s SoC", // Set the chart title text
+                //     align: "center", // Align the title to the center
+                //     margin: 10, // Set the margin of the title
+                //     style: {
+                //       fontSize: "30px", // Set the font size of the title
+                //       fontWeight: "bold", // Set the font weight of the title
+                //       fontFamily: undefined, // Use the default font family
+                //       color: "black", // Set the color of the title
+                //     },
+                //   },
+                title: {
+                    text: null, // Set title text to null
+                  },
+                  yAxis: [
+                    {
+                      title: {
+                        text: "Apparent Power  (kVA)",
+                        style:{
+                          fontSize:"15px"
+                        }
+                      },
+                    },
+                    // {
+                    //   title: {
+                    //     text: "Energy (kWh)",
+                    //   },
+                    //   opposite: true, // Display the secondary y-axis on the opposite side of the chart
+                    // },
+                  ],
+                  tooltip: {
+                    enabled: true,
+                    theme: 'dark',
+                    style: {
+                      background: '#222',
+                      color: 'black'
+                    },
+                  },
+                xAxis: {
+                    type: "category",
+                    categories:systemOverviewfilterDate==null? graph.map((time) => time.polledTime):data.map((val)=>(val.polledTime)) // Use the pre-formatted timestamp from the API
+                  },
+                  plotOptions: {
+                    line: {
+                      lineWidth: 2, // Increase the line thickness
+                    },
+                  },
+                  exporting: {
+                    enabled: true, // Enable exporting
+                    buttons: {
+                      contextButton: {
+                        menuItems: [
+                          {
+                            text: 'View Data Table', // Set the text for the custom menu item
+                            onclick: function () {
+                              const chart = this;
+                              const data = chart.getDataRows(); // Get the data rows from the chart
+                              const table = document.createElement('table'); // Create a table element
+                              const thead = table.createTHead(); // Create the table header
+                              const tbody = table.createTBody(); // Create the table body
+                
+                              // Create and append the table header row
+                              const headerRow = thead.insertRow();
+                              data[0].forEach((header) => {
+                                const th = document.createElement('th');
+                                th.textContent = header;
+                                headerRow.appendChild(th);
+                              });
+                
+                              // Create and append the table body rows
+                              for (let i = 1; i < data.length; i++) {
+                                const bodyRow = tbody.insertRow();
+                                data[i].forEach((cell) => {
+                                  const td = document.createElement('td');
+                                  td.textContent = cell;
+                                  bodyRow.appendChild(td);
+                                });
+                              }
+                
+                              // Open a new window and append the table
+                              const win = window.open();
+                              win.document.body.appendChild(table);
+                            },
+                          },
+                          'toggleDataLabels', // Add option for toggling data labels
+                          'viewFullscreen', // Add option for full-screen mode
+                          'separator', // Add a separator line
+                          'downloadPNG', // Enable PNG download option
+                          'downloadSVG', // Enable SVG download option
+                          'downloadPDF', // Enable PDF download option
+                        ],
+                      },
+                    },
+                  },
+                
+                
+                 
+                // ...
+              };
+
+
+
+        
+              const DieselDataCurrent={
+                chart: {
+                    type: 'line',
+                    zoomType: 'x'
+                },
+                title: {
+                    text: null
+                },
+                // subtitle: {
+                //     text: 'Source: WorldClimate.com'
+                // },
+                xAxis: {
+                    categories:systemOverviewfilterDate==null? graph.map((time) => time.polledTime):data.map((val)=>(val.polledTime)),
+                    crosshair: true
+                },
+                yAxis: [
+                  {
+                    title: {
+                      text: "WheeledIn Energy(kWh)",
+                    },
+                  },
+                  {
+                    title: {
+                      text: "Grid Energy(kWh)",
+                    },
+                    opposite: true, // Display the secondary y-axis on the opposite side of the chart
+                  },
+                ],
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                  name: "Wheeled In Solar(kWh)",
+                  data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy)):data.map((val)=>(val.wheeledEnergy)),
+                    //type: 'column'
+                    //yAxis: 0,
+                    
+              
+                },
+                {
+                  name: "Grid(kWh)",
+                  data:  systemOverviewfilterDate==null?graph.map((val)=>(val.gridEnergy)):data.map((val)=>(val.gridEnergy)),
+                  color:"#e38417",
+                  //type: 'column'
+                  //yAxis: 1,
+                  
+              }],
+              };
 
 
   const systemoverviewfilteredgraph = {
@@ -357,6 +419,8 @@ function BuildindConsumptionPage2() {
      
     // ...
   };
+
+
   let  gridEnergy=0
   let  rooftopEnergy=0
   let  wheeledinEnergy=0
@@ -415,10 +479,10 @@ function BuildindConsumptionPage2() {
   <Table striped bordered hover variant="dark" >
   <thead>
     <tr style={{textAlign:"center"}}>
-      <th><b>GridEnergy</b></th>
-      <th><b>rooftopEnergy</b></th>
-      <th><b>wheeledinEnergy</b></th>
-      <th><b>peakDemand</b></th>
+      <th><b>Grid Energy</b></th>
+      <th><b>Rooftop Energy</b></th>
+      <th><b>Wheeledin Energy</b></th>
+      <th><b>PeakDemand</b></th>
       <th><b>Diesel</b></th>
     </tr>
   </thead>
@@ -440,9 +504,10 @@ function BuildindConsumptionPage2() {
       {/* <hr style={{border:"10px solid black"}}/> */}
      
       {/* <h4 style={{color:"brown",textAlign:"center"}}><b>System Overview</b></h4> */}
-      {
+      {/* {
         systemOverviewfilterDate==null?<HighchartsReact highcharts={Highcharts} options={options} />: <HighchartsReact highcharts={Highcharts} options={systemoverviewfilteredgraph} />
-      }
+      } */}
+      <HighchartsReact highcharts={Highcharts} options={DieselDataCurrent} />
     
      {/* <ReactApexChart options={state.options} series={state.series}height="400px" /> */}
     </div>

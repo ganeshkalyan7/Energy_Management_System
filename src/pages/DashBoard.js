@@ -38,6 +38,7 @@ import WheeledInSolarCard from './Dashboard/WheeledInSolarCard';
 import RoofTopCard from './Dashboard/RoofTopCard';
 import C02ReductionCard from './Dashboard/C02ReductionCard';
 import ChillerStatus from './Dashboard/ChillerStatus';
+import EvCharger from './Dashboard/EvCharger';
 import './DashBoard.css'
 import { fontSize } from '@mui/system';
 import {
@@ -173,6 +174,7 @@ function DashBoard() {
   const chargerdate=`http://${ipAddress}:5000/dashboard/EvCharger`
   const thermalApi=`http://${ipAddress}:5000/thermal/summaryCard`
  const DashBoardHighlights_Api=`http://${ipAddress}:5002/Dashboard/Highlights`
+
 //  response=[{"wheeled":3310.0,"rooftop":1161.0,"grid":20368.0,"diesel":0,"avgFactor":0.994,"minFactor":0.993}]
 
 
@@ -525,10 +527,10 @@ for(let i=0;i<dashBoardHighlightsdata.length;i++){
  let CP12_1Status=""
  let CP13_1Status=""
  let CP14_1Status=""
- let CP11_1Location ="MLCP 3Rd floor"
- let CP12_1Location= 'pond area'
- let CP13_1Location= 'pond area'
- let CP14_1Location= 'pond area'
+ let CP11_1Location ="MLCP 3rd floor"
+ let CP12_1Location= 'Pond area'
+ let CP13_1Location= 'Pond area'
+ let CP14_1Location= 'Pond area'
  let LEV1_1Location= "MLCP 4th floor"
  let LEV4_1Location="MLCP 4th floor"
 
@@ -1326,15 +1328,6 @@ const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of t
 const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
-  // const formattedDate = now.toLocaleString('en-US', { 
-  //   year: 'numeric', 
-  //   month: '2-digit', 
-  //   day: '2-digit', 
-  //   hour: '2-digit', 
-  //   minute: '2-digit', 
-  //   second: '2-digit', 
-  //   hour12: false
-  // }).replace('/', '-');
 
   
 const calculatedHeight = `calc(100vh - 100px)`;
@@ -1367,8 +1360,6 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 
   return (
     <div>
-
-   
     <div   className="main" style={{marginRight:"30px",marginLeft:"30px",marginBottom:"50px"}} >
 
   <div class="row"   >
@@ -1486,42 +1477,9 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   </div>
   </div>
 
-{/* <div class="data-container"style={{ marginTop:"10px",marginRight:"3%"}}>
-    <span>
-      <span style={{ color: '#5e5d5c' }}>
-        <b style={{ fontSize: "22px"}}>Power Factor(Min):</b>
-      </span>
-      <span style={{ color: 'black', textAlign: 'right', fontSize: "22px" }}>
-      {minimum_powerfactor}
-      </span>
-    </span>
-   
-  
-    <span>
-      <span style={{ color: '#5e5d5c' }}>
-        <b style={{ fontSize: "22px"}}>Power Factor(Avg):</b>
-      </span>
-      <span style={{ color: 'black', textAlign: 'right', fontSize: "22px"}}>
-      {average_powerfactor}
-      </span>
-    </span>
-  </div> */}
-
 
 <div>
-{/* <table> 
-  <tr> 
-  <td style={{ color: '#5e5d5c'}}><h5><b style={{fontSize:"22px"}}>Min_powerfactor:</b></h5></td>
-    <td style={{ color: 'black', textAlign: 'right' }}><h4>{minimum_powerfactor}</h4></td>
-    <td style={{ width: '30px' }}></td>
-    <td>   </td>
-     <td>  </td>
-    <td style={{ color: '#5e5d5c'}}><h5><b style={{fontSize:"22px"}}>Avg_powerfactor:</b></h5></td>
-    <td style={{ color: 'black', textAlign: 'right' }}><h4>{average_powerfactor}</h4></td>
-   
-  </tr>
-  
-</table> */}
+
 
 </div>
 <br/>
@@ -1545,12 +1503,16 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   {/* ------------------- */}
 
   <div class="col-sm-4" >
+  <Link to='/Wheeledgraph' style={{marginLeft:"70px",textDecoration: 'none' }}>
     <WheeledInSolarCard/>
+    </Link>
   </div>
 
 
   <div class="col-sm-4" >
+  <Link to='/RoofTopSolar' style={{marginLeft:"70px",textDecoration: 'none'}}>
     <RoofTopCard/>
+    </Link>
  
   </div>
 
@@ -1595,7 +1557,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="card" style={{height:"100%",background: ' white',color:"white"}}>
       <div class="card-body">
       {/* <h5 class="card-title"><b style={{color:"#145369"}}>UPS Battery</b><span style={{color:"black",marginLeft:'100px' }}>Status:</span> {currentupsStatus ?  <BsIcons.BsBatteryFull color="yellow" fontSize="1.5em"/>:<BsIcons.BsBatteryFull color="green" fontSize="1.5em"/> }</h5> */}
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>UPS Battery</b></h4> 
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>UPS Battery (48 kWh)</b></h4> 
         <hr/>
         <div id="chart2"> 
        <BatteryHourly/>
@@ -1707,7 +1669,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="card" style={{height:"100%",background: ' white',color:"white"}}>
       <div class="card-body">
       {/* <h5 class="card-title"><b style={{color:"#145369"}}>UPS Battery</b><span style={{color:"black",marginLeft:'100px' }}>Status:</span> {currentupsStatus ?  <BsIcons.BsBatteryFull color="yellow" fontSize="1.5em"/>:<BsIcons.BsBatteryFull color="green" fontSize="1.5em"/> }</h5> */}
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>LTO Battery</b></h4> 
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>LTO Battery (15 kWh)</b></h4> 
         <hr/>
         <div id="chart2"> 
         <LTOBatteryHourly/>
@@ -1724,7 +1686,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
       <div class="card-body">
       {/* <h5 class="card-title"><b style={{color:"#145369"}}>UPS Battery</b><span style={{color:"black",marginLeft:'100px' }}>Status:</span> {currentupsStatus ?  <BsIcons.BsBatteryFull color="yellow" fontSize="1.5em"/>:<BsIcons.BsBatteryFull color="green" fontSize="1.5em"/> }</h5> */}
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>HotWaterStorage</b></h4> 
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>Hot Water Storage</b></h4> 
         <hr/>
         <div id="chart2"> 
         <HotWaterStorage/>
@@ -1750,6 +1712,8 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 
 
     </div>
+      
+    
     </div>
   )
 }

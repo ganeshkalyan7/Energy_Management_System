@@ -19,6 +19,10 @@ function RooftopSolar() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [singledaydata,setSingledaydata]=useState([])
 
+
+    // http://${ipAddress}:5003/Analytics/rooftopSolar
+    //http://${ipAddress}:5003/Analytics/rooftopSolar/filtered
+
     const [currentRooftopData,setCurrentRooftopData]=useState([])
 
     //---------function to handle change in inputTag----------------//

@@ -258,7 +258,7 @@ exportDataInit(Highcharts);
             },
           xAxis: {
               type: "category",
-              categories: voltcurrent.map((time) => time.PolledTime), // Use the pre-formatted timestamp from the API
+              categories: voltcurrent.map((time) => time.polledTime), // Use the pre-formatted timestamp from the API
             },
             plotOptions: {
               line: {
@@ -329,7 +329,7 @@ const option = {
   series: [
       {
         name: "Voltage(V)",
-        data: data.map((val) => val.batteryVoltage),
+        data: data.map((val) => val.BatteryVoltage),
         yAxis: 0, // Primary y-axis
         type: "line",
         color:"#FF0000"
@@ -337,7 +337,7 @@ const option = {
       },
       {
         name: "Current(A)",
-        data: data.map((val) => val.batteryCurrent),
+        data: data.map((val) => val.BatteryCurrent),
         yAxis: 1, // Secondary y-axis
         type: "area",
         // ...
@@ -380,7 +380,7 @@ const option = {
   //   },
   xAxis: {
       type: "category",
-      categories: data.map((val) => val.timestamp), // Use the pre-formatted timestamp from the API
+      categories: data.map((val) => val.polledTime), // Use the pre-formatted timestamp from the API
     },
     plotOptions: {
       line: {

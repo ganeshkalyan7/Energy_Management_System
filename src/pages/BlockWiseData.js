@@ -21,8 +21,8 @@ function BlockWiseData() {
 const [selectedDate, setSelectedDate] = useState(null);
 const [blockDataDateFiltered,setBlockDataDateFiltered]=useState([])
 const [loading, setLoading] = useState(false);
-const blockDataApi=`http://${ipAddress}:5000/BlockWise/data`
-const blockDataApiDateFiltered=`http://${ipAddress}:5000/BlockWise/data/DateFiltered`
+const blockDataApi=`http://${ipAddress}:5003/BuildingConsumption/BlockWise`
+const blockDataApiDateFiltered=`http://${ipAddress}:5003/filtered/BuildingConsumption/BlockWise`
 
 const BlockWiseData=()=>{
     axios.get(blockDataApi).then((res)=>{
@@ -104,7 +104,7 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
         }
     },
     xAxis: {
-        categories:selectedDate==null?blockData.map((time)=>time.TimeStamp):blockDataDateFiltered.map((time)=>time.TimeStamp),
+        categories:selectedDate==null?blockData.map((time)=>time.timestamp):blockDataDateFiltered.map((time)=>time.timestamp),
         labels: {
             skew3d: true,
             style: {

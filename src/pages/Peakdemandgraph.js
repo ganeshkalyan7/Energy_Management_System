@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
+import DatePickers from 'react-datepicker';
 import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
@@ -14,6 +14,15 @@ import {Link} from 'react-router-dom';
 import TopTenClients from './TopTenClients'
 import BlockWiseData from './BlockWiseData';
 import { ipAddress } from '../ipAdress';
+
+
+
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+
  
 
 const iphost='43.205.196.66'
@@ -28,9 +37,11 @@ function Peakdemandgraphs() {
   const [endDate, setEndDate] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+ 
   const [singledayFilter,setSingledayFilter]=useState(null)
   const [singledayFilterData,setSingledayFilterData]=useState([])
+  const [filterValueRange, setFilterValueRange] = useState("overView");
+  const [selectedYear, setSelectedYear] = useState(null);
 
 
   const [initialGraph,setInitialGraph]=useState([])
@@ -261,7 +272,7 @@ const currentGraph= {
     zoomType: 'x'
 },
   series: [   {
-      name: "Apparent Power  (kvA)",
+      name: "Apparent Power  (kVA)",
       data:  singledayFilter==null?initialGraph.map((val)=>(val.peakdemand)):singledayFilterData.map((val)=>(val.peakdemand)),
       
       //yAxis: 1,
@@ -302,7 +313,7 @@ const currentGraph= {
     yAxis: [
       {
         title: {
-          text: "Apparent Power  (kvA)",
+          text: "Apparent Power  (kVA)",
           style:{
             fontSize:"15px"
           }
@@ -397,7 +408,7 @@ const PeakValueGraph= {
     zoomType: 'x'
 },
   series: [   {
-      name: "Apparent Power  (kvA)",
+      name: "Apparent Power  (kVA)",
       data:  passevendaystdata.map((val)=>(val.peakdemand)),
       //yAxis: 1,
       type: "column",
@@ -426,7 +437,7 @@ const PeakValueGraph= {
     yAxis: [
       {
         title: {
-          text: "Apparent Power  (kvA)",
+          text: "Apparent Power  (kVA)",
           style:{
             fontSize:"15px"
           }
@@ -519,7 +530,7 @@ const PeakValueFilteredGraph= {
     zoomType: 'x'
 },
   series: [   {
-      name: "Apparent Power  (kvA)",
+      name: "Apparent Power  (kVA)",
       data:  data.map((val)=>(val.peakdemand)),
       //yAxis: 1,
       type: "column",
@@ -548,7 +559,7 @@ const PeakValueFilteredGraph= {
     yAxis: [
       {
         title: {
-          text: "Apparent Power  (kvA)",
+          text: "Apparent Power  (kVA)",
           style:{
             fontSize:"15px"
           }
@@ -630,11 +641,18 @@ const PeakValueFilteredGraph= {
    
   // ...
 };
-// const curdGraph= startDate || endDate ?  apexcharts: apexcharts2;
-// const testing = startDate || endDate ?  "selected graph executed": "current date graph executed";
-// console.log(testing)
 
 
+
+// useEffect(() => {
+//   if (filterValueRange === "overView") {
+//       setChartOptions(initialGraph());
+//   } else if (filterValueRange === "PHASE1") {
+//       setChartOptions(Pahse1Graph());
+//   } else if (filterValueRange === "PHASE2") {
+//       setChartOptions(Pahse2Graph());
+//   }
+// }, [filterValueRange]);
 
 const now = new Date();
 const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
@@ -642,10 +660,17 @@ const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 //const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
 
+const handleYearChange = (date) => {
+  // 'date' is a Date | DateRange<Date> object
+  // Extract the year and update the state
+  const newSelectedYear = date.getFullYear ? date.getFullYear() : date[0]?.getFullYear();
+  setSelectedYear(newSelectedYear);
+};
 
-
- 
-  
+useEffect(() => {
+  // Log the state value after it has been updated
+  console.log(selectedYear);
+}, [selectedYear]);
 
   return (
     <div >
@@ -679,7 +704,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
     <div className="input-group mb-3" style={{ width: "300px"}}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b>Date :</b></h6> <DatePicker id="date" selected={singledayFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} />  
+        <h6 style={{color:"brown"}}><b>Date :</b></h6> <DatePickers id="date" selected={singledayFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} />  
         </label>
       </div>
      
@@ -714,7 +739,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
     <div className="input-group mb-3" style={{ width: "300px"}}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b> Start Date :</b></h6> <DatePicker id="date" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
+        <h6 style={{color:"brown"}}><b> Start Date :</b></h6> <DatePickers id="date" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
         </label>
       </div>
      
@@ -725,7 +750,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
     <div className="input-group mb-3" style={{ width: "300px" }}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b>End Date :</b></h6> <DatePicker selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate}/>
+        <h6 style={{color:"brown"}}><b>End Date :</b></h6> <DatePickers selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate}/>
         </label>
       </div>
      
@@ -769,7 +794,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
   <KvaVsKW/>
   </div> */}
 
-  {/* <Grid sx={{ flexGrow: 1 }} container spacing={2} >
+  <Grid sx={{ flexGrow: 1 }} container spacing={2} >
   
   <Grid item xs={12} sm={6} >
       <div id="topTenClients"> 
@@ -789,12 +814,9 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
   
 
       </Grid>
-      </Grid> */}
+      </Grid>
 
-
-  
- 
-
+     
     </div>
    
   )
@@ -811,75 +833,12 @@ export default Peakdemandgraphs
 
 
 
-// <Grid sx={{ flexGrow: 1 }} container spacing={2} >
-// <Grid item xs={12} sm={6} >
-// <h3 style={{textAlign:'center',color:"brown"}}> <b>Peak Demand (kVA)</b></h3>
-  
-//   </Grid>
-//   <Grid item xs={12} sm={6} >
-//   <h3 style={{textAlign:'center',color:"brown"}}> <b>Daily Demand (kVA)</b></h3>
-
-
-//   <form onSubmit={handlesingledaySubmit}  style={{border:'1px solid black'}} >
-//     {/* <div class='row' style={{display:'flex'}}>
-//       <div>  */}
-//     <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-// <div className="col">
-//   <div className="input-group mb-3" style={{ width: "300px"}}>
-//     <div className="input-group-prepend">
-//       <label className="input-group-text" htmlFor="inputGroupSelect01">
-//       <h6 style={{color:"brown"}}><b>Select Date :</b></h6>    <DatePicker id="date" selected={selectedDate} onChange={handleDateChange} />
-//       </label>
-//     </div>
-  
-//   </div>
-// </div>
-
-
-// </div>
-//       {/* <div class="input-group mb-3"  style={{width:"300px",marginTop:"50px"}}>
-     
-       
-//       </div> */}
-//       {/* </div>
-//     </div> */}
-     
-//       <button type="submit" class="btn btn-danger btn-lg" style={{height:"40px"}}>View Data</button>
-
-// {/*      
-//     <label htmlFor="date">Select a date:</label>
-//     <DatePicker id="date" selected={selectedDate} onChange={handleDateChange} />
-//     <button type="submit">Filter Data</button> */}
-
-// {/* <div>
-// <h4>  <span>{startDate}</span> to  <span>{endDate}</span></h4>
-// </div> */}
-
-// <div id="chart2">
-
-
-//           {/* {data.length > 0 && (
-
-//           )} */}
-//  {
-   
-//     apexcharts2?<ReactApexChart options={apexcharts2.options} series={apexcharts2.series} type='area' height='400px'  />:<div ><CircularProgress style={{color: "black"}} ></CircularProgress><h3>Graph Loading.... </h3></div>
-
-   
-//  }
-
-//  </div>
- 
-
-
-
-
-
-
-
-
- 
-
-//   </form>
-//   </Grid>
-//   </Grid>
+ {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        views={['year']}
+        openTo="year"
+        label="Select Year"
+        onChange={handleYearChange}
+        value={selectedYear}
+      />
+    </LocalizationProvider> */}

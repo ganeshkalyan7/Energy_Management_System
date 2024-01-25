@@ -17,8 +17,8 @@ function TopTenClients() {
 
 
 
-const ClientDataApi=`http://${ipAddress}:5000/TopTenClients/data`
-const ClientDataDateFilteredApi=`http://${ipAddress}:5000/TopTenClients/data/DateFilter`
+const ClientDataApi=`http://${ipAddress}:5003/BuildingConsumption/TopTenClients`
+const ClientDataDateFilteredApi=`http://${ipAddress}:5003/BuildingConsumption/TopTenClients/filtered`
 const [clientData,setClientData]=useState("")
 const [clientDataDateFiltered,setClientDataDateFiltered]=useState("") 
 const [selectedDate, setSelectedDate] = useState(null);
