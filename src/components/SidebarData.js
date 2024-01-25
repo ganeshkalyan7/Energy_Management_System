@@ -22,6 +22,12 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import { AiFillSliders } from "react-icons/ai";
 import { VscAccount } from "react-icons/vsc";
 import { MdSpaceDashboard } from "react-icons/md";
+import { MdSolarPower } from "react-icons/md";
+import { FaCarBattery } from "react-icons/fa";
+import { GiThermometerCold } from "react-icons/gi";
+import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
+
+
 
 
 
@@ -36,7 +42,8 @@ export const SidebarData = [
     title: 'Dashboard',
     path: '/',
     icon: <AiIcons.AiFillHome />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    isParent: true,
     
   },
   {
@@ -44,67 +51,103 @@ export const SidebarData = [
     // path: '/Analytics',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text',
+    isParent: true,
     subNav: [
+     
       {
         title: 'Building consumption',
-        path: '/peakgraph',
-        icon: <SiIcons.SiGoogleanalytics />
+        icon: <RoomPreferencesIcon/>,
+        subNav: [
+          {
+            title: 'Building consumption',
+            path: '/peakgraph',
+            icon: <SiIcons.SiGoogleanalytics />
+          },
+          {
+            title: 'Diesel Analysis',
+            path: '/Diesel_Analysis',
+            icon: <LocalGasStationIcon />
+          },
+          {
+            title: 'PeakAnalysis',
+            path: '/PeakDemandAnalysis',
+            icon: <AnalyticsIcon />,
+          },
+         
+          {
+            title: 'kVA vs KW',
+            path: '/kVAvsKW',
+            icon: <AiFillSliders />,
+          },
+          {
+            title: 'TopTenClients',
+            path: '/TopTenClients',
+            icon: <VscAccount />,
+          },
+    
+        ],
       },
       {
-        title: 'Wheeled In Solar',
-        path: '/Wheeledgraph',
-        icon: <GiIcons.GiSolarPower />
+        title: 'Solar',
+        icon: <MdSolarPower/>,
+        subNav: [
+          {
+            title: 'Wheeled In Solar',
+            path: '/Wheeledgraph',
+            icon: <GiIcons.GiSolarPower />
+          },
+          {
+            title: 'RoofTop Solar',
+            path: '/RoofTopSolar',
+            icon: <TbIcons.TbSolarPanel2 />
+          },
+        
+        ],
       },
+    
+      
       {
-        title: 'RoofTop Solar',
-        path: '/RoofTopSolar',
-        icon: <TbIcons.TbSolarPanel2 />
+        title: 'Batteries',
+        icon: <FaCarBattery/>,
+        subNav: [
+          {
+            title: 'UPS Battery',
+            path: '/Battery_Analytics',
+            icon: <TbIcons.TbBatteryAutomotive />
+          },
+          {
+            title: 'LTO Battery',
+            path: '/LTOBattery_Analytics',
+            icon: <BatterySaverIcon />
+          },
+        
+        ],
       },
+
       {
-        title: 'Diesel Analysis',
-        path: '/Diesel_Analysis',
-        icon: <LocalGasStationIcon />
+        title: 'Chillers',
+        icon: <SevereColdIcon/>,
+        subNav: [
+          {
+            title: 'ChillersDashboard',
+            path: '/chillers/chillersDashboard',
+            icon: <SevereColdIcon />,
+          },
+          {
+            title: 'Thermal_Analtics',
+            path: '/Thermal_Analtics',
+            icon: <ThermostatAutoIcon />,
+          },
+          {
+            title: 'ChillersStatus',
+            path: '/Status/chillersStatus',
+            icon: <SevereColdIcon />,
+          },
+        ],
       },
-      {
-        title: 'UPS Battery',
-        path: '/Battery_Analytics',
-        icon: <TbIcons.TbBatteryAutomotive />
-      },
-      {
-        title: 'LTO Battery',
-        path: '/LTOBattery_Analytics',
-        icon: <BatterySaverIcon />
-      },
-      {
-        title: 'ChillersDashboard',
-        path: '/chillers/chillersDashboard',
-        icon: <SevereColdIcon />,
-      },
-      {
-        title: 'PeakAnalysis',
-        path: '/PeakDemandAnalysis',
-        icon: <AnalyticsIcon />,
-      },
-      {
-        title: 'Thermal_Analtics',
-        path: '/Thermal_Analtics',
-        icon: <ThermostatAutoIcon />,
-      },
-      {
-        title: 'ChillersStatus',
-        path: '/Status/chillersStatus',
-        icon: <SevereColdIcon />,
-      },
-      {
-        title: 'kVA vs KW',
-        path: '/kVAvsKW',
-        icon: <AiFillSliders />,
-      },
-      {
-        title: 'TopTenClients',
-        path: '/TopTenClients',
-        icon: <VscAccount />,
-      },
+    
+     
+    
       // {
       //   title: 'NewDashboard',
       //   path: '/NewDashboard',
@@ -148,6 +191,7 @@ export const SidebarData = [
     title: 'Alerts',
     icon: <GoIcons.GoAlert />,
     cName: 'nav-text',
+    isParent: true,
     subNav: [
       {
         title: 'Alert Logs',
@@ -183,6 +227,7 @@ export const SidebarData = [
     // path: '/Control',
     icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text',
+    isParent: true,
     subNav: [
       {
         title: 'Battery control',
@@ -206,6 +251,7 @@ export const SidebarData = [
     title: 'Documentation',
     path: '/Documentation',
     icon: <IoIcons.IoMdHelpCircle />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    isParent: true,
   },
 ];
