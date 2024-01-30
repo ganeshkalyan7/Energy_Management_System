@@ -2,7 +2,7 @@ import './App.css';
 import * as React from 'react';
 import Navbar from './components/Navbar';
 import DashBoard from './pages/DashBoard';
-import Analytics from './pages/Analytics';
+
 import Control from './pages/Control';
 import Alerts from './pages/Alerts';
 import Documentation from './pages/Documentation';
@@ -73,7 +73,6 @@ function App() {
           
           {/* DashBoardCombine */}
             <Route path="/" element={<DashBoard />} />
-            <Route path="/Analytics" element={<Analytics />} />
             <Route path="/Control/upsbattery" element={<Control />} />
             <Route path="/Control/thermal" element={<Thermalcontrol />} />
             <Route path="/Alertlogs" element={<Alerts />} />
