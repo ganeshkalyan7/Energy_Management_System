@@ -1,0 +1,70 @@
+
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.overlay-image {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 27%; /* Adjust the left position as needed */
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+  color:"blue";
+  border-radius: 20%;
+  
+}
+
+.inline{
+  position: absolute;
+  top: 39%; /* Center vertically */
+  left: 3%; /* Adjust the left position as needed */
+  transform: translate(-50%, -170%); /* Center horizontally and vertically */
+}
+
+
+
+.overlay-image1 {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 45%; /* Adjust the left position as needed */
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+
+.overlay-image2 {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 63%; /* Adjust the left position as needed */
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+
+
+.overlay-image3 {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 83%; /* Adjust the left position as needed */
+    transform: translate(-50%, -50%); /* Center horizontally and vertically */
+    width: 100px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+  }
+  .overlay-image .chillerBox {
+    width: 53px;
+    height: 102px;
+    background: #FF7338;
+    border-radius: 10px;
+    padding-left: 3px;
+  }
+
+  .overlay-image1.chillerBox{
+    width: 53px;
+    height: 102px;
+    background: #FF7338;
+    border-radius: 10px;
+    padding-left: 3px;
+  }
