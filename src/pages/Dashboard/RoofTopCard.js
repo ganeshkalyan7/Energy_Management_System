@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Link } from "react-router-dom";
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
@@ -9,7 +9,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function RoofTopCard() {
     const [RoofTopSolar, setRoofTopSolar] = useState([])
-    const RoofTopSolar_api=`http://${ipAddress}:5002/Dashboard/RoofTopSolar`
+    const RoofTopSolar_api=`${dashboardAddress}/Dashboard/RoofTopSolar`
 
     useEffect(() => {
         const fetchData = async () => {

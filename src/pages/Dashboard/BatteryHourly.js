@@ -7,14 +7,14 @@ import HighchartsReact from 'highcharts-react-official';
 import {Link} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
+import EvCharger from './EvCharger';
 
 function BatteryHourly() {
-  const host='43.205.196.66'
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const [battery,setBattery]=useState([])
-    const BatteryData=`http://${ipAddress}:5002/Dashboard/upsBattery`
+    const BatteryData=`${dashboardAddress}Dashboard/upsBattery`
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [singledaydata,setSingledaydata]=useState([])
@@ -42,7 +42,7 @@ function BatteryHourly() {
        
         try {
           const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
-          const response = await axios.post(`http://${ipAddress}:5000/dashboard/filtered/Battery`, { date: formattedDate });
+          const response = await axios.post(`${dashboardAddress}/filtered/Battery`, { date: formattedDate });
           setSingledaydata(response.data);
         } catch (error) {
           console.error(error);
@@ -66,7 +66,8 @@ function BatteryHourly() {
      const options= {
         chart: {
             type: 'column',
-            zoomType: 'x'
+            zoomType: 'x',
+            height:"300px"
         },
       //   chart: {
          
@@ -149,7 +150,8 @@ function BatteryHourly() {
     const filteredGraph= {
       chart: {
           type: 'column',
-          zoomType: 'x'
+          zoomType: 'x',
+          height:"300px"
       },
     //   chart: {
        
@@ -249,7 +251,15 @@ function BatteryHourly() {
 
   return (
     <div>
-      <div> 
+
+<div class="row"   >
+<div class="col-sm-8" style={{marginTop:"5%"}}>
+    <div class="card" style={{height:"600px",background: ' white',color:"white"}}>
+      <div class="card-body">
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>UPS Battery (48 kWh)</b></h4> 
+        <hr/>
+        <div id="chart2"> 
+        <div> 
       <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
   <div className="col-10">
     <div className="input-group mb-3" style={{ width: "300px"}}>
@@ -291,8 +301,17 @@ function BatteryHourly() {
        
 
 </div>
+  
+   </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4"  style={{marginTop:"5%"}}>
+  <EvCharger/>
+  </div>
+  
         
-      
+  </div>
     </div>
   )
 }

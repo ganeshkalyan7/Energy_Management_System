@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 import EvchargerOn from '../../images/charging-station-on.png'
 import EvChargerOff from "../../images/charging-station-off.png"
 
 function EvCharger() {
 
     const [EvChargerData, setEvChargerData] = useState([])
-    const EvChargerData_api="http://43.205.196.66:5002/dashboard/EvCharger"
+    const EvChargerData_api=`${dashboardAddress}/dashboard/EvCharger`
 
 
 
@@ -70,7 +70,7 @@ function EvCharger() {
   return (
     <div>
 
-<div class="card" style={{width:"100%", height:"100%",background: 'lineargradient(to right, lightblue, white)',color:"white"}}>
+<div class="card" style={{width:"100%", height:"600px",background: 'lineargradient(to right, lightblue, white)',color:"white"}}>
        <div class="card-body">
          <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>EV Charger</b>  </h4>
          
@@ -128,9 +128,6 @@ function EvCharger() {
   </div>
 </div>
 
-<br/>
-<br/>
-<br/>
 <br/>
   <table style={{font:'caption',fontStretch:"extra-expanded",fontFamily:"serif",fontSize:'19px', margin: '0 auto'}}>
   <tr>

@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card';
 import { colors } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 
 
 const Thermal = () => {
@@ -20,7 +20,7 @@ const Thermal = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [singledaydata,setSingledaydata]=useState([])
-    const ThermalA_pi=`http://43.205.196.66:5002/Dashboard/thermal`
+    const ThermalA_pi=`${dashboardAddress}/Dashboard/thermal`
 
     //---------function to handle change in inputTag----------------//
     const handleDateChange = (selectedDate) => {
@@ -33,7 +33,7 @@ const Thermal = () => {
        
         try {
           const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
-          const response = await axios.post(`http://${host}:5002/Dashboard/thermal/filtered`, { date: formattedDate });
+          const response = await axios.post(`${dashboardAddress}/Dashboard/thermal/filtered`, { date: formattedDate });
           setSingledaydata(response.data);
         } catch (error) {
           console.error(error);

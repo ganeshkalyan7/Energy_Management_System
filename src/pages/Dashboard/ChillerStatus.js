@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 import { TiWeatherSnow } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import EvCharger from './EvCharger';
 
 function ChillerStatus() {
-    const chillerstatus_api = 'http://43.205.196.66:5001/chillerstatus'
+    const chillerstatus_api = `${dashboardAddress}/chillerstatus`
     const [chiller, setChiller] = useState([])
 
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Link } from "react-router-dom";
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
@@ -8,7 +8,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function C02ReductionCard() {
     const [co2Reduction,setCo2Reduction]=useState([])
-    const co2Reduction_api=`http://${ipAddress}:5002/Dashboard/co2`
+    const co2Reduction_api=`${dashboardAddress}/Dashboard/co2`
 
     //info text for co2 redunction card
 const longText = " According to CEA Emission Database,2021 the weighted C02 emissions factor is 0.71 tCO2/MWh Amount of CO2 Reduced = 0.71* Renewable Energy Generated "

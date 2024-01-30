@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Hotwaterimage from '../../images/water-heater.jpg'
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 
 function HotWaterStorage() {
   const [hotWaterStorage, setHotWaterStorage] = useState([]);
-  const hotWaterStorageApi = `http://${ipAddress}:5002/Dashboard/HotWaterStorage`;
+  const hotWaterStorageApi = `${dashboardAddress}/Dashboard/HotWaterStorage`;
 
   useEffect(() => {
     axios.get(hotWaterStorageApi)

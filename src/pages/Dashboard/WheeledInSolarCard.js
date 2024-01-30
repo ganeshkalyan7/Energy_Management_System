@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { ipAddress } from '../../ipAdress';
+import { dashboardAddress } from '../../ipAdress';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Link } from "react-router-dom";
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
@@ -8,7 +8,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function WheeledInSolarCard() {
     const [WheeledInSolar, setWheeledInSolarCard] = useState([])
-    const wheeledinsolar_api=`http://${ipAddress}:5002/Dashboard/WheeledInSolar`
+    const wheeledinsolar_api=`${dashboardAddress}/Dashboard/WheeledInSolar`
 
     useEffect(() => {
         const fetchData = async () => {
