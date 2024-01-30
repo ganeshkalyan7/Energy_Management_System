@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { CiCircleInfo } from "react-icons/ci";
-import { ipAddress } from '../../ipAdress';
+import { nodeAdress } from '../../ipAdress';
 import axios from 'axios';
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Tooltip from '@mui/material/Tooltip';
@@ -27,7 +27,6 @@ function DashBoardChillers() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [singledaydata,setSingledaydata]=useState([])
-  console.log(ipAddress)
   //console.log(ipAdress)
 
    //declaring empty array to fetch data
@@ -47,18 +46,18 @@ function DashBoardChillers() {
   const [chillerTotalCoolingEnergyDateFilter,setChillerTotalCoolingEnergyDateFilter]=useState([])
   
 
-  const thermalTempApi=`http://${ipAddress}:5000/thermal/storedWaterTemp`
-  const chillerLoadingApi= `http://${ipAddress}:5000/chillerDashboard/ChillerLoading `
-  const thermal_IN_OUTApi=`http://${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator`
-  const chillerCop_Api=`http://${ipAddress}:5000/chillerDashboard/Average/chillarCOP`
-  const ChillerTotalCooling_Api=`http:///${ipAddress}:5000/chillerDashboard/TotalCoolingEnergy`
+  const thermalTempApi=`${nodeAdress}/thermal/storedWaterTemp`
+  const chillerLoadingApi= `${nodeAdress}/chillerDashboard/ChillerLoading `
+  const thermal_IN_OUTApi=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator`
+  const chillerCop_Api=`${nodeAdress}/chillerDashboard/Average/chillarCOP`
+  const ChillerTotalCooling_Api=`${nodeAdress}/chillerDashboard/TotalCoolingEnergy`
 
-  const thermalTempDateFilter_Api=`http://${ipAddress}:5000/thermal/storedWaterTemp/dateFiltered`
-  const chillerLoadingDateFilter_Api= `http:///${ipAddress}:5000/chillerDashboard/ChillerLoading/dateFiltered`
-  const thermal_IN_OUT_DateFilter_Api=`http://${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered`
-  const chillerCop_DateFilter_Api=`http:///${ipAddress}:5000/chillerDashboard/Average/chillarCOP/dateFiltered`
-  const thermal_IN_OUT_DateFilter_DataPoints_Api=`http:///${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered/datapoints`
-  const ChillerTOtalCoolingDateFilter_Api=`http:///${ipAddress}:5000/chillerDashboard/TotalCoolingEnergy/dateFilter`
+  const thermalTempDateFilter_Api=`${nodeAdress}/thermal/storedWaterTemp/dateFiltered`
+  const chillerLoadingDateFilter_Api= `/${nodeAdress}chillerDashboard/ChillerLoading/dateFiltered`
+  const thermal_IN_OUT_DateFilter_Api=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered`
+  const chillerCop_DateFilter_Api=`${nodeAdress}/chillerDashboard/Average/chillarCOP/dateFiltered`
+  const thermal_IN_OUT_DateFilter_DataPoints_Api=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered/datapoints`
+  const ChillerTOtalCoolingDateFilter_Api=`${nodeAdress}/chillerDashboard/TotalCoolingEnergy/dateFilter`
 
 
   
