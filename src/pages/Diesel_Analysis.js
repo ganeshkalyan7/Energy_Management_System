@@ -6,14 +6,14 @@ import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function Diesel_Analysis() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
  
     const host="43.205.196.66"
-    const Diesel_Api=`http://${ipAddress}:5000/Deisel/analytics/graph`
+    const Diesel_Api=`${nodeAdress}/Deisel/analytics/graph`
 
     const [DieselData, setDieselData] = useState([]);
 
@@ -48,7 +48,7 @@ function Diesel_Analysis() {
         try {
           const formattedStartDate = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${ipAddress}:5000/Deisel/analytics/graph/DateFilter`, {
+          const response = await axios.post(`${nodeAdress}/Deisel/analytics/graph/DateFilter`, {
             date: formattedStartDate,
           });
         

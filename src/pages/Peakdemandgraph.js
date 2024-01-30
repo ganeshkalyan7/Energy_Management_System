@@ -13,21 +13,19 @@ import KvaVsKW from './KvaVsKW';
 import {Link} from 'react-router-dom';
 import TopTenClients from './TopTenClients'
 import BlockWiseData from './BlockWiseData';
-import { ipAddress } from '../ipAdress';
+import { bmssAdress } from '../ipAdress';
+import PeakDemadDailyMonthly from './PeakDemadDailyMonthly';
+import GridMaxDailyMonthly from './GridMaxDailyMonthly';
 
 
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
  
 
 const iphost='43.205.196.66'
-const host = `http://${ipAddress}:5000/peak/hvacSchneider7230Polling`
-const pastdata=`http://${iphost}:5001/peak/initialgraph`
+
+const pastdata=`${bmssAdress}/peak/initialgraph`
 
 function Peakdemandgraphs() {
   
@@ -50,14 +48,7 @@ function Peakdemandgraphs() {
   const [passevendaystdata,setPastsevendaysdata]=useState([])
  
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-    setEndDate(null);
-  };
 
-  const handleEndDateChange = (date) => {
-  setEndDate(date);
-};
 
 
 const handlesingleDayFilterChange = (date) => {
@@ -70,7 +61,7 @@ const handleSubmit = (event) => {
 
 
 const CurrentGraph=()=>{
-  axios.get(`http://${iphost}:5001/peakDemandmin`).then((res)=>{
+  axios.get(`${bmssAdress}/peakDemandmin`).then((res)=>{
     const dataresponse=res.data
     setInitialGraph(dataresponse)
    
@@ -116,7 +107,7 @@ const pastSevenDaysGraph=()=>{
       const formattedStartDate = startDate ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       const formattedEndDate = endDate ? new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
      console.log(formattedStartDate,formattedEndDate)
-      const response = await axios.post(`http://${iphost}:5001/peak/filter`, {
+      const response = await axios.post(`${bmssAdress}/peak/filter`, {
         date: formattedStartDate,
         endDate: formattedEndDate
       });
@@ -136,7 +127,7 @@ const pastSevenDaysGraph=()=>{
     try {
       const formattedStartDate = singledayFilter ? new Date(singledayFilter.getTime() - singledayFilter.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
   
-      const response = await axios.post(`http://${iphost}:5001/peakDemandDate`, {
+      const response = await axios.post(`${bmssAdress}/peakDemandDate`, {
         date: formattedStartDate,
       });
     
@@ -170,99 +161,10 @@ console.log(startDate,endDate)
 console.log(initialGraph)
 console.log(singledayFilterData)
 
-  // const handlesingledaySubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const formattedDate = selectedDate.toISOString().substring(0, 10);
-  //     const response = await axios.post('http://localhost:5000/singleday/hvacSchneider7230Polling', { date: formattedDate });
-  //     setSingledaydata(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-
-  // console.log(singledaydata)
-  //console.log(selectedDate)
   const graphdata=[]
   const singlegrahdata=[]
 
-  // for(let i=0;i<data.length;i++){
-  //   const date = new Date(data[i].polledTime);
-  //   let selecteddate = date.toLocaleString();
-  //   let times=selecteddate.split(',')
-  //   // const minutes = date.getMinutes();
-  //   // const ampm = hours >= 12 ? 'pm' : 'am';
-  //   // hours = hours % 12;
-  //   // hours = hours ? hours : 12; // the hour '0' should be '12'
-  //   // const timeString = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
-  //   graphdata.push({"totalApparentPower2":Math.trunc(data[i].totalApparentPower2), "timeStamp":times, "recordId":data[i].recordId})
 
-
-  //   // timeStamp.push(timeString)
-
-  // }
-
-
-  // for(let i=0;i<singledaydata.length;i++){
-  //   const date = new Date(singledaydata[i].polledTime);
-  //   let selecteddate = date.toLocaleString();
-  //   let times=selecteddate.split(',')
-  //   // const minutes = date.getMinutes();
-  //   // const ampm = hours >= 12 ? 'pm' : 'am';
-  //   // hours = hours % 12;
-  //   // hours = hours ? hours : 12; // the hour '0' should be '12'
-  //   // const timeString = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
-  //   singlegrahdata.push({"totalApparentPower2":Math.trunc(singledaydata[i].totalApparentPower2), "timeStamp":times, "recordId":singledaydata[i].recordId})
-
-
-  //   // timeStamp.push(timeString)
-
-  // }
-
-
-
-
-
-
-
-
-// console.log(singlegrahdata)
-
-    // const navigate = useNavigate();
-    // const [data, setData] = useState([]);
- 
-    // function handleSelect(event) {
-    //   const value = event.target.value;
-    //   switch (value) {
-    //     case '0':
-    //         axios.get(batteryurl)
-    //         .then(response => {
-    //           // Process the data here
-    //           setData( response.data);
-    //         })
-    //         .catch(error => {
-    //           console.error(error);
-    //         });
-    //     //   navigate('/peakdemandgraph?period=yesterday');
-    //       break;
-    //     case '1':
-    //       axios.get(acmeterenergy).then(response => setData(response.data));
-    //     //   navigate('/peakdemandgraph?period=week');
-    //       break;
-    //     case '2':
-    //       axios.get('/api/month').then(response => setData(response.data));
-    //     //   navigate('/peakdemandgraph?period=month');
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
-    // console.log(data)
-
-    // // condintion for x-axis filter according to the single day "HH:MM" and for date range "MM:DD:YYYY"
-    // const xAxisFormat = startDate && endDate ?  data.map((val)=>val.timestamp[0]) : data.map((val)=>val.timestamp[1]);
-    // const graphChange = startDate && endDate ?  "bar": "area";
 
   
 //peakDemand initial graph single day//
@@ -660,17 +562,8 @@ const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 //const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
 
-const handleYearChange = (date) => {
-  // 'date' is a Date | DateRange<Date> object
-  // Extract the year and update the state
-  const newSelectedYear = date.getFullYear ? date.getFullYear() : date[0]?.getFullYear();
-  setSelectedYear(newSelectedYear);
-};
 
-useEffect(() => {
-  // Log the state value after it has been updated
-  console.log(selectedYear);
-}, [selectedYear]);
+
 
   return (
     <div >
@@ -687,97 +580,18 @@ useEffect(() => {
   <br/>
   <br/>
       <div>
-      <h4 style={{textAlign:"center",color:"brown"}}><b>Peak Demand (kVA)</b></h4>
+      {/* <h4 style={{textAlign:"center",color:"brown"}}><b>Peak Demand (kVA)</b></h4> */}
 
       <Grid sx={{ flexGrow: 1 }} container spacing={2} >
       
 <Grid item xs={12} sm={6} >
-<h5 style={{textAlign:"center"}}><b>Daily Demand(kVA)</b></h5>
-    <form onSubmit={handleSubmit}>
-      {/* <br/>
-      
-      <br/>
-      <br/> */}
+<GridMaxDailyMonthly/>
 
-      <div className="row" style={{marginTop:'20px',marginLeft:"20px"}}>
-  <div className="col-3">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b>Date :</b></h6> <DatePickers id="date" selected={singledayFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} />  
-        </label>
-      </div>
-     
-    </div>
-  </div>
-
-
-</div>
-
-    </form>
-
-   
-
-    {loading ? (
-      <div>Loading...</div>
-    ) : (
-      <div>
-        {/* <ReactApexChart options={curdGraph.options} series={curdGraph.series} type={graphChange} height="400px" /> */}
-         <HighchartsReact highcharts={Highcharts} options={currentGraph} />
-        
-       
-      </div>
-    )}
     </Grid>
-    {/* <hr style={{border:"4px solid black"}}/> */}
+
     <Grid item xs={12} sm={6} >
-      <h5 style={{textAlign:"center"}}><b>Maximum Demand(kVA)</b></h5>
-    <form onSubmit={handleSubmit}>
-
-      <div className="row" style={{marginTop:'20px',marginLeft:"20px"}}>
-  <div className="col-6">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b> Start Date :</b></h6> <DatePickers id="date" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
-        </label>
-      </div>
-     
-    </div>
-  </div>
-
-  <div className="col-6">
-    <div className="input-group mb-3" style={{ width: "300px" }}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b>End Date :</b></h6> <DatePickers selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate}/>
-        </label>
-      </div>
-     
-    </div>
-  </div>
-</div>
-    </form>
-
-   
-
-    {loading ? (
-      <div>Loading...</div>
-    ) : (
-      <div>
-        {/* <ReactApexChart options={curdGraph.options} series={curdGraph.series} type={graphChange} height="400px" /> */}
-        {/* {
-          startDate===null? <HighchartsReact highcharts={Highcharts} options={PeakValueGraph} />: <HighchartsReact highcharts={Highcharts} options={FilteredGraph} />
-        } */}
-        {
-          startDate ===null &&endDate===null? <HighchartsReact highcharts={Highcharts} options={PeakValueGraph} />: <HighchartsReact highcharts={Highcharts} options={PeakValueFilteredGraph} />
-
-        }
-       
-        {/* PeakValueFilteredGraph */}
-       
-      </div>
-    )}
+      
+    <PeakDemadDailyMonthly/>
     </Grid>
     </Grid>
 
@@ -809,13 +623,46 @@ useEffect(() => {
  
       <Grid item xs={12} sm={6} >
       <div id="topTenClients"> 
-    <BlockWiseData/>
+    {/* <BlockWiseData/> */}
+    <h4 style={{textAlign:"center",color:"brown"}}><b>Daily Demand(kVA)</b></h4>
+    <br/>
+
+    
+      <div className="row" style={{marginTop:"20px",marginLeft:"20px"}}>
+  <div className="col-3">
+    <div className="input-group mb-3" style={{ width: "300px"}}>
+      <div className="input-group-prepend">
+        <label className="input-group-text" htmlFor="inputGroupSelect01">
+        <h6 style={{color:"brown"}}><b>Date :</b></h6> <DatePickers id="date" selected={singledayFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} />  
+        </label>
+      </div>
+     
+    </div>
+  </div>
+
+
+</div>
+    {loading ? (
+      <div>Loading...</div>
+    ) : (
+      <div>
+        {/* <ReactApexChart options={curdGraph.options} series={curdGraph.series} type={graphChange} height="400px" /> */}
+         <HighchartsReact highcharts={Highcharts} options={currentGraph} />
+        
+       
+      </div>
+    )}
   </div>
   
 
       </Grid>
       </Grid>
+     
 
+
+
+
+  
      
     </div>
    

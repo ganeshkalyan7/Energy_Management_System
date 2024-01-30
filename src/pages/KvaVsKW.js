@@ -6,14 +6,14 @@ import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function KvaVsKW() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const host = '43.205.196.66';
-    const KVA_KW_api = `http://${ipAddress}:5000/KVA_vs_KW`;
-    const KVA_KW_DateFiltered_api=`http://${ipAddress}:5000/KVA_vs_KW/DateFiltered`
+    const KVA_KW_api = `${nodeAdress}/KVA_vs_KW`;
+    const KVA_KW_DateFiltered_api=`${nodeAdress}/KVA_vs_KW/DateFiltered`
     
     const [kva_kw_data,setKva_kw_data]=useState([])
     const [selectedDate, setSelectedDate] = useState(null);

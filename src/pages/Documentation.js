@@ -19,7 +19,7 @@ import Buttons from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import WaitImage from '../images/wait.png'
 import WaitoverImage from '../images/work-in-progress.png'
-import { ipAddress } from '../ipAdress';
+import { nodeAddress } from '../ipAdress';
 
 function Documentation() {
   const [file, setFile] = useState(null);

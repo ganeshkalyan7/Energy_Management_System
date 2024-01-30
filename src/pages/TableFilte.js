@@ -3,10 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import DateTime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import axios from 'axios';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function TableFilte() {
-  const LTOLogApi=`http://${ipAddress}:5000/Logs/LTO`
+  const LTOLogApi=`${nodeAdress}/Logs/LTO`
   const [ltoLogsData,setLtoLogsData]=useState([])
 
   const LtoLogsData=()=>{

@@ -12,7 +12,7 @@ import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 
 
@@ -52,10 +52,10 @@ const fetchData = async () => {
   try {
     const formattedStartDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
 
-    const response = await axios.post(`http://${ipAddress}:5000/PeakDemand/Dashboard/Analysis/DateFiltered`, {date: formattedStartDate});
-    const PeakDemandHourly_response = await axios.post(`http://${ipAddress}:5000/PeakDemand/Analysis/Hourly/DateFiltered`, {date: formattedStartDate});
-    const SumOfEnergy = await axios.post(`http://${ipAddress}:5000/PeakDemand/Analysis/SumOfEnergy/dateFiltered`, {date: formattedStartDate});
-    const PeakEnergyHourlyGraph = await axios.post(`http://${ipAddress}:5000/PeakDemand/Analysis/HourlyPercentage/graph/DateFiltered`, {date: formattedStartDate});
+    const response = await axios.post(`${nodeAdress}/PeakDemand/Dashboard/Analysis/DateFiltered`, {date: formattedStartDate});
+    const PeakDemandHourly_response = await axios.post(`${nodeAdress}/PeakDemand/Analysis/Hourly/DateFiltered`, {date: formattedStartDate});
+    const SumOfEnergy = await axios.post(`${nodeAdress}/PeakDemand/Analysis/SumOfEnergy/dateFiltered`, {date: formattedStartDate});
+    const PeakEnergyHourlyGraph = await axios.post(`${nodeAdress}/PeakDemand/Analysis/HourlyPercentage/graph/DateFiltered`, {date: formattedStartDate});
   
     setSingledaydata(response.data);
     setPeakDemandHourlyAnalysisFiltered(PeakDemandHourly_response.data)
@@ -80,7 +80,7 @@ console.log(singledaydata)
 
   //------------peak raw details-----------------//
   useEffect(() => {
-    axios.get(`http://${ipAddress}:5000/PeakDemand/Dashboard/Analysis`)
+    axios.get(`${nodeAdress}/PeakDemand/Dashboard/Analysis`)
       .then((res) => {
         const dataResponse = res.data;
         setPeakDemandAnalysis1(dataResponse);
@@ -94,7 +94,7 @@ console.log(singledaydata)
 
 //--------------peak hourly analysis----------------//
 useEffect(() => {
-  axios.get(`http://${ipAddress}:5000/PeakDemand/Analysis/Hourly`)
+  axios.get(`${nodeAdress}/PeakDemand/Analysis/Hourly`)
     .then((res) => {
       const dataResponse = res.data;
       setPeakDemandHourlyAnalysis(dataResponse);
@@ -107,7 +107,7 @@ useEffect(() => {
 
 //---------------------Sum of energy --------------//
 useEffect(() => {
-  axios.get(`http://${ipAddress}:5000/PeakDemand/Analysis/SumOfEnergy`)
+  axios.get(`${nodeAdress}/PeakDemand/Analysis/SumOfEnergy`)
     .then((res) => {
       const dataResponse = res.data;
       setSumOfEnergy(dataResponse);
@@ -122,7 +122,7 @@ useEffect(() => {
 
 //-------------------------Peak Percentage Hourly graph ---------------------//
 useEffect(() => {
-  axios.get(`http://${ipAddress}:5000/PeakDemand/Analysis/HourlyPercentage/graph`)
+  axios.get(`${nodeAdress}/PeakDemand/Analysis/HourlyPercentage/graph`)
     .then((res) => {
       const dataResponse = res.data;
       setPeakPercentageHourly(dataResponse);

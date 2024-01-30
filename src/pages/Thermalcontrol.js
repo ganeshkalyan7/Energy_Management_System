@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 import { DataGrid,GridToolbar  } from '@mui/x-data-grid';
 import * as GiIcons from  'react-icons/gi';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 
 function Thermalcontrol() {
@@ -22,8 +22,8 @@ function Thermalcontrol() {
   const [thermalOverviewData,setThermalOverviewData]=useState([])
   const [thermallog,setThermallog]=useState([])
   const [pinNumber,setPinNumber]=useState("")
-  const thermalApi=`http://${ipAddress}:5000/thermal/summaryCard`
-  const thermalLogApi=`http://${ipAddress}:5000/Logs/Thermal`
+  const thermalApi=`${nodeAdress}/thermal/summaryCard`
+  const thermalLogApi=`${nodeAdress}/Logs/Thermal`
   const ActualPassKey=7230
 
   // const handlePinPasswordChange = (pin) => {
@@ -153,7 +153,7 @@ function Thermalcontrol() {
       dangerMode: false,
     }).then((willContinue) => {
       if (willContinue) {
-        axios.post(`http://${ipAddress}:5000/thermal/controll`, formattedData)
+        axios.post(`${nodeAdress}/thermal/controll`, formattedData)
           .then((response) => {
             const result = response.data;
             setThermalData({

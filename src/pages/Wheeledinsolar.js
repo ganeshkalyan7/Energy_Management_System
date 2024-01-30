@@ -14,7 +14,7 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function WheeledInsolar() {
   exportingInit(Highcharts);
@@ -24,8 +24,8 @@ function WheeledInsolar() {
     const [singledaydata,setSingledaydata]=useState([])
     const [wmsMeterdata,setWmsMeterdata]=useState([])
     const [loading, setLoading] = useState(false);
-    const inveterApi=`http://${ipAddress}:5000/initial/wheeledinsolr`
-    const WmsMeterResponse=`http://${ipAddress}:5000/initialgraph/wmsMeter`
+    const inveterApi=`${nodeAdress}/initial/wheeledinsolr`
+    const WmsMeterResponse=`${nodeAdress}/initialgraph/wmsMeter`
 
 
     const [inverterInitial,setInverterInitial]=useState([])
@@ -48,8 +48,8 @@ function WheeledInsolar() {
       setLoading(true);
       try {
         const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
-        const response = await axios.post(`http://${ipAddress}:5000/singleday/wheeledinsolr`, { date: formattedDate });
-        const meterresponse = await axios.post(`http://${ipAddress}:5000/wmsMeter/graphs`, { date: formattedDate });
+        const response = await axios.post(`${nodeAdress}/singleday/wheeledinsolr`, { date: formattedDate });
+        const meterresponse = await axios.post(`${nodeAdress}/wmsMeter/graphs`, { date: formattedDate });
         
         setSingledaydata(response.data);
         console.log(singledaydata)

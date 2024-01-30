@@ -6,7 +6,7 @@ import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
  
 
 function ThermalQuarterly() {
@@ -14,7 +14,7 @@ function ThermalQuarterly() {
     exportDataInit(Highcharts);
  
   const host="43.205.196.66"
-    const ThermalQuaterly_Api=`http://${ipAddress}:5000/thermalquarter`
+    const ThermalQuaterly_Api=`${nodeAdress}/thermalquarter`
    const [thermalQuaterlyData,setThermalQuaterlyData]=useState([])
 
 
@@ -44,7 +44,7 @@ function ThermalQuarterly() {
     try {
       const formattedStartDate = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
   
-      const response = await axios.post(`http://${ipAddress}:5000/thermalquarter/datefilter`, {
+      const response = await axios.post(`${nodeAdress}/thermalquarter/datefilter`, {
         date: formattedStartDate,
       });
     

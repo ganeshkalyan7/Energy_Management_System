@@ -6,13 +6,13 @@ import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { bmssAdress } from '../ipAdress';
 
 function LTOCurrentVoltage() {
     const host='43.205.196.66'
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
-    const voltage_current=`http://${host}:5001/current_VS_voltage/LTOBattery`
+    const voltage_current=`${bmssAdress}/current_VS_voltage/LTOBattery`
     const [graphData, setGraphData] = useState([]);
     const [data, setData] = useState([]);
     const [filterDate, setFilterDate] = useState(null);
@@ -41,7 +41,7 @@ function LTOCurrentVoltage() {
         try {
           const formattedStartDate = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${host}:5001/filtered/current_VS_voltage/LTOBattery`, {
+          const response = await axios.post(`${bmssAdress}/filtered/current_VS_voltage/LTOBattery`, {
             date: formattedStartDate,
           });
         

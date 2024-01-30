@@ -10,7 +10,7 @@ import DatePicker from 'react-datepicker';
 import { Link, Element, animateScroll as scroll, scroller } from 'react-scroll';
 import Image from '../images/wait.png'
 import { CiBoxes } from "react-icons/ci";
-import { ipAddress } from '../ipAdress';
+import { analyticsAdress } from '../ipAdress';
 
 
 
@@ -21,8 +21,8 @@ function BlockWiseData() {
 const [selectedDate, setSelectedDate] = useState(null);
 const [blockDataDateFiltered,setBlockDataDateFiltered]=useState([])
 const [loading, setLoading] = useState(false);
-const blockDataApi=`http://${ipAddress}:5003/BuildingConsumption/BlockWise`
-const blockDataApiDateFiltered=`http://${ipAddress}:5003/filtered/BuildingConsumption/BlockWise`
+const blockDataApi=`${analyticsAdress}/BuildingConsumption/BlockWise`
+const blockDataApiDateFiltered=`${analyticsAdress}/filtered/BuildingConsumption/BlockWise`
 
 const BlockWiseData=()=>{
     axios.get(blockDataApi).then((res)=>{

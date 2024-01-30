@@ -7,7 +7,7 @@ import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
-import { ipAddress } from '../ipAdress';
+import { analyticsAdress } from '../ipAdress';
 
 
 
@@ -17,8 +17,8 @@ function TopTenClients() {
 
 
 
-const ClientDataApi=`http://${ipAddress}:5003/BuildingConsumption/TopTenClients`
-const ClientDataDateFilteredApi=`http://${ipAddress}:5003/BuildingConsumption/TopTenClients/filtered`
+const ClientDataApi=`${analyticsAdress}/BuildingConsumption/TopTenClients`
+const ClientDataDateFilteredApi=`${analyticsAdress}/BuildingConsumption/TopTenClients/filtered`
 const [clientData,setClientData]=useState("")
 const [clientDataDateFiltered,setClientDataDateFiltered]=useState("") 
 const [selectedDate, setSelectedDate] = useState(null);
@@ -227,7 +227,7 @@ const TopTenClient = {
       align: 'left',
     },
     tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+      pointFormat: '<b>{point.y}(kWh)</b>',
     },
     accessibility: {
       point: {
@@ -241,7 +241,7 @@ const TopTenClient = {
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: '<b>{point.name}</b><br>{<b>{point.percentage:.1f}%}',
+          format: '<b>{point.name}</b><br><b>{point.y}(kWh)',
           distance: 20,
         },
       },

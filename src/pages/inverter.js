@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import InverterData from './inverter';
 import ReactApexChart from 'react-apexcharts';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 
   
@@ -87,7 +87,7 @@ function Analytics() {
     const [activepower,setActivepower]=useState([])
     const [start,setStart]=useState(null)
     const [end,setEnd]=useState(null)
-    const url=`http://${ipAddress}:5000/inverter`
+    const url=`${nodeAdress}/inverter`
     
     var timestamp=[]
 

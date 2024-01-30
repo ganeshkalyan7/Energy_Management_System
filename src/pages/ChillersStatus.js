@@ -7,13 +7,13 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ThermalStatus from "./ThermalStatus"
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 function ChillersStatus() {
     const host="43.205.196.66"
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
 
-    const ChillerApi=`http://${ipAddress}:5000/Thermal/Chillers/Status`
+    const ChillerApi=`${nodeAdress}/Thermal/Chillers/Status`
     const [chillerData, setchillerData] = useState([]);
 
     const [data, setData] = useState([]);
@@ -44,7 +44,7 @@ function ChillersStatus() {
         try {
           const formattedStartDate = chillerfilterDate ? new Date(chillerfilterDate.getTime() - chillerfilterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${ipAddress}:5000/Thermal/Chillers/Status/datefilters`, {
+          const response = await axios.post(`${nodeAdress}/Thermal/Chillers/Status/datefilters`, {
             date: formattedStartDate,
           });
         

@@ -8,13 +8,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function RoofTopExepectedGeneration() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const host = '43.205.196.66';
-    const PhaseWiseActualEnergy_api = `http://${ipAddress}:5000/Rooftop/ExpectedGeneration`;
+    const PhaseWiseActualEnergy_api = `${nodeAdress}/Rooftop/ExpectedGeneration`;
     const [phaseWiseActualEnergy, setPhaseWiseActualEnergy] = useState([]);
     const [filterValueRange, setFilterValueRange] = useState("overView");
 
@@ -46,7 +46,7 @@ const fetchData = async () => {
     try {
       const formattedStartDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
   
-      const response = await axios.post(`http://${ipAddress}:5000/Rooftop/ExpectedGeneration/datefiltered`, {date: formattedStartDate});
+      const response = await axios.post(`${nodeAdress}/Rooftop/ExpectedGeneration/datefiltered`, {date: formattedStartDate});
     
       setSingledaydata(response.data);
       setLoading(false);

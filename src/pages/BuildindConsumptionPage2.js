@@ -8,7 +8,7 @@ import exportDataInit from 'highcharts/modules/export-data';
 import DatePicker from 'react-datepicker';
 import Table from 'react-bootstrap/Table';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../ipAdress';
+import { bmssAdress,analyticsAdress } from '../ipAdress';
 import {Link} from 'react-router-dom';
 
 function BuildindConsumptionPage2() {
@@ -16,8 +16,8 @@ function BuildindConsumptionPage2() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const [graph,setGraph]=useState([])
-    const graphDataUrl="http://43.205.196.66:5003/minWise"
-    const buildingHighlightsApi=`http://${host}:5001/buildingConsumptionHighlights`
+    const graphDataUrl=`${analyticsAdress}/fiveminWise`
+    const buildingHighlightsApi=`${bmssAdress}/buildingConsumptionHighlights`
     const [buildingHighlights,setBuildingHighlights]=useState([])
 
 
@@ -66,8 +66,8 @@ function BuildindConsumptionPage2() {
         try {
           const formattedDate = systemOverviewfilterDate ? new Date(systemOverviewfilterDate.getTime() - systemOverviewfilterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`http://${host}:5003/filtered/minWise`, {date: formattedDate,});
-          const buildingHighlightsResponse= await axios.post(`http://${host}:5001/filtered/buildingConsumptionHighlights`, {date: formattedDate,});
+          const response = await axios.post(`${analyticsAdress}/filtered/fiveminWise`, {date: formattedDate,});
+          const buildingHighlightsResponse= await axios.post(`${bmssAdress}/filtered/buildingConsumptionHighlights`, {date: formattedDate,});
         
           setData(response.data);
           setBuildingHighlightsDateFilter(buildingHighlightsResponse.data)
@@ -507,6 +507,7 @@ function BuildindConsumptionPage2() {
       {/* {
         systemOverviewfilterDate==null?<HighchartsReact highcharts={Highcharts} options={options} />: <HighchartsReact highcharts={Highcharts} options={systemoverviewfilteredgraph} />
       } */}
+      <h4 style={{textAlign:"center",color:"brown",marginTop:"30px"}}><b>Grid Consumption(kWh) VS Wheeled In Solar(kWh)</b></h4>
       <HighchartsReact highcharts={Highcharts} options={DieselDataCurrent} />
     
      {/* <ReactApexChart options={state.options} series={state.series}height="400px" /> */}

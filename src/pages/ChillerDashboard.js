@@ -5,7 +5,7 @@ import exportDataInit from 'highcharts/modules/export-data';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 function ChillerDashboard() {
     const host="43.205.196.66"
@@ -15,7 +15,6 @@ function ChillerDashboard() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [loading, setLoading] = useState(false);
     const [singledaydata,setSingledaydata]=useState([])
-    console.log(ipAddress)
     //console.log(ipAdress)
 
      //declaring empty array to fetch data
@@ -35,18 +34,18 @@ function ChillerDashboard() {
     const [chillerTotalCoolingEnergyDateFilter,setChillerTotalCoolingEnergyDateFilter]=useState([])
     
 
-    const thermalTempApi=`http://${ipAddress}:5000/thermal/storedWaterTemp`
-    const chillerLoadingApi= `http://${ipAddress}:5000/chillerDashboard/ChillerLoading `
-    const thermal_IN_OUTApi=`http://${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator`
-    const chillerCop_Api=`http://${ipAddress}:5000/chillerDashboard/Average/chillarCOP`
-    const ChillerTotalCooling_Api=`http:///${ipAddress}:5000/chillerDashboard/TotalCoolingEnergy`
+    const thermalTempApi=`${nodeAdress}/thermal/storedWaterTemp`
+    const chillerLoadingApi= `${nodeAdress}/chillerDashboard/ChillerLoading `
+    const thermal_IN_OUTApi=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator`
+    const chillerCop_Api=`${nodeAdress}/chillerDashboard/Average/chillarCOP`
+    const ChillerTotalCooling_Api=`${nodeAdress}/chillerDashboard/TotalCoolingEnergy`
 
-    const thermalTempDateFilter_Api=`http://${ipAddress}:5000/thermal/storedWaterTemp/dateFiltered`
-    const chillerLoadingDateFilter_Api= `http:///${ipAddress}:5000/chillerDashboard/ChillerLoading/dateFiltered`
-    const thermal_IN_OUT_DateFilter_Api=`http://${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered`
-    const chillerCop_DateFilter_Api=`http:///${ipAddress}:5000/chillerDashboard/Average/chillarCOP/dateFiltered`
-    const thermal_IN_OUT_DateFilter_DataPoints_Api=`http:///${ipAddress}:5000/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered/datapoints`
-    const ChillerTOtalCoolingDateFilter_Api=`http:///${ipAddress}:5000/chillerDashboard/TotalCoolingEnergy/dateFilter`
+    const thermalTempDateFilter_Api=`${nodeAdress}/thermal/storedWaterTemp/dateFiltered`
+    const chillerLoadingDateFilter_Api= `${nodeAdress}/chillerDashboard/ChillerLoading/dateFiltered`
+    const thermal_IN_OUT_DateFilter_Api=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered`
+    const chillerCop_DateFilter_Api=`${nodeAdress}/chillerDashboard/Average/chillarCOP/dateFiltered`
+    const thermal_IN_OUT_DateFilter_DataPoints_Api=`${nodeAdress}/chillerDashboard/thermalinletoutlet/condenser/evaporator/dateFiltered/datapoints`
+    const ChillerTOtalCoolingDateFilter_Api=`${nodeAdress}/chillerDashboard/TotalCoolingEnergy/dateFilter`
 
 
     

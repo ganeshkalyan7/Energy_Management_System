@@ -4,7 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
 import swal from 'sweetalert';
-import { ipAddress } from '../ipAdress';
+import { nodeAdress } from '../ipAdress';
 
 
 function Alerts() {
@@ -21,7 +21,7 @@ const [receivedData,setReceivedDate]=useState([])
     };
 
   const AlertsData=()=>{
-    axios.get(`http://${ipAddress}:5000/Alert/Logs`).then((res)=>{
+    axios.get(`${nodeAdress}/Alert/Logs`).then((res)=>{
       const dataResponse=res.data
       setAlerts(dataResponse)
   
@@ -32,7 +32,7 @@ const [receivedData,setReceivedDate]=useState([])
 
   const FilterAlertsData = async () => {
 
-    axios.post(`http://${ipAddress}:5000/Alerts/filter`, { systemName: filterAlert })
+    axios.post(`${nodeAdress}/Alerts/filter`, { systemName: filterAlert })
     .then(response => {
       const Dataresponse=response.data
           //console.log(response.data);
