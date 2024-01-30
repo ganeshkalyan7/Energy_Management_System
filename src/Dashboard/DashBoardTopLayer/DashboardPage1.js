@@ -9,7 +9,7 @@ import { CiCircleInfo } from "react-icons/ci";
 import DashBoardSecoundLayer from '../DashboardSecoundLayer/DashBoardSecoundLayer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ipAddress } from '../../ipAdress';
+import { nodeAdress } from '../../ipAdress';
 import axios from 'axios';
 
 
@@ -19,7 +19,7 @@ import axios from 'axios';
 function DashboardPage1() {
   const [startDate, setStartDate] = useState(new Date());
   const [co2,setCo2]=useState([])
-  const Co2ReductionDataApi=`http://${ipAddress}:5000/CO2REDUCTIONCard`
+  const Co2ReductionDataApi=`${nodeAdress}/CO2REDUCTIONCard`
 
 
 
