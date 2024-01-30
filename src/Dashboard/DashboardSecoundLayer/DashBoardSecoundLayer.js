@@ -18,7 +18,7 @@ import Wind from '../../images/Wind.png'
 import WheeledSolarIcon from '../../images/WheeledSolarIcon.png'
 import WindIcon from '../../images/WindIcon.png'
 import RoofTopIcon from '../../images/RoofTopIcon.png';
-import { ipAddress } from '../../ipAdress';
+import { nodeAdress } from '../../ipAdress';
 import axios from 'axios';
 import PieChart, {
   Legend,
@@ -50,11 +50,11 @@ function DashBoardSecoundLayer() {
   const [dieselEnergy,setDieselEnergy]=useState([])
   const [grid,setGrid]=useState([])
 
-  const WheeledInSolarApi=`http://${ipAddress}:5000/WheeledInSolarCard`
-  const RoofTopSolarApi=`http://${ipAddress}:5000/RoofTopSolarCard`
-  const powerFactor= `http://${ipAddress}:5000/schneider7230readings`
-  const diesel=`http://${ipAddress}:5000/dashboard/Deisel`
-  const griddata= `http://${ipAddress}:5000/grid`
+  const WheeledInSolarApi=`${nodeAdress}/WheeledInSolarCard`
+  const RoofTopSolarApi=`${nodeAdress}/RoofTopSolarCard`
+  const powerFactor= `${nodeAdress}/schneider7230readings`
+  const diesel=`${nodeAdress}/dashboard/Deisel`
+  const griddata= `${nodeAdress}/grid`
 
 
   
