@@ -11,20 +11,22 @@ import { bmssAdress,analyticsAdress } from '../ipAdress';
 
 function GridMaxDailyMonthly() {
     const pastdata=`${bmssAdress}/grid/initialgraph`
-    const YearData=`${analyticsAdress}/gridMontly`
+    const YearData=`${analyticsAdress}/gridMonthly`
     const [loading, setLoading] = useState(false);
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [selectedYearForYearGraph, setSelectedYearForYearGraph] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+
+    const [selectedstartYear, setSelectedstartYear] = useState(null);
+    const [selectedendYear, setSelectedendYear] = useState(null);
 
     const [data, setData] = useState([]);
     const [yearData,setYearData]=useState([])
     const [passevendaystdata,setPastsevendaysdata]=useState([])
     const [yearPeakdata,setYearPeakdata]=useState([])
   
-    const [selectedGraph, setSelectedGraph] = useState('day');
+    const [selectedGraph, setSelectedGraph] = useState('year');
 
 
     const pastSevenDaysGraph=()=>{
@@ -99,37 +101,47 @@ function GridMaxDailyMonthly() {
             
           };
 
-          const handleDateChange = (date) => {
-            setSelectedDate(date, () => {
-              console.log("Selected Date inside handleDateChange:", selectedDate);
-            });
-            // Do something with the selected date (year and month)
+          const handleStartYearChange = (date) => {
+            setSelectedstartYear(date);
+            setSelectedendYear(null)
+          };
+          
+          const handleEndYearChange = (date) => {
+            setSelectedendYear(date);
           };
 
-          useEffect(() => {
-            console.log("selectedDate in useEffect:", selectedDate);
-        }, [selectedDate]);
+          const formatDate = (date) => {
+            if (date) {
+              const local = date.toLocaleDateString();
+              const [month, day, year] = local.split("/");
+              const formattedDate = `${year}-${month}`;
+              console.log(formattedDate)
+              return formattedDate;
+            }
+            return null;
+          };
+          
+          const responseStartYear = formatDate(selectedstartYear);
+          const responseEndYear = formatDate(selectedendYear);
+          console.log(responseStartYear,responseEndYear);
+          
+          
+
+
       
           const handleSubmit = (event) => {
               event.preventDefault();
               fetchData();
             };
 
-
-            console.log(selectedDate)
             const fetchYearWiseData = async () => {
                 setLoading(true);
                 try {
-                  if (selectedYearForYearGraph) {
-                    const response = await axios.post(`${analyticsAdress}/filtered/gridMontly`, {
-                      date: String(selectedYearForYearGraph),
+                    const response = await axios.post(`${analyticsAdress}/filtered/gridMonthly`, {
+                      date:(responseStartYear),
+                      enddate:(responseEndYear)
                     });
-                    console.log('Response:', response, "year:", selectedYearForYearGraph);
                     setYearData(response.data);
-                  } else {
-                    // If the year is not selected, fetch the initial data
-                    YearWiseData();
-                  }
                   setLoading(false);
                 } catch (error) {
                   console.error(error);
@@ -139,7 +151,7 @@ function GridMaxDailyMonthly() {
               
               useEffect(() => {
                 fetchYearWiseData();
-                }, [selectedYearForYearGraph]);
+                }, [selectedstartYear,selectedendYear]);
             //daily peakDemand initial graph//
             console.log(yearData,selectedYearForYearGraph)   
             
@@ -264,7 +276,7 @@ function GridMaxDailyMonthly() {
               },
                 series: [   {
                     name: "Grid Energy (kWh)",
-                    data: selectedYearForYearGraph==null ? yearPeakdata.map((val)=>(val.Energy)):yearData.map((val)=>(val.Energy)),
+                    data: selectedstartYear==null && selectedendYear==null ? yearPeakdata.map((val)=>(val.Energy)):yearData.map((val)=>(val.Energy)),
                     //yAxis: 1,
                     type: "column",
                     color:"#e38417",
@@ -298,19 +310,17 @@ function GridMaxDailyMonthly() {
                       color: 'black'
                     },
                   },
-                xAxis: {
+                  xAxis: {
                     type: "category",
-                    categories: selectedYearForYearGraph == null
-                    ? yearPeakdata.map((val) => {
-                      const date = new Date(val.polledDate);
-                      const month = date.toLocaleString('default', { month: 'long' });
-                      return month;
-                  })
-                    : yearData.map((val) => {
-                        const date = new Date(val.polledDate);
-                        const month = date.toLocaleString('default', { month: 'long' });
-                        return month;
-                    }),// Use the pre-formatted timestamp from the API
+                    categories: selectedstartYear == null && selectedendYear == null
+                      ? yearPeakdata.map((val) => {
+                          const date = new Date(val.polledDate);
+                          return date.toLocaleString('en-US', { year: 'numeric', month: 'short' });
+                        })
+                      : yearData.map((val) => {
+                          const date = new Date(val.polledDate);
+                          return date.toLocaleString('en-US', { year: 'numeric', month: 'short' });
+                        }),
                   },
               
                   plotOptions: {
@@ -387,13 +397,12 @@ function GridMaxDailyMonthly() {
   return (
     <div>
 
-{/* <DatePickers
-      selected={selectedDate}
-      onChange={handleDateChange}
-      dateFormat="MM/yyyy"
-      showMonthYearPicker
-      placeholderText='selector'
-    /> */}
+
+
+
+
+
+
          <div>
         
     
@@ -407,36 +416,36 @@ function GridMaxDailyMonthly() {
         </div>
         <select className="form-control" id="graphSelector" onChange={handleGraphChange} value={selectedGraph}>
           <option value="day">Daywise</option>
-          <option value="year">Yearwise</option>
+          <option value="year">Year/Month wise</option>
         </select>
       </div> 
       <div>
       {selectedGraph === 'day' && (
   <>
     
-    <form onSubmit={handleSubmit}>
-      <div className="row" style={{ marginTop: '20px', marginLeft: "20px" }}>
+    
+      <div className="row" style={{ marginTop: '20px', marginLeft: "8px" }}>
         <div className="col-6">
           <div className="input-group mb-3" style={{ width: "300px" }}>
             <div className="input-group-prepend">
               <label className="input-group-text" htmlFor="inputGroupSelect01">
-                <h6 style={{ color: "brown" }}><b> Start Date :</b></h6> <DatePickers id="date" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
+                <h6 style={{ color: "brown",textAlign:"center",marginTop:"8px" }}><b> Start</b></h6>  &nbsp; &nbsp; <DatePickers  id="date" className="form-control" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate}  />
               </label>
             </div>
           </div>
         </div>
 
         <div className="col-6">
-          <div className="input-group mb-3" style={{ width: "300px" }}>
+          <div className="input-group mb-3" style={{ width: "300px",textAlign:"center" }}>
             <div className="input-group-prepend">
               <label className="input-group-text" htmlFor="inputGroupSelect01">
-                <h6 style={{ color: "brown" }}><b>End Date :</b></h6> <DatePickers selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate} />
+                <h6 style={{ color: "brown",marginTop:"8px",textAlign:"center"}}><b>End</b></h6> &nbsp; &nbsp;  <DatePickers selected={endDate} id="date" className="form-control" onChange={handleEndDateChange} placeholderText={currentdate} />
               </label>
             </div>
           </div>
         </div>
       </div>
-    </form>
+   
     {/* {loading ? (
       <div>Loading...</div>
     ) : (
@@ -452,25 +461,44 @@ function GridMaxDailyMonthly() {
 
           {selectedGraph === 'year' && (
             <>
-               <div>
-      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-  id="yearPicker"
-  value={selectedYearForYearGraph}
-  onChange={handleYearChange}
-  style={{ width: "200px" }}
->
-  <option value="2024">Current Year</option>
-  {Array.from({ length: 3 }, (_, index) => 2022 + index).map((year) => (
-    <option key={year} value={year}>
-      {year}
-    </option>
-  ))}
-</select>
+      <div className="row" style={{ marginTop: '20px', marginLeft: "8px" }}>
+        <div className="col-6">
+          <div className="input-group mb-3" style={{ width: "300px" }}>
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                <h6 style={{ color: "brown",marginTop:"8px" }}><b> Start</b></h6>   &nbsp; &nbsp;  <DatePickers
+      selected={selectedstartYear}
+      onChange={handleStartYearChange}
+      id="date" 
+      className="form-control"
+      dateFormat="MM/yyyy"
+      showMonthYearPicker
+      placeholderText='select'
+    /> 
+              </label>
+            </div>
+          </div>
+        </div>
 
+        <div className="col-6">
+          <div className="input-group mb-3" style={{ width: "300px" }}>
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                <h6 style={{ color: "brown",marginTop:"8px" }}><b>End </b></h6>  &nbsp; &nbsp;  <DatePickers
+      selected={selectedendYear}
+      onChange={handleEndYearChange}
+      dateFormat="MM/yyyy"
+      showMonthYearPicker
+      placeholderText='select'
+      id="date" 
+      className="form-control"
+    /> 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* <button onClick={getData}>Get Data</button> */}
-    </div>
-     
           <HighchartsReact highcharts={Highcharts} options={PeakYearGraph}  />
           </>
           )}

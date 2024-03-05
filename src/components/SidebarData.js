@@ -26,6 +26,7 @@ import { MdSolarPower } from "react-icons/md";
 import { FaCarBattery } from "react-icons/fa";
 import { GiThermometerCold } from "react-icons/gi";
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
+import { FaHotTub } from "react-icons/fa";
 
 
 
@@ -143,17 +144,18 @@ export const SidebarData = [
             path: '/Status/chillersStatus',
             icon: <SevereColdIcon />,
           },
+          {
+            title: 'NewDashboard',
+            path: '/NewDashboard',
+            icon: <MdSpaceDashboard />,
+          },
+          
         ],
       },
     
      
     
-      // {
-      //   title: 'NewDashboard',
-      //   path: '/NewDashboard',
-      //   icon: <MdSpaceDashboard />,
-      // },
-      
+     
       // {
       //   title: 'ThermalStatus',
       //   path: '/Status/thermalStatus',
@@ -243,6 +245,11 @@ export const SidebarData = [
         title: 'LTO Battery  control',
         path: '/control/ltoBattery',
         icon: <BatterySaverIcon/>
+      },
+      {
+        title: 'HOt Water  control',
+        path: '/control/HOTWater',
+        icon: <FaHotTub/>
       },
      
     ]

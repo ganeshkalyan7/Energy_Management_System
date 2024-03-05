@@ -11,7 +11,7 @@ import swal from 'sweetalert';
 import Grid from '@mui/material/Grid';
 import { Link } from "react-router-dom";
 import RoofTopExepectedGeneration from './RoofTopExepectedGeneration';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,analyticsAdress } from '../ipAdress';
 
 
 function RooftopSolar() {
@@ -44,7 +44,7 @@ function RooftopSolar() {
        
         try {
           const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
-          const response = await axios.post(`${nodeAdress}/roofTopHourly`, { date: formattedDate });
+          const response = await axios.post(`${analyticsAdress}/Analytics/rooftopSolar/filtered`, { date: formattedDate });
           setSingledaydata(response.data);
         } catch (error) {
           console.error(error);
@@ -62,7 +62,7 @@ function RooftopSolar() {
 
       //----------function to get request for initial graph befor date filters------------//
       const RooftopDataFetch=()=>{
-        axios.get(`${nodeAdress}/current/roofTopHourlygraph`).then((res)=>{
+        axios.get(`${analyticsAdress}/Analytics/rooftopSolar`).then((res)=>{
           const response=res.data
           setCurrentRooftopData(response)
         
@@ -78,161 +78,17 @@ function RooftopSolar() {
       },[])
 
 console.log(currentRooftopData)
-
-
-   
-
-
-
-      console.log(singledaydata)
-
-
-      //----------filter graph for selected date-----------//
-      var apexcharts2 = {
-        series: [{
-          name:"energy(kWh)",
-          data: singledaydata.map((val)=>(val.energy)),
-          yAxis: 1
-        },
-        {
-          name:"solar_radiation",
-          data: singledaydata.map((val)=>(val.solarRadiation)),
-          yAxis: 0
-        }
-     
-      ],
-     
-        options: {
-          chart: {
-            type: 'area',
-            zoom: {
-                      enabled: false
-                    }
-          },
-          dataLabels: {
-            enabled: false
-          },
-          title: {
-            // text: "Wheeled In Solar",
-            align: 'center',
-            margin: 10,
-            offsetX: 0,
-            offsetY: 0,
-            floating: false,
-            style: {
-              fontSize:  '14px',
-              fontWeight:  'bold',
-              fontFamily:  undefined,
-              color:  '#263238'
-            },
-        },
-          stroke: {
-            curve: 'straight'
-          },
-          // colors: ['#152138', ' #00FF00'], // Red for positive values, green for negative values
-          // colors: ({ value }) => {
-          //   return value < 0 ? ['#00ff00'] : ['#ff0000'];
-          // },
-          // yaxis: {
-          //   title: {
-          //     text: 'Active Power (kW)',
-          //   }
-          // },
-          yaxis: [
-            {
-              title: {
-                text: 'Energy (kWh)'
-              }
-            },
-            {
-              opposite: true,
-              title: {
-                text: 'Irradiation (kWh/m2)'
-              }
-            }
-          ],
-          xaxis: {
-            categories: singledaydata.map((val)=>(val.timestamp)),
-            labels: {
-              style: {
-                colors: 'black' // set the x-axis label color to red
-              }
-            },
-            title : {text:"Time in HOURS"},
-          },
-          fill: {
-            opacity: 0.5,
-            type: 'gradient',
-            gradient: {
-              shadeIntensity: 1,
-              opacityFrom: 0.7,
-              opacityTo: 0.9,
-              stops: [0, 100]
-            },
-         
-            colors: ['#0000FF']
-          },
-          plotOptions: {
-            bar: {
-              colors: {
-                ranges: [{
-                  from: -9999,
-                  to: 0,
-                  color: '#F15B46'
-                }, {
-                  from: 0,
-                  to: 9999,
-                  color: '#28abf7'  
-                }]
-              },
-              columnWidth: '80%',
-            }
-          },
-          fill:{
-            target:"origin",
-            below:'#00FF7F',
-            above:'#20B2AA'
-          },
-          tooltip: {
-            enabled: true,
-            theme: 'dark',
-            style: {
-              background: '#222',
-              color: '#fff'
-            }
-          },
-          legend:{
-            show: true,
-            position: 'top',
-          },
-          grid: {
-            yaxis: {
-              lines: {
-                offsetX: -30
-              }
-            },
-            padding: {
-              left: 20
-            }
-          },
-          // markers: {
-          //   fillColor: '#e3e3e3',
-          //   strokeColor: '#fff',
-          //   size: 3,
-          //   shape: "circle"
-          // },
-        }
-    }
+console.log(singledaydata)
 //-------------currentGraph when page loads--------------//
 var CurrentRoofTop = {
   series: [{
     name:"energy(kWh)",
-    data: currentRooftopData.map((val)=>(val.energy)),
+    data: selectedDate==null ? currentRooftopData.map((val)=>(Math.trunc(val.Energy))):singledaydata.map((val)=>(Math.trunc(val.Energy))),
     yAxis: 1
   },
   {
     name:"solar_radiation",
-    data: currentRooftopData.map((val)=>(val.solarRadiation)),
+    data: selectedDate==null ? currentRooftopData.map((val)=>((val.irradiation))):singledaydata.map((val)=>(val.irradiation)),
     yAxis: 0
   }
 
@@ -288,7 +144,7 @@ var CurrentRoofTop = {
       }
     ],
     xaxis: {
-      categories: currentRooftopData.map((val)=>(val.timestamp)),
+      categories: selectedDate==null ? currentRooftopData.map((val)=>(val.polledTime)):singledaydata.map((val)=>(val.polledTime)),
       labels: {
         style: {
           colors: 'black' // set the x-axis label color to red
@@ -393,7 +249,7 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
 <div id="chart2">
    {
      
-     selectedDate===null?<ReactApexChart options={CurrentRoofTop.options} series={CurrentRoofTop.series} type='area' height='400px'/>:<ReactApexChart options={apexcharts2.options} series={apexcharts2.series} type='area' height='400px'/>
+     <ReactApexChart options={CurrentRoofTop.options} series={CurrentRoofTop.series} type='area' height='400px'/>
 
      
    }

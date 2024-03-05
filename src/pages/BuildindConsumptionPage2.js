@@ -10,7 +10,7 @@ import Table from 'react-bootstrap/Table';
 import 'react-datepicker/dist/react-datepicker.css';
 import { bmssAdress,analyticsAdress } from '../ipAdress';
 import {Link} from 'react-router-dom';
-
+  
 function BuildindConsumptionPage2() {
   const host='43.205.196.66'
     exportingInit(Highcharts);
@@ -19,6 +19,7 @@ function BuildindConsumptionPage2() {
     const graphDataUrl=`${analyticsAdress}/fiveminWise`
     const buildingHighlightsApi=`${bmssAdress}/buildingConsumptionHighlights`
     const [buildingHighlights,setBuildingHighlights]=useState([])
+    const [dashBoardHighlightsdata,setDashBoardHighlightsdata]=useState([])
 
 
     // hourly Graph data
@@ -29,7 +30,7 @@ function BuildindConsumptionPage2() {
     const [buildingHighlightsDateFilter,setBuildingHighlightsDateFilter]=useState([])
     const [systemOverviewfilterDate, setSystemOverviewfilterDate] = useState(null);
     
-
+  const polledTime=[]
     useEffect(() => {
         axios.get(graphDataUrl)
           .then((res) => {
@@ -87,143 +88,7 @@ function BuildindConsumptionPage2() {
 
       console.log(graph)
       
-              // Render the Highcharts line graph using the fetched data
-              const currentGraph= {
-                // Highcharts configuration options
-                chart: {
-                  zoomType: 'x'
-              },
-                series: [   {
-                    name: "Wheeled In Solar(kWh)",
-                    data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy)):data.map((val)=>(val.wheeledEnergy)),
-                    
-                    //yAxis: 1,
-                    type: "line",
-                    color:'#6F00FF',
-                    marker: {
-                      enabled: false, // Disable markers for the series
-                    },
-                  },
-
-                  {
-                    name: "Grid(kWh)",
-                    data:  systemOverviewfilterDate==null?graph.map((val)=>(val.gridEnergy)):data.map((val)=>(val.gridEnergy)),
-                    
-                    //yAxis: 1,
-                    type: "line",
-                    
-                    marker: {
-                      enabled: false, // Disable markers for the series
-                    },
-                  },
-           
-                
-                
-                ],
-                //   title: {
-                //     text: "Daily Energy cycle v/s SoC", // Set the chart title text
-                //     align: "center", // Align the title to the center
-                //     margin: 10, // Set the margin of the title
-                //     style: {
-                //       fontSize: "30px", // Set the font size of the title
-                //       fontWeight: "bold", // Set the font weight of the title
-                //       fontFamily: undefined, // Use the default font family
-                //       color: "black", // Set the color of the title
-                //     },
-                //   },
-                title: {
-                    text: null, // Set title text to null
-                  },
-                  yAxis: [
-                    {
-                      title: {
-                        text: "Apparent Power  (kVA)",
-                        style:{
-                          fontSize:"15px"
-                        }
-                      },
-                    },
-                    // {
-                    //   title: {
-                    //     text: "Energy (kWh)",
-                    //   },
-                    //   opposite: true, // Display the secondary y-axis on the opposite side of the chart
-                    // },
-                  ],
-                  tooltip: {
-                    enabled: true,
-                    theme: 'dark',
-                    style: {
-                      background: '#222',
-                      color: 'black'
-                    },
-                  },
-                xAxis: {
-                    type: "category",
-                    categories:systemOverviewfilterDate==null? graph.map((time) => time.polledTime):data.map((val)=>(val.polledTime)) // Use the pre-formatted timestamp from the API
-                  },
-                  plotOptions: {
-                    line: {
-                      lineWidth: 2, // Increase the line thickness
-                    },
-                  },
-                  exporting: {
-                    enabled: true, // Enable exporting
-                    buttons: {
-                      contextButton: {
-                        menuItems: [
-                          {
-                            text: 'View Data Table', // Set the text for the custom menu item
-                            onclick: function () {
-                              const chart = this;
-                              const data = chart.getDataRows(); // Get the data rows from the chart
-                              const table = document.createElement('table'); // Create a table element
-                              const thead = table.createTHead(); // Create the table header
-                              const tbody = table.createTBody(); // Create the table body
-                
-                              // Create and append the table header row
-                              const headerRow = thead.insertRow();
-                              data[0].forEach((header) => {
-                                const th = document.createElement('th');
-                                th.textContent = header;
-                                headerRow.appendChild(th);
-                              });
-                
-                              // Create and append the table body rows
-                              for (let i = 1; i < data.length; i++) {
-                                const bodyRow = tbody.insertRow();
-                                data[i].forEach((cell) => {
-                                  const td = document.createElement('td');
-                                  td.textContent = cell;
-                                  bodyRow.appendChild(td);
-                                });
-                              }
-                
-                              // Open a new window and append the table
-                              const win = window.open();
-                              win.document.body.appendChild(table);
-                            },
-                          },
-                          'toggleDataLabels', // Add option for toggling data labels
-                          'viewFullscreen', // Add option for full-screen mode
-                          'separator', // Add a separator line
-                          'downloadPNG', // Enable PNG download option
-                          'downloadSVG', // Enable SVG download option
-                          'downloadPDF', // Enable PDF download option
-                        ],
-                      },
-                    },
-                  },
-                
-                
-                 
-                // ...
-              };
-
-
-
-        
-              const DieselDataCurrent={
+      const DieselDataCurrent={
                 chart: {
                     type: 'line',
                     zoomType: 'x'
@@ -236,7 +101,8 @@ function BuildindConsumptionPage2() {
                 // },
                 xAxis: {
                     categories:systemOverviewfilterDate==null? graph.map((time) => time.polledTime):data.map((val)=>(val.polledTime)),
-                    crosshair: true
+                    crosshair: true,
+                    tickInterval: 12 * 2,
                 },
                 yAxis: [
                   {
@@ -270,6 +136,9 @@ function BuildindConsumptionPage2() {
                   data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy)):data.map((val)=>(val.wheeledEnergy)),
                     //type: 'column'
                     //yAxis: 0,
+                    marker: {
+                      enabled: false // Disable markers for this series
+                  }
                     
               
                 },
@@ -277,148 +146,14 @@ function BuildindConsumptionPage2() {
                   name: "Grid(kWh)",
                   data:  systemOverviewfilterDate==null?graph.map((val)=>(val.gridEnergy)):data.map((val)=>(val.gridEnergy)),
                   color:"#e38417",
+                  marker: {
+                    enabled: false // Disable markers for this series
+                }
                   //type: 'column'
                   //yAxis: 1,
                   
               }],
               };
-
-
-  const systemoverviewfilteredgraph = {
-    // Highcharts configuration options
-    chart: {
-      zoomType: 'x'
-  },
-    series: [
-      {
-            name:"Roof Top Solar(kWh)",
-            data: data.map((val)=>(val.RooftopEnergy)),
-            yAxis: 0,
-            type: "line",
-            color:"#00008B"
-          },
-          {
-            name: "Grid(kWh)",
-    data: data.map((data)=>data.GridEnergy), 
-    yAxis: 0, // Primary y-axis
-    type: "line",
-    color: "#FF0000",
-    dashStyle: "dash",
-          // ...
-        },
-        {
-          name:"Wheeled In Solar(kWh)",
-          data: data.map((val)=>(val.WheeledInSolar)),
-          yAxis: 0,
-          type: "line",
-          color:"#fcba03"
-        },
-        {
-            name: 'Thermal Discharging Energy',
-            data: data.map((val)=>val.thermalDischarge),
-            type: 'column',
-            yAxis: 0, // Primary y-axis,
-            color:"#528AAE"
-        }, 
-      ],
-      title: {
-        text: null, // Set title text to null
-      },
-      yAxis: [
-        {
-          title: {
-            text: "Energy(kWh)",
-          },
-        },
-        {
-          title: {
-            text: "TS Discharge Energy",
-          },
-          opposite: true, // Display the secondary y-axis on the opposite side of the chart
-        },
-      ],
-    //   xAxis: {
-    //     type: 'category', // Specify the x-axis as a category axis
-    //     categories: voltcurrent.map((val) => val.timestamp),
-    //     labels: {
-    //       formatter: function () {
-    //         return Highcharts.dateFormat('%H:%M', new Date(this.value)); // Format the x-axis labels as desired
-    //       }
-    //     },
-    //   },
-    // xAxis: {
-    //     type: "category", // Specify the x-axis as a category axis
-    //     categories: voltcurrent.map((val) => val.timestamp),
-    //     labels: {
-    //       formatter: function () {
-    //         const timestamp = this.value;
-    //         return timestamp; // Display the timestamp as the x-axis label
-    //       },
-    //     },
-    //   },
-    xAxis: {
-        type: "category",
-        categories:  data.map((data)=>data.Timestamp), // Use the pre-formatted timestamp from the API
-      },
-      plotOptions: {
-        line: {
-            lineWidth: 3, // Increase the line thickness
-            // Set the line to dashed
-          },
-      },
-      
-      exporting: {
-        enabled: true, // Enable exporting
-        buttons: {
-          contextButton: {
-            menuItems: [
-              {
-                text: 'View Data Table', // Set the text for the custom menu item
-                onclick: function () {
-                  const chart = this;
-                  const data = chart.getDataRows(); // Get the data rows from the chart
-                  const table = document.createElement('table'); // Create a table element
-                  const thead = table.createTHead(); // Create the table header
-                  const tbody = table.createTBody(); // Create the table body
-    
-                  // Create and append the table header row
-                  const headerRow = thead.insertRow();
-                  data[0].forEach((header) => {
-                    const th = document.createElement('th');
-                    th.textContent = header;
-                    headerRow.appendChild(th);
-                  });
-    
-                  // Create and append the table body rows
-                  for (let i = 1; i < data.length; i++) {
-                    const bodyRow = tbody.insertRow();
-                    data[i].forEach((cell) => {
-                      const td = document.createElement('td');
-                      td.textContent = cell;
-                      bodyRow.appendChild(td);
-                    });
-                  }
-    
-                  // Open a new window and append the table
-                  const win = window.open();
-                  win.document.body.appendChild(table);
-                },
-              },
-              'toggleDataLabels', // Add option for toggling data labels
-              'viewFullscreen', // Add option for full-screen mode
-              'separator', // Add a separator line
-              'downloadPNG', // Enable PNG download option
-              'downloadSVG', // Enable SVG download option
-              'downloadPDF', // Enable PDF download option
-            ],
-          },
-        },
-      },
-    
-    
-     
-    // ...
-  };
 
 
   let  gridEnergy=0
@@ -467,7 +202,7 @@ function BuildindConsumptionPage2() {
   <div class="col-10" > 
   <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h5 style={{color:"brown"}}><b>Date :-</b></h5> <DatePicker id="date" className="form-control" selected={systemOverviewfilterDate} onChange={handleDateChange} style={{ width: "200px" }}  placeholderText={dateValue}  />
+        <h6 style={{color:"brown"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={systemOverviewfilterDate} onChange={handleDateChange} style={{ width: "200px" }}  placeholderText={dateValue}  />
         </label>
         
       </div>

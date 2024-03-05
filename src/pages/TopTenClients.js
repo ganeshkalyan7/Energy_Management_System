@@ -90,7 +90,7 @@ if (Array.isArray(TopTenClientsDatausage)) {
 // Loop through the array and push data into pieChartData
 TopTenClientsDatausage.forEach((dataObject) => {
 pieChartData.push({
-name: 'caterpillar',
+name: 'Caterpillar',
 y: dataObject.caterpillar,
 });
 pieChartData.push({
@@ -106,7 +106,7 @@ name: 'ACRI',
 y: dataObject.ACRI,
 });
 pieChartData.push({
-name: 'pfizer',
+name: 'Pfizer',
 y: dataObject.pfizer,
 });
 pieChartData.push({
@@ -114,15 +114,15 @@ name: 'SGRI',
 y: dataObject.SGRI,
 });
 pieChartData.push({
-name: 'tatacommunications',
+name: 'Tata Communications',
 y: dataObject.tatacommunications,
 });
 pieChartData.push({
-name: 'ginger',
+name: 'Ginger',
 y: dataObject.ginger,
 });
 pieChartData.push({
-name: 'axxlent',
+name: 'Axxlent',
 y: dataObject.axxlent,
 });
 // Add more data points as needed
@@ -227,7 +227,7 @@ const TopTenClient = {
       align: 'left',
     },
     tooltip: {
-      pointFormat: '<b>{point.y}(kWh)</b>',
+      pointFormat: '<b>{point.y} (kWh)</b>',
     },
     accessibility: {
       point: {
@@ -241,7 +241,7 @@ const TopTenClient = {
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: '<b>{point.name}</b><br><b>{point.y}(kWh)',
+          format: '<b>{point.name}</b><br><b>{point.y} (kWh)',
           distance: 20,
         },
       },
@@ -265,7 +265,7 @@ const TopTenClient = {
    
     <div id="topTenClients">
         <div>
-            <h4 style={{textAlign:"center",color:"brown"}}><b>Top Ten Clients</b></h4>
+            <h4 style={{textAlign:"center",color:"brown"}}><b>Top 10 Clients</b></h4>
             <br/>
 
             <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
@@ -273,7 +273,7 @@ const TopTenClient = {
     <div className="input-group mb-3" style={{ width: "300px"}}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :- </b></h5><DatePicker id="date" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
+          <h6 style={{color:"brown",marginTop:"5px" }}><b> Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
         </label>
       </div>
      

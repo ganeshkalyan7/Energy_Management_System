@@ -1,7 +1,6 @@
 .maincontainer{
-    margin-top: 2%;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin-top: 3%;
+    margin-left:2%;
 }
 
 
@@ -10,11 +9,31 @@ position: relative;
 border-radius: 10px;
 background-color: #fff;
 box-shadow: 0px 4px 28.3px rgba(0, 0, 0, 0.05);
-width: 100%;
+width: 95%;
 height: 150px;
 display: flex;
+margin-left: 4px;
+margin-top: 7%;
 }
-.TodaysCo2ReductionRoot{
+
+.savingsRoot{
+    margin-top:63px;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    width: 100%;
+    height: 150px;
+    background: radial-gradient(50% 50% at 50% 50%, #26b843, #597e3e);
+    box-shadow: -1px 3px 10px #00000000,  inset, 20px -20px 50px #000000 inset, -20px 20px 60px #fff inset;
+    border-radius: 10px;
+    padding: 3%;
+    padding-left: 10%;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    
+    }
+/* .TodaysCo2ReductionRoot{
     font-size: 16px;
     font-weight: 600;
     font-family: Poppins;
@@ -24,7 +43,7 @@ display: flex;
     width: 100%;
 }
 .DivRoot{
-position: relative;
+position: absolute;
 font-size: 50px;
 font-weight: 700;
 font-family: Poppins;
@@ -75,4 +94,5 @@ font-weight: 600;
 font-family: Poppins;
 color: #fff;
 
-}
+
+} */

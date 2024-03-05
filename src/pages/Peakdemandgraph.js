@@ -177,6 +177,7 @@ const currentGraph= {
       name: "Apparent Power  (kVA)",
       data:  singledayFilter==null?initialGraph.map((val)=>(val.peakdemand)):singledayFilterData.map((val)=>(val.peakdemand)),
       
+      
       //yAxis: 1,
       type: "area",
       color:'#6F00FF',
@@ -238,7 +239,9 @@ const currentGraph= {
     },
   xAxis: {
       type: "category",
-      categories:singledayFilter==null? initialGraph.map((time) => time.polledTime):singledayFilterData.map((val)=>(val.polledTime)) // Use the pre-formatted timestamp from the API
+      categories:singledayFilter==null? initialGraph.map((time) => time.polledTime):singledayFilterData.map((val)=>(val.polledTime)),
+      crosshair: true,
+      tickInterval: 10 * 60, // Use the pre-formatted timestamp from the API
     },
     plotOptions: {
       line: {
@@ -610,18 +613,18 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
   <Grid sx={{ flexGrow: 1 }} container spacing={2} >
   
-  <Grid item xs={12} sm={6} >
+  {/* <Grid item xs={12} sm={6} >
       <div id="topTenClients"> 
     <TopTenClients/>
   </div>
 
   
 
-      </Grid>
+      </Grid> */}
 
       
  
-      <Grid item xs={12} sm={6} >
+      <Grid item xs={12} sm={12} >
       <div id="topTenClients"> 
     {/* <BlockWiseData/> */}
     <h4 style={{textAlign:"center",color:"brown"}}><b>Daily Demand(kVA)</b></h4>

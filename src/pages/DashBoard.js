@@ -272,7 +272,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   <div class="col-sm-12 mb-3 mb-sm-0">
   <div class="container-fluid">
 
-  <div class="card1" style={{width: "100%", height: calculatedHeight,justifyContent: 'center', marginTop:0, background: 'white', color: "white"}} >
+  <div class="card1" style={{width: "100%", height: calculatedHeight,justifyContent: 'center', marginTop:'200px', background: 'white', color: "white"}} >
   <h3 style={{textAlign:"end",color:"#b03d2b",textAlign:"center",marginTop:"20px"}}><b>{currentdate}</b></h3>
 <div   class="card-body d-flex flex-column justify-content-center">
 <div class="row" >

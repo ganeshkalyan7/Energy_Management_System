@@ -8,13 +8,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,analyticsAdress} from '../ipAdress';
 
 function RoofTopExepectedGeneration() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const host = '43.205.196.66';
-    const PhaseWiseActualEnergy_api = `${nodeAdress}/Rooftop/ExpectedGeneration`;
+    const PhaseWiseActualEnergy_api = `${analyticsAdress}/Analytics/rooftopSolar`;
     const [phaseWiseActualEnergy, setPhaseWiseActualEnergy] = useState([]);
     const [filterValueRange, setFilterValueRange] = useState("overView");
 
@@ -46,7 +46,7 @@ const fetchData = async () => {
     try {
       const formattedStartDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
   
-      const response = await axios.post(`${nodeAdress}/Rooftop/ExpectedGeneration/datefiltered`, {date: formattedStartDate});
+      const response = await axios.post(`${analyticsAdress}/Analytics/rooftopSolar/filtered`, {date: formattedStartDate});
     
       setSingledaydata(response.data);
       setLoading(false);
@@ -78,10 +78,10 @@ const fetchData = async () => {
     if(selectedDate==null){
         //setSingledaydata([]);
         for (let i = 0; i < phaseWiseActualEnergy.length; i++) {
-            let sumOfActualEnergy = (phaseWiseActualEnergy[i].Ph1ActualEnergy + phaseWiseActualEnergy[i].Ph2ActualEnergy);
-            let sumOfExpectedEnergy = (phaseWiseActualEnergy[i].Ph1ExpectedEnergy + phaseWiseActualEnergy[i].Ph2ExpectedEnergy);
-            Irradiation.push(phaseWiseActualEnergy[i].Irradiation)
-            TimeStamp.push(phaseWiseActualEnergy[i].TimeStamp)
+            let sumOfActualEnergy = (phaseWiseActualEnergy[i].ph1Actual + phaseWiseActualEnergy[i].ph2Actual);
+            let sumOfExpectedEnergy = (phaseWiseActualEnergy[i].expph1Energy + phaseWiseActualEnergy[i].expph2Energy);
+            Irradiation.push(phaseWiseActualEnergy[i].irradiation)
+            TimeStamp.push(phaseWiseActualEnergy[i].polledTime)
             SumPh1ph2ActualEnergy.push(sumOfActualEnergy);
             sumph2ph2ExpectedEnergy.push(sumOfExpectedEnergy);
            
@@ -91,10 +91,10 @@ const fetchData = async () => {
     }
     else{
         for (let i = 0; i < singledaydata.length; i++) {
-            let sumOfActualEnergy = (singledaydata[i].Ph1ActualEnergy + singledaydata[i].Ph2ActualEnergy);
-            let sumOfExpectedEnergy = (singledaydata[i].Ph1ExpectedEnergy + singledaydata[i].Ph2ExpectedEnergy);
-            Irradiation.push(singledaydata[i].Irradiation)
-            TimeStamp.push(singledaydata[i].TimeStamp)
+            let sumOfActualEnergy = (singledaydata[i].ph1Actual + singledaydata[i].ph2Actual);
+            let sumOfExpectedEnergy = (singledaydata[i].expph1Energy + singledaydata[i].expph2Energy);
+            Irradiation.push(singledaydata[i].irradiation)
+            TimeStamp.push(singledaydata[i].polledTime)
             SumPh1ph2ActualEnergy.push(sumOfActualEnergy);
             sumph2ph2ExpectedEnergy.push(sumOfExpectedEnergy);
         }
@@ -109,7 +109,7 @@ const fetchData = async () => {
             text: "Phase Wise Generation (kwh)"
         },
         xAxis: {
-            categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.TimeStamp):singledaydata.map((Time) => Time.TimeStamp),
+            categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.polledTime):singledaydata.map((Time) => Time.polledTime),
             crosshair: true
         },
         yAxis: {
@@ -135,11 +135,11 @@ const fetchData = async () => {
         },
         series: [{
             name: 'Phase1 Energy',
-            data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph1ActualEnergy)):singledaydata.map((value) =>value.Ph1ActualEnergy)
+            data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.ph1Actual)):singledaydata.map((value) =>value.ph1Actual)
         },
         {
             name: 'Phase2 Energy',
-            data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph2ActualEnergy)):singledaydata.map((value) =>value.Ph2ActualEnergy)
+            data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.ph2Actual)):singledaydata.map((value) =>value.ph2Actual)
         },
         ]
     };
@@ -231,7 +231,7 @@ const fetchData = async () => {
                 text: "Phase 1 Expected VS Actual Generation (kwh)"
             },
             xAxis: {
-                categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.TimeStamp):singledaydata.map((Time) =>Time.TimeStamp),
+                categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.polledTime):singledaydata.map((Time) =>Time.polledTime),
                 crosshair: true
             },
             yAxis: [{
@@ -261,13 +261,13 @@ const fetchData = async () => {
             },
             series: [{
                 name: 'Phase 1 Actual Energy (kWh)',
-                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph1ActualEnergy)):singledaydata.map((value) =>value.Ph1ActualEnergy),
+                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.ph1Actual)):singledaydata.map((value) =>value.ph1Actual),
                 type: 'column',
                 yAxis: 0
             },
             {
                 name: 'Phase 1 Expected Energy (kWh)',
-                data:selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph1ExpectedEnergy)):singledaydata.map((value) =>value.Ph1ExpectedEnergy),
+                data:selectedDate==null?phaseWiseActualEnergy.map((value) => (value.expph1Energy)):singledaydata.map((value) =>value.expph1Energy),
                 type: 'column',
                 yAxis: 0
             },
@@ -291,7 +291,7 @@ const fetchData = async () => {
                 text: "Phase 2 Expected VS Actual Generation (kwh)"
             },
             xAxis: {
-                categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.TimeStamp):singledaydata.map((Time) =>Time.TimeStamp),
+                categories: selectedDate==null?phaseWiseActualEnergy.map((Time) => Time.polledTime):singledaydata.map((Time) =>Time.polledTime),
                 crosshair: true
             },
             yAxis: [{
@@ -321,13 +321,13 @@ const fetchData = async () => {
             },
             series: [{
                 name: 'Phase 2 Actual Energy (kWh)',
-                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph2ActualEnergy)):singledaydata.map((value) =>value.Ph2ActualEnergy),
+                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.ph2Actual)):singledaydata.map((value) =>value.ph2Actual),
                 type: 'column',
                 yAxis: 0 // Use the first y-axis
             },
             {
                 name: 'Phase 2 Expected Energy (kWh)',
-                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.Ph2ExpectedEnergy)):singledaydata.map((value)=>value.Ph2ExpectedEnergy),
+                data: selectedDate==null?phaseWiseActualEnergy.map((value) => (value.expph2Energy)):singledaydata.map((value)=>value.expph2Energy),
                 type: 'column',
                 yAxis: 0 // Use the first y-axis
             },

@@ -25,7 +25,7 @@ function LTOBatteryHourly() {
       };
 
     useEffect(() => {
-        axios.get(`${dashboardAddress}/dashboard/LTOBattery`)
+        axios.get(`${dashboardAddress}/Dashboard/ltoBatteryData`)
           .then((res) => {
             const dataResponse = res.data;
             setLTObattery(dataResponse);
@@ -74,7 +74,7 @@ function LTOBatteryHourly() {
           text: null,
         },
         xAxis: {
-          categories: LTObattery.map((val) => val.PolledTime),
+          categories: LTObattery.map((val) => val.polledTime),
         },
         credits: {
           enabled: false,

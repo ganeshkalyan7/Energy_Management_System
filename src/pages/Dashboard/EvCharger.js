@@ -3,6 +3,7 @@ import axios from 'axios';
 import { dashboardAddress } from '../../ipAdress';
 import EvchargerOn from '../../images/charging-station-on.png'
 import EvChargerOff from "../../images/charging-station-off.png"
+import EvChargerUnused from "../../images/charging-station-unused.png"
 
 function EvCharger() {
 

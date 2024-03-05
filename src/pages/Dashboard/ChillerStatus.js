@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import EvCharger from './EvCharger';
 
 function ChillerStatus() {
-    const chillerstatus_api = `${dashboardAddress}/chillerstatus`
+    const chillerstatus_api = `${dashboardAddress}Dashboard/chillerstatus`
     const [chiller, setChiller] = useState([])
 
 
@@ -41,16 +41,16 @@ function ChillerStatus() {
       var chillerval8=0
 
           chiller.map((value)=>{
-      chillerval1=parseInt(value.chiller1)
-      chillerval2=parseInt(value.chiller2)
-      chillerval3=parseInt(value.chiller3)
-      chillerval4=parseInt(value.chiller4)
-      chillerval5=parseInt(value.chiller5)
-      chillerval6=parseInt(value.chiller6)
-      chillerval7=parseInt(value.chiller7)
-      chillerval8=parseInt(value.chiller8)
+      chillerval1=value.chiller1 ===0 || value.chiller1 == null ? value.chiller1 :parseInt(value.chiller1);
+      chillerval2=value.chiller2 ===0 || value.chiller2 == null ? value.chiller2 :parseInt(value.chiller2);
+      chillerval3=value.chiller3 ===0 || value.chiller3 == null ? value.chiller3 :parseInt(value.chiller3);
+      chillerval4=value.chiller4 ===0 || value.chiller4 == null ? value.chiller4 :parseInt(value.chiller4);
+      chillerval5=value.chiller5 ===0 || value.chiller5 == null ? value.chiller5 :parseInt(value.chiller5);
+      chillerval6=value.chiller6 ===0 || value.chiller6 == null ? value.chiller6 :parseInt(value.chiller6);
+      chillerval7=value.chiller7 ===0 || value.chiller7 == null ? value.chiller7 :parseInt(value.chiller7);
+      chillerval8=value.chiller8 ===0 || value.chiller8 == null ? value.chiller8 :parseInt(value.chiller8);
     })
-  
+  console.log(chiller,chillerval1,chillerval2,chillerval3,chillerval4,chillerval5,chillerval6,chillerval7,chillerval8)
   return (
     <div>
         <div class="card" style={{width:"100%",height:"495px",background: 'lineargradient(to right, ligh, white)',color:"white",id:"chillercard"}}>
@@ -69,7 +69,7 @@ function ChillerStatus() {
       <br/>
       <tr class="icon">
         <td><b style={{color:"black"}}></b></td>
-        <td><span>{chillerval1 === 0 || chillerval1 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</span></td>
+        <td><span>{chillerval1 === 0 || chillerval1 ===null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</span></td>
         <td>{chillerval2 === 0 || chillerval2 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>
         <td>{chillerval3 === 0 || chillerval3 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>
         <td>{chillerval4 == 0 || chillerval4 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>
@@ -85,7 +85,7 @@ function ChillerStatus() {
       <br/>
       <tr class="icon">
       <td><b style={{color:"black"}}></b></td>
-      <td><span>{chillerval5 === 0 || chillerval5 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</span></td>
+      <td><span>{chillerval5 === 0 || chillerval5 ===null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</span></td>
         <td>{chillerval6 === 0 || chillerval6 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>
         <td>{chillerval7 === 0 || chillerval7 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>
         <td>{chillerval8 == 0 || chillerval8 == null ? <TiWeatherSnow style={{color:"gray",fontSize:'30px'}}/> : <TiWeatherSnow style={{color:"green",fontSize:'30px'}}/>}</td>

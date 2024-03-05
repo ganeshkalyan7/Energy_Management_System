@@ -11,19 +11,25 @@ import { bmssAdress,analyticsAdress } from '../ipAdress';
 
 function PeakDemadDailyMonthly() {
     const pastdata=`${bmssAdress}/peak/initialgraph`
-    const YearData=`${analyticsAdress}/peakMontly`
+    const YearData=`${analyticsAdress}/peakMonthly`
     const [loading, setLoading] = useState(false);
     
     
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selectedYearForYearGraph, setSelectedYearForYearGraph] = useState(null);
+
+
+  const [selectedstartYear, setSelectedstartYear] = useState(null);
+  const [selectedendYear, setSelectedendYear] = useState(null);
+
+
   const [data, setData] = useState([]);
   const [yearData,setYearData]=useState([])
   const [passevendaystdata,setPastsevendaysdata]=useState([])
   const [yearPeakdata,setYearPeakdata]=useState([])
 
-  const [selectedGraph, setSelectedGraph] = useState('day');
+  const [selectedGraph, setSelectedGraph] = useState('year');
 
   const pastSevenDaysGraph=()=>{
     axios.get(pastdata).then((res)=>{
@@ -95,6 +101,31 @@ function PeakDemadDailyMonthly() {
       setEndDate(date);
     };
 
+     
+    const handleStartYearChange = (date) => {
+      setSelectedstartYear(date);
+      setSelectedendYear(null)
+    };
+    
+    const handleEndYearChange = (date) => {
+      setSelectedendYear(date);
+    };
+
+    const formatDate = (date) => {
+      if (date) {
+        const local = date.toLocaleDateString();
+        const [month, day, year] = local.split("/");
+        const formattedDate = `${year}-${month}`;
+        console.log(formattedDate)
+        return formattedDate;
+      }
+      return null;
+    };
+    
+    const responseStartYear = formatDate(selectedstartYear);
+    const responseEndYear = formatDate(selectedendYear);
+    console.log(responseStartYear,responseEndYear);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         fetchData();
@@ -104,16 +135,12 @@ function PeakDemadDailyMonthly() {
       const fetchYearWiseData = async () => {
         setLoading(true);
         try {
-          if (selectedYearForYearGraph) {
-            const response = await axios.post(`${analyticsAdress}/filtered/peakMontly`, {
-              date: String(selectedYearForYearGraph),
+         
+            const response = await axios.post(`${analyticsAdress}/filtered/peakMonthly`, {
+              date:(responseStartYear),
+              enddate:(responseEndYear)
             });
-            console.log('Response:', response, "year:", selectedYearForYearGraph);
             setYearData(response.data);
-          } else {
-            // If the year is not selected, fetch the initial data
-            YearWiseData();
-          }
           setLoading(false);
         } catch (error) {
           console.error(error);
@@ -123,9 +150,9 @@ function PeakDemadDailyMonthly() {
       
       useEffect(() => {
         fetchYearWiseData();
-        }, [selectedYearForYearGraph]);
+        }, [selectedstartYear,selectedendYear]);
     //daily peakDemand initial graph//
-    console.log(yearData,selectedYearForYearGraph)
+    console.log(yearData,selectedYearForYearGraph)   
 
 const PeakValueGraph= {
     // Highcharts configuration options
@@ -247,7 +274,7 @@ const PeakValueGraph= {
   },
     series: [   {
         name: "Apparent Power  (kVA)",
-        data: selectedYearForYearGraph==null ? yearPeakdata.map((val)=>(val.peakDemand)):yearData.map((val)=>(val.peakDemand)),
+        data: selectedstartYear==null && selectedendYear==null? yearPeakdata.map((val)=>(val.peakDemand)):yearData.map((val)=>(val.peakDemand)),
         //yAxis: 1,
         type: "column",
         color:'#00308F',
@@ -281,19 +308,17 @@ const PeakValueGraph= {
           color: 'black'
         },
       },
-    xAxis: {
+      xAxis: {
         type: "category",
-        categories: selectedYearForYearGraph == null
-        ? yearPeakdata.map((val) => {
-          const date = new Date(val.polledDate);
-          const month = date.toLocaleString('default', { month: 'long' });
-          return month;
-      })
-        : yearData.map((val) => {
-            const date = new Date(val.polledDate);
-            const month = date.toLocaleString('default', { month: 'long' });
-            return month;
-        }),// Use the pre-formatted timestamp from the API
+        categories: selectedstartYear == null && selectedendYear == null
+          ? yearPeakdata.map((val) => {
+              const date = new Date(val.polledDate);
+              return date.toLocaleString('en-US', { year: 'numeric', month: 'short' });
+            })
+          : yearData.map((val) => {
+              const date = new Date(val.polledDate);
+              return date.toLocaleString('en-US', { year: 'numeric', month: 'short' });
+            }),
       },
   
       plotOptions: {
@@ -371,7 +396,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
         
     
 
-        <h5 style={{ textAlign: "center" }}><b>Maximum Demand(kVA)</b></h5>
+        <h5 style={{ textAlign: "center" }}><b>Maximum Demand (kVA)</b></h5>
         <div className="input-group mb-3" style={{ width: "300px", marginTop: '20px', marginLeft: "20px" }}>
         <div className="input-group-prepend">
           <label className="input-group-text" htmlFor="graphSelector">
@@ -380,7 +405,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
         </div>
         <select className="form-control" id="graphSelector" onChange={handleGraphChange} value={selectedGraph}>
           <option value="day">Daywise</option>
-          <option value="year">Yearwise</option>
+          <option value="year">Year/Month wise</option>
         </select>
       </div> 
       <div>
@@ -388,12 +413,12 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
   <>
     
     <form onSubmit={handleSubmit}>
-      <div className="row" style={{ marginTop: '20px', marginLeft: "20px" }}>
+      <div className="row" style={{ marginTop: '20px', marginLeft: "8px" }}>
         <div className="col-6">
           <div className="input-group mb-3" style={{ width: "300px" }}>
             <div className="input-group-prepend">
               <label className="input-group-text" htmlFor="inputGroupSelect01">
-                <h6 style={{ color: "brown" }}><b> Start Date :</b></h6> <DatePickers id="date" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
+                <h6 style={{ color: "brown",textAlign:"center",marginTop:"7px" }}><b> Start</b></h6> &nbsp; &nbsp; <DatePickers id="date" className="form-control" selected={startDate} onChange={handleStartDateChange} placeholderText={currentdate} />
               </label>
             </div>
           </div>
@@ -403,7 +428,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
           <div className="input-group mb-3" style={{ width: "300px" }}>
             <div className="input-group-prepend">
               <label className="input-group-text" htmlFor="inputGroupSelect01">
-                <h6 style={{ color: "brown" }}><b>End Date :</b></h6> <DatePickers selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate} />
+                <h6 style={{ color: "brown",textAlign:"center",marginTop:"8px" }}><b>End</b></h6> &nbsp; &nbsp; <DatePickers  id ="date" className="form-control" selected={endDate} onChange={handleEndDateChange} placeholderText={currentdate} style={{ textAlign: 'center' }} />
               </label>
             </div>
           </div>
@@ -425,24 +450,43 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
           {selectedGraph === 'year' && (
             <>
-               <div>
-      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-  id="yearPicker"
-  value={selectedYearForYearGraph}
-  onChange={handleYearChange}
-  style={{ width: "200px" }}
->
-  <option value="2024">Current Year</option>
-  {Array.from({ length: 3 }, (_, index) => 2022 + index).map((year) => (
-    <option key={year} value={year}>
-      {year}
-    </option>
-  ))}
-</select>
+           <div className="row" style={{ marginTop: '20px', marginLeft: "8px" }}>
+        <div className="col-6">
+          <div className="input-group mb-3" style={{ width: "300px" }}>
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                <h6 style={{ color: "brown",textAlign:"center",marginTop:"8px" }}><b> Start</b></h6>  &nbsp; &nbsp; <DatePickers
+      selected={selectedstartYear}
+      onChange={handleStartYearChange}
+      id ="date" 
+      className="form-control"
+      dateFormat="MM/yyyy"
+      showMonthYearPicker
+      placeholderText='select'
+    /> 
+              </label>
+            </div>
+          </div>
+        </div>
 
-
-      {/* <button onClick={getData}>Get Data</button> */}
-    </div>
+        <div className="col-6">
+          <div className="input-group mb-3" style={{ width: "300px" }}>
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                <h6 style={{ color: "brown",textAlign:"center",marginTop:"8px"  }}><b>End</b></h6> &nbsp; &nbsp;  <DatePickers
+      selected={selectedendYear}
+      onChange={handleEndYearChange}
+      id ="date" 
+      className="form-control"
+      dateFormat="MM/yyyy"
+      showMonthYearPicker
+      placeholderText='select'
+    /> 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
      
           <HighchartsReact highcharts={Highcharts} options={PeakYearGraph} />
           </>

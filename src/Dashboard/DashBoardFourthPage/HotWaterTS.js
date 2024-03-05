@@ -1,13 +1,365 @@
-import React from 'react'
-import Wind from '../../images/rectangle-126.svg'
-import info from '../../images/mdiinformationoutline.svg'
+import React, { useState,useEffect } from 'react';
+import './HotWaterTs.css';
 import HotTank from "../../images/Hot Tank.png"
+import polygon_10 from "../../images/polygon-10.svg"
+import polygon_11 from "../../images/polygon-11.svg"
+import polygon_12 from "../../images/polygon-12.svg"
+import polygon_13 from "../../images/polygon-13.svg"
 import union from "../../images/union.svg"
-import rectangle from "../../images/rectangle-126.svg"
+import union2x from "../../images/union@2x.png"
+import ColdTank from "../../images/Cold Tank.png"
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { CiCircleInfo } from "react-icons/ci";
+import InfoIcon from '@mui/icons-material/Info';
+import CircleIcon from '@mui/icons-material/Circle';
+import { FaToggleOn } from "react-icons/fa";
+import axios from 'axios';
+
+
+
+//import HotTank from '../../Images'
+// Hot Tank.png
 
 function HotWaterTS() {
+  const HotWater_API="http://localhost:5002/HOTWaterStorage"
+  const HOTWaterStatus_API="http://localhost:5002/HOTWaterStorage/Status"
+  const [hotWaterStorageResponse,setHotWaterStorageResponsed]=useState([])
+  const [hotWaterStorageStatusResponse,setHotWaterStorageStatusResponsed]=useState([])
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(HotWater_API);
+        const dataResponse = res.data;
+        setHotWaterStorageResponsed(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    // Initial data fetch
+    fetchData();
+
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+  
+  let storedwatertemperature=0
+  let DeliveryTemperature=0
+  let Deliveryflowrate=0
+  let Mass_of_storedwater=0
+
+  for(let i=0;i<hotWaterStorageResponse.length;i++){
+    storedwatertemperature=hotWaterStorageResponse[i].storedwatertemperature
+    DeliveryTemperature=hotWaterStorageResponse[i].DeliveryTemperature
+    Deliveryflowrate=hotWaterStorageResponse[i].Deliveryflowrate
+    Mass_of_storedwater=hotWaterStorageResponse[i].Mass_of_storedwater
+
+  }
+
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(HOTWaterStatus_API);
+        const dataResponse = res.data;
+        setHotWaterStorageStatusResponsed(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    // Initial data fetch
+    fetchData();
+
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  let HOTWaterStaus=""
+  for(let i=0;i<hotWaterStorageStatusResponse.length;i++){
+    HOTWaterStaus=hotWaterStorageStatusResponse[i].HOTWaterStorageStatus
+  }
+
+
   return (
-    <div>
+    <div className='maincontainer'>
+  <Box sx={{ flexGrow: 1 }}>
+     <Grid container spacing={3}>
+      
+          <Grid item xs={12} md={6}>
+          <div > 
+     <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",}} >
+        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "497px",}} />
+        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "100%", height: "348px",}}>
+          <div> 
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Cold Water Storage </b><span ><b><InfoIcon size="5%" color='black'/></b></span></span>
+
+           <span style={{textAlign:"end",marginLeft:"80%",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Today</b></span>
+           </div>
+          
+           <div > 
+
+
+           <Box sx={{ flexGrow: 1 }}> 
+           <Grid container spacing={1}> 
+           <Grid item xs={12} md={6}>
+            
+           <div> 
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "600", color: "#fff"}}>
+            Total Electrical Energy
+            <p>0 kWh</p>
+            </span>
+            
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "600", color: "#fff"}}>
+            Total Cooling Energy
+            <p>0 kWh</p>
+            </span>
+            
+
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"80%", fontWeight: "800", color: "#fff"}}>
+            <CircleIcon style={{color:"#2cf243"}} />
+            <span style={{marginLeft:"5px",fontSize: "20px"}}><b>ON</b></span>
+            </span> 
+         
+           <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%"}}>
+            <Box sx={{ flexGrow: 1 }}> 
+            <Grid container spacing={1}>
+            <Grid item  md={12}>
+            <span style={{textAlign:"start",position:"relative", fontWeight: "700", fontSize:"20px", color: "#000000"}}>
+            Stored Water Temperature
+            <p>0° C</p>
+            </span>
+            </Grid>
+            {/* <Grid item  md={3}>
+            <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
+            Total Electrical Energy
+            <p>250 kWh</p>
+            </span>
+            </Grid> */}
+            {/* <Grid item  md={3}>
+            <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
+            Total Cooling Energy
+            <p>250 kWh</p>
+            </span>
+            </Grid>   */}
+            </Grid> 
+            </Box>
+            </div>
+            
+             
+            
+            </div>
+
+           </Grid>
+           <Grid item xs={12} md={6}>
+           <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={1}> 
+              <Grid item  md={6}> 
+           <div style={{marginTop:"100px",position:"absolute"}}>
+      
+               
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px"}} >
+        Inlet Flow Rate
+        <p>0 Kwh</p>
+        </span>
+      
+  </div>
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "150px", height: "50px",textAlign:"center",marginTop:"13px"}} >
+        Outlet Flow Rate
+        <p>0 Kwh</p>
+        </span>
+      
+  </div>
+ 
+            </div>
+          </Grid>
+          <Grid item  md={6}> 
+          <div tyle={{marginTop:"100px",position:"absolute"}}>
+          <img style={{position: "relative", width: "105.66px", height: "100%", marginTop:"90px",objectFit: "contain",marginLeft:"10%" ,mixBlendMode: "soft-light",}} alt="" src={ColdTank} />
+          </div>
+
+          </Grid>
+         
+
+          </Grid>
+          </Box>
+           </Grid>
+           </Grid>
+           </Box>
+    
+      
+          
+           
+      
+      </div>
+     
+    
+     
+        </div>
+        </div>
+       
+        </div>
+
+        
+           </Grid>
+           <Grid item xs={12} md={6}>
+          <div > 
+     <div style={{position: "relative", width: "100%", height: "497px", left:"5px", fontSize: "16px", color: "#fff",}} >
+        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "497px",}} />
+        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px",}}>
+          <div> 
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Hot Water Storage </b><span ><b><InfoIcon size="5%" color='black'/></b></span></span>
+
+           <span style={{textAlign:"end",marginLeft:"80%",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Today</b></span>
+           </div>
+          
+           <div > 
+
+
+           <Box sx={{ flexGrow: 1 }}> 
+           <Grid container spacing={1}> 
+           <Grid item xs={12} md={6}>
+            
+           <div> 
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "600", color: "#fff"}}>
+            Mass of stored water
+            <p>{Mass_of_storedwater} kWh</p>
+            </span>
+            
+            
+
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"85%", fontWeight: "800", color: "#fff"}}>
+              
+              {
+                HOTWaterStaus==="OFF"?<CircleIcon style={{color:"red"}} />:<CircleIcon style={{color:"#2cf243"}} />
+              }
+              
+            <span style={{marginLeft:"5px",fontSize: "20px"}}><b>{HOTWaterStaus}</b></span>
+            </span>
+         
+           <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%",width:"100%"}}>
+            <Box sx={{ flexGrow: 1 }}> 
+            <Grid container spacing={1}>
+            <Grid item  md={7}>
+            <span style={{textAlign:"start",position:"relative", fontWeight: "700", fontSize:"20px", color: "#000000"}}>
+            Stored Water Temperature
+            <p>{storedwatertemperature}° C</p>
+            </span>
+            </Grid>
+            {/* <Grid item  md={5}>
+            <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
+            Refrigerant Temperature
+            <p style={{marginTop:"20px"}}>250 kWh</p>
+            </span>
+            </Grid>   */}
+            </Grid> 
+            </Box>
+            </div>
+            
+             
+            
+            </div>
+
+           </Grid>
+           <Grid item xs={12} md={6}>
+           <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={1}> 
+              {/* <Grid item  md={6}> 
+           <div style={{marginTop:"100px",position:"absolute"}}>
+           <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "76px", height: "30px",textAlign:"center",marginTop:"13px"}} >11° C</span>
+    <span style={{ fontSize: "16px", fontWeight: "600", color: "#fff",marginLeft:"20px",marginTop:"15px" }}>
+      T-4
+    </span>
+    <img style={{ width: "17.76px", height: "17.76px", marginLeft: "5px",marginTop:"15px"}} alt="" src={polygon_10} />
+  </div>
+               
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "76px", height: "30px",textAlign:"center",marginTop:"13px"}} >11° C</span>
+    <span style={{ fontSize: "16px", fontWeight: "600", color: "#fff",marginLeft:"20px",marginTop:"15px" }}>
+      T-3
+    </span>
+    <img style={{ width: "17.76px", height: "17.76px", marginLeft: "5px",marginTop:"15px"}} alt="" src={polygon_10} />
+  </div>
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "76px", height: "30px",textAlign:"center",marginTop:"13px"}} >11° C</span>
+    <span style={{ fontSize: "16px", fontWeight: "600", color: "#fff",marginLeft:"20px",marginTop:"15px" }}>
+      T-2
+    </span>
+    <img style={{ width: "17.76px", height: "17.76px", marginLeft: "5px",marginTop:"15px"}} alt="" src={polygon_10} />
+  </div>
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+  <div style={{position: "relative", fontSize: "12px", lineHeight: "12px", fontWeight: "500", color: "#f9f9f9", textAlign: "center", display: "inline-block", width: "78px", height: "30px",borderRadius: "5px",background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",marginTop:"13px",}}>Not Available</div>
+    <span style={{ fontSize: "16px", fontWeight: "600", color: "#fff",marginLeft:"20px",marginTop:"15px" }}>
+      T-2
+    </span>
+    <img style={{ width: "17.76px", height: "17.76px", marginLeft: "5px",marginTop:"15px"}} alt="" src={polygon_13} />
+  </div>
+            </div>
+          </Grid> */}
+          {/* <Grid item  md={6}> 
+         
+
+          </Grid> */}
+
+<div tyle={{marginTop:"100px",position:"absolute"}}>
+<div style={{position: "absolute", top: "22%", left: "52%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "166px", height: "53px", mixBlendMode: "normal",}} >
+
+<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",}}>Delivery Flow Rate</div>
+<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Deliveryflowrate} m<sup>3</sup>/h</div>
+</div>
+
+
+<div style={{position: "absolute", top: "65%", left: "25%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
+
+<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",}}>DeliveryTemperature</div>
+<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{DeliveryTemperature} ° C</div>
+</div>
+          
+          
+          <img style={{position: "absolute", width: "180.66px", height: "100%", marginTop:"50px",objectFit: "contain",mixBlendMode: "soft-light", marginLeft:"80px"}} alt="" src={HotTank} />
+  </div>
+         
+
+          </Grid>
+          </Box>
+           </Grid>
+           </Grid>
+           </Box>
+    
+      
+          
+           
+      
+      </div>
+     
+    
+     
+        </div>
+        </div>
+       
+        </div>
+
+        
+           </Grid>
+      </Grid>
+  </Box>
+   
+
+
+{/* 
     <div style={{position: "absolute", top: "2073px", left: "873px", width: "547px", height: "497px", fontSize: "16px", color: "#fff",}}>
         <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "547px", height: "497px",}} />
         <div style={{position: "absolute", top: "419px", left: "28px", fontSize: "24px", fontWeight: "600", color: "#2b2b2b",}}>16° C</div>
@@ -31,13 +383,13 @@ function HotWaterTS() {
         </div>
         <div style={{position: "absolute", top: "14px", left: "473px", fontSize: "14px",}}>Today</div>
         <img style={{position: "absolute", top: "40px", left: "186px", width: "16px", height: "16px", overflow: "hidden",}} alt="" src="/mdiinformationoutline.svg" />
-      </div>
+      </div> */}
 
       {/* --------------------- */}
-
-     <div style={{position: "absolute", top: "2073px", left: "310px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "547px", height: "497px",}} />
-      <div style={{position: "absolute", top: "2073px", left: "310px", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "547px", height: "348px",}} />
-      <div style={{position: "absolute", top: "2492px", left: "338px", fontSize: "24px", fontWeight: "600",}}>7° C</div>
+{/* 
+     <div style={{position: "absolute", top: "2073px", left: "20px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "547px", height: "497px",}} />
+      <div style={{position: "absolute", top: "2073px", left: "20px", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "547px", height: "348px",}} />
+      <div style={{position: "absolute", top: "2492px", left: "20px", fontSize: "24px", fontWeight: "600",}}>7° C</div>
       <div style={{position: "absolute", top: "2190px", left: "562px", borderRadius: "5px", backgroundColor: "#d2d2d2", width: "76px", height: "28px", mixBlendMode: "soft-light",}} />
       <div style={{position: "absolute", top: "2305px", left: "563px", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)", width: "76px", height: "24px",}} />
       <div style={{position: "absolute", top: "2267px", left: "563px", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)", width: "76px", height: "24px",}} />
@@ -46,10 +398,11 @@ function HotWaterTS() {
       <div style={{position: "absolute", top: "2232px", left: "586px", fontWeight: "600", color: "#fff",}}>11° C</div>
       <div style={{position: "absolute", top: "2269px", left: "586px", fontWeight: "600", color: "#fff",}}>9° C</div>
       <div style={{position: "absolute", top: "2307px", left: "587px", fontWeight: "600", color: "#fff",}}>7° C</div>
-      <img style={{position: "absolute", top: "2308.27px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src="/polygon-10.svg" />
-      <img style={{position: "absolute", top: "2270.52px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src="/polygon-11.svg" />
-      <img style={{position: "absolute", top: "2232.76px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src="/polygon-12.svg" />
-      <img style={{position: "absolute", top: "2195px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src="/polygon-13.svg" />
+      <img style={{position: "absolute", top: "2308.27px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src={polygon_10} />
+      <img style={{position: "absolute", top: "2270.52px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src={polygon_11} />
+      <img style={{position: "absolute", top: "2232.76px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src={polygon_12} />
+      <img style={{position: "absolute", top: "2195px", left: "689px", width: "17.76px", height: "17.76px", objectFit: "contain",}} alt="" src={polygon_13}/>
+      <img style={{position: "absolute", width: "100.66px", height: "100%", objectFit: "contain",top: "2000px", left: "730px",transform: "translate(-50%, -20%)" }} alt="" src={ColdTank} />
       <div style={{position: "absolute", top: "2108px", left: "342px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>Cold Water Storage</div>
       <div style={{position: "absolute", top: "2456px", left: "338px", fontSize: "16px", fontWeight: "600",}}>Stored Water Temperature</div>
       <div style={{position: "absolute", top: "2456px", left: "592px", width: "106px", height: "75px",}}>
@@ -59,24 +412,21 @@ function HotWaterTS() {
       <div style={{position: "absolute", top: "2174px", left: "342px", width: "115px", height: "115px", color: "#fff",}}>
         <div style={{position: "absolute", top: "0px", left: "0px", fontWeight: "600",}}>Inlet Flow Rate</div>
         <div style={{position: "absolute", top: "22px", left: "0px",}}>250 kWh</div>
-        <div style={{position: "absolute", top: "72px", left: "0px", fontWeight: "600",}}>Outlet Flow Rate</div>
-        <div style={{position: "absolute", top: "94px", left: "0px",}}>250 kWh</div>
+        <div style={{position: "absolute", top: "77px", left: "0px", fontWeight: "600",}}>Inlet Flow Rate</div>
+        <div style={{position: "absolute", top: "100px", left: "0px",}}>250 kWh</div>
       </div>
       <div style={{position: "absolute", top: "2456px", left: "732px", width: "116px", height: "75px",}}>
         <div style={{position: "absolute", top: "0px", left: "0px", fontWeight: "600", display: "inline-block", width: "116px",}}>Total Cooling Energy</div>
         <div style={{position: "absolute", top: "54px", left: "0px",}}>250 ckWh</div>
       </div>
-      <img style={{position: "relative", width: "114px", height: "156px", mixBlendMode: "soft-light",}} alt="" src="/union.svg" />
-      <img style={{position: "relative", width: "21.66px", height: "33.39px", mixBlendMode: "soft-light",}} alt="" src="/union.svg" />
-      <img style={{position: "relative", width: "21.66px", height: "36px", objectFit: "contain", mixBlendMode: "soft-light",}} alt="" src="/union@2x.png" />
-      <img style={{position: "relative", width: "114.02px", height: "20.04px", mixBlendMode: "soft-light",}} alt="" src="/union.svg" />
-      <div style={{position: "absolute", top: "2321px", left: "714.1px", borderRadius: "50%", backgroundColor: "#31bbe4", width: "113px", height: "21px", mixBlendMode: "normal",}} />
+
       <div style={{position: "absolute", top: "2192px", left: "650px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>T-4</div>
       <div style={{position: "absolute", top: "2230px", left: "651px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>T-3</div>
       <div style={{position: "absolute", top: "2267px", left: "651px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>T-2</div>
       <div style={{position: "absolute", top: "2305px", left: "653px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>T-1</div>
       <div style={{position: "absolute", top: "2381px", left: "361px", fontWeight: "600", color: "#fff",}}>ON</div>
-      <div style={{position: "absolute", top: "2385px", left: "342px", borderRadius: "50%", backgroundColor: "#33ff00", width: "12px", height: "12px",}} />
+      <div style={{position: "absolute", top: "2385px", left: "342px", borderRadius: "50%", backgroundColor: "#33ff00", width: "12px", height: "12px",}} /> */}
+      
         
       </div> 
   )

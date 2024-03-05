@@ -50,7 +50,7 @@ function RoofTopCard() {
   return (
     <div>
 
-<div class="card" style={{width:"auto",height:"100%",background:'white',color:"white"}}>
+<div class="card" style={{width:"auto",height:"450px",background:'white',color:"white"}}>
       <div class="card-body">
       <div class="container">
   <div class="row">

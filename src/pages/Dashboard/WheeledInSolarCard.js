@@ -53,7 +53,7 @@ function WheeledInSolarCard() {
   return (
     <div>
        
-        <div class="card" style={{width:"auto",height:"100%",marginTop:"0%",background:'white',color:"white"}}>
+        <div class="card" style={{width:"auto",height:"450px",marginTop:"0%",background:'white',color:"white"}}>
       <div class="card-body">
       <div class="container">
   <div class="row">
