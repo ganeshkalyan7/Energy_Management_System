@@ -15,7 +15,8 @@ import Tooltip from '@mui/material/Tooltip';
 import CircleIcon from '@mui/icons-material/Circle';
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import Bar1 from '../images/Bar1.png'
+import Bar1 from '../images/ChillersCard.png'
+import Bar2 from "../images/EvCharger1.png"
 
 import { FaSquare } from "react-icons/fa";
 
@@ -39,11 +40,21 @@ function ChillersDashBoardAll() {
     const [chillerfilterDate, setChillerilterDate] = useState(null);
     const [thermalQuaterlyData,setThermalQuaterlyData]=useState([])
     const [thermalQuaterlyFilteredData,setThermalQuaterlyFilteredData]=useState([])
+    const[hotWaterEnergyResponse,setHotWaterResponse]=useState([])
+    const [hotWaterEnergyResponseDateFiltered,setHotWaterEnergyResponseDateFiltered]=useState([])
+    const [hotWaterStoredWaterTemp,setHotWaterStoredTemp]=useState([])
+    const [hotWaterStoredWaterTempDateFiltered,setHotWaterStoredTempDateFiltered]=useState([])
+    const [totalElectricalEnergy,setTotalElectricalEnergy]=useState([])
+    const [totalElectricalEnergyDateFiltered,setTotalElectricalEnergyDateFiltered]=useState([])
 
     const [temparatureCardResponse,setTemparatureCardResponse]=useState([])
     const [temparatureCardResponseFiltered,setTemparatureCardResponseFiltered]=useState([])
     const TemperatureCard_API=`${chillersDashboard}/chillerDashboard/TemparatureCard`
     const TemparatureCardDateFilter_APi=`${chillersDashboard}/chillerDashboard/TemparatureCard/Filtered`
+    const HOTWater_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`
+    const HOTWaterDateFiltered_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy/Filtered`
+    const HotWaterStoredWaterTemp_API=`${chillersDashboard}/chillerDashboard/HotWater/storedWaterTemp`
+    const HotWaterStoredWaterTempDateFiltered_API=`${chillersDashboard}/chillerDashboard/HotWater/storedWaterTemp/Filtered`
   
 
     const [selectedGraphPhase2,setSelectedGraphPhase2]=useState("Chiller1")
@@ -104,7 +115,7 @@ function ChillersDashBoardAll() {
   
 
   const ThermalQuaterly_Api=`${nodeAdress}/thermalquarter`
-  const thermalTempApi=`${nodeAdress}/thermal/storedWaterTemp`
+  const thermalTempApi=`${chillersDashboard}/chillerDashboard/thermal/storedWaterTemp`
 
   const chillerLoadingApi_Phase2= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase2`
   const chillerLoadingApi_Phase1= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase1`
@@ -117,13 +128,14 @@ function ChillersDashBoardAll() {
 
   const ChillerTotalCooling_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase2`
   const ChillerTotalCoolingPhase1_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase1`
-
+  const TotalElectricalEnergy_API=`${chillersDashboard}/chillerDashboard/TotalElectricalEnergy`
+  const TotalElectricalEnergyDateFilter_API=`${chillersDashboard}/chillerDashboard/TotalElectricalEnergy/Filtered`
 
   const ChillerTOtalCoolingDateFilter_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase2/Filtered`
   const ChillerTotalCoolingPhase1DateFilter_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase1/Filtered`
   
   const ThermalQuarterlyFilter_Api=`${nodeAdress}/thermalquarter/datefilter`
-  const thermalTempDateFilter_Api=`${nodeAdress}/thermal/storedWaterTemp/dateFiltered`
+  const thermalTempDateFilter_Api=`${chillersDashboard}/chillerDashboard/thermal/storedWaterTemp/Filtered`
 
   const chillerLoadingApi_Phase2_Api= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase2/Filtered`
   const chillerLoadingApi_Phase1_Api= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase1/Filtered`
@@ -296,6 +308,23 @@ function ChillersDashBoardAll() {
       //-------------------------------end-----------------------------------------------------//
 
 
+
+
+      
+      //---------------------------Total Electrical Energy-----------------------------------------//
+      useEffect(() => {
+        axios.get(TotalElectricalEnergy_API)
+          .then((res) => {
+            const dataResponse = res.data;
+            setTotalElectricalEnergy(dataResponse);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, []);
+      //-----------------------------end--------------------------------------------------//
+
+
       //---------------------------Thermal Quaterly-----------------------------------------//
       useEffect(() => {
         axios.get(ThermalQuaterly_Api)
@@ -324,6 +353,37 @@ function ChillersDashBoardAll() {
              console.log(temparatureCardResponse)
       //----------------------end -------------------------------------//
 
+
+
+       //-----------------  HOTWaterEnergy Response -----------------------------------//
+       useEffect(() => {
+        axios.get(HOTWater_API)
+          .then((res) => {
+            const dataResponse = res.data;
+            setHotWaterResponse(dataResponse);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, []);
+      //----------------------end -------------------------------------//
+
+
+
+      
+       //-----------------  HOTWaterSToredWaterTemparature Response -----------------------------------//
+       useEffect(() => {
+        axios.get(HotWaterStoredWaterTemp_API)
+          .then((res) => {
+            const dataResponse = res.data;
+            setHotWaterStoredTemp(dataResponse);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, []);
+      //----------------------end -------------------------------------//
+
       const handlesingleDayFilterChange = (date) => {
         setChillerilterDate(date);
       };
@@ -347,6 +407,9 @@ function ChillersDashBoardAll() {
           const ThermalQuarterlyFilter_Response=await axios.post(ThermalQuarterlyFilter_Api,{date:formattedStartDate})
           const TemparatureCardDateFilter_Response=await axios.post(TemparatureCardDateFilter_APi,{date:formattedStartDate})
           const CTloadvscopPH1PH2_Response=await axios.post(cTloadvscopDateFilter_api,{date:formattedStartDate})
+          const HotwaterenergyDateFilterd_Response=await axios.post(HOTWaterDateFiltered_API,{date:formattedStartDate})
+          const HotWaterStoredWaterTempDateFiltered_Response=await axios.post(HotWaterStoredWaterTempDateFiltered_API,{date:formattedStartDate})
+          const TotalElectricalEnergyDateFiltered_Response=await axios.post(TotalElectricalEnergyDateFilter_API,{date:formattedStartDate})
         
 
 
@@ -373,7 +436,13 @@ function ChillersDashBoardAll() {
 
 
           setTemparatureCardResponseFiltered(TemparatureCardDateFilter_Response.data)
+
+          setHotWaterEnergyResponseDateFiltered(HotwaterenergyDateFilterd_Response.data)
+
+          setHotWaterStoredTempDateFiltered(HotWaterStoredWaterTempDateFiltered_Response.data)
         
+
+          setTotalElectricalEnergyDateFiltered(TotalElectricalEnergyDateFiltered_Response.data)
          
           setLoading(false);
           console.log(formattedStartDate)
@@ -407,7 +476,9 @@ function ChillersDashBoardAll() {
       const chillersStatus = {
 
         chart: {
-            type: 'column'
+            type: 'column',
+             // Set the width here
+            //height: 400, // Set the height here
         },
     
         title: {
@@ -501,7 +572,15 @@ function ChillersDashBoardAll() {
             name: 'Chiller8',
             data: chillerfilterDate == null? chillerData.map((chiller8)=>chiller8.chiller8Status):chillerStatusFilteredData.map((chiller8)=>chiller8.chiller8Status)
             //stack: 'North America'
-        }]
+        },
+
+        {
+          name: 'ThermalDischarge',
+          data: chillerfilterDate == null? chillerData.map((chiller8)=>chiller8.thermalDCHGStatus):chillerStatusFilteredData.map((chiller8)=>chiller8.thermalDCHGStatus)
+          //stack: 'North America'
+      }
+      
+      ]
     };    
 
 
@@ -778,6 +857,26 @@ else{
 
 
 //-------------------------------------------end of phase2(1,2,3,4)------------------------------------------------//
+
+//-------------------------------------------TotalElectrical Energy----------------------------------------------//
+let ChillerTotalElectricalEnergyDay=0
+if(chillerfilterDate==null){
+  for(let i=0;i<totalElectricalEnergy.length;i++){
+    ChillerTotalElectricalEnergyDay=totalElectricalEnergy[i].TotalElectricalEnergy
+    //console.log(chillerTotalCoolingEnergy[i].Phase2TotalCoolingEnergy)
+  }
+
+}
+else{
+  for(let i=0;i<totalElectricalEnergyDateFiltered.length;i++){
+    ChillerTotalElectricalEnergyDay=totalElectricalEnergyDateFiltered[i].TotalElectricalEnergy
+    //console.log(chillerTotalCoolingEnergy[i].Phase2TotalCoolingEnergy)
+  }
+
+}
+
+
+//-----------------------------------------------------end-------------------------------------------------------//
 
 
 //---------------------------------------------------Temparature Card Calculation -----------------------------------//
@@ -1388,6 +1487,59 @@ console.log(chillerLoading_Phase1DateFilter)
             },
         ]
     };
+
+
+
+
+    
+    const HotWaterStoredWaterTemperature={
+      chart: {
+          type: 'line'
+      },
+      title: {
+          text: 'Stored Water Temperature',
+          align: 'center',
+          style: {
+              color: '#cc0000	' // You can replace 'red' with any desired color value
+          }
+      },
+      // subtitle: {
+      //     text:
+      //         'Chiller Loading',
+      //     align: 'left'
+      // },
+      xAxis: {
+          categories: chillerfilterDate==null?hotWaterStoredWaterTemp.map((timeStamp)=>timeStamp.polledTime):hotWaterStoredWaterTempDateFiltered.map((timeStamp)=>timeStamp.polledTime),
+          crosshair: true,
+          tickInterval: 6 * 1,
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Temperature (&deg;C)'
+          }
+      },
+      tooltip: {
+          valueSuffix: '(&deg;C)'
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [
+          {
+              name: 'Stored Water Temperature',
+              data:  chillerfilterDate==null?hotWaterStoredWaterTemp.map((value)=>value.storedwatertemperature):hotWaterStoredWaterTempDateFiltered.map((value)=>value.storedwatertemperature),
+              color:"#fc5203",
+              marker: {
+                enabled: false, // Disable markers for the series
+              },
+        
+          },
+      ]
+  };
 
 
 
@@ -2038,12 +2190,194 @@ tooltip: {
 
 
 
+
+
+  const HOTWaterEnergy={
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Charging / Discharging Energy',
+        style: {
+          color: '#cc0000	' // You can replace 'red' with any desired color value
+      }
+    },
+    // subtitle: {
+    //     text: 'Source: WorldClimate.com'
+    // },
+    xAxis: {
+        categories:chillerfilterDate==null?hotWaterEnergyResponse.map((Time)=>Time.polledTime):hotWaterEnergyResponseDateFiltered.map((Time)=>Time.polledTime),
+        crosshair: true,
+        tickInterval: 6 * 1,
+    },
+    yAxis: {
+        //min: 0,
+        title: {
+            text: 'Charging / Discharging Energy (kWh)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'FreshwaterEnergy',
+        data:chillerfilterDate==null?hotWaterEnergyResponse.map((value)=>(value.Freshwater_Energy)):hotWaterEnergyResponseDateFiltered.map((value)=>(value.Freshwater_Energy)),
+        
+ marker: {
+  enabled: false, // Disable markers for the series
+},
+        //type: 'column'
+  
+    },
+    {
+      name: 'RecirculationEnergy',
+      data:chillerfilterDate==null?hotWaterEnergyResponse.map((value)=>(value.Recirculation_Energy)):hotWaterEnergyResponseDateFiltered.map((value)=>(value.Recirculation_Energy)),
+      marker: {
+        enabled: false, // Disable markers for the series
+      },
+      //type: 'column'
+  
+  },
+  {
+    name: 'DeliveredEnergy',
+    data:chillerfilterDate==null?hotWaterEnergyResponse.map((value)=>(value.Delivered_Energy)):hotWaterEnergyResponseDateFiltered.map((value)=>(value.Delivered_Energy)),
+    marker: {
+      enabled: false, // Disable markers for the series
+    },
+    //type: 'column'
+
+},]
+  };
+
+
+
+
+  const options={
+    chart: {
+      type: 'pie',
+      events: {
+        drilldown: function (e) {
+          console.log('Drilldown event triggered:', e);
+
+          if (!e.seriesOptions) {
+            const chart = this;
+            chart.showLoading('Loading...'); // Show loading indicator
+
+            // Simulate asynchronous data loading with setTimeout
+            setTimeout(function () {
+              chart.hideLoading(); // Hide loading indicator
+
+              // Define drilldown series data dynamically based on drilldown point
+              const drilldownSeriesData = getDrilldownSeriesData(e.point.name);
+
+              // Add the drilldown series to the drilldown array
+              chart.addSeriesAsDrilldown(e.point, {
+                name: e.point.name,
+                data: drilldownSeriesData
+              });
+            }, 1000); // Simulated delay for data loading
+          }
+        }
+      }
+    },
+    title: {
+      text: 'Browser market shares. January, 2022'
+    },
+    subtitle: {
+      text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+    series: [{
+      name: 'Browsers',
+      colorByPoint: true,
+      data: [{
+        name: 'Chrome',
+        y: 61.04,
+        drilldown: 'Chrome'
+      }, {
+        name: 'Safari',
+        y: 9.47,
+        drilldown: 'Safari'
+      }, {
+        name: 'Edge',
+        y: 9.32,
+        drilldown: 'Edge'
+      }, {
+        name: 'Firefox',
+        y: 8.15,
+        drilldown: 'Firefox'
+      }, {
+        name: 'Other',
+        y: 11.02,
+        drilldown: null
+      }]
+    }],
+    drilldown: {
+      series: [] // Initially empty, will be populated dynamically
+    }
+  };
+
+
+   // Function to simulate drilldown series data based on the clicked point
+   const getDrilldownSeriesData = (browserName) => {
+    // Example data for drilldown series
+    const drilldownDataMap = {
+      Chrome: [
+        ['v97.0', 36.89],
+        ['v96.0', 18.16],
+        // Add more data as needed
+      ],
+      Safari: [
+        ['v15.3', 0.1],
+        ['v15.2', 2.01],
+        // Add more data as needed
+      ],
+      Edge: [
+        ['v97', 6.62],
+        ['v96', 2.55],
+        // Add more data as needed
+      ],
+      Firefox: [
+        ['v96.0', 4.17],
+        ['v95.0', 3.33],
+        // Add more data as needed
+      ],
+      // Add more cases as needed
+    };
+
+    // Return drilldown series data for the specified browser
+    return drilldownDataMap[browserName] || [];
+  };
+
+
+
+
   return (
-    <div style={{marginTop:"20px",marginLeft:"20px"}}>
+    <div style={{marginTop:"100px",paddingLeft:"50px",overflowX: "hidden",}} id="container">
 
 <div className="row" >
-  <div className="col-5">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
+  <div className="col-4">
+    <div className="input-group mb-3" style={{ width: "300px",marginLeft:"70px"}}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
         <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePickers id="date" selected={chillerfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
@@ -2053,23 +2387,58 @@ tooltip: {
      
      
     </div>
-   
-    {/* <div style={{position: "absolute", top: "25%", left: "80%", borderRadius: "5px",width: "213px", height: "63px", overflow: "hidden",}}>
-    <div style={{position: "absolute", height: "100%", width: "100%", top: "0%", right: "0%", bottom: "0%", left: "0%", borderRadius: "10px", backgroundColor: "#0d0d0d",}} />
-    <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar1}/>
-    <div style={{position: "absolute", height: "152.38%", width: "45.54%", top: "-25.4%", right: "-22.54%", bottom: "-26.98%", left: "77%", borderRadius: "50%", backgroundColor: "#336671",}} />
-    <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",}}>Total Energy Used</div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",}}>100 kWh</div>
-  </div> */}
+
+  
   </div>
-  <div className="col-7" style={{ position: "relative" }}>
+
+  <div className="col-4" style={{ position: "relative" }}>
   <img
     style={{
-      height: "80px",
+      height: "70px",
       width: "300px",
       overflow: "hidden",
-      marginLeft: "50%",
+      marginLeft: "0%",
+    }}
+    alt=""
+    src={Bar2}
+  />
+  <div
+    style={{
+      position: "absolute",
+      top: "25%",  // Adjust the top position as needed
+      left: "5%",  // Adjust the left position as needed
+      transform: "translate(-0%, -50%)",  // Center the text
+      fontWeight: "500",
+      color:"#fff",
+      fontSize:"20px",
+      fontFamily:"pop"
+    }}
+  >
+    Total Electrical Energy of the day
+  </div>
+  <div
+    style={{
+      position: "absolute",
+      top: "40%",  // Adjust the top position as needed
+      left: "5%",  // Adjust the left position as needed
+      // transform: "translate(-50%, -50%)",  // Center the text
+      color:"#fff",
+      fontSize: "25px",
+      fontWeight: "600",
+      fontFamily:"pop"
+    }}
+  >
+  {Math.trunc(ChillerTotalElectricalEnergyDay)}  kWh
+  </div>
+</div>
+
+  <div className="col-4" style={{ position: "relative"}}>
+  <img
+    style={{
+      height: "70px",
+      width: "300px",
+      overflow: "hidden",
+      marginLeft:"0%"
     }}
     alt=""
     src={Bar1}
@@ -2077,8 +2446,8 @@ tooltip: {
   <div
     style={{
       position: "absolute",
-      top: "20%",  // Adjust the top position as needed
-      left: "53%",  // Adjust the left position as needed
+      top: "25%",  // Adjust the top position as needed
+      left: "5%",  // Adjust the left position as needed
       transform: "translate(-0%, -50%)",  // Center the text
       fontWeight: "500",
       color:"#fff",
@@ -2091,8 +2460,8 @@ tooltip: {
   <div
     style={{
       position: "absolute",
-      top: "45%",  // Adjust the top position as needed
-      left: "55%",  // Adjust the left position as needed
+      top: "40%",  // Adjust the top position as needed
+      left: "5%",  // Adjust the left position as needed
       // transform: "translate(-50%, -50%)",  // Center the text
       color:"#fff",
       fontSize: "25px",
@@ -2107,8 +2476,8 @@ tooltip: {
 
 
 </div>
-<h5 style={{ textAlign: "center" }}><b>Chiller Status</b></h5>
-<HighchartsReact highcharts={Highcharts} options={chillersStatus} />
+<h5 style={{ textAlign: "center",marginTop:"4%" }}><b>Chiller Status</b></h5>
+<HighchartsReact highcharts={Highcharts} options={chillersStatus}  />
 
 
 
@@ -3945,6 +4314,30 @@ tooltip: {
 
 </Grid>
 </Box> 
+
+
+
+
+<Box sx={{ flexGrow: 1 }} style={{marginTop:"8%"}}> 
+
+<h5 style={{ textAlign: "center" }}><b>Hot Water Storage </b></h5>  
+<Grid container spacing={1}> 
+<Grid item xs={12} md={6}> 
+<div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+<HighchartsReact highcharts={Highcharts} options={HOTWaterEnergy} />
+</div>
+</Grid>
+<Grid item xs={12} md={6} > 
+<div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+<HighchartsReact highcharts={Highcharts} options={HotWaterStoredWaterTemperature} />
+</div>
+</Grid>
+
+</Grid>
+</Box>
+
+
+
 
 
 {/* <select className="form-control" id="graphSelector" onChange={handleGraphChange} value={selectedGraph}>

@@ -139,6 +139,7 @@ function LTOBatteryEnergyPac() {
     xAxis: {
         type: "category",
         categories: graphData.map((time) => time.timestamp), // Use the pre-formatted timestamp from the API
+        tickInterval: 10 * 10,
       },
       plotOptions: {
         line: {
@@ -283,6 +284,7 @@ function LTOBatteryEnergyPac() {
     xAxis: {
         type: "category",
         categories: data.map((time) => time.timestamp), // Use the pre-formatted timestamp from the API
+        tickInterval: 10 * 10,
       },
       plotOptions: {
         line: {
@@ -352,11 +354,11 @@ const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTim
 
 let  currentBatteryStatus=[]
 for(let i=0;i<graphData.length;i++){
-  if(graphData[i].batteryStatus==="Discharging"){
+  if(graphData[i].batteryStatus==="DCHG"){
     currentBatteryStatus.push("DISCHARGING")
 
   }
-  if(graphData[i].batteryStatus==="Charging"){
+  if(graphData[i].batteryStatus==="CHG"){
     currentBatteryStatus.push("CHARGING")
 
   }
@@ -377,9 +379,9 @@ for(let i=0;i<graphData.length;i++){
   <div class="col-9" > 
   <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :-</b></h5><DatePicker id="date" selected={filterDate} onChange={handleEndDateChange} />
+          <h6 style={{color:"brown"}}><b> Date &nbsp; &nbsp; </b></h6><DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue}  />
           
-          <h3 style={{marginLeft:"135%"}}>{dateValue}</h3>
+          {/* <h3 style={{marginLeft:"135%"}}>{dateValue}</h3> */}
           
         </label>
         

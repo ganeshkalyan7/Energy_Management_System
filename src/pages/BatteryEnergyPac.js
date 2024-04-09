@@ -367,9 +367,10 @@ for(let i=0;i<graphData.length;i++){
   <div class="col-9" > 
   <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :-</b></h5><DatePicker id="date" selected={filterDate} onChange={handleEndDateChange} />
+          {/* <h5 style={{color:"brown"}}><b> Date :-</b></h5><DatePicker id="date" selected={filterDate} onChange={handleEndDateChange} /> */}
+          <h6 style={{color:"brown",marginTop:"10px"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} style={{ width: "200px" }}  placeholderText={dateValue}  />
           
-          <h3 style={{marginLeft:"135%"}}>{dateValue}</h3>
+          {/* <h3 style={{marginLeft:"135%"}}>{dateValue}</h3> */}
           
         </label>
         

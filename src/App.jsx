@@ -48,6 +48,7 @@ import KvaVsKW from './pages/KvaVsKW';
 import HOTWaterControl from './pages/HOTWaterControl';
 import { Light, Dark } from "./styles/Themes";
 import { ThemeProvider } from "styled-components";
+import IOEEnergyPac from './pages/IOEEnergyPac';
 
 export const ThemeContext = React.createContext(null);
 function App() {
@@ -62,6 +63,7 @@ function App() {
               
           {/* DashBoardCombine */}
             <Route path="/" element={<DashBoard />} />
+          
             <Route path="/Control/upsbattery" element={<Control />} />
             <Route path="/Control/thermal" element={<Thermalcontrol />} />
             <Route path="/Alertlogs" element={<Alerts />} />
@@ -88,7 +90,9 @@ function App() {
             <Route path="/TopTenClients" element={<TopTenClients/>}/>
             <Route path="/NewDashboard" element={<DashBoardCombine/>}/>
             <Route path="/control/HOTWater" element={<HOTWaterControl/>}/>
+            <Route path="/Battery/IOE" element={<IOEEnergyPac/>}/>
             
+                    
             </Routes>
           </div>
                

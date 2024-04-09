@@ -223,7 +223,7 @@ const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
   return (
-    <div>
+    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
         <div>
       <div>
       <h4 style={{textAlign:'center',marginTop:"15px"}}><b  style={{fontSize:"30px"}} >RoofTop Solar </b></h4>

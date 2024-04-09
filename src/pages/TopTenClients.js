@@ -125,6 +125,10 @@ pieChartData.push({
 name: 'Axxlent',
 y: dataObject.axxlent,
 });
+pieChartData.push({
+  name: 'NMS',
+  y: dataObject.NMS,
+  });
 // Add more data points as needed
 });
 }
@@ -260,7 +264,7 @@ const TopTenClient = {
 
   
   return (
-    <div> 
+    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}> 
       
    
     <div id="topTenClients">

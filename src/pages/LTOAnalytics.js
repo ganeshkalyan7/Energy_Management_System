@@ -3,7 +3,7 @@ import LTOBatteryEnergyPac from './LTOBatteryEnergyPac'
 import LTOCurrentVoltage from './LTOCurrentVoltage'
 function LTOAnalytics() {
   return (
-    <div>
+    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
        <div> 
     <div > <h4 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"30px",fontWeight:"bold",fontFamily:undefined, }}>LTO Battery</h4></div>
 <br/>

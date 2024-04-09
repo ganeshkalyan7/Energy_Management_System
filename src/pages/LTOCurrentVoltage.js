@@ -133,7 +133,8 @@ function LTOCurrentVoltage() {
       },
     xAxis: {
         type: "category",
-        categories: graphData.map((time) => time.PolledTime), // Use the pre-formatted timestamp from the API
+        categories: graphData.map((time) => time.polledTime), // Use the pre-formatted timestamp from the API
+        tickInterval: 10 * 10,
       },
       plotOptions: {
         line: {
@@ -266,7 +267,8 @@ function LTOCurrentVoltage() {
           },
         xAxis: {
             type: "category",
-            categories: data.map((time) => time.PolledTime), // Use the pre-formatted timestamp from the API
+            categories: data.map((time) => time.polledTime), // Use the pre-formatted timestamp from the API
+            tickInterval: 10 * 10,
           },
           plotOptions: {
             line: {
@@ -342,7 +344,8 @@ const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTim
 <div class="col-9" > 
 <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
 <label className="input-group-text" htmlFor="inputGroupSelect01">
-  <h5 style={{color:"brown"}}><b> Date :-</b></h5><DatePicker id="date" selected={filterDate} onChange={handleEndDateChange} />
+
+  <h6 style={{color:"brown"}}><b> Date &nbsp; &nbsp; </b></h6><DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue}  />
   
   {/* <h3 style={{marginLeft:"135%"}}>{dateValue}</h3> */}
   

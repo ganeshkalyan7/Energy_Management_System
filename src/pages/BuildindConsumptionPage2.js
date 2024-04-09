@@ -202,7 +202,7 @@ function BuildindConsumptionPage2() {
   <div class="col-10" > 
   <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{color:"brown"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={systemOverviewfilterDate} onChange={handleDateChange} style={{ width: "200px" }}  placeholderText={dateValue}  />
+        <h6 style={{color:"brown",marginTop:"10px"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={systemOverviewfilterDate} onChange={handleDateChange} style={{ width: "200px" }}  placeholderText={dateValue}  />
         </label>
         
       </div>

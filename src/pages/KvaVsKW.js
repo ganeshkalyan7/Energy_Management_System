@@ -78,8 +78,9 @@ function KvaVsKW() {
             //     }
             // },
             xAxis: {
-                categories:kva_kw_data.map((Time) => Time.TimeStamp),
+                categories:selectedDate==null?kva_kw_data.map((Time) => Time.TimeStamp):kva_kw_dataDateFiltered.map((Time) => Time.TimeStamp),
                 crosshair: true,
+                tickInterval: 10 * 10,
                 // labels: {
                 //     style: {
                 //         color: '#ffffff' // Set text color to white
@@ -132,44 +133,44 @@ function KvaVsKW() {
             },
             series: [{
                 name: 'Peak Demand  (kvA)',
-                data: kva_kw_data.map((value) => value.peakmax),
+                data: selectedDate==null?kva_kw_data.map((value) => value.peakmax):kva_kw_dataDateFiltered.map((value) => value.peakmax),
                 type: 'line',
                 yAxis: 1
             },
             {
                 name: 'mvp1 (kW)',
-                data: kva_kw_data.map((value) => value.mvp1),
+                data: selectedDate==null?kva_kw_data.map((value) => value.mvp1):kva_kw_dataDateFiltered.map((value) => value.mvp1),
                 type: 'line',
                 yAxis: 0
             },
             {
                 name: 'mvp2 (kW)',
-                data: kva_kw_data.map((value) => value.mvp2),
+                data: selectedDate==null?kva_kw_data.map((value) => value.mvp2):kva_kw_dataDateFiltered.map((value) => value.mvp2),
                 type: 'line',
                 yAxis: 0,
             },
             {
                 name: 'mvp3 (kW)',
-                data: kva_kw_data.map((value) => value.mvp3),
+                data: selectedDate==null?kva_kw_data.map((value) => value.mvp3):kva_kw_dataDateFiltered.map((value) => value.mvp3),
                 type: 'line',
                 yAxis: 0
             },
             {
                 name: 'mvp4 (kW)',
-                data: kva_kw_data.map((value) => value.mvp4),
+                data: selectedDate==null?kva_kw_data.map((value) => value.mvp4):kva_kw_dataDateFiltered.map((value) => value.mvp4),
                 type: 'line',
                 yAxis: 0
             },
             {
               name: 'LtoPower (kW)',
-              data: kva_kw_data.map((value) => value.LtoPower),
+              data: selectedDate==null?kva_kw_data.map((value) => value.LtoPower):kva_kw_dataDateFiltered.map((value) => value.LtoPower),
               type: 'line',
               yAxis: 0
           },
             
             {
                 name: "LimitLine1",
-                data:kva_kw_data.map((val)=>(val.LimitLine1)),
+                data:selectedDate==null?kva_kw_data.map((val)=>(val.LimitLine1)):kva_kw_dataDateFiltered.map((val)=>(val.LimitLine1)),
                 //yAxis: 0,
                 type: "line",
                 color: '#FFA500', // Change the color of the "Packsoc" line graph
@@ -180,7 +181,7 @@ function KvaVsKW() {
               },
               {
                 name: "LimitLine2",
-                data:kva_kw_data.map((val)=>(val.LimitLine2)),
+                data:selectedDate==null?kva_kw_data.map((val)=>(val.LimitLine2)):kva_kw_dataDateFiltered.map((val)=>(val.LimitLine2)),
                 //yAxis: 0,
                 type: "line",
                 color: 'red', // Change the color of the "Packsoc" line graph
@@ -199,7 +200,7 @@ function KvaVsKW() {
     const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
     
   return (
-    <div>
+    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
         <h4 style={{textAlign:"center",color:"brown"}}><b>MVP Wise (KW )  vs Apparent Power (kVA)</b></h4>
         <br/>
         <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>

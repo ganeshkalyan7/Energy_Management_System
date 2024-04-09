@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { CiCircleInfo } from "react-icons/ci";
 import CircleIcon from '@mui/icons-material/Circle';
+
 import { nodeAdress,chillersDashboard } from '../../ipAdress';
 import axios from 'axios';
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
@@ -316,10 +317,10 @@ return (
   <div className="col-7" style={{ position: "relative",marginLeft:"48%",marginTop:"-30px" }}>
   <img
     style={{
-      height: "80px",
-      width: "250px",
+      height: "60px",
+      width: "200px",
       overflow: "hidden",
-      marginLeft: "50%",
+      marginLeft: "57%",
     }}
     alt=""
     src={Bar1}
@@ -328,7 +329,7 @@ return (
     style={{
       position: "absolute",
       top: "30%",  // Adjust the top position as needed
-      left: "53%",  // Adjust the left position as needed
+      left: "58.5%",  // Adjust the left position as needed
       transform: "translate(-0%, -50%)",  // Center the text
       fontWeight: "500",
       color:"#fff",
@@ -341,7 +342,7 @@ return (
     style={{
       position: "absolute",
       top: "45%",  // Adjust the top position as needed
-      left: "53%",  // Adjust the left position as needed
+      left: "58.5%",  // Adjust the left position as needed
       // transform: "translate(-50%, -50%)",  // Center the text
       color:"#fff",
       fontSize: "20px",
@@ -353,7 +354,7 @@ return (
   <span   style={{
       position: "absolute",
       top: "50.5%",  // Adjust the top position as needed
-      left: "62%",  // Adjust the left position as needed
+      left: "67%",  // Adjust the left position as needed
       // transform: "translate(-50%, -50%)",  // Center the text
       color:"#fff",
       fontSize: "16px",
@@ -371,11 +372,21 @@ return (
   <Grid container spacing={1}>
   <Grid item xs={12} md={6}>
 {/* <h5 style={{ textAlign: "center" }}><b>E Block</b></h5> */}
+<div style={{width:"204px",height:"86px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "10%",marginTop:"10px"}}> 
+<p style={{color:"black",fontSize:"14px",fontWeight:"600",marginLeft:"15px",marginTop:"10px"}}>Phase 1 Chillers </p>
+<div style={{display:"flex",marginTop:"-10px"}}> 
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>5</p >
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>6</p>
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>7</p>
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>8</p>
+</div>
+
+</div>
 
 <div
         style={{
           position: "relative",
-           top: "100px",
+           top: "40px",
           left: "10%",
           
           width: "100%",
@@ -398,9 +409,10 @@ return (
               top: "0px",
               left: "0px",
               fontWeight: "600",
+              fontSize:"14px"
             }}
           >
-          Chiller 5 to 8 : 300 TR
+          E Block
           </div>
           <div
             style={{
@@ -418,6 +430,7 @@ return (
                 top: "0px",
                 left: "203px",
                 fontWeight: "600",
+                fontSize:"12px"
               }}
             >
               Evaporator
@@ -428,6 +441,7 @@ return (
                 top: "166px",
                 left: "203px",
                 fontWeight: "600",
+                fontSize:"12px"
               }}
             >
               Condensor
@@ -1021,11 +1035,21 @@ return (
 </Grid>
 
 <Grid item xs={12} md={6}>
+<div style={{width:"204px",height:"86px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "10%",marginTop:"10px"}}> 
+<p style={{color:"black",fontSize:"14px",fontWeight:"600",marginLeft:"15px",marginTop:"10px"}}>Phase 2 Chillers </p>
+<div style={{display:"flex",marginTop:"-10px"}}> 
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>1</p >
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>2</p>
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>3</p>
+<p  style={{width:"39px",height:"35px",borderRadius:"8px", border: '1px solid #D5D5D5', marginLeft: "4%",textAlign:'center',fontSize:"14px",fontWeight:"600",paddingTop:"6px"}}>4</p>
+</div>
+
+</div>
 
 <div
         style={{
           position: "relative",
-           top: "100px",
+           top: "40px",
           left: "10%",
           
           width: "100%",
@@ -1048,9 +1072,10 @@ return (
               top: "0px",
               left: "0px",
               fontWeight: "600",
+              fontSize:'14px'
             }}
           >
-           Chiller 1 to 4 : 425 TR
+           D Block
           </div>
           <div
             style={{
@@ -1068,6 +1093,7 @@ return (
                 top: "0px",
                 left: "203px",
                 fontWeight: "600",
+                fontSize:"12px"
               }}
             >
               Evaporator
@@ -1078,6 +1104,7 @@ return (
                 top: "166px",
                 left: "203px",
                 fontWeight: "600",
+                fontSize:"12px"
               }}
             >
               Condensor
@@ -1677,7 +1704,16 @@ return (
 
   </Grid>
 </Box>
-<div style={{ textAlign: "center",textAlign: "center",marginTop:"15%",marginRight:"40px"}}><b>Loading Percentage <CircleIcon style={{color:"#ff7338",fontSize:'17px'}}/> </b></div>
+<div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"600px",height:"250px",width:"1px",marginTop:"-230px"}}></div>
+
+<div style={{ textAlign: "center",textAlign: "center",marginTop:"5%",marginRight:"70px",display:"flex",marginLeft:"500px",fontSize:"12px",fontWeight:"400"}}>
+<p style={{width:"37px",height:"15px",background:"#ff7338",borderRadius:"2px",marginRight:"9px"}}></p>
+<span style={{marginTop:"-2px"}}>Loading Percentage</span> 
+<br/>
+
+
+</div>
+<p style={{color:"#0D6BF9",fontSize:"12px",fontWeight:"400",marginLeft:"560px",marginTop:"15px"}}>Show More</p>
 
   
 

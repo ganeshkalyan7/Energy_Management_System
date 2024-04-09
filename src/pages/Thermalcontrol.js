@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 import { DataGrid,GridToolbar  } from '@mui/x-data-grid';
 import * as GiIcons from  'react-icons/gi';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,bmssAdress } from '../ipAdress';
 
 
 function Thermalcontrol() {
@@ -22,7 +22,7 @@ function Thermalcontrol() {
   const [thermalOverviewData,setThermalOverviewData]=useState([])
   const [thermallog,setThermallog]=useState([])
   const [pinNumber,setPinNumber]=useState("")
-  const thermalApi=`${nodeAdress}/thermal/summaryCard`
+  const thermalApi=`${bmssAdress}/thermal/summaryCard`
   const thermalLogApi=`${nodeAdress}/Logs/Thermal`
   const ActualPassKey=7230
 
@@ -308,9 +308,9 @@ function Thermalcontrol() {
   
 
   return (
-    <div>
+    <div  style={{marginLeft:"70px",marginTop:"90px"}}>
       <div> 
-      <button type="submit" class="btn btn-dark bt-lg" style={{height:"40px",width:"300px"}} onClick={thermalLogPopup}><b>Thermal Logs</b></button>
+      <button type="submit" class="btn btn-dark bt-lg" style={{height:"40px",width:"300px",marginLeft:"60px"}} onClick={thermalLogPopup}><b>Thermal Logs</b></button>
       </div>
       <div> 
         <h2 style={{fontSize:"30px",textAlign:"center"}}><b>Thermal Control</b></h2>
@@ -477,7 +477,7 @@ function Thermalcontrol() {
     </div>
     </div>
   </div>
-  <div style={{ height:'500px', width: '100%',marginTop:"50px"}} id="tableFilte">
+  {/* <div style={{ height:'500px',marginTop:"50px",marginRight:"70px",width:"60%",whiteSpace: 'pre'}} id="tableFilte">
       <DataGrid
         rows={rows}
         columns={columns}
@@ -493,7 +493,8 @@ function Thermalcontrol() {
         }}
         // style={darkTheme} // Apply the dark theme styles
       />
-    </div>
+    </div> */}
+
   </div>
     
   )

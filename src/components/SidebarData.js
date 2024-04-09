@@ -27,6 +27,7 @@ import { FaCarBattery } from "react-icons/fa";
 import { GiThermometerCold } from "react-icons/gi";
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import { FaHotTub } from "react-icons/fa";
+import { GiCarBattery } from "react-icons/gi";
 
 
 
@@ -119,6 +120,11 @@ export const SidebarData = [
           {
             title: 'LTO Battery',
             path: '/LTOBattery_Analytics',
+            icon: <BatterySaverIcon />
+          },
+          {
+            title: 'IOE Battery',
+            path: '/Battery/IOE',
             icon: <BatterySaverIcon />
           },
         

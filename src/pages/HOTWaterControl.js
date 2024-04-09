@@ -5,16 +5,53 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import Swal from "sweetalert2";
 import { nodeAdress } from '../ipAdress';
+import CircleIcon from '@mui/icons-material/Circle';
 // import ThumsUp from "../images/ThumsUpjpg.jpg"
 // import Error from "../images/ControlError.jpg"
 
 function HOTWaterControl() {
   const [pinNumber,setPinNumber]=useState("")
   const ActualPassKey=81520
-  
+  const [hotWaterOverView,setHotWaterOverVies]=useState([])
+  const HotWater_API="https://ems.tre100.in/controlapi/control/HotwaterDetails"
 
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(HotWater_API);
+        const dataResponse = res.data;
+        setHotWaterOverVies(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // Initial data fetch
+    fetchData();
+
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 60000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+
+  let Status=""
+  let MassOfStoredWater=0
+  let Chiller1Status=""
+  let StoredWaterTemperature=0
+ 
+
+  for(let i=0;i<hotWaterOverView.length;i++){
+    Status=hotWaterOverView[i].hotWaterStatus
+    MassOfStoredWater=hotWaterOverView[i].Mass
+    Chiller1Status=hotWaterOverView[i].ChillerStatus
+    StoredWaterTemperature=hotWaterOverView[i].storedWaterTemp
+
+  }
 
   const [thermalData, setThermalData] = useState({
     functionCode: "",
@@ -37,6 +74,9 @@ function HOTWaterControl() {
                       ('0' + now.getSeconds()).slice(-2);
   
   console.log(formattedDate);
+
+
+
 
   const handleThermalSubmit = async (event) => {
     event.preventDefault();
@@ -132,10 +172,10 @@ Recirculation Charge
 Discharge */}
 
 <div  class="row" style={{ margin:'30px',marginLeft:"100px",marginTop:"50px"}}>
-          <div style={{ display: 'inline-block'}} class="col-sm-4 mb-3 mb-sm-0">
+          <div style={{ display: 'inline-block'}} class="col-sm-5 mb-5 mb-sm-0">
       <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Instantaneous Control</b></h4>
       <br/>
-    <div class="card" style={{background:"white",width:"auto", height:"430px",marginLeft:"10px"}} >
+    <div class="card" style={{background:"white",width:"100%", height:"430px",marginLeft:"10px"}} >
       <div class="card-body" style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
       <form onSubmit={handleThermalSubmit} >
       &nbsp;
@@ -188,7 +228,52 @@ Discharge */}
     </div>
   </div>
   {/* ------------ */}
+  <div style={{ display: 'inline-block'}} class="col-sm-7 mb-7 mb-sm-0"> 
+  <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Overview</b></h4>
+  <br/>
+  <div> 
+    <div class="card" style={{background:"white",width:"100%",height:"430px",paddingTop:"70px"}}>
+      <div class="card-body" >
+      <table style={{ width: "100%", textAlign: "left"}}> 
+      <tbody>
+
+      <tr>
+          <td><p><b  style={{color:"teal",fontSize:"25px",fontWeight:"600"}}>Status</b></p></td>
+          <td><p>:</p></td>
+          <td><p style={{fontSize:"25px",fontWeight:"600",marginLeft:"5px"}}>{Status}</p></td>
+      </tr>
+    
+      <tr>
+          <td><h4><b  style={{color:"teal",fontSize:"25px",fontWeight:"600"}}>Mass of stored water</b></h4></td>
+          <td><p>:</p></td>
+          <td><p style={{fontSize:"25px",fontWeight:"600",marginLeft:"5px"}}>{MassOfStoredWater}</p></td>
+      </tr>
+ 
+      <tr>
+          <td><h4><b  style={{color:"teal",fontSize:"25px",fontWeight:"600"}}>Chiller 1 Status</b></h4></td>
+          <td><p>:</p></td>
+          {
+            Chiller1Status==="OFF"|| Chiller1Status== undefined ? <td><p style={{fontSize:"25px",fontWeight:"600",marginLeft:"5px"}}><CircleIcon  style={{color:"red",width:"24px",height:"24px",marginRight:"5px"}} />{Chiller1Status}</p></td>: <td><p style={{fontSize:"25px",fontWeight:"600",marginLeft:"5px"}}><CircleIcon  style={{color:"#33FF00",width:"24px",height:"24px",marginRight:"5px"}} />{Chiller1Status}</p></td>
+          }
+         
+      </tr>
+    
+      <tr>
+          <td><h4><b style={{color:"teal",fontSize:"25px",fontWeight:"600"}}>Stored Water Temperature</b></h4></td>
+          <td><p>:</p></td>
+          <td><p style={{fontSize:"25px",fontWeight:"600",marginLeft:"5px"}}>{StoredWaterTemperature}</p></td>
+      </tr>
+      
+      </tbody>
+      
+      </table> 
+      </div>
+      </div>
+    </div>
   </div>
+  </div>
+  
+      
 
     </div>
   )

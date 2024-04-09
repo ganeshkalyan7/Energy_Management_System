@@ -69,9 +69,9 @@ function RoofTopCard() {
     </div>
     <div class="row"> 
     <div class="col-6">
-      <h5>
+      <h6>
     <p style={{ textDecoration: 'underline !important', color: 'black',marginLeft:"10px" }}><b>Performance(%):</b></p>
-    </h5> 
+    </h6> 
     </div>
     </div>
   

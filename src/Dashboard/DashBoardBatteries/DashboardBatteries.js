@@ -8,6 +8,7 @@ import LTODashBoradBattery from './LTODashBoradBattery';
 import UPSDashBoardBattery from './UPSDashBoardBattery';
 import IOEDashBoardBattery from './IOEDashBoardBattery';
 import { GoTriangleDown } from "react-icons/go";
+import { RxTriangleDown } from "react-icons/rx";
 
 
 function DashboardBatteries() {
@@ -50,22 +51,22 @@ console.log(batterySelect)
   return (
     <div>
          <section className="maincontainer">
-         <div style={{position: "relative", width: "100%", height: "700px",  fontSize: "16px", color: "#fff",}}> 
- <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "800px",}}>
+         <div style={{position: "relative", width: "100%", height: "700px",  fontSize: "16px", color: "#fff",marginTop:"-50px"}}> 
+ <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "900px",}}>
 
  <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={1} >
         <Grid item xs={12} md={6}> 
-        <div style={{fontSize:"20px",fontWeight:"700",color:"#000",marginLeft:"5%",marginTop:"3%"}}>Batteries </div>
+        <div style={{fontSize:"18px",fontWeight:"600",color:"#2B2B2B",marginLeft:"5%",marginTop:"3%"}}>Batteries </div>
         </Grid>
         <Grid item xs={12} md={6}> 
-        <div style={{fontSize:"20px",fontWeight:"700",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today </div>
+        <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div>
         </Grid>
     
       </Grid>
      </Box>
      <select className="form-control" id="graphSelector" onChange={handleBatteryChange} value={batterySelect} style={{width:"110px",marginLeft:"2%",marginTop:"4%",textAlign:"center",fontWeight:"700"}}> 
-  <option selected value="IOE">IOE</option>
+  <option selected value="IOE">IOE </option>
   <option value="UPS">UPS</option>
   <option value="LTO">LTO</option>
 </select>
@@ -76,9 +77,10 @@ console.log(batterySelect)
   batterySelect === 'IOE' ? (
     <React.Fragment>
       <Grid item xs={12} md={6}> 
-      
+       
        <IOEDashBoardBattery/>
       </Grid>
+
       <Grid item xs={12} md={6}> 
         <LTODashBoradBattery/>
         
@@ -131,7 +133,7 @@ console.log(batterySelect)
 
 
 </Box>
-<div style={{position: "absolute", top: "65%", left: "5%", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "45%", height: "252px",}}>
+<div style={{position: "absolute", top: "60%", left: "5%", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "45%", height: "252px",}}>
 <Box sx={{ flexGrow: 1 }}>
 <Grid container spacing={1}> 
 {
@@ -175,12 +177,12 @@ batterySelect === 'IOE' ? (
 
   <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
   <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-  <p>We follow Ritvika</p>
+  <p>26/12/2023, 15:00 hrs</p>
   </div>
 
   <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
   <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-  <p>We follow Ritvika</p>
+  <p>26/12/2023, 15:00 hrs</p>
   </div>
   </div>
 

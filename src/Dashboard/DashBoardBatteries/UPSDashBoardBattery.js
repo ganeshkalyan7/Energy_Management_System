@@ -6,7 +6,7 @@ import group153 from '../../images/group-153.svg'
 import rectangle56 from "../../images/rectangle-56.svg"
 
 function UPSDashBoardBattery() {
-    const percentage = 80;
+    const percentage = 0;
     // Calculate the gradient color based on the percentage
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
   const UPSBattery = {
@@ -42,7 +42,7 @@ function UPSDashBoardBattery() {
 <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "23%", marginLeft:"5%",color: "#adadad",}}>
 <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "4px", border: "1px solid #adadad", boxSizing: "border-box", width: "132px", height: "25px",}} /> 
 <div style={{position: "absolute", top: "4px", left: "8px", fontWeight: "500",}}>Capacity</div> 
-<div style={{position: "absolute", top: "4px", left: "74px", fontWeight: "500",}}>800 kWh</div>
+<div style={{position: "absolute", top: "4px", left: "74px", fontWeight: "500",}}>48 kWh</div>
 </div>
      
      
@@ -74,7 +74,7 @@ function UPSDashBoardBattery() {
  </span>
 
 
- <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "20%", marginLeft:"17%",color: "#adadad",}}>
+ <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "20%", marginLeft:"17%",color: "#adadad",position:"absolute"}}>
  <button type="button" class="btn btn-outline-primary" style={{width:"100%"}}>Control</button>
 </div>
       </Grid>

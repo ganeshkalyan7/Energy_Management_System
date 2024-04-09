@@ -14,7 +14,7 @@ function BatteryHourly() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
     const [battery,setBattery]=useState([])
-    const BatteryData=`${dashboardAddress}Dashboard/upsBattery`
+    const BatteryData=`${dashboardAddress}/Dashboard/upsBattery`
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [singledaydata,setSingledaydata]=useState([])

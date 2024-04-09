@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import "./DashboardBatteries.css"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import group153 from '../../images/group-153.svg' 
 import rectangle56 from "../../images/rectangle-56.svg"
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 function IOEDashBoardBattery() {
+
+  const [clickedValue, setClickedValue] = useState(null);
+
+  const handleButtonClick = (value) => {
+    setClickedValue(value);
+  };
+
     const percentage = 70;
     // Calculate the gradient color based on the percentage
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
@@ -73,7 +82,22 @@ function IOEDashBoardBattery() {
  </span>
 
 
- <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "20%", marginLeft:"17%",color: "#adadad",}}>
+<div style={{marginTop:"18.4%",position: "absolute",marginLeft:"3%"}}> 
+<p style={{color:"#2B2B2B",marginLeft:"4%"}}>Strings</p>
+{/* {clickedValue && <p>Button {clickedValue} clicked</p>} */}
+<div style={{display:"flex",marginTop:"-15px"}}> 
+<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(1)}>1</button>
+<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(2)}>2</button>
+<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(3)}>3</button>
+<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(4)}>4</button>
+<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(5)}>5</button>
+
+</div>
+</div>
+
+
+
+ <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "20%", marginLeft:"22%",color: "#adadad",}}>
  <button type="button" class="btn btn-outline-primary" style={{width:"100%"}}>Control</button>
 </div>
       </Grid>

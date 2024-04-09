@@ -264,7 +264,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 
   return (
     <div>
-    <div   className="main" style={{marginRight:"30px",marginLeft:"30px",marginBottom:"50px"}} >
+    <div   className="main" style={{marginRight:"30px",marginLeft:"100px",marginBottom:"50px"}} >
 
   <div class="row"   >
     {/* ----------- */}
@@ -272,7 +272,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   <div class="col-sm-12 mb-3 mb-sm-0">
   <div class="container-fluid">
 
-  <div class="card1" style={{width: "100%", height: calculatedHeight,justifyContent: 'center', marginTop:'200px', background: 'white', color: "white"}} >
+  <div class="card1" style={{width: "100%", height: calculatedHeight,justifyContent: 'center', marginTop:'150px', background: 'white', color: "white"}} >
   <h3 style={{textAlign:"end",color:"#b03d2b",textAlign:"center",marginTop:"20px"}}><b>{currentdate}</b></h3>
 <div   class="card-body d-flex flex-column justify-content-center">
 <div class="row" >
@@ -282,7 +282,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 
         <ReactApexChart options={state.options} series={state.series} type="donut" width={'100%'} height={'400px'}  />
         <Link to='/peakgraph' style={{ textDecoration: 'none' }}> 
-        <p class="card-title" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', zIndex: 1 }}><b>Building Consumption</b></p>
+        <p class="card-title" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', zIndex: 1,whiteSpace: 'pre' }}><b>Building Consumption</b></p>
         </Link>
       </div>
 </div>
@@ -319,17 +319,17 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="col-6">
       <table> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"50px"}}>Wheeled in solar:</b></td>
-          <td style={{ fontSize: "25px",color:"black"}} >{Math.trunc(WheeledInsolar)}</td>
+          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Wheeled in solar:</b></td>
+          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.trunc(WheeledInsolar)}</td>
         </tr>
       </table>
     
     </div>
     <div class="col-6">
-    <table style={{marginLeft:"50px"}}> 
+    <table style={{marginLeft:"40px"}}> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c'}}>Diesel:</b></td>7
-          <td style={{ fontSize: "25px",color:"black"}} >{Diesel}</td>
+          <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600"}}>Diesel:</b></td>
+          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Diesel}</td>
         </tr>
       </table>
     </div>
@@ -341,17 +341,17 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="col-6">
       <table> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"50px"}}>Rooftop{' '} :</b></td> 
-          <td style={{ fontSize: "25px",color:"black"}} >{Math.trunc(RoofTopSolar)}</td>
+          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Rooftop{' '} :</b></td> 
+          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.trunc(RoofTopSolar)}</td>
         </tr>
       </table>
     
     </div>
     <div class="col-6">
-    <table style={{marginLeft:"50px"}}> 
+    <table style={{marginLeft:"40px"}}> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c'}}>Grid{' '} :</b></td>
-          <td style={{ fontSize: "25px",color:"black"}} >{Math.round(Grid)}</td>
+          <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600"}}>Grid{' '} :</b></td>
+          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.round(Grid)}</td>
         </tr>
       </table>
     </div>
@@ -364,17 +364,17 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="col-6">
       <table > 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"50px"}}>Power Factor(Min){' '} :</b></td>
-          <td style={{ fontSize: "25px",color:"black"}} > {PowerFactor_min}</td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Power Factor(Min){' '} :</b></td>
+          <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} > {PowerFactor_min}</td>
         </tr>
       </table>
     
     </div>
     <div class="col-6">
-    <table style={{marginLeft:"50px"}} > 
+    <table style={{marginLeft:"40px"}} > 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c'}}>Power Factor(Avg){' '} :</b></td>
-          <td style={{ fontSize: "25px",color:"black"}} >{PowerFactor_avg}</td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',fontWeight:"600"}}>Power Factor(Avg){' '} :</b></td>
+          <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} >{PowerFactor_avg}</td>
         </tr>
       </table>
     </div>

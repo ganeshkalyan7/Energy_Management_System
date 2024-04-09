@@ -19,9 +19,32 @@ import { TbRectangleFilled } from "react-icons/tb";
 import { nodeAdress,dashboardAddress } from '../../ipAdress';
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import axios from 'axios';
+import { Doughnut } from 'react-chartjs-2';
+
+
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 function DashBoardSecoundLayer() {
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(new Date(date));
+    // You can perform additional actions when the date changes
+    // For example, fetch data for the selected date
+  };
+
+
+        // Function to format date to "dd/mm/yyyy" format
+        const formatDate = (date) => {
+          return date.toLocaleDateString('en-GB');
+        };
+      
 
 
   const [selectorWeekMonth,setSelectorWeekMonth]=useState("This Week")
@@ -150,8 +173,6 @@ console.log(values)
 
 
 
-
-
   
   const state = {
     series: values.map((data) => data),
@@ -189,33 +210,29 @@ console.log(values)
       },
       plotOptions: {
         pie: {
-          series: {
-            innerSize: '90%', // Adjust this value to reduce the inner size
+          donut: {
+            size: '35%', // Outer size of the donut chart
           },
           customScale: 0.9, // adjust the size of the donut circle
           dataLabels: {
-            enabled: true,
-            position: 'center',
-            offsetX: 0,
-            offsetY: 0,
-            style: {
-              fontSize: '20px',
-              fontWeight: 'bold',
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              fill: 'black', // Set the text color to black
-              textAnchor: 'middle',
-            },
-            formatter: function(val) {
-              return '<tspan dy="0">' + state.options.title.text + '</tspan>';
+            enabled: false
+          },
+          events: {
+            click: function (event, chartContext, config) {
+              // Check if the clicked label is 'Grid'
+              if (config.seriesIndex === 0) {
+                alert('Grid clicked!');
+                // You can add any other logic you want to perform on click
+              }
             }
-          }
+          },
         },
         stroke: {
           width: 100, // Adjust this value to increase/decrease the thickness
           colors: undefined, // You can also specify the color of the stroke if needed
         },
       },      
-      colors: ['#7d615f', '#9D86A5', '#e68240', '#546E7A'],
+      colors: ['#7d615f', '#9D86A5', '#F17E50', '#303030'],
     },
   };
 
@@ -223,6 +240,11 @@ console.log(values)
   // <div class="bar clients" style={{width: '55%',background:"#F99E7D", color:"#F99E7D"}}>88</div>
   // <div class="bar chillers" style={{width: '15%',background:"#9D86A5",}}></div>
   
+
+  const now = new Date();
+const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+const [month, day, year] = local.split("/"); // Split the date by "/"
+const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
 
   return (
@@ -243,19 +265,31 @@ console.log(values)
                 <Box sx={{ flexGrow: 1 }} style={{marginTop:"25px"}}>
 
 
-                  <Grid container spacing={1}>
-                    <Grid item xs={9}>
+                  <Grid container spacing={-2}>
+                    <Grid item xs={10}>
                       <span style={{fontSize:"48px",fontWeight:"600",}}>{RenewableEnergy}%</span>
                       <p style={{marginTop:"-5px",color:"#ADADAD",fontSize:"16px",fontWeight:"500"}}>Renewable Energy</p>
 
 
                     </Grid>
-                    <Grid item xs={3} style={{marginTop:"25px"}} >
+                    <Grid item xs={2} style={{marginTop:"25px"}} >
+                      <div style={{display:"flex",marginLeft:"10px"}}>
                       {
-                        ThisWeekMonthPercentage>0?<span style={{fontSize:"22px",fontWeight:"600",color:"#21D544",marginTop:"50px"}}><b> {ThisWeekMonthPercentage >0?<FaArrowUp/>:<FaArrowDown color='#21D544'/>}  <b>{ThisWeekMonthPercentage}%</b></b></span>:  <span style={{fontSize:"22px",fontWeight:"600",color:"#E80707"}}><b> {ThisWeekMonthPercentage >0?<FaArrowUp/>:<FaArrowDown color='#E80707'/>}  <b>{(ThisWeekMonthPercentage)*-1}%</b></b></span>
+                        ThisWeekMonthPercentage>0?<div style={{fontSize:"22px",fontWeight:"600",color:"#21D544"}}><FaArrowUp/> <b>{Math.round(ThisWeekMonthPercentage)}</b></div>:<div style={{fontSize:"22px",fontWeight:"600",color:"#E80707"}}><FaArrowDown/> <b>{Math.round(ThisWeekMonthPercentage)*-1}</b></div>
+                      } 
+                      
+                      {
+                        ThisWeekMonthPercentage>0? <div style={{position:"absolute",marginLeft:"55px",fontSize:"22px",fontWeight:"800",color:"#21D544"}}>%</div>: <div style={{position:"absolute",marginLeft:"55px",fontSize:"22px",fontWeight:"800",color:"#E80707"}}>%</div>
                       }
-
-                      <p style={{fontSize:"14px",fontWeight:"500",color:"#ADADAD",marginLeft:"-10px",marginTop:"-3px"}}>{selectorWeekMonth}   <span  style={{cursor:"pointer"}}><GoTriangleDown onClick={selectorWeekMonthReq}/></span></p>
+                     
+                      </div>
+                    
+                    
+                    <div style={{display:"flex"}}> 
+                    <div style={{fontSize:"14px",fontWeight:"500",color:"#ADADAD",marginLeft:"-13px",marginTop:"-3px",position:"absolute"}}>{selectorWeekMonth}</div>
+                    <div  style={{cursor:"pointer",position:"absolute",marginTop:"-5px"}}><GoTriangleDown onClick={selectorWeekMonthReq} style={{marginLeft:"65px",paddingTop:"-10px",color:"#ADADAD"}}/></div>
+                    </div>
+                     
                     </Grid>
                   </Grid>
                 </Box>
@@ -265,18 +299,17 @@ console.log(values)
 
 
             </div>
-            {/* <br/> */}
-            <div style={{marginLeft: "7.4%"}}> 
-            <span style={{marginLeft:`${(RenewableEnergy)-3}%`,color: "#adadad",fontWeight:"500",fontSize:"14px"}}><RxTriangleDown size="23px"/> Present </span>
-  <span style={{marginLeft:"87%",color: "#adadad",fontWeight:"600"}}>Goal</span>
-  {/* <span style={{marginTop:"-35px"}}>present</span> */}
+            <div style={{marginLeft: "7.4%",marginTop:"20px"}}> 
+            <span style={{marginLeft:`${(RenewableEnergy)-3}%`,color: "#adadad",fontWeight:"500",fontSize:"14px",position:"relative"}}><span><RxTriangleDown size="23px" />Present</span> </span>
+        </div>
+
+  
 
 
-</div>
 
-
-<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: "7.4%" }}>
+<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: "7.4%",marginTop:"-20px" }}>
   <Box sx={{ width: '94%', mr: 1 }} >
+  <span style={{marginLeft:"93%",fontSize:"14px",fontWeight:"500",color: "#adadad"}}>Goal</span>
 
     <LinearProgress variant="determinate" value={Number(RenewableEnergy)} sx={{ '& .MuiLinearProgress-bar': { backgroundColor: '#21D544;' }, height: '16px', background: '#F7F7F7' }} />
   </Box>
@@ -297,11 +330,16 @@ console.log(values)
 
 <div style={{width:"87%", marginLeft: "7.4%",background:"#F5F5F5",borderRadius:"10px",marginTop:"3%",height:"120px",paddingTop:"2%",paddingLeft:"3% "}}>
 <span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "center" }}>Renewables Share </span>
-  <div style={{width:"95%",borderRadius:"5px",marginTop:"15px"}}> 
+  <div style={{width:"97%",borderRadius:"5px",marginTop:"15px"}}> 
 
   <div class="bar-container" style={{display:"flex"}}>
-       <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>
-       <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
+    {
+      WheeledWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>:  <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>
+    }
+     {
+      RoofWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>: <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
+     }
+      
        {/* <div class="bar white" style={{width: `${WindWeekMonth}%`}}><b>Wind</b></div>  */}
    </div>
    <div class="bar-container" style={{display:"flex",width:"100%",textAlign:"center",height:"16px"}}>
@@ -310,8 +348,14 @@ console.log(values)
        {/* <div class="bar utilities" style={{width: `${WindWeekMonth}%`,background:"#21355e",}}></div> */}
    </div>
    <div class="bar-container" style={{display:"flex"}}>
-       <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>
-       <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>
+    {
+      WheeledWeekMonth===0||undefined?<div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>:<div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>
+    }
+       
+    {
+      RoofWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>: <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>
+    }
+      
        {/* <div class="bar white" style={{width: `${WindWeekMonth}`}}><b>{WindWeekMonth}</b></div>  */}
    </div>
     
@@ -339,18 +383,27 @@ console.log(values)
                     
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop</p>
              
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#e68240' size="30px"/> wheeled in solar</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#F17E50' size="30px"/> wheeled in solar</p>
                    
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#e68240' size="30px"/> Diesel</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#303030' size="30px"/> Diesel</p>
 
                     <div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"90%",height:"300px",width:"0.3px",marginTop:"-350px"}}></div>
                    
     </Grid>
   <Grid item xs={6}>
-                    <span style={{ marginLeft: "55%", fontFamily: 'Poppins', fontSize: '14px', fontWeight: '400', color: "#adadad" }}>
-                      01/03/2024
+                    <span style={{ marginLeft: "55%", fontFamily: 'Poppins', fontSize: '14px', fontWeight: '400', color: "#adadad",width:"100px" }}>
+                    {/* {currentdate} */}
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                 <DemoContainer components={['DatePicker']} className="input"> 
+                 <DatePicker
+      label={currentdate}
+      selected={selectedDate}
+      onChange={handleDateChange}
+      />
+      </DemoContainer>   
+               </LocalizationProvider>
                     </span>
-                    <br />
+                 
                     <div style={{ marginTop: "10%",paddingTop:"10%" }}>
                       <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} justifyContent="space-between">

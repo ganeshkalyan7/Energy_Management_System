@@ -154,9 +154,9 @@ const LtoLogsLogPopup = () => {
 
 
   return (
-    <div>
-      <div> 
-      <button type="submit" class="btn btn-dark bt-lg" style={{height:"40px",width:"300px"}} onClick={LtoLogsLogPopup}><b>Lto Logs</b></button>
+    <div style={{marginTop:"90px",marginLeft:"90px",overflowX: "hidden"}}>
+      <div style={{marginLeft:""}}> 
+      <button type="submit" class="btn btn-dark bt-lg" style={{height:"40px",width:"300px",marginLeft:"60px"}} onClick={LtoLogsLogPopup}><b>Lto Logs</b></button>
       </div>
       <div >
         <h2 style={{fontSize:"30px",textAlign:"center"}}><b>LTO Battery Control</b></h2>
@@ -323,9 +323,9 @@ const LtoLogsLogPopup = () => {
   
 </div>
 
-<div id="tableFilte" style={{marginTop:"50px"}}>
+{/* <div id="tableFilte" style={{marginTop:"50px"}}>
   <TableFilte/>
-</div>
+</div> */}
     </div>
   )
 }

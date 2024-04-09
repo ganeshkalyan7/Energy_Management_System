@@ -569,7 +569,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
 
   return (
-    <div >
+    <div style={{marginLeft:"80px",marginRight:"20px"}} >
 {/* style={{background:"#252440"}} */}
 
       <div> 

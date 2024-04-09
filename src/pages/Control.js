@@ -463,7 +463,7 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
 
   return (
     <>
-    <div> 
+    <div style={{marginTop:"80px",marginLeft:"40px"}}> 
       {/* <div className="battery-icon">
         
         <div className="battery-level" style={{ height: `${Math.round(packSoc[packSoc.length - 1])}%` }}></div>
@@ -484,7 +484,7 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
       </div>
       <br/>
 
-      <div  class="row" style={{ marginLeft:'50px',marginRight:'50px'}}>
+      <div  class="row" style={{ marginLeft:'50px',marginRight:'10px'}}>
          
       <div style={{ display: 'inline-block' }} class="col-sm-6 mb-3 mb-sm-0">
   <h4 style={{ textAlign: "center" }}><b style={{ color: "brown" }}>Overview</b></h4>

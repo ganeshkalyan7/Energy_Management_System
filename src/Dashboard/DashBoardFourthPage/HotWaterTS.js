@@ -15,6 +15,13 @@ import InfoIcon from '@mui/icons-material/Info';
 import CircleIcon from '@mui/icons-material/Circle';
 import { FaToggleOn } from "react-icons/fa";
 import axios from 'axios';
+import { MdOutlineInfo } from "react-icons/md";
+import { RxTriangleDown } from "react-icons/rx";
+import {dashboardAddress,bmssAdress} from "../../ipAdress"
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
@@ -22,10 +29,77 @@ import axios from 'axios';
 // Hot Tank.png
 
 function HotWaterTS() {
-  const HotWater_API="http://localhost:5002/HOTWaterStorage"
-  const HOTWaterStatus_API="http://localhost:5002/HOTWaterStorage/Status"
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+
+  const handleDateChange = (date) => {
+    setSelectedDate(new Date(date));
+    // You can perform additional actions when the date changes
+    // For example, fetch data for the selected date
+  };
+
+  const HotWater_API=`${dashboardAddress}/HOTWaterStorage`
+  const HOTWaterStatus_API=`${dashboardAddress}/HOTWaterStorage/Status`
+  const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
   const [hotWaterStorageResponse,setHotWaterStorageResponsed]=useState([])
+  const [ColdWaterStorageResponse,setColdWaterStorageResponse]=useState([])
   const [hotWaterStorageStatusResponse,setHotWaterStorageStatusResponsed]=useState([])
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(ColdWaterStorage_API);
+        const dataResponse = res.data;
+        setColdWaterStorageResponse(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    // Initial data fetch
+    fetchData();
+
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+console.log(ColdWaterStorageResponse)
+
+
+let tsInletTemperature=0
+let tsOutletTemperature=0
+let tsStoredWaterTemperature=0
+let TotaldischargingEnergy=0
+let TotalchargingEnergy=0
+let Status=""
+
+for(let i=0;i<ColdWaterStorageResponse.length;i++){
+  tsInletTemperature=ColdWaterStorageResponse[i].tsInletTemperature
+  tsOutletTemperature=ColdWaterStorageResponse[i].tsOutletTemperature
+  tsStoredWaterTemperature=ColdWaterStorageResponse[i].tsStoredWaterTemperature
+  TotaldischargingEnergy=ColdWaterStorageResponse[i].coolingEnergy
+  TotalchargingEnergy=ColdWaterStorageResponse[i].chargingEnergy
+
+  if(ColdWaterStorageResponse[i].Status==="DCHG"){
+    Status="Discharging"
+
+  }
+  else if(ColdWaterStorageResponse[i].Status==="CHG"){
+    Status="charging"
+  }
+  else if(ColdWaterStorageResponse[i].Status==="IDLE"){
+    Status="OFF"
+    }
+
+}
+
+
+
 
 
 
@@ -48,17 +122,23 @@ function HotWaterTS() {
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
+
+
+
   
   let storedwatertemperature=0
   let DeliveryTemperature=0
   let Deliveryflowrate=0
   let Mass_of_storedwater=0
+ 
 
   for(let i=0;i<hotWaterStorageResponse.length;i++){
     storedwatertemperature=hotWaterStorageResponse[i].storedwatertemperature
     DeliveryTemperature=hotWaterStorageResponse[i].DeliveryTemperature
     Deliveryflowrate=hotWaterStorageResponse[i].Deliveryflowrate
     Mass_of_storedwater=hotWaterStorageResponse[i].Mass_of_storedwater
+
+  
 
   }
 
@@ -98,13 +178,13 @@ function HotWaterTS() {
       
           <Grid item xs={12} md={6}>
           <div > 
-     <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",}} >
-        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "497px",}} />
+     <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",marginTop:"-15px"}} >
+        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px",}} />
         <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "100%", height: "348px",}}>
           <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Cold Water Storage </b><span ><b><InfoIcon size="5%" color='black'/></b></span></span>
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Cold Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
 
-           <span style={{textAlign:"end",marginLeft:"80%",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Today</b></span>
+           <span style={{textAlign:"end",marginLeft:"85%",position: "absolute",fontSize: "14px", fontWeight: "500", color: "#fff",top:"5%"}}>Today<span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span></span>
            </div>
           
            <div > 
@@ -115,30 +195,35 @@ function HotWaterTS() {
            <Grid item xs={12} md={6}>
             
            <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "600", color: "#fff"}}>
-            Total Electrical Energy
-            <p>0 kWh</p>
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
+            Total Charging Energy
+            <p style={{fontWeight: "600",fontSize:"14px",}}>  {TotalchargingEnergy==null?0:TotalchargingEnergy} kWh</p>
             </span>
             
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "600", color: "#fff"}}>
-            Total Cooling Energy
-            <p>0 kWh</p>
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "500",fontSize:"14px", color: "#fff"}}>
+            Total Discharging Energy
+            <p  style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(TotaldischargingEnergy)} kWh</p>
             </span>
             
 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"80%", fontWeight: "800", color: "#fff"}}>
-            <CircleIcon style={{color:"#2cf243"}} />
-            <span style={{marginLeft:"5px",fontSize: "20px"}}><b>ON</b></span>
+            <span style={{textAlign:"start",marginLeft:"27px",position: "absolute",top:"87%", fontWeight: "800", color: "#fff"}}>
+            
+            {
+              Status==="OFF"?<CircleIcon  style={{color:"red",width:"20px",height:"20px"}} />:<CircleIcon  style={{color:"#33FF00",width:"20px",height:"20px"}} />
+            } 
+            
+            
+            <span style={{marginLeft:"5px",fontSize: "14px",fontWeight:"600"}}><b>{Status}</b></span>
             </span> 
          
            <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%"}}>
             <Box sx={{ flexGrow: 1 }}> 
             <Grid container spacing={1}>
             <Grid item  md={12}>
-            <span style={{textAlign:"start",position:"relative", fontWeight: "700", fontSize:"20px", color: "#000000"}}>
-            Stored Water Temperature
-            <p>0° C</p>
-            </span>
+              <span style={{textAlign:"start",position:"relative", fontWeight: "500", fontSize:"16px", color: "#000000",marginLeft:"10px"}}>
+              Stored Water Temperature
+              <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{tsStoredWaterTemperature}° C</p>
+              </span>
             </Grid>
             {/* <Grid item  md={3}>
             <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
@@ -169,16 +254,16 @@ function HotWaterTS() {
       
                
   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
-      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px"}} >
-        Inlet Flow Rate
-        <p>0 Kwh</p>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px",paddingTop:"5px"}} >
+        <div style={{fontSize:"14px",fontWeight:"500"}}>Inlet Flow Rate</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} Kwh</div>
         </span>
       
   </div>
-  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "150px", height: "50px",textAlign:"center",marginTop:"13px"}} >
-        Outlet Flow Rate
-        <p>0 Kwh</p>
+  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
+      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"20px",paddingTop:"5px"}} >
+        <div style={{fontSize:"14px",fontWeight:"500"}}>Outlet Flow Rate</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} Kwh</div>
         </span>
       
   </div>
@@ -216,13 +301,28 @@ function HotWaterTS() {
            </Grid>
            <Grid item xs={12} md={6}>
           <div > 
-     <div style={{position: "relative", width: "100%", height: "497px", left:"5px", fontSize: "16px", color: "#fff",}} >
-        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "497px",}} />
+     <div style={{position: "relative", width: "100%", height: "497px", left:"5px", fontSize: "16px", color: "#fff",marginTop:"-15px"}} >
+        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px",}} />
         <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px",}}>
           <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Hot Water Storage </b><span ><b><InfoIcon size="5%" color='black'/></b></span></span>
+          <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Hot Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
 
-           <span style={{textAlign:"end",marginLeft:"80%",position: "absolute",fontSize: "16px", fontWeight: "600", color: "#fff",top:"5%"}}><b>Today</b></span>
+           
+           <span style={{textAlign:"end",marginLeft:"65%",position: "absolute",fontSize: "14px", fontWeight: "500", color: "#fff",top:"1%"}}>
+
+           <div   style={{ width: "200px",height:"500px"}}>
+                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+                 <DemoContainer components={['DatePicker']} className="input"> 
+                 <DatePicker
+      label="Past 24 Hours"
+      selected={selectedDate}
+      onChange={handleDateChange}
+      
+      />
+      </DemoContainer>   
+               </LocalizationProvider>
+               </div>
+           </span>
            </div>
           
            <div > 
@@ -233,29 +333,29 @@ function HotWaterTS() {
            <Grid item xs={12} md={6}>
             
            <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "600", color: "#fff"}}>
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
             Mass of stored water
-            <p>{Mass_of_storedwater} kWh</p>
+            <p style={{fontWeight: "600",fontSize:"14px",}}>{Mass_of_storedwater} kWh</p>
             </span>
             
             
 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"85%", fontWeight: "800", color: "#fff"}}>
+            <span style={{textAlign:"start",marginLeft:"27px",position: "absolute",top:"87%", fontWeight: "800", color: "#fff"}}>
               
               {
-                HOTWaterStaus==="OFF"?<CircleIcon style={{color:"red"}} />:<CircleIcon style={{color:"#2cf243"}} />
+                HOTWaterStaus==="OFF"?<CircleIcon style={{color:"red",width:"20px",height:"20px"}} />:<CircleIcon style={{color:"#33FF00",width:"20px",height:"20px"}} />
               }
               
-            <span style={{marginLeft:"5px",fontSize: "20px"}}><b>{HOTWaterStaus}</b></span>
+            <span style={{marginLeft:"5px",fontSize: "14px",fontWeight:"600"}}><b>{HOTWaterStaus}</b></span>
             </span>
          
            <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%",width:"100%"}}>
             <Box sx={{ flexGrow: 1 }}> 
             <Grid container spacing={1}>
             <Grid item  md={7}>
-            <span style={{textAlign:"start",position:"relative", fontWeight: "700", fontSize:"20px", color: "#000000"}}>
+            <span style={{textAlign:"start",position:"relative", fontWeight: "500", fontSize:"16px", color: "#000000",marginLeft:"10px"}}>
             Stored Water Temperature
-            <p>{storedwatertemperature}° C</p>
+            <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{storedwatertemperature}° C</p>
             </span>
             </Grid>
             {/* <Grid item  md={5}>
@@ -317,14 +417,14 @@ function HotWaterTS() {
 <div tyle={{marginTop:"100px",position:"absolute"}}>
 <div style={{position: "absolute", top: "22%", left: "52%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "166px", height: "53px", mixBlendMode: "normal",}} >
 
-<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",}}>Delivery Flow Rate</div>
+<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Delivery Flow Rate</div>
 <div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Deliveryflowrate} m<sup>3</sup>/h</div>
 </div>
 
 
-<div style={{position: "absolute", top: "65%", left: "25%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
+<div style={{position: "absolute", top: "65%", left: "25%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
 
-<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",}}>DeliveryTemperature</div>
+<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>DeliveryTemperature</div>
 <div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{DeliveryTemperature} ° C</div>
 </div>
           

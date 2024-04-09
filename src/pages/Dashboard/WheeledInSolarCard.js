@@ -58,7 +58,7 @@ function WheeledInSolarCard() {
       <div class="container">
   <div class="row">
     <div class="col-6">
-    <h5 class="card-title" style={{color:"#145369"}}><b>Wheeled in Solar </b></h5>
+    <h5 class="card-title" style={{color:"#145369",fontSize:"20px",fontWeight:"600",whiteSpace: 'pre'}}><b>Wheeled in Solar </b></h5>
     </div>
     <div class="col-6" >
     {/*
@@ -73,9 +73,9 @@ function WheeledInSolarCard() {
     </div>
     <div class="row"> 
     <div class="col-6">
-      <h5>
+      <h6>
     <p style={{ textDecoration: 'underline !important', color: 'black',marginLeft:"10px" }}><b>Performance(%):</b></p>
-    </h5> 
+    </h6> 
     </div>
 
     </div>

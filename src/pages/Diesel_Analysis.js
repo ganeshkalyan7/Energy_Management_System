@@ -215,7 +215,7 @@ const now = new Date();
 const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
 
   return (
-    <div style={{margin:"30px"}}>
+    <div style={{marginTop:"100px",marginLeft:"80px",marginRight:"20px"}}>
     <div> 
 
 <div> <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Diesel  Energy Analytics</h5></div>

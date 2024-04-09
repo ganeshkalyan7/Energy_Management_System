@@ -85,7 +85,7 @@ console.log(alerts)
 
 
   return (
-    <div> 
+    <div style={{marginTop:"90px",marginLeft:"80px"}}> 
     <div >
         <h1 style={{textAlign:'center',marginTop:"30px"}}><b>Alert Logs</b></h1>
       </div>

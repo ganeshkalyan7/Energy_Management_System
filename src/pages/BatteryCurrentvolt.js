@@ -440,7 +440,14 @@ const option = {
   // ...
 };
 
-    
+  
+
+const now = new Date();
+  const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+  const [month, day, year] = local.split("/"); // Split the date by "/"
+  const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
+//const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
+
   return (
     <div>
               <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
@@ -448,7 +455,8 @@ const option = {
   <div className="input-group-prepend" style={{width:"300px",marginLeft:"30px"}}>
       <div className="input-group-prepend">
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b>Date :-</b></h5><DatePicker id="date" selected={voltcurrentfilterDate} onChange={handleEndDateChange} />
+          {/* <h5 style={{color:"brown"}}><b>Date :-</b></h5><DatePicker id="date" selected={voltcurrentfilterDate} onChange={handleEndDateChange} /> */}
+          <h6 style={{color:"brown",marginTop:"10px"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={voltcurrentfilterDate} onChange={handleEndDateChange} style={{ width: "200px" }}  placeholderText={currentdate}  />
         </label>
       </div>
      
