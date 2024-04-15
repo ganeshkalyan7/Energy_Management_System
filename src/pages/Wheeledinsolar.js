@@ -14,7 +14,7 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,analyticsAdress } from '../ipAdress';
 
 function WheeledInsolar() {
   exportingInit(Highcharts);
@@ -24,8 +24,8 @@ function WheeledInsolar() {
     const [singledaydata,setSingledaydata]=useState([])
     const [wmsMeterdata,setWmsMeterdata]=useState([])
     const [loading, setLoading] = useState(false);
-    const inveterApi=`${nodeAdress}/initial/wheeledinsolr`
-    const WmsMeterResponse=`${nodeAdress}/initialgraph/wmsMeter`
+    const inveterApi=`${analyticsAdress}/Analysis/InverterHourly`
+    const WmsMeterResponse=`${analyticsAdress}/Analysis/Wheeledin`
 
 
     const [inverterInitial,setInverterInitial]=useState([])
@@ -48,8 +48,8 @@ function WheeledInsolar() {
       setLoading(true);
       try {
         const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
-        const response = await axios.post(`${nodeAdress}/singleday/wheeledinsolr`, { date: formattedDate });
-        const meterresponse = await axios.post(`${nodeAdress}/wmsMeter/graphs`, { date: formattedDate });
+        const response = await axios.post(`${analyticsAdress}/Analysis/InverterHourly/Filtered`, { date: formattedDate });
+        const meterresponse = await axios.post(`${analyticsAdress}/Analysis/Wheeledin/Filtered`, { date: formattedDate });
         
         setSingledaydata(response.data);
         console.log(singledaydata)
@@ -99,773 +99,195 @@ function WheeledInsolar() {
     // const filterValue=selectedDate===null?inverterInitial:singledaydata
     // console.log(filterValue)
 
-  
-  //---------------data processing for graph for data filters------------------------//
-    const graphdata=[]
-    const singlegrahdata=[]
-     let  INV1=[]
-    var INV2=[]
-    var INV3=[]
-    var INV4=[]
-    var INV5=[]
-    var INV6=[]
-    var INV7=[]
-    var INV8=[]
-   
-
-    const inverterOne=[]
-    const inverterTwo=[]
-    const inverterThree=[]
-    const inverterFour=[]
-    const inverterFive=[]
-    const inverterSix=[]
-    const inverterSeven=[]
-    const inverterEight=[]
-
-    
-    
-  for(let i=0;i<singledaydata.length;i++){
-    INV1.push(singledaydata[i].INV1)
-    INV2.push(singledaydata[i].INV2)
-    INV3.push(singledaydata[i].INV3)
-    INV4.push(singledaydata[i].INV4)
-    INV5.push(singledaydata[i].INV5)
-    INV6.push(singledaydata[i].INV6)
-    INV7.push(singledaydata[i].INV7)
-    INV8.push(singledaydata[i].INV8)
-    const inverter1=INV1[0]
-    for (let i = 0; i < inverter1.length; i++) {
-      inverterOne.push(inverter1[i])
-    }
-    const inverter2=INV2[0]
-    for(let i=0;i<inverter2.length;i++){
-      inverterTwo.push(inverter2[i])
-
-    }
-    const inverter3=INV3[0]
-    for(let i=0;i<inverter3.length;i++){
-      inverterThree.push(inverter3[i])
-
-    }
-
-    const inverter4=INV4[0]
-    for(let i=0;i<inverter4.length;i++){
-      inverterFour.push(inverter4[i])
-
-    }
-
-    const inverter5=INV5[0]
-    for(let i=0;i<inverter5.length;i++){
-      inverterFive.push(inverter5[i])
-
-    }
-    const inverter6=INV6[0]
-    for(let i=0;i<inverter6.length;i++){
-      inverterSix.push(inverter6[i])
-
-    }
-
-    const inverter7=INV7[0]
-    for(let i=0;i<inverter7.length;i++){
-      inverterSeven.push(inverter7[i])
-
-    }
-    const inverter8=INV8[0]
-    for(let i=0;i<inverter8.length;i++){
-      inverterEight.push(inverter8[i])
-
-    }
-    for(let i=0;i<inverter1.length;i++){
-      const date = new Date(inverter1[i].polledtime);
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      const timestamp = `${hours}:${minutes}`;
-       // Splitting the time into hours and minutes
-       var [converthours, convertminutes] = timestamp.split(":");
-
-       // Converting the hours and minutes to integers
-        var parsehours = parseInt(converthours, 10);
-        var parseminutes = parseInt(convertminutes, 10);
-
-    // Rounding off the time
-    if (parseminutes >= 30) {
-     parsehours += 1;
-       }
-
-// Formatting the rounded time
-var roundedTime = parsehours.toString().padStart(2, "0") + ":00";
-      graphdata.push({"inverterTimestamp":roundedTime})
-    }
-
-
-  }
-  //handlesingledaySubmit()
-  console.log(singledaydata)
-  console.log(graphdata)
-  
-  console.log(wmsMeterdata)
-  //---------------------------------end of process------------------//
-
-  //-----------------data processing for initial graph---------------//
-  const initialgraphdata=[]
-  const initialsinglegrahdata=[]
-   let  CurrentINV1=[]
-  var CurrentINV2=[]
-  var CurrentINV3=[]
-  var CurrentINV4=[]
-  var CurrentINV5=[]
-  var CurrentINV6=[]
-  var CurrentINV7=[]
-  var CurrentINV8=[]
  
-
-  const CurrentinverterOne=[]
-  const CurrentinverterTwo=[]
-  const CurrentinverterThree=[]
-  const CurrentinverterFour=[]
-  const CurrentinverterFive=[]
-  const CurrentinverterSix=[]
-  const CurrentinverterSeven=[]
-  const CurrentinverterEight=[]
-
+  const InverterData={
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: null
+    },
+    // subtitle: {
+    //     text: 'Source: WorldClimate.com'
+    // },
+    xAxis: {
+        categories: selectedDate ==null?inverterInitial.map((Time)=>Time.polledTime):singledaydata.map((Time)=>Time.polledTime),
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Diesel Energy(kWh)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'inverter1',
+        data:selectedDate == null ? inverterInitial.map((value)=>(value.inverter1)):singledaydata.map((value)=>(value.inverter1)),
+        marker: {
+          enabled: false, // Disable markers for the series
+        },
+        //type: 'column'
   
+    },
+    {
+      name: 'inverter2',
+      data: selectedDate == null ? inverterInitial.map((value)=>(value.inverter2)):singledaydata.map((value)=>(value.inverter2)),
+      marker: {
+        enabled: false, // Disable markers for the series
+      },
+      //type: 'column'
   
-for(let i=0;i<inverterInitial.length;i++){
-  CurrentINV1.push(inverterInitial[i].INV1)
-  CurrentINV2.push(inverterInitial[i].INV2)
-  CurrentINV3.push(inverterInitial[i].INV3)
-  CurrentINV4.push(inverterInitial[i].INV4)
-  CurrentINV5.push(inverterInitial[i].INV5)
-  CurrentINV6.push(inverterInitial[i].INV6)
-  CurrentINV7.push(inverterInitial[i].INV7)
-  CurrentINV8.push(inverterInitial[i].INV8)
-  const inverter1=CurrentINV1[0]
-  for (let i = 0; i < inverter1.length; i++) {
-    CurrentinverterOne.push(inverter1[i])
-  }
-  const inverter2=CurrentINV2[0]
-  for(let i=0;i<inverter2.length;i++){
-    CurrentinverterTwo.push(inverter2[i])
+  },
+  {
+    name: 'inverter3',
+    data: selectedDate == null ? inverterInitial.map((value)=>(value.inverter3)): singledaydata.map((value)=>(value.inverter3)),
+    marker: {
+      enabled: false, // Disable markers for the series
+    },
+    //type: 'column'
 
-  }
-  const inverter3=CurrentINV3[0]
-  for(let i=0;i<inverter3.length;i++){
-    CurrentinverterThree.push(inverter3[i])
+},
+{
+    name: 'inverter4',
+    data:selectedDate == null ? inverterInitial.map((value)=>(value.inverter4)):singledaydata.map((value)=>(value.inverter4)),
+    marker: {
+      enabled: false, // Disable markers for the series
+    },
+    //type: 'column'
 
-  }
+},
+{
+    name: 'inverter5',
+    data: selectedDate == null ? inverterInitial.map((value)=>(value.inverter5)):singledaydata.map((value)=>(value.inverter5)),
+    marker: {
+      enabled: false, // Disable markers for the series
+    },
+    //type: 'column'
 
-  const inverter4=CurrentINV4[0]
-  for(let i=0;i<inverter4.length;i++){
-    CurrentinverterFour.push(inverter4[i])
+},
+{
+  name: 'inverter6',
+  data:selectedDate == null ? inverterInitial.map((value)=>(value.inverter6)):singledaydata.map((value)=>(value.inverter6)),
+  marker: {
+    enabled: false, // Disable markers for the series
+  },
+  //type: 'column'
 
-  }
-
-  const inverter5=CurrentINV5[0]
-  for(let i=0;i<inverter5.length;i++){
-    CurrentinverterFive.push(inverter5[i])
-
-  }
-  const inverter6=CurrentINV6[0]
-  for(let i=0;i<inverter6.length;i++){
-    CurrentinverterSix.push(inverter6[i])
-
-  }
-
-  const inverter7=CurrentINV7[0]
-  for(let i=0;i<inverter7.length;i++){
-    CurrentinverterSeven.push(inverter7[i])
-
-  }
-  const inverter8=CurrentINV8[0]
-  for(let i=0;i<inverter8.length;i++){
-    CurrentinverterEight.push(inverter8[i])
-
-  }
-  for(let i=0;i<inverter2.length;i++){
-    const date = new Date(inverter1[i].invertertimestamp);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const timestamp = `${hours}:${minutes}`;
-     // Splitting the time into hours and minutes
-     var [converthours, convertminutes] = timestamp.split(":");
-
-     // Converting the hours and minutes to integers
-      var parsehours = parseInt(converthours, 10);
-      var parseminutes = parseInt(convertminutes, 10);
-
-  // Rounding off the time
-  if (parseminutes >= 30) {
-   parsehours += 1;
-     }
-
-// Formatting the rounded time
-var roundedTime = parsehours.toString().padStart(2, "0") + ":00";
-initialgraphdata.push({"inverterTimestamp":roundedTime})
-  }
-
+},
+{
+  name: 'inverter7',
+  data: selectedDate == null ? inverterInitial.map((value)=>(value.inverter7)):singledaydata.map((value)=>(value.inverter7)),
+  marker: {
+    enabled: false, // Disable markers for the series
+  },
+  //type: 'column'
 
 }
-//handlesingledaySubmit()
-// console.log(singledaydata)
-// console.log(graphdata)
+,{
+  name: 'inverter8',
+  data: selectedDate == null ?  inverterInitial.map((value)=>(value.inverter8)):singledaydata.map((value)=>(value.inverter8)),
+  marker: {
+    enabled: false, // Disable markers for the series
+  },
+  //type: 'column'
 
-// console.log(wmsMeterdata)
-
-  
+}
 
 
-
-  var apexcharts2 = {
-    series: [{
-      name:"INV1",
-      data: inverterOne.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV2",
-      data: inverterTwo.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV3",
-      data: inverterThree.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV4",
-      data: inverterFour.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV5",
-      data: inverterFive.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV6",
-      data: inverterSix.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV7",
-      data: inverterSeven.map((val)=>(val.cumulativeactivepower))
-    },
-    {
-      name:"INV8",
-      data: inverterEight.map((val)=>(val.cumulativeactivepower))
-    },
-  
-  ],
-  
-    options: {
-      chart: {
-        type: 'line',
-        zoom: {
-          enabled: false
-        },
-      },
-      dataLabels: {
-        enabled: false
-      },
-      zoom: {
-        enabled: false
-      },
-      title: {
-        // text: "Wheeled In Solar",
-        align: 'center',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-          fontSize:  '14px',
-          fontWeight:  'bold',
-          fontFamily:  undefined,
-          color:  '#263238'
-        },
-    },
-      stroke: {
-        curve: 'straight'
-      },
-      // colors: ['#152138', ' #00FF00'], // Red for positive values, green for negative values
-      // colors: ({ value }) => {
-      //   return value < 0 ? ['#00ff00'] : ['#ff0000'];
-      // },
-      yaxis: {
-        title: {
-          text: 'Active Power (kW)',
-        }
-      },
-      xaxis: {
-        categories: graphdata.map((val)=>(val.inverterTimestamp)),
-        labels: {
-          style: {
-            colors: 'black' // set the x-axis label color to red
-          }
-        },
-        title : {text:"Time in HOURS"},
-      },
-      fill: {
-        opacity: 0.5,
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-          stops: [0, 100]
-        },
-     
-        colors: ['#0000FF']
-      },
-      plotOptions: {
-        bar: {
-          colors: {
-            ranges: [{
-              from: -9999,
-              to: 0,
-              color: '#F15B46'
-            }, {
-              from: 0,
-              to: 9999,
-              color: '#28abf7'  
-            }]
-          },
-          columnWidth: '80%',
-        }
-      },
-      fill:{
-        target:"origin",
-        below:'#00FF7F',
-        above:'#20B2AA'
-      },
-      tooltip: {
-        enabled: true,
-        theme: 'dark',
-        style: {
-          background: '#222',
-          color: '#fff'
-        }
-      },
-      legend:{
-        show: true,
-        position: 'top',
-      },
-      grid: {
-        yaxis: {
-          lines: {
-            offsetX: -30
-          }
-        },
-        padding: {
-          left: 20
-        }
-      },
-      // markers: {
-      //   fillColor: '#e3e3e3',
-      //   strokeColor: '#fff',
-      //   size: 3,
-      //   shape: "circle"
-      // },
-    }
+]
   };
-
-
 
   //----------------------------------------------------//
 
-
-  var CurrentGrapgh = {
-    series: [{
-      name:"INV1",
-      data: CurrentinverterOne.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV2",
-      data: CurrentinverterTwo.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV3",
-      data: CurrentinverterThree.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV4",
-      data: CurrentinverterFour.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV5",
-      data: CurrentinverterFive.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV6",
-      data: CurrentinverterSix.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV7",
-      data: CurrentinverterSeven.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-    {
-      name:"INV8",
-      data: CurrentinverterEight.map((val)=>(Math.round(val.cumulativeactivepower)))
-    },
-  
-  ],
-  
-    options: {
-      chart: {
-        type: 'line',
-        zoom: {
-          enabled: false
-        },
-      },
-      dataLabels: {
-        enabled: false
-      },
-      zoom: {
-        enabled: false
-      },
-      title: {
-        // text: "Wheeled In Solar",
-        align: 'center',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-          fontSize:  '14px',
-          fontWeight:  'bold',
-          fontFamily:  undefined,
-          color:  '#263238'
-        },
-    },
-      stroke: {
-        curve: 'straight'
-      },
-      // colors: ['#152138', ' #00FF00'], // Red for positive values, green for negative values
-      // colors: ({ value }) => {
-      //   return value < 0 ? ['#00ff00'] : ['#ff0000'];
-      // },
-      yaxis: {
-        title: {
-          text: 'Active Power (kW)',
-        }
-      },
-      xaxis: {
-        categories: initialgraphdata.map((val)=>(val.inverterTimestamp)),
-        labels: {
-          style: {
-            colors: 'black' // set the x-axis label color to red
-          }
-        },
-        title : {text:"Time in HOURS"},
-      },
-      fill: {
-        opacity: 0.5,
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-          stops: [0, 100]
-        },
-     
-        colors: ['#0000FF']
-      },
-      plotOptions: {
-        bar: {
-          colors: {
-            ranges: [{
-              from: -9999,
-              to: 0,
-              color: '#F15B46'
-            }, {
-              from: 0,
-              to: 9999,
-              color: '#28abf7'  
-            }]
-          },
-          columnWidth: '80%',
-        }
-      },
-      fill:{
-        target:"origin",
-        below:'#00FF7F',
-        above:'#20B2AA'
-      },
-      tooltip: {
-        enabled: true,
-        theme: 'dark',
-        style: {
-          background: '#222',
-          color: '#fff'
-        }
-      },
-      legend:{
-        show: true,
-        position: 'top',
-      },
-      grid: {
-        yaxis: {
-          lines: {
-            offsetX: -30
-          }
-        },
-        padding: {
-          left: 20
-        }
-      },
-      // markers: {
-      //   fillColor: '#e3e3e3',
-      //   strokeColor: '#fff',
-      //   size: 3,
-      //   shape: "circle"
-      // },
-    }
-  };
-  
-
-  var wmsMetergraph = {
-    series: [
-      {
-        name: "Energy(kWh)",
-        data: wmsMeterdata.map((val) => (val.instantaniousEnergy)),
-        yAxis: 1
-      },
-      {
-        name: "Irradiation (kWh/m2)",
-        data: wmsMeterdata.map((val) => val.wmsirradiation),
-        yAxis: 0
-      }
-    ],
-  
-    options: {
-      chart: {
-        type: 'area',
-        zoom: {
-          enabled: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      title: {
-        align: 'center',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-          fontSize: '14px',
-          fontWeight: 'bold',
-          fontFamily: undefined,
-          color: '#263238'
-        }
-      },
-      yaxis: [
-        {
-          title: {
-            text: 'Energy (kWh)'
-          }
-        },
-        {
-          opposite: true,
-          title: {
-            text: 'Irradiation (kWh/m2)'
-          }
-        }
-      ],
-      xaxis: {
-        categories: wmsMeterdata.map((val) => val.timestamp),
-        labels: {
-          style: {
-            colors: 'black'
-          }
-        },
-        title: { text: 'Time in HOURS' }
-      },
-      fill: {
-        opacity: 0.5,
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-          stops: [0, 100]
-        },
-        colors: ['#0000FF']
-      },
-      plotOptions: {
-        bar: {
-          colors: {
-            ranges: [
-              {
-                from: -9999,
-                to: 0,
-                color: '#F15B46'
-              },
-              {
-                from: 0,
-                to: 9999,
-                color: '#28abf7'
-              }
-            ]
-          },
-          columnWidth: '80%'
-        }
-      },
-      fill: {
-        target: 'origin',
-        below: '#00FF7F',
-        above: '#20B2AA'
-      },
-      tooltip: {
-        enabled: true,
-        theme: 'dark',
-        style: {
-          background: '#222',
-          color: '#fff'
-        }
-      },
-      legend: {
-        show: true,
-        position: 'top'
-      },
-      grid: {
-        yaxis: {
-          lines: {
-            offsetX: -30
-          }
-        },
-        padding: {
-          left: 20
-        }
-      }
-    }
-  };
-
   //---------wmsMeter current value-----------------//
-  var CurrentWmsMetergraph = {
-    series: [
-      {
-        name: "Energy(kWh)",
-        data: wmsMeter.map((val) => (val.instantaniousEnergy)),
-        yAxis: 1
+  const WmsMetergraph={
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: null
+    },
+    // subtitle: {
+    //     text: 'Source: WorldClimate.com'
+    // },
+    xAxis: {
+      categories: selectedDate==null?wmsMeter.map((value) => (value.polledTime)):wmsMeterdata.map((value) =>value.polledTime),
+        crosshair: true
+    },
+    yAxis:[{
+        min: 0,
+        title: {
+            text: 'Energy(kWh)'
+        },
       },
-      {
-        name: "Irradiation (kWh/m2)",
-        data: wmsMeter.map((val) => val.wmsirradiation),
-        yAxis: 0
-      }
-    ],
-  
-    options: {
-      chart: {
-        type: 'area',
-        zoom: {
-          enabled: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      title: {
-        align: 'center',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-          fontSize: '14px',
-          fontWeight: 'bold',
-          fontFamily: undefined,
-          color: '#263238'
-        }
-      },
-      yaxis: [
-        {
+       {
           title: {
-            text: 'Energy (kWh)'
-          }
-        },
-        {
-          opposite: true,
-          title: {
-            text: 'Irradiation (kWh/m2)'
-          }
-        }
-      ],
-      xaxis: {
-        categories: wmsMeter.map((val) => val.timestamp),
-        labels: {
-          style: {
-            colors: 'black'
-          }
-        },
-        title: { text: 'Time in HOURS' }
-      },
-      fill: {
-        opacity: 0.5,
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-          stops: [0, 100]
-        },
-        colors: ['#0000FF']
-      },
-      plotOptions: {
-        bar: {
-          colors: {
-            ranges: [
-              {
-                from: -9999,
-                to: 0,
-                color: '#F15B46'
-              },
-              {
-                from: 0,
-                to: 9999,
-                color: '#28abf7'
-              }
-            ]
+              text: 'irradiation'
           },
-          columnWidth: '80%'
-        }
-      },
-      fill: {
-        target: 'origin',
-        below: '#00FF7F',
-        above: '#20B2AA'
-      },
-      tooltip: {
-        enabled: true,
-        theme: 'dark',
-        style: {
-          background: '#222',
-          color: '#fff'
-        }
-      },
-      legend: {
-        show: true,
-        position: 'top'
-      },
-      grid: {
-        yaxis: {
-          lines: {
-            offsetX: -30
-          }
-        },
-        padding: {
-          left: 20
-        }
+          opposite: true // This makes the axis appear on the opposite side
       }
-    }
+   ],
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Energy(kWh)',
+        data:selectedDate==null?wmsMeter.map((value) => (value.Energy)):wmsMeterdata.map((value) =>value.Energy),
+        marker: {
+          enabled: false, // Disable markers for the series
+        },
+        yAxis: 0
+  
+    },
+    {
+      name: 'Irradiation (kWh/m2)',
+      data: selectedDate==null?wmsMeter.map((value) => (value.Irradiation)):wmsMeterdata.map((value) =>value.Irradiation),
+      marker: {
+        enabled: false, // Disable markers for the series
+      },
+      yAxis: 1
+  
+  },]
   };
 
 
   const Actual_ExpectedEnergy={
         chart: {
-            type: 'line'
+            type: 'line',
+            zoomType: 'x'
         },
         title: {
             text: null
         },
         xAxis: {
-            categories: selectedDate==null?wmsMeter.map((Time) => Time.timestamp):singledaydata.map((Time) =>Time.timestamp),
+            categories: selectedDate==null?wmsMeter.map((Time) => Time.polledTime):wmsMeterdata.map((Time) =>Time.polledTime),
             crosshair: true
         },
         yAxis: [{
@@ -873,12 +295,14 @@ initialgraphdata.push({"inverterTimestamp":roundedTime})
           title: {
               text: 'Energy Generation (kWh)'
           }
-      }, {
-          title: {
-              text: 'irradiation'
-          },
-          opposite: true // This makes the axis appear on the opposite side
-      }],
+      }
+      // , {
+      //     title: {
+      //         text: 'irradiation'
+      //     },
+      //     opposite: false // This makes the axis appear on the opposite side
+      // } 
+    ],
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -896,7 +320,7 @@ initialgraphdata.push({"inverterTimestamp":roundedTime})
         
         series: [{
             name: 'Actual Energy (kWh)',
-            data: selectedDate==null?wmsMeter.map((value) => (value.instantaniousEnergy)):wmsMeterdata.map((value) =>value.instantaniousEnergy),
+            data: selectedDate==null?wmsMeter.map((value) => (value.Energy)):wmsMeterdata.map((value) =>value.Energy),
             type: 'column',
             yAxis: 0, // Use the first y-axis,
             color:"#81B622"
@@ -905,7 +329,7 @@ initialgraphdata.push({"inverterTimestamp":roundedTime})
         },
         {
             name: 'Expected Energy (kWh)',
-            data:selectedDate==null?wmsMeter.map((value) => (value.expectedEnergy)):wmsMeterdata.map((value) =>value.expectedEnergy),
+            data:selectedDate==null?wmsMeter.map((value) => (value.expextedEnergy)):wmsMeterdata.map((value) =>value.expextedEnergy),
             type: 'column',
             yAxis: 0, // Use the first y-axis
             //color:"#DBA40E"
@@ -978,11 +402,8 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
     <div> 
     <h3 style={{textAlign:"center",color:"brown"}}><b>Daily Solar data</b></h3>
    {
-     
-     selectedDate===null?<ReactApexChart options={CurrentWmsMetergraph.options} series={CurrentWmsMetergraph.series} type='area' height='400px' />:<ReactApexChart options={wmsMetergraph.options} series={wmsMetergraph.series} type='area' height='400px' />
-
-    
-  }
+     <HighchartsReact highcharts={Highcharts} options={WmsMetergraph} />
+   }
     </div>
     </Grid>
 
@@ -991,7 +412,7 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
   <h3 style={{textAlign:"center",color:"brown"}}><b>Inverter Active Power</b></h3>
 {
 
-selectedDate===null?<ReactApexChart options={CurrentGrapgh.options} series={CurrentGrapgh.series} type='line' height='400px'  />:<ReactApexChart options={apexcharts2.options} series={apexcharts2.series} type='line' height='400px'  />
+<HighchartsReact highcharts={Highcharts} options={InverterData} />
 
 
 }

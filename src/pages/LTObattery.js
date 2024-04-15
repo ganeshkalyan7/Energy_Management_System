@@ -279,11 +279,13 @@ const LtoLogsLogPopup = () => {
           <option value={"OFF"} style={{color:"red"}} >OFF</option>
   </select>
   </div>
-  {/* <br/>
+  {/* 
+  <br/>
   <div class="input-group mb-3"  style={{width:"300px"}}>
       <label class="input-group-text" for="inputGroupSelect01" style={{color:"gray",fontFamily:"sans-serif",fontSize:"19px"}} ><b>PIN</b></label>
       <input name="pin" type="password"></input>
-  </div> */}
+  </div> 
+  */}
   <br/>
   <div class="input-group mb-3">
   <div class="input-group-prepend">

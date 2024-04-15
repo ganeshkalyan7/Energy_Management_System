@@ -196,6 +196,19 @@ const currentGraph= {
         enabled: false, // Disable markers for the series
       },
     },
+
+
+    {
+      name: "safeLimit ",
+      data:singledayFilter==null?initialGraph.map((val)=>(val.safeLimit)):singledayFilterData.map((val)=>(val.safeLimit)),
+      //yAxis: 0,
+      type: "line",
+      color: '#de6114', // Change the color of the "Packsoc" line graph
+      dashStyle: 'dash',
+      marker: {
+        enabled: false, // Disable markers for the series
+      },
+    },
   
   
   ],
