@@ -1,21 +1,80 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import "./DashboardBatteries.css"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { nodeAdress } from '../../ipAdress';
 import group153 from '../../images/group-153.svg' 
 import rectangle56 from "../../images/rectangle-56.svg"
 
 function UPSDashBoardBattery() {
-    const percentage = 0;
-    // Calculate the gradient color based on the percentage
+
+  const [upsBatteryData,setUpsBatteryData]=useState([])
+  const UPSApi=`${nodeAdress}/Batterydata`
+
+  useEffect(() => {
+    axios
+      .get(UPSApi)
+      .then((res) => {
+        const dataResponse = res.data;
+        setUpsBatteryData(dataResponse);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+console.log(upsBatteryData)
+
+
+let BatteryStatus=""
+let packSOC =0
+
+
+
+for(let i=0;i<upsBatteryData.length;i++){
+
+  if(upsBatteryData[i].batteryStatus==="CHG"){
+    BatteryStatus="CHARGING"
+
+  }
+  else if(upsBatteryData[i].batteryStatus==="DCHG"){
+    BatteryStatus="DISCHARGING"
+
+  }
+  else if(upsBatteryData[i].batteryStatus==="IDLE"){
+    BatteryStatus="IDLE"
+
+  }
+ 
+  packSOC=upsBatteryData[i].pack_usable_soc
+
+
+
+}
+
+
+
+    const percentage = packSOC;
+
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
+
+  let backgroundColor='#389c24'
+
+  if(packSOC>40){
+    backgroundColor="#389c24"
+  }
+  if(packSOC<40){
+    backgroundColor="#fa840f"
+  }
+
   const UPSBattery = {
     position: "absolute",
     top: "39px",
     left: "0px",
     width: "132px",
     height: "140px",
-    background:`linear-gradient(to top, #389c24 ${percentage}%, #D3D3D3 ${percentage}%)`,
+    background:`linear-gradient(to top, ${backgroundColor} ${percentage}%, #D3D3D3 ${percentage}%)`,
     borderRadius:"9%"
   };
   // `linear-gradient(to top, orange ${percentage}%, #F5F5F5 ${percentage}%)`,
@@ -32,8 +91,9 @@ function UPSDashBoardBattery() {
  <span style={{position: "absolute",width:"20px",height:"10px",background:"#D3D3D3",marginTop:"25px",borderTopRightRadius:"5px",borderTopLeftRadius:"5px",alignContent:"start",marginLeft:'30%'}}> </span>
  <span style={{position: "absolute",width:"20px",height:"10px",background:"#D3D3D3",marginTop:"25px",borderTopRightRadius:"5px",borderTopLeftRadius:"5px",justifyContent:"start",marginLeft:'52%'}}> </span>
  <div style={UPSBattery}></div>
- <div style={{position: "absolute", top: "103px", left: "8px", fontWeight: "600",}}>{percentage}%</div>
- <div style={{position: "absolute", top: "127px", left: "8px", fontSize: "10px", fontWeight: "500",}}>0 kWh</div>
+ <div style={{position: "absolute", top: "50%", left: "15%", fontSize: "14px", fontWeight: "700",color:"#FFFFFF",textAlign:"center"}}>{BatteryStatus}</div>
+ <div style={{position: "absolute", top: "85%", left: "8px", fontWeight: "600",}}>{percentage}%</div>
+ <div style={{position: "absolute", top: "105%", left: "8px", fontSize: "10px", fontWeight: "500",}}>0 kWh</div>
 
 
 

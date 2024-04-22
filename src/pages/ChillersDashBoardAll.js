@@ -17,6 +17,7 @@ import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Bar1 from '../images/ChillersCard.png'
 import Bar2 from "../images/EvCharger1.png"
+import DrillDownChart from './DrillDownChart';
 
 import { FaSquare } from "react-icons/fa";
 
@@ -4336,38 +4337,12 @@ tooltip: {
 </Grid>
 </Box>
 
-
-
-
-
-{/* <select className="form-control" id="graphSelector" onChange={handleGraphChange} value={selectedGraph}>
-          <option value="Chiller1">Chiller1_VS_Cop1</option>
-          <option value="Chiller2">Chiller2_VS_Cop2</option>
-          <option value="Chiller3">Chiller3_VS_Cop3</option>
-          <option value="Chiller4">Chiller4_VS_Cop4</option>
-</select>
-
-
-{selectedGraph === 'Chiller1' && (
- <>
- <HighchartsReact highcharts={Highcharts} options={CTloadvscop_one} />
- </>
-
-)}
-
-{selectedGraph === 'Chiller2' && (
- <>
-<HighchartsReact highcharts={Highcharts} options={CTloadvscop_Two} />
- </>
-
-)}
-
-{selectedGraph === 'Chiller3' && (
- <>
-<HighchartsReact highcharts={Highcharts} options={CTloadvscop_Three} />
- </>
-
-)} */}
+<br/>
+<br/>
+<div> 
+<h5 style={{ textAlign: "center" }}><b>Electrical Energy (kWh) </b></h5> 
+    <DrillDownChart/>
+</div> 
 </div>
 
 

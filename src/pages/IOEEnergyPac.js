@@ -52,6 +52,7 @@ function IOEEnergyPac() {
       console.error(error);
     }
   };
+  
 
 
   
@@ -172,14 +173,14 @@ function IOEEnergyPac() {
       //min: 2,
       //max: 8, // Set the maximum value for the second y-axis
       title: {
-          text: 'Packsoc',
+          text: 'Packsoc (%)',
       },
       opposite: true // This makes the axis appear on the opposite side
   }],
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -191,7 +192,7 @@ function IOEEnergyPac() {
         }
     },
     series: [{
-        name: 'String1Energy',
+        name: 'String1Energy(kWh)',
         data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst1)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst1)),
         yAxis:0,        
  
@@ -202,7 +203,7 @@ function IOEEnergyPac() {
   
     },
     {
-      name: 'String1packSoc',
+      name: 'String1packSoc(%)',
       data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.packSocst1)):IOEDataResponseDateFiltered.map((value)=>(value.packSocst1)),
       yAxis:1,
       marker: {
@@ -213,7 +214,7 @@ function IOEEnergyPac() {
   },
 
   {
-    name: 'String2Energy',
+    name: 'String2Energy (kWh)',
     data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst2)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst2)),
     yAxis:0,
     marker: {
@@ -222,7 +223,7 @@ function IOEEnergyPac() {
 
 },
   {
-    name: 'String2packSoc',
+    name: 'String2packSoc (%)',
     data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.packSocst2)):IOEDataResponseDateFiltered.map((value)=>(value.packSocst2)),
     yAxis:1,
     marker: {
@@ -234,7 +235,7 @@ function IOEEnergyPac() {
 
 
 {
-  name: 'String3Energy',
+  name: 'String3Energy (kWh)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst3)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst3)),
   yAxis:0,
   marker: {
@@ -243,7 +244,7 @@ function IOEEnergyPac() {
 
 },
 {
-  name: 'String3packSoc',
+  name: 'String3packSoc (%)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.packSocst3)):IOEDataResponseDateFiltered.map((value)=>(value.packSocst3)),
   yAxis:1,
   marker: {
@@ -254,7 +255,7 @@ function IOEEnergyPac() {
 },
 
 {
-  name: 'String4Energy',
+  name: 'String4Energy (kWh)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst4)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst4)),
   yAxis:0,
   marker: {
@@ -263,7 +264,7 @@ function IOEEnergyPac() {
 
 },
 {
-  name: 'String4packSoc',
+  name: 'String4packSoc (%)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.packSocst4)):IOEDataResponseDateFiltered.map((value)=>(value.packSocst4)),
   yAxis:1,
   marker: {
@@ -274,7 +275,7 @@ function IOEEnergyPac() {
 },
 
 {
-  name: 'String5Energy',
+  name: 'String5Energy (kWh)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst5)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst5)),
   yAxis:0,
   marker: {
@@ -283,7 +284,7 @@ function IOEEnergyPac() {
 
 },
 {
-  name: 'String5packSoc',
+  name: 'String5packSoc (%)',
   data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.packSocst5)):IOEDataResponseDateFiltered.map((value)=>(value.packSocst5)),
   yAxis:1,
   marker: {
@@ -296,10 +297,6 @@ function IOEEnergyPac() {
 
 ]
   };
-
-
-
-
 
 
 
@@ -334,14 +331,14 @@ function IOEEnergyPac() {
       //min: 2,
       //max: 8, // Set the maximum value for the second y-axis
       title: {
-          text: 'Packsoc',
+          text: 'Packsoc (%)',
       },
       opposite: true // This makes the axis appear on the opposite side
   }],
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}(kWh)</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -358,7 +355,7 @@ function IOEEnergyPac() {
 
   if (String2  !== "") {
     String1and2Graph.series.push({
-      name: 'String2Energy',
+      name: 'String2Energy (kWh)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst2)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst2)),
       type:"area",
       yAxis: 0,
@@ -367,7 +364,7 @@ function IOEEnergyPac() {
       }
     });
     String1and2Graph.series.push({
-      name: 'String2packSoc',
+      name: 'String2packSoc (%)',
       data:BatteryfilterDate==null?IOEDataResponse.map((value) => (value.packSocst2)):IOEDataResponseDateFiltered.map((value) => (value.packSocst2)),
       type:"line",
       yAxis: 1,
@@ -378,7 +375,7 @@ function IOEEnergyPac() {
   }
    if(String1  !== ""){
     String1and2Graph.series.push({
-      name: 'String1Energy',
+      name: 'String1Energy (kWh)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst1)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst1)),
       yAxis: 0,
       marker: {
@@ -386,7 +383,7 @@ function IOEEnergyPac() {
       }
     });
     String1and2Graph.series.push({
-      name: 'String1packSoc',
+      name: 'String1packSoc (%)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value) => (value.packSocst1)):IOEDataResponseDateFiltered.map((value) => (value.packSocst1)),
       yAxis: 1,
       marker: {
@@ -397,7 +394,7 @@ function IOEEnergyPac() {
   }
    if(String3  !== ""){
     String1and2Graph.series.push({
-      name: 'String3Energy',
+      name: 'String3Energy (kWh)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst3)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst3)),
       yAxis: 0,
       marker: {
@@ -405,7 +402,7 @@ function IOEEnergyPac() {
       }
     });
     String1and2Graph.series.push({
-      name: 'String3packSoc',
+      name: 'String3packSoc (%)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value) => (value.packSocst3)):IOEDataResponseDateFiltered.map((value) => (value.packSocst3)),
       yAxis: 1,
       marker: {
@@ -415,7 +412,7 @@ function IOEEnergyPac() {
   }
   if(String4  !== ""){
     String1and2Graph.series.push({
-      name: 'String4Energy',
+      name: 'String4Energy (kWh)',
       data:  BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst4)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst4)),
       yAxis: 0,
       marker: {
@@ -423,7 +420,7 @@ function IOEEnergyPac() {
       }
     });
     String1and2Graph.series.push({
-      name: 'String4packSoc',
+      name: 'String4packSoc (%)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value) => (value.packSocst4)):IOEDataResponseDateFiltered.map((value) => (value.packSocst4)),
       yAxis: 1,
       marker: {
@@ -433,7 +430,7 @@ function IOEEnergyPac() {
   }
   if(String5  !== ""){
     String1and2Graph.series.push({
-      name: 'String5Energy',
+      name: 'String5Energy (kWh)',
       data:BatteryfilterDate==null?IOEDataResponse.map((value)=>(value.Energyst5)):IOEDataResponseDateFiltered.map((value)=>(value.Energyst5)),
       yAxis: 0,
       marker: {
@@ -441,7 +438,7 @@ function IOEEnergyPac() {
       }
     });
     String1and2Graph.series.push({
-      name: 'String5packSoc',
+      name: 'String5packSoc (%)',
       data: BatteryfilterDate==null?IOEDataResponse.map((value) => (value.packSocst5)):IOEDataResponseDateFiltered.map((value) => (value.packSocst5)),
       yAxis: 1,
       marker: {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import "./DashboardBatteries.css"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -11,11 +12,64 @@ function IOEDashBoardBattery() {
 
   const [clickedValue, setClickedValue] = useState(null);
 
+  const [ioeBatteryData,setIOEBatteryData]=useState([])
+  const IOEAPi="https://ems.tre100.in/analytics/IoeBattery/EnergyVsPacksoc"
+
+  useEffect(() => {
+    axios
+      .get(IOEAPi)
+      .then((res) => {
+        const dataResponse = res.data;
+        setIOEBatteryData(dataResponse);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+ 
   const handleButtonClick = (value) => {
     setClickedValue(value);
   };
 
-    const percentage = 70;
+  console.log(clickedValue)
+
+  let packSOC1 =0
+  let packSOC2 =0
+  let packSOC3 =0
+  let packSOC4 =0
+  let packSOC5 =0
+
+  for(let i=0;i<ioeBatteryData.length;i++){ 
+    packSOC1=ioeBatteryData[i].packSocst1 == null ? 0 : ioeBatteryData[i].packSocst1
+    packSOC2=ioeBatteryData[i].packSocst2 == null ? 0 : ioeBatteryData[i].packSocst2
+    packSOC3=ioeBatteryData[i].packSocst3 == null ? 0 : ioeBatteryData[i].packSocst3
+    packSOC4=ioeBatteryData[i].packSocst4 == null ? 0 : ioeBatteryData[i].packSocst4
+    packSOC5=ioeBatteryData[i].packSocst5 == null ? 0 : ioeBatteryData[i].packSocst5
+  }
+
+
+    let  percentage =packSOC1;
+
+    if(clickedValue===1){
+      percentage=packSOC1
+    }
+   if(clickedValue===2){
+      percentage=packSOC2
+
+    }
+    if(clickedValue===3){
+      percentage=packSOC3
+
+    }
+    if(clickedValue===4){
+      percentage=packSOC4
+
+    }
+    if(clickedValue===5){
+      percentage=packSOC5
+
+    }
     // Calculate the gradient color based on the percentage
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
   const IOEBattery = {

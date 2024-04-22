@@ -24,7 +24,7 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
-import DrillDownChart from './DrillDownChart';
+
 
 function Documentation() {
 
@@ -78,6 +78,14 @@ function Documentation() {
   }, []);
 
   const handleDelete = async (filename) => {
+    swal({
+      title: 'Enter PIN',
+      content: "input",
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result === userPIN) {
     try {
       await fetch(`http://121.242.232.211:5007/deletefile/${filename}`, {
         method: 'DELETE',
@@ -87,6 +95,17 @@ function Documentation() {
     } catch (error) {
       console.error('Error deleting file:', error);
     }
+  }
+  else {
+    Swal.fire({
+      imageUrl: 'https://img.freepik.com/premium-vector/frustrated-man-touching-his-head-holding-phone-trying-remember-forgets-password-account_199628-198.jpg',
+      imageWidth: 400,
+      imageHeight: 350,
+      imageAlt: 'Custom image',
+      // footer: '<a href="">Why do I have this issue?</a>'
+    });
+  }
+  })
   };
 
 
@@ -357,9 +376,7 @@ function Documentation() {
 </div>
 
       
-      {/* <div> 
-      <DrillDownChart/>
-      </div> */}
+  
     </div>
   );
 }

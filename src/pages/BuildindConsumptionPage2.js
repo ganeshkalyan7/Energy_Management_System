@@ -6,8 +6,8 @@ import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import DatePicker from 'react-datepicker';
-import Table from 'react-bootstrap/Table';
 import 'react-datepicker/dist/react-datepicker.css';
+import Table from 'react-bootstrap/Table';
 import { bmssAdress,analyticsAdress } from '../ipAdress';
 import {Link} from 'react-router-dom';
   

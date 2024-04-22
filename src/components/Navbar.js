@@ -7,7 +7,7 @@ import IITM from "../images/energy-management-systemlogos-transparent-2@2x.png";
 import IIMLogo from "../images/iitmlogo.png";
 import CEET from "../images/ceet-logo-transparent-1@2x.png";
 import "./Navebar.css";
-import { Link } from "react-router-dom";
+import { Link,useLocation  } from "react-router-dom";
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
@@ -51,14 +51,36 @@ import * as GoIcons from 'react-icons/go';
 
 
 import { FaHotTub } from "react-icons/fa";
+import { color } from "highcharts";
 
 export function Navbar({ sidebarOpen, setSidebarOpen }) {
 
 
+  const currentPath = window.location.pathname;
+  console.log(currentPath)
+  if(currentPath=== "/PeakDemandAnalysis"){
+    console.log("this is current location")
+  }
+
+    // State to track active menu item
+    const [activeMenuItem, setActiveMenuItem] = useState("/");
+    console.log(activeMenuItem)
+
+    // Get current route location
+    const location = useLocation();
+  
+    // Function to handle menu item click
+    const handleMenuItemClick = (itemName) => {
+      setActiveMenuItem(itemName);
+    };
+
+
   const [isSidebarClosed, setSidebarClosed] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarClosed(!isSidebarClosed);
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   const toggleSubMenu = (e) => {
@@ -95,11 +117,11 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
         {/* <i class="fas fa-bars" onClick={toggleSidebar} style={{marginLeft:"100px"}}></i> */}
       </div>
 
-      <ul class="nav-list">
-        <li>
-          <Link to="/">
-            <i><DashboardIcon/></i>
-            <span class="link-name">Dashboard</span>
+      <ul className={`nav-list ${isSidebarOpen ? 'open' : ''}`}>
+        <li style={{ backgroundColor: currentPath === "/" ? "#41bf7e" : "transparent"}}>
+          <Link to="/" >
+            <i><DashboardIcon style={{ color: currentPath === "/" ? "white" : "gray" }} /></i>
+            <span class="link-name" style={{ color: currentPath === "/" ? "white" : "black" }}>Dashboard</span>
           </Link>
 
           <ul class="sub-menu blank">
@@ -108,68 +130,70 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
           </ul>
         </li>
 
-        <li>
-          <div class="icon-link"  className="icon-link" onClick={toggleSubMenu}>
+        <li  style={{ backgroundColor: currentPath === "/peakgraph"|| currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "#41bf7e" : "transparent"}}>
+          <div class="icon-link"  className="icon-link" onClick={toggleSubMenu} >
             <a href="#">
-              <i><RoomPreferencesIcon/></i>
-              <span class="link-name" style={{whiteSpace: 'pre'}}>Building Consumption</span>
+            <div style={{ backgroundColor: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "#41bf7e" : "transparent",borderRadius: "0%",display: "flex", justifyContent: "center", alignItems: "center" }}>
+  <i><RoomPreferencesIcon style={{ color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "gray" }}/></i>
+</div>
+              <span class="link-name" style={{whiteSpace: 'pre',color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "black"}}>Building Consumption</span>
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"-18px"}} ></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"-18px",color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "gray"}} ></i>
           </div>
 
           <ul class="sub-menu">
             <li><a href="#" class="link-name">Building Consumption</a></li>
-            <li ><Link to='/peakgraph' style={{ textDecoration: 'none' }}> <SiIcons.SiGoogleanalytics size="25px"  style={{color:"black",marginTop:"0px"}} /> <span style={{marginLeft:"20px",marginTop:"0px"}}>Building Highlights</span></Link>  </li>
-            <li><Link to="/Diesel_Analysis"> <LocalGasStationIcon size="30px" style={{color:"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px"}}>Diesel Analysis </span></Link></li>
-            <li><Link to="/PeakDemandAnalysis"><AnalyticsIcon size="30px" style={{color:"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px"}}>PeakAnalysis </span></Link></li>
-            <li><Link to="/kVAvsKW"> <AiFillSliders size="27px" style={{color:"black",marginTop:"15px"}} /> <span style={{marginLeft:"19px",marginTop:"15px"}}>kVA vs KW</span></Link></li>
-            <li><Link to="/TopTenClients"> <VscAccount size="25px" style={{color:"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px"}}> TopTenClients</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/peakgraph" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to='/peakgraph' style={{ textDecoration: 'none' }}> <SiIcons.SiGoogleanalytics size="25px"  style={{color: currentPath === "/peakgraph"? "white" : "black" ,marginTop:"0px"}} /> <span style={{marginLeft:"20px",marginTop:"0px",color:currentPath ==="/peakgraph"?"white":"black"}}>Building Highlights</span></Link>  </li>
+            <li style={{ backgroundColor: currentPath === "/Diesel_Analysis" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to="/Diesel_Analysis"> <LocalGasStationIcon size="30px" style={{color:currentPath==="/Diesel_Analysis"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px",color:currentPath === "/Diesel_Analysis"?"white":"black"}}>Diesel Analysis </span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/PeakDemandAnalysis" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to="/PeakDemandAnalysis"><AnalyticsIcon size="30px" style={{color:currentPath==="/PeakDemandAnalysis"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px",color:currentPath === "/PeakDemandAnalysis"?"white":"black"}}>PeakAnalysis </span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/kVAvsKW" ? "#41bf7e" : "transparent",borderRadius: "0%" }}><Link to="/kVAvsKW"> <AiFillSliders size="27px" style={{color:currentPath==="/kVAvsKW"?"white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"19px",marginTop:"15px",color:currentPath==="/kVAvsKW"?"white":"black"}}>kVA vs KW</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/TopTenClients" ? "#41bf7e" : "transparent",borderRadius: "0%" }}><Link to="/TopTenClients"> <VscAccount size="25px" style={{color:currentPath === "/TopTenClients"? "white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px",color:currentPath==="/TopTenClients"?"white":"black"}}> TopTenClients</span></Link></li>
             
           </ul>
         </li>
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/Wheeledgraph"|| currentPath ==="/RoofTopSolar" ? "#41bf7e" : "transparent"}}>
           <div class="icon-link" className="icon-link" onClick={toggleSubMenu}>
             <a href="#">
-              <i ><MdSolarPower/></i>
-              <span class="link-name">Solar</span>
+              <i ><MdSolarPower style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"? "white" : "gray" }}/></i>
+              <span class="link-name" style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"? "white" : "black" }}>Solar</span>
               
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"139px"}}></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"139px",color:currentPath === "/Wheeledgraph" || currentPath === "/RoofTopSolar" ? "white" :"gray" }}></i>
            
           </div>
 
           <ul class="sub-menu">
             <li><a href="#" class="link-name">Solar</a></li>
-            <li><Link to="/Wheeledgraph"> <GiIcons.GiSolarPower size="30px" style={{color:"black",marginTop:"0px"}} /><span style={{marginLeft:"20px",marginTop:"0px"}}>Wheeled In Solar </span></Link></li>
-            <li><Link to="/RoofTopSolar"> <TbIcons.TbSolarPanel2 size="30px" style={{color:"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px"}}> </span>RoofTop Solar</Link></li>
+            <li style={{ backgroundColor: currentPath === "/Wheeledgraph" ? "#41bf7e" : "transparent"}}><Link to="/Wheeledgraph"> <GiIcons.GiSolarPower size="30px" style={{color:currentPath==="/Wheeledgraph"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"20px",marginTop:"0px",paddingRight:"10px",color:currentPath==="/Wheeledgraph"?"white":"black"}}>Wheeled In Solar </span></Link></li>
+            <li style={{ backgroundColor: currentPath ==="/RoofTopSolar" ? "#41bf7e" : "transparent"}}><Link to="/RoofTopSolar"> <TbIcons.TbSolarPanel2 size="30px" style={{color:currentPath==="/RoofTopSolar"?"white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px",color:currentPath==="/RoofTopSolar"?"white":"black"}}> RoofTop Solar </span></Link></li>
           </ul>
         </li>
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/Battery_Analytics"|| currentPath ==="/LTOBattery_Analytics" || currentPath==="/Battery/IOE" ? "#41bf7e" : "transparent"}}>
           <div class="icon-link" className="icon-link" onClick={toggleSubMenu}>
             <a href="#">
-              <i><FaCarBattery/></i>
-              <span class="link-name">Batteries</span>
+              <i><FaCarBattery style={{ color: currentPath === "/Battery_Analytics"|| currentPath ==="/LTOBattery_Analytics" || currentPath==="/Battery/IOE"? "white" : "gray" }}/></i>
+              <span class="link-name" style={{color:currentPath==="/Battery_Analytics"||currentPath==="/LTOBattery_Analytics"|| currentPath==="/Battery/IOE"?"white" : "black"}}>Batteries</span>
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"105px"}}></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"105px",color:currentPath==="/Battery_Analytics"||currentPath==="/LTOBattery_Analytics"|| currentPath==="/Battery/IOE"?"white" : "gray"}}></i>
           </div>
 
           <ul class="sub-menu">
             <li><a href="#" class="link-name">Batteries</a></li>
-            <li><Link to="/Battery_Analytics"><TbIcons.TbBatteryAutomotive size="24px" style={{color:"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px"}}>UPS </span></Link></li>
-            <li><Link to="/LTOBattery_Analytics"> <BatterySaverIcon size="30px" style={{color:"black",marginTop:"10px"}}/> <span style={{marginLeft:"30px",marginTop:"15px"}}> </span>LTO </Link></li>
-            <li><Link to="/Battery/IOE"> <BatterySaverIcon  size="30px" style={{color:"black",marginTop:"13px"}}/> <span style={{marginLeft:"30px",marginTop:"15px"}}> </span>IOE</Link></li>
+            <li style={{backgroundColor:currentPath==="/Battery_Analytics"?"#41bf7e" : "transparent"}}><Link to="/Battery_Analytics"><TbIcons.TbBatteryAutomotive size="24px" style={{color:currentPath==="/Battery_Analytics"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px",paddingRight:"10px",color:currentPath==="/Battery_Analytics"?"white":"black"}}>UPS </span></Link></li>
+            <li style={{backgroundColor:currentPath==="/LTOBattery_Analytics"?"#41bf7e" : "transparent"}}><Link to="/LTOBattery_Analytics"> <BatterySaverIcon size="30px" style={{color:currentPath==="/LTOBattery_Analytics"?"white":"black",marginTop:"10px"}}/> <span style={{marginLeft:"30px",marginTop:"15px",paddingRight:"10px",color:currentPath==="/LTOBattery_Analytics"?"white":"black"}}> LTO </span> </Link></li>
+            <li style={{backgroundColor:currentPath==="/Battery/IOE"?"#41bf7e" : "transparent"}}><Link to="/Battery/IOE"> <BatterySaverIcon  size="30px" style={{color:currentPath==="/Battery/IOE"?"white":"black",marginTop:"13px"}}/> <span style={{marginLeft:"30px",marginTop:"15px", paddingRight:"10px",color:currentPath==="/Battery/IOE"?"white":"black"}}> IOE </span></Link></li>
           </ul>
         </li>
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/chillers/chillersDashboard"? "#41bf7e" : "transparent"}}>
           <div class="icon-link" className="icon-link" onClick={toggleSubMenu}>
             <a href="#">
-              <i><SevereColdIcon/></i>
-              <span class="link-name">Chillers</span>
+              <i><SevereColdIcon style={{color:currentPath==="/chillers/chillersDashboard"?"white":"gray"}}/></i>
+              <span class="link-name" style={{color:currentPath==="/chillers/chillersDashboard"?"white":"black"}}>Chillers</span>
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"117px"}}></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"117px",color:currentPath==="/chillers/chillersDashboard"?"white":"gray"}}></i>
           </div>
 
           <ul class="sub-menu">
@@ -179,28 +203,28 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
         </li>
         
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/Control/upsbattery"|| currentPath ==="/Control/thermal" || currentPath==="/control/ltoBattery"||currentPath==="/control/HOTWater" ? "#41bf7e" : "transparent"}}>
           <div class="icon-link" className="icon-link" onClick={toggleSubMenu}>
             <a href="#">
-              <i><AiFillControl/></i>
-              <span class="link-name">Controls</span>
+              <i><AiFillControl style={{color:currentPath === "/Control/upsbattery"|| currentPath ==="/Control/thermal" || currentPath==="/control/ltoBattery"||currentPath==="/control/HOTWater" ? "white" : "gray"}}/></i>
+              <span class="link-name" style={{color:currentPath === "/Control/upsbattery"|| currentPath ==="/Control/thermal" || currentPath==="/control/ltoBattery"||currentPath==="/control/HOTWater" ? "white" : "black"}}>Controls</span>
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"108px"}}></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"108px",color:currentPath === "/Control/upsbattery"|| currentPath ==="/Control/thermal" || currentPath==="/control/ltoBattery"||currentPath==="/control/HOTWater" ? "white" : "gray"}}></i>
           </div>
 
           <ul class="sub-menu">
             <li><a href="#" class="link-name">Controls</a></li>
-            <li><Link to="/Control/upsbattery"><TbIcons.TbBatteryAutomotive  size="25px" style={{color:"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px"}}> UPS Battery control</span></Link></li>
-            <li><Link to="/Control/thermal"><ThermostatAutoIcon size="35px" style={{color:"black",marginTop:"15px",marginLeft:"5px"}} /><span style={{marginLeft:"28px",marginTop:"15px"}}>Thermal control</span></Link></li>
-            <li><Link to="/control/ltoBattery"><BatterySaverIcon size="37px" style={{color:"black",marginTop:"15px"}} /><span style={{marginLeft:"34px",marginTop:"15px"}}>LTO Battery  control</span></Link></li>
-            <li><Link to="/control/HOTWater"><FaHotTub size="20px" style={{color:"black",marginTop:"15px"}} /><span style={{marginLeft:"36px",marginTop:"15px"}}>Hot Water  control</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/Control/upsbattery" ? "#41bf7e" : "transparent"}}><Link to="/Control/upsbattery"><TbIcons.TbBatteryAutomotive  size="25px" style={{color:currentPath==="/Control/upsbattery"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px",paddingRight:"10px", color:currentPath==="/Control/upsbattery"?"white":"black"}}> UPS Battery control</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/Control/thermal" ? "#41bf7e" : "transparent"}}><Link to="/Control/thermal"><ThermostatAutoIcon size="35px" style={{color:currentPath==="/Control/thermal"?"white":"black",marginTop:"15px",marginLeft:"5px"}} /><span style={{marginLeft:"28px",marginTop:"15px",color:currentPath==="/Control/thermal"?"white":"black"}}>Thermal control</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/control/ltoBattery" ? "#41bf7e" : "transparent"}}><Link to="/control/ltoBattery"><BatterySaverIcon size="37px" style={{color:currentPath==="/control/ltoBattery"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"34px",marginTop:"15px",color:currentPath==="/control/ltoBattery"?"white":"black"}}>LTO Battery  control</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/control/HOTWater" ? "#41bf7e" : "transparent",paddingLeft:"-10px"}}><Link to="/control/HOTWater"><FaHotTub size="20px" style={{color:currentPath==="/control/HOTWater"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"36px",marginTop:"15px",color:currentPath==="/control/HOTWater"?"white":"black"}}>Hot Water  control</span></Link></li>
           </ul>
         </li>
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/Documentation"? "#41bf7e" : "transparent"}}>
           <Link to="/Documentation">
-            <i><FaIcons.FaEnvelopeOpenText/></i>
-            <span class="link-name">Documentation</span>
+            <i><FaIcons.FaEnvelopeOpenText style={{color:currentPath==="/Documentation"?"white":"gray"}}/></i>
+            <span class="link-name" style={{color:currentPath==="/Documentation"?"white":"black"}} >Documentation</span>
           </Link>
 
           <ul class="sub-menu blank">
@@ -208,10 +232,10 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
           </ul>
         </li>
 
-        <li>
+        <li style={{ backgroundColor: currentPath === "/Alertlogs"? "#41bf7e" : "transparent"}}>
           <Link to="/Alertlogs">
-            <i><GoIcons.GoAlert/></i>
-            <span class="link-name">Alerts</span>
+            <i><GoIcons.GoAlert style={{color:currentPath==="/Alertlogs"?"white":"gray"}}/></i>
+            <span class="link-name" style={{color:currentPath==="/Alertlogs"?"white":"black"}}>Alerts</span>
           </Link>
 
           <ul class="sub-menu blank">

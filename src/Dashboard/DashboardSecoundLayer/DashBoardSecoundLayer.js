@@ -378,7 +378,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                       Building Consumption
                     </span>
                     <br />
-                    <ReactApexChart options={state.options} series={state.series} type="donut" width='270px' height='270px' style={{marginTop:"20px"}}  />
+                    <ReactApexChart options={state.options} series={state.series} type="donut" width='270px' height='270px' style={{marginTop:"20px",marginLeft:"-10%"}}  />
                     <p style={{marginLeft:"5%"}}><TbRectangleFilled color='#7A6464' size="30px"/> Grid</p>
                     
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop</p>
