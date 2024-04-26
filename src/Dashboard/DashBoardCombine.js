@@ -16,6 +16,7 @@ function DashBoardCombine() {
       overflowX: "hidden",
       overflowY: "hidden",
       background: "#f5f5f5",
+      marginBottom:"3%"
       
       // // Default styles
       // '@media (max-width: 768px)': {
@@ -37,7 +38,7 @@ function DashBoardCombine() {
       <DashBoardChillers />
       <HotWaterTS />
       <DashboardBatteries />
-      <DashboardEvcharger />
+      <DashboardEvcharger  style={{marginTop:"50%"}}/>
       {/* <DashboardBatteries/> */}
     </div>
   );

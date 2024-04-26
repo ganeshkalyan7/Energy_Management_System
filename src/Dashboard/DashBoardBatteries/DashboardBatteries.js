@@ -49,10 +49,10 @@ const handleBatteryChange = (event) => {
 
 console.log(batterySelect)
   return (
-    <div>
-         <section className="maincontainer">
-         <div style={{position: "relative", width: "100%", height: "700px",  fontSize: "16px", color: "#fff",marginTop:"-50px"}}> 
- <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "900px",}}>
+    <div className= "maincontainer">
+         <section className="Batterymaincontainer">
+         <div > 
+ <div >
 
  <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={1} >
@@ -79,6 +79,42 @@ console.log(batterySelect)
       <Grid item xs={12} md={6}> 
        
        <IOEDashBoardBattery/>
+
+       <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
+       
+       <Box sx={{ flexGrow: 1 }}> 
+       <Grid container spacing={1} >
+       <Grid item xs={12} md={6}>
+        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
+        <span style={{fontSize: "15px"}}>Next Cycle</span>
+        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
+              <p>Tomorrow, 15:00 hrs</p>
+        </div>
+        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
+             <p>Tomorrow, 18:00 hrs</p>
+         </div>
+         
+        </div> 
+       
+      
+       </Grid>
+      
+       <Grid item xs={12} md={6}> 
+       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
+       <span>Previous Cycle</span>
+       </div>
+       
+       </Grid>
+       </Grid>
+       </Box>
+
+
+    
+
+       </div>
+         
       </Grid>
 
       <Grid item xs={12} md={6}> 
@@ -95,6 +131,40 @@ console.log(batterySelect)
     <React.Fragment>
       <Grid item xs={12} md={6}> 
       <LTODashBoradBattery/>
+      <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
+       
+       <Box sx={{ flexGrow: 1 }}> 
+       <Grid container spacing={1} >
+       <Grid item xs={12} md={6}>
+        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
+        <span style={{fontSize: "15px"}}>Next Cycle</span>
+        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
+              <p>Tomorrow, 15:00 hrs</p>
+        </div>
+        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
+             <p>Tomorrow, 18:00 hrs</p>
+         </div>
+         
+        </div> 
+       
+      
+       </Grid>
+      
+       <Grid item xs={12} md={6}> 
+       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
+       <span>Previous Cycle</span>
+       </div>
+       
+       </Grid>
+       </Grid>
+       </Box>
+
+
+    
+
+       </div>
       </Grid>
       <Grid item xs={12} md={6}> 
       <IOEDashBoardBattery/>
@@ -108,6 +178,40 @@ console.log(batterySelect)
     <React.Fragment>
       <Grid item xs={12} md={6}> 
       <UPSDashBoardBattery/>
+      <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
+       
+       <Box sx={{ flexGrow: 1 }}> 
+       <Grid container spacing={1} >
+       <Grid item xs={12} md={6}>
+        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
+        <span style={{fontSize: "15px"}}>Next Cycle</span>
+        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
+              <p>Tomorrow, 15:00 hrs</p>
+        </div>
+        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
+              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
+             <p>Tomorrow, 18:00 hrs</p>
+         </div>
+         
+        </div> 
+       
+      
+       </Grid>
+      
+       <Grid item xs={12} md={6}> 
+       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
+       <span>Previous Cycle</span>
+       </div>
+       
+       </Grid>
+       </Grid>
+       </Box>
+
+
+    
+
+       </div>
       </Grid>
       <Grid item xs={12} md={6}> 
       <LTODashBoradBattery/>
@@ -133,83 +237,7 @@ console.log(batterySelect)
 
 
 </Box>
-<div style={{position: "absolute", top: "60%", left: "5%", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "45%", height: "252px",}}>
-<Box sx={{ flexGrow: 1 }}>
-<Grid container spacing={1}> 
-{
-batterySelect === 'IOE' ? (
-  <React.Fragment>
-   <Grid item xs={12} md={6}>
-  <div style={{marginLeft:"15px",marginTop:"2%",position: "absolute"}}> 
-  <span style={{color:"#000000",fontSize: "15px",textAlign:"start"}}>Next Cycle</span>
 
-  <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-  <p>Tomorrow, 15:00 hrs</p>
-  </div>
-
-  <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-  <p>Tomorrow, 18:00 hrs</p>
-  </div>
-  </div>
-
-  <div style={{marginLeft:"65%",marginTop:"2%",position: "absolute"}}> 
-  <span style={{color:"#000000",fontSize: "15px",textAlign:"end"}}>Previous Cycle</span>
-  <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Charge time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div> 
-
-  <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Discharge Time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div> 
-  </div>
-  
-</Grid>
-  </React.Fragment>
-):batterySelect === 'LTO' ? (
-  <React.Fragment>
-    <Grid item xs={12} md={6}>
-  <div style={{marginLeft:"15px",marginTop:"2%",position: "absolute"}}> 
-  <span style={{color:"#000000",fontSize: "15px",textAlign:"start"}}>Next Cycle</span>
-
-  <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div>
-
-  <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div>
-  </div>
-
-  <div style={{marginLeft:"65%",marginTop:"2%",position: "absolute"}}> 
-  <span style={{color:"#000000",fontSize: "15px",textAlign:"end"}}>Previous Cycle</span>
-  <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Charge time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div> 
-
-  <div style={{marginTop:"25%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-  <span style={{fontWeight: "600",}} >Discharge Time</span>
-  <p>26/12/2023, 15:00 hrs</p>
-  </div> 
-  </div>
-  
-</Grid>
-  </React.Fragment>
-):(
-  <React.Fragment>
-    {/* Default case, add content if needed */}
-  </React.Fragment>
-)
-}
-</Grid>
-</Box>
-</div>
 </div>
 </div>
 

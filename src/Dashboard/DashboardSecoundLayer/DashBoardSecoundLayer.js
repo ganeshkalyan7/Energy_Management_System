@@ -20,21 +20,20 @@ import { nodeAdress,dashboardAddress } from '../../ipAdress';
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
+import DatePickers from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 function DashBoardSecoundLayer() {
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handleDateChange = (date) => {
-    setSelectedDate(new Date(date));
+    setSelectedDate(date);
     // You can perform additional actions when the date changes
     // For example, fetch data for the selected date
   };
@@ -51,6 +50,8 @@ function DashBoardSecoundLayer() {
 
   const [dashBoardHighlightsdata,setDashBoardHighlightsdata]=useState([])
   const DashBoardHighlights_Api=`${dashboardAddress}/Dashboard/Highlights`
+  const [dashBoardHighlightsDateFiltered,setDashBoardHighlightsDateFiltered]=useState([])
+ const  DashBoardHighlightsDateFiltered_Api=`${dashboardAddress}/Dashboard/Highlights/Filtered`
 
   const [reShareData,setReShareData]=useState([])
   const REShareResponse_API=`${dashboardAddress}/Dashboard/REprofile` 
@@ -101,6 +102,23 @@ function DashBoardSecoundLayer() {
     return () => clearInterval(intervalId);
   }, []);
   
+
+
+  const DashBoardHighlightsDateChange = async () => {
+       
+    try {
+      const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
+      const response = await axios.post(DashBoardHighlightsDateFiltered_Api, { date: formattedDate });
+      setDashBoardHighlightsDateFiltered(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //--------------------------end of function------------//
+   //-------calling the post request function inside the useEffect----------//
+   useEffect(()=>{
+    DashBoardHighlightsDateChange()
+  },[selectedDate])
   
   let  WheeledInsolar=0
   let RoofTopSolar=0
@@ -108,17 +126,34 @@ function DashBoardSecoundLayer() {
   let Diesel=0
   let PowerFactor_avg=0
   let PowerFactor_min=0
-  
 
-  for(let i=0;i<dashBoardHighlightsdata.length;i++){
-    WheeledInsolar=dashBoardHighlightsdata[i].wheeled
-    RoofTopSolar=dashBoardHighlightsdata[i].rooftop
-    GridEnegy=dashBoardHighlightsdata[i].grid
-    Diesel=dashBoardHighlightsdata[i].diesel
-    PowerFactor_avg=dashBoardHighlightsdata[i].avgFactor
-    PowerFactor_min=dashBoardHighlightsdata[i].minFactor
+  console.log(dashBoardHighlightsDateFiltered)
   
+  if(selectedDate==null){
+    for(let i=0;i<dashBoardHighlightsdata.length;i++){
+      WheeledInsolar=Math.trunc(dashBoardHighlightsdata[i].wheeled)
+      RoofTopSolar=Math.trunc(dashBoardHighlightsdata[i].rooftop)
+      GridEnegy=Math.trunc(dashBoardHighlightsdata[i].grid)
+      Diesel=Math.trunc(dashBoardHighlightsdata[i].diesel)
+      PowerFactor_avg=(dashBoardHighlightsdata[i].avgFactor).toFixed(2)
+      PowerFactor_min=(dashBoardHighlightsdata[i].minFactor).toFixed(2)
+    
+    }
+
   }
+  else{
+    for(let i=0;i<dashBoardHighlightsDateFiltered.length;i++){
+      WheeledInsolar=Math.trunc(dashBoardHighlightsDateFiltered[i].wheeled)
+      RoofTopSolar=Math.trunc(dashBoardHighlightsDateFiltered[i].rooftop)
+      GridEnegy=Math.trunc(dashBoardHighlightsDateFiltered[i].grid)
+      Diesel=Math.trunc(dashBoardHighlightsDateFiltered[i].diesel)
+      PowerFactor_avg=(dashBoardHighlightsDateFiltered[i].avgFactor).toFixed(2)
+      PowerFactor_min=(dashBoardHighlightsDateFiltered[i].minFactor).toFixed(2)
+    
+    }
+  }
+
+
   const values=[]
   
   
@@ -260,8 +295,8 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
             <div className='childcontainerleft' style={{marginTop:"4%"}} >
               <span style={{marginLeft:"7.4%",fontSize:"18px",fontWeight:"600"}}>Renewable Energy Profile <MdOutlineInfo size="18px" color='black' /></span>
-
-              <div style={{ marginTop: "20px" ,marginLeft:"7.4%"}}>
+             <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"10%",paddingBottom:"3%"}}> 
+              <div style={{ marginTop: "20px" ,marginLeft:"3%"}}>
                 <Box sx={{ flexGrow: 1 }} style={{marginTop:"25px"}}>
 
 
@@ -297,39 +332,8 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                 
               </div>
 
-
-            </div>
-            <div style={{marginLeft: "7.4%",marginTop:"20px"}}> 
-            <span style={{marginLeft:`${(RenewableEnergy)-3}%`,color: "#adadad",fontWeight:"500",fontSize:"14px",position:"relative"}}><span><RxTriangleDown size="23px" />Present</span> </span>
-        </div>
-
-  
-
-
-
-<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: "7.4%",marginTop:"-20px" }}>
-  <Box sx={{ width: '94%', mr: 1 }} >
-  <span style={{marginLeft:"93%",fontSize:"14px",fontWeight:"500",color: "#adadad"}}>Goal</span>
-
-    <LinearProgress variant="determinate" value={Number(RenewableEnergy)} sx={{ '& .MuiLinearProgress-bar': { backgroundColor: '#21D544;' }, height: '16px', background: '#F7F7F7' }} />
-  </Box>
-  {/* <Box sx={{ minWidth: 35 }}>
-    <Typography variant="body2" color="text.secondary">{`${RenewableEnergy}%`}</Typography>
-  </Box> */}
-</Box>
-
-<div style={{marginLeft: "7.4%"}}> 
-  <span style={{color: "#adadad",fontWeight:"600"}}>0%</span>
-  <span style={{marginLeft:"83%",color: "#adadad",fontWeight:"600"}}>100%</span>
-  {/* <span style={{marginTop:"-35px"}}>present</span> */}
-
-
-</div>
-
-
-
-<div style={{width:"87%", marginLeft: "7.4%",background:"#F5F5F5",borderRadius:"10px",marginTop:"3%",height:"120px",paddingTop:"2%",paddingLeft:"3% "}}>
-<span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "center" }}>Renewables Share </span>
+              <div style={{width:"100%", marginLeft: "3%",paddingTop:"1%",paddingLeft:"0%",paddingRight:"3%"}}>
+<span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "center" }}>Sources of Renewables </span>
   <div style={{width:"97%",borderRadius:"5px",marginTop:"15px"}}> 
 
   <div class="bar-container" style={{display:"flex"}}>
@@ -362,7 +366,79 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
     </div> 
 
 </div>
-<div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"100%",height:"350px",width:"0.3px",marginTop:"-350px"}}></div>
+</div>
+
+            </div>
+
+   
+
+
+
+
+
+
+<div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"3%",paddingBottom:"3%"}}> 
+<span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "end",marginLeft:"3%" }}>Renewable till date</span>
+
+
+{/* <div style={{marginLeft:"0%"}}>  
+<span style={{marginLeft:`${(RenewableEnergy)-3}%`,color: "#adadad",fontWeight:"500",fontSize:"14px",position:"relative"}}>70% </span>
+
+</div> */}
+
+
+<Box sx={{  alignItems: 'center', marginLeft: "3%",marginTop:"0px",marginRight:"3%" }}>
+<div style={{ marginLeft: "0%" }}>
+    <span style={{ paddingLeft: "0%", fontSize: "14px", fontWeight: "500", color: "#adadad", whiteSpace: "pre" }}>
+      December, 2022
+    </span>
+    <span style={{fontSize: "14px", fontWeight: "500", color: "#adadad",paddingLeft:"65%" }}>
+      Today
+    </span>
+  </div>
+ 
+<Box sx={{ position: 'relative' }}>
+    <LinearProgress
+      variant="determinate"
+      value={Number(RenewableEnergy)}
+      sx={{
+        height: '16px',
+        background: '#F7F7F7',
+        '& .MuiLinearProgress-bar': {
+          backgroundColor: '#19B8FD;',
+        },
+      }}
+    />
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '0%',
+        left: `${Number(RenewableEnergy)}%`,
+        transform: 'translateX(-50%)',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        color: '#000',
+      }}
+    >
+      {`${Number(Math.trunc(RenewableEnergy))}%`}
+    </Box>
+  </Box>
+   
+  <div style={{marginLeft: "0%"}}> 
+  <span style={{color: "#adadad",fontWeight:"600"}}>0%</span>
+  <span style={{marginLeft:"83%",color: "#adadad",fontWeight:"600"}}>100%</span>
+  </div>
+</Box>
+
+
+
+</div>
+
+
+
+
+
+<div style={{border:"0.5px solid #EAEAEA",marginRight:"0%",marginLeft:"100%",height:"400px",width:"0.3px",marginTop:"-400px"}}></div>
 
 
 </Grid>
@@ -378,7 +454,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                       Building Consumption
                     </span>
                     <br />
-                    <ReactApexChart options={state.options} series={state.series} type="donut" width='270px' height='270px' style={{marginTop:"20px",marginLeft:"-10%"}}  />
+                    <ReactApexChart options={state.options} series={state.series} type="donut" width='270px' height='270px' style={{marginTop:"20%",marginLeft:"-10%"}}  />
                     <p style={{marginLeft:"5%"}}><TbRectangleFilled color='#7A6464' size="30px"/> Grid</p>
                     
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop</p>
@@ -391,20 +467,33 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                    
     </Grid>
   <Grid item xs={6}>
-                    <span style={{ marginLeft: "55%", fontFamily: 'Poppins', fontSize: '14px', fontWeight: '400', color: "#adadad",width:"100px" }}>
-                    {/* {currentdate} */}
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                 <DemoContainer components={['DatePicker']} className="input"> 
-                 <DatePicker
-      label={currentdate}
+  <div style={{ color: '#2B2B2B', fontSize: '14px', marginTop: '15px', position: 'absolute', marginLeft: '5%', fontWeight: '500', }}>
+  {/* <input type="date" id="appt" name="appt"  onChange={handleDateChange}  selected={selectedDate}/> */}
+  <div   style={{ width: "250px", height: "20px",border:"none"}}>
+  <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
+    <DatePickers
+      id="date"
+      className="form-control"
       selected={selectedDate}
       onChange={handleDateChange}
-      />
-      </DemoContainer>   
-               </LocalizationProvider>
-                    </span>
+      placeholderText={currentdate}
+    />
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
+      </svg> */}
+    </div>
+  </div>
+
+
+
+               </div>
+   
+          
+            </div>
                  
-                    <div style={{ marginTop: "10%",paddingTop:"10%" }}>
+                    <div style={{ marginTop: "30%",paddingTop:"0%" }}>
                       <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} justifyContent="space-between">
                           <Grid item xs={6}>
@@ -418,11 +507,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{WheeledInsolar}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>PowerFactor </span>
-                            <br/>
-                            <span>(Min)</span>
-                            <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{PowerFactor_min}</span>
+                           
                           </Grid>
 
                           <Grid item xs={6} >
@@ -436,7 +521,25 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#ADADAD"  }}>{Diesel}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>Power Factor </span>
+                            
+                          </Grid >
+                          <Grid item xs={12}> 
+                          <div style={{marginLeft:"5%"}}> 
+                          <p style={{fontSize: '14px',fontWeight: '400',color:"#2B2B2B",whiteSpace:"pre"}}>Today’s Renewable Share</p>
+                          <p style={{fontSize:"22px",fontWeight:"600",color:"#E80707",marginTop:"-5%"}}><FaArrowDown /> <span >2%</span></p>
+                          </div>
+                          </Grid>
+                          <Grid item xs={6}> 
+                          <span style={{fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>Power Factor </span>
+                            <br/>
+                            <span>(Min)</span>
+                            <br />
+                            <span style={{ fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{PowerFactor_min}</span>
+
+                          </Grid>
+
+                          <Grid item xs={6}> 
+                          <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>Power Factor </span>
                             <br/>
                             (Avg)
                             <br />
@@ -445,7 +548,8 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <br/>
                             <br/>
                             <br/>
-                            <span style={{ fontFamily: 'Poppins', fontSize: '12px', fontWeight: '400' ,marginTop:"40px",color:"#adadad"}}>Energy in kWh</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '12px', fontWeight: '400',color:"#adadad"}}>Energy in kWh</span>
+
                           </Grid>
                         </Grid>
                       </Box>

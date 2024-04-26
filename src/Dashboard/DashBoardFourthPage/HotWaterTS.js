@@ -17,11 +17,14 @@ import { FaToggleOn } from "react-icons/fa";
 import axios from 'axios';
 import { MdOutlineInfo } from "react-icons/md";
 import { RxTriangleDown } from "react-icons/rx";
-import {dashboardAddress,bmssAdress} from "../../ipAdress"
+import {dashboardAddress,bmssAdress,chillersDashboard} from "../../ipAdress"
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DatePickers from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 
@@ -32,18 +35,20 @@ function HotWaterTS() {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [systemOverviewfilterDate, setSystemOverviewfilterDate] = useState(null);
+
 
   const handleDateChange = (date) => {
-    setSelectedDate(new Date(date));
-    // You can perform additional actions when the date changes
-    // For example, fetch data for the selected date
+    setSystemOverviewfilterDate(date);
   };
 
   const HotWater_API=`${dashboardAddress}/HOTWaterStorage`
   const HOTWaterStatus_API=`${dashboardAddress}/HOTWaterStorage/Status`
   const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
+  const HotWaterCHG_DCHG_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`
   const [hotWaterStorageResponse,setHotWaterStorageResponsed]=useState([])
   const [ColdWaterStorageResponse,setColdWaterStorageResponse]=useState([])
+  const [hotWaterCHG_DCHGDataResponse,setHotWaterCHG_DCHGDataResponse]=useState([])
   const [hotWaterStorageStatusResponse,setHotWaterStorageStatusResponsed]=useState([])
 
 
@@ -69,6 +74,10 @@ function HotWaterTS() {
   }, []);
 
 console.log(ColdWaterStorageResponse)
+
+
+
+
 
 
 let tsInletTemperature=0
@@ -124,7 +133,35 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
   }, []);
 
 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(HotWaterCHG_DCHG_API);
+        const dataResponse = res.data;
+        setHotWaterCHG_DCHGDataResponse(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    // Initial data fetch
+    fetchData();
 
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+let HOTWaterTotalCHG=0
+let HOTWaterTotalDCHG=0
+
+for(let i=0;i<hotWaterCHG_DCHGDataResponse.length;i++){
+  HOTWaterTotalCHG+=(hotWaterCHG_DCHGDataResponse[i].Freshwater_Energy+hotWaterCHG_DCHGDataResponse[i].Recirculation_Energy)
+  HOTWaterTotalDCHG+=((hotWaterCHG_DCHGDataResponse[i].Delivered_Energy)*-1)
+}
+console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water discharge ${HOTWaterTotalDCHG}`)
   
   let storedwatertemperature=0
   let DeliveryTemperature=0
@@ -169,7 +206,12 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
   for(let i=0;i<hotWaterStorageStatusResponse.length;i++){
     HOTWaterStaus=hotWaterStorageStatusResponse[i].HOTWaterStorageStatus
   }
+  
 
+  const now = new Date();
+  const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+  const [month, day, year] = local.split("/"); // Split the date by "/"
+  const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
   return (
     <div className='maincontainer'>
@@ -184,7 +226,29 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
           <div> 
             <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Cold Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
 
-           <span style={{textAlign:"end",marginLeft:"85%",position: "absolute",fontSize: "14px", fontWeight: "500", color: "#fff",top:"5%"}}>Today<span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span></span>
+            {/* <div style={{ color: '#2B2B2B', fontSize: '14px', marginTop: '15px', position: 'absolute', marginLeft: '65%', fontWeight: '500', }}>
+  <div   style={{ width: "250px", height: "20px",border:"none"}}>
+  <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
+    <DatePickers
+      id="date"
+      className="form-control"
+      selected={systemOverviewfilterDate}
+      onChange={handleDateChange}
+      placeholderText={currentdate}
+    />
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" />
+    </div>
+  </div>
+
+
+
+               </div>
+   
+          
+            </div> */}
+
+
            </div>
           
            <div > 
@@ -202,7 +266,7 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
             
             <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "500",fontSize:"14px", color: "#fff"}}>
             Total Discharging Energy
-            <p  style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(TotaldischargingEnergy)} kWh</p>
+            <p  style={{fontWeight: "60 0",fontSize:"14px",}}>{Math.trunc(TotaldischargingEnergy)} kWh</p>
             </span>
             
 
@@ -225,18 +289,6 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
               <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{tsStoredWaterTemperature}° C</p>
               </span>
             </Grid>
-            {/* <Grid item  md={3}>
-            <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
-            Total Electrical Energy
-            <p>250 kWh</p>
-            </span>
-            </Grid> */}
-            {/* <Grid item  md={3}>
-            <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
-            Total Cooling Energy
-            <p>250 kWh</p>
-            </span>
-            </Grid>   */}
             </Grid> 
             </Box>
             </div>
@@ -256,14 +308,14 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
       <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px",paddingTop:"5px"}} >
         <div style={{fontSize:"14px",fontWeight:"500"}}>Inlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} Kwh</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} m3/h</div>
         </span>
       
   </div>
   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
       <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"20px",paddingTop:"5px"}} >
         <div style={{fontSize:"14px",fontWeight:"500"}}>Outlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} Kwh</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} m3/h</div>
         </span>
       
   </div>
@@ -285,7 +337,7 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
            </Box>
     
       
-          
+            
            
       
       </div>
@@ -306,23 +358,6 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
         <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px",}}>
           <div> 
           <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Hot Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
-
-           
-           <span style={{textAlign:"end",marginLeft:"65%",position: "absolute",fontSize: "14px", fontWeight: "500", color: "#fff",top:"1%"}}>
-
-           <div   style={{ width: "200px",height:"500px"}}>
-                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                 <DemoContainer components={['DatePicker']} className="input"> 
-                 <DatePicker
-      label="Past 24 Hours"
-      selected={selectedDate}
-      onChange={handleDateChange}
-      
-      />
-      </DemoContainer>   
-               </LocalizationProvider>
-               </div>
-           </span>
            </div>
           
            <div > 
@@ -334,8 +369,13 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
             
            <div> 
             <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
-            Mass of stored water
-            <p style={{fontWeight: "600",fontSize:"14px",}}>{Mass_of_storedwater} kWh</p>
+            Total Charging Energy
+            <p style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(HOTWaterTotalCHG)} kWh</p>
+            </span>
+
+            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
+            Total Discharging Energy
+            <p style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(HOTWaterTotalDCHG)} kWh</p>
             </span>
             
             
@@ -415,21 +455,27 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
           </Grid> */}
 
 <div tyle={{marginTop:"100px",position:"absolute"}}>
-<div style={{position: "absolute", top: "22%", left: "52%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "166px", height: "53px", mixBlendMode: "normal",}} >
+<div style={{position: "absolute", top: "12%", left: "52%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "166px", height: "53px", mixBlendMode: "normal",}} >
 
 <div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Delivery Flow Rate</div>
 <div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Deliveryflowrate} m<sup>3</sup>/h</div>
 </div>
 
 
-<div style={{position: "absolute", top: "65%", left: "25%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
+<div style={{position: "absolute", top: "65%", left: "28%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
 
 <div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>DeliveryTemperature</div>
 <div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{DeliveryTemperature} ° C</div>
 </div>
+
+<div style={{position: "absolute", top: "83%", left: "63%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
+
+<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Mass of stored water</div>
+<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Mass_of_storedwater} kWh</div>
+</div>
           
           
-          <img style={{position: "absolute", width: "180.66px", height: "100%", marginTop:"50px",objectFit: "contain",mixBlendMode: "soft-light", marginLeft:"80px"}} alt="" src={HotTank} />
+          <img style={{position: "absolute", width: "180.66px", height: "100%", marginTop:"10px",objectFit: "contain",mixBlendMode: "soft-light", marginLeft:"80px"}} alt="" src={HotTank} />
   </div>
          
 

@@ -114,15 +114,15 @@ function IOEDashBoardBattery() {
 
      
      <Grid item xs={12} md={8}>
-     <span style={{position: "absolute", width: "150px", marginTop:"8%", height: "45px",marginLeft:"4%"}}>
+     {/* <span style={{position: "absolute", width: "150px", marginTop:"8%", height: "45px",marginLeft:"4%"}}>
  <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Energy Saved</span>
  <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100 kWh</p>
- </span>
+ </span> */}
 
- <span style={{position: "absolute", width: "95px", marginTop:"8%", marginLeft:"20%", height: "45px",}}>
+ {/* <span style={{position: "absolute", width: "95px", marginTop:"8%", marginLeft:"20%", height: "45px",}}>
  <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Cost Saved</span>
  <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100(₹)</p>
- </span>
+ </span> */}
   <br/>
 
   <span style={{position: "absolute", width: "130px", marginTop:"13%", height: "45px",marginLeft:"4%"}}>

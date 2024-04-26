@@ -11,7 +11,8 @@ import { nodeAdress,chillersDashboard } from '../../ipAdress';
 import axios from 'axios';
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Tooltip from '@mui/material/Tooltip';
-import Bar1 from '../../images/ChillersCard.png'
+import Bar1 from '../../images/ChillersCard.png';
+import { Link } from "react-router-dom";
 
 function DashBoardChillers() {
 
@@ -308,13 +309,13 @@ let ChillerTotalCoolingEnergyDayPhase1=0
 
 
 return (
-    <div  className='ChillersMaincontrainer'>
+    <div  className='ChillersMaincontrainer' style={{marginTop:"2%"}}>
       <div className='ChillersMaincontrainer-root'>
       <div className="row"  style={{marginTop:"1%"}}>
   <div className="col-5">
     <div  style={{color:"black",marginLeft:"10%",fontSize:"18px",fontWeight:"600"}}>Chillers</div>
   </div>
-  <div className="col-7" style={{ position: "relative",marginLeft:"48%",marginTop:"-30px" }}>
+  <div className="col-7" style={{ position: "relative",marginLeft:"40%",marginTop:"-30px" }}>
   <img
     style={{
       height: "60px",
@@ -1050,7 +1051,7 @@ return (
         style={{
           position: "relative",
            top: "40px",
-          left: "10%",
+          left: "15%",
           
           width: "100%",
           height: "268px",
@@ -1701,19 +1702,22 @@ return (
 
 
 </Grid>
-
+<div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"50%",height:"250px",width:"1px",marginTop:"-230px"}}></div>
   </Grid>
 </Box>
-<div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"600px",height:"250px",width:"1px",marginTop:"-230px"}}></div>
 
-<div style={{ textAlign: "center",textAlign: "center",marginTop:"5%",marginRight:"70px",display:"flex",marginLeft:"500px",fontSize:"12px",fontWeight:"400"}}>
+
+<div style={{ textAlign: "center",textAlign: "center",marginTop:"5%",marginRight:"0px",display:"flex",marginLeft:"43%",fontSize:"12px",fontWeight:"400"}}>
 <p style={{width:"37px",height:"15px",background:"#ff7338",borderRadius:"2px",marginRight:"9px"}}></p>
-<span style={{marginTop:"-2px"}}>Loading Percentage</span> 
+<span style={{marginTop:"-2px",}}>Loading Percentage</span> 
 <br/>
 
 
 </div>
-<p style={{color:"#0D6BF9",fontSize:"12px",fontWeight:"400",marginLeft:"560px",marginTop:"15px"}}>Show More</p>
+<Link to="/chillers/chillersDashboard"> 
+<p style={{color:"#0D6BF9",fontSize:"12px",fontWeight:"400",marginLeft:"48%",marginTop:"15px"}}>Show More</p>
+</Link>
+
 
   
 

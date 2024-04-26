@@ -147,24 +147,24 @@ for(let i=0;i<maximumPeakDemand.length;i++){
 
 
            <Grid item xs={3}>
-          {/* <div  style={{position:"relative",padding:"5px"}} className='savingsRoot'> 
-         
-          <h4 className='TodaysCo2ReductionRoot ' style={{fontSize: '18px',marginTop:"20px"}}><b>Savings</b></h4>
-          <span className='TonsOfCo2Root' style={{color:"#fff",fontFamily: 'Poppins',fontSize:"16px"}}>Energy</span>
-          <br/>
-          <span className='DivRoot' style={{color:"#fff",fontSize:"25px",fontWeight:'700',fontFamily: 'Poppins'}}>0</span> 
-         <span className='TonsOfCo2Root' style={{color:"fff",fontFamily: 'Poppins',fontSize:"16px",marginLeft:"10px"}}>kWh (Avg)</span>
-         <p className='TonsOfCo2Root' style={{color:"#fff",fontFamily: 'Poppins',fontSize:"16px"}}>During Peak Shaving </p>
-   
-         </div>  */}
-<div style={{marginTop:"21.5%",position:"relative",marginLeft:"-30px"}}> 
+<div style={{marginTop:"20.8%",position:"relative",marginLeft:"-30px",display:"flex"}}> 
 
-<img src={SavingImg} width="100%" height="150px"   />
+<img src={SavingImg} width="100%" height="150px"    />
+<div > 
 <div style={{position: "absolute", top: "15%", left: "9.39%", fontWeight: "600",fontSize:"18px",color:"#fff",fontWeight:"600"}}>Savings</div>
  <div style={{position: "absolute", top: "35.29%", left: "9.39%", fontWeight: "500",fontSize:"13x",color:"#fff"}}>Energy</div>
 
-<span style={{position: "absolute", top: "53.29%", left: "9.39%", fontWeight: "600",fontSize:"24px",color:"#fff"}}>1.4K <span style={{fontWeight: "400",fontSize:"14px"}}>kWh</span> </span>
-<div style={{position: "absolute", top: "75.29%", left: "9.39%", fontWeight: "400",fontSize:"14px",color:"#fff"}}>During Peak Shaving <span style={{marginLeft:"5px"}}><MdOutlineInfo size="20px"/></span></div>
+<span style={{position: "absolute", top: "53.29%", left: "9.39%", fontWeight: "600",fontSize:"24px",color:"#fff"}}>0 K <span style={{fontWeight: "400",fontSize:"14px"}}>kWh</span> </span>
+<div style={{position: "absolute", top: "75.29%", left: "9.39%", fontWeight: "400",fontSize:"14px",color:"#fff"}}>Total<span style={{marginLeft:"5px"}}><MdOutlineInfo size="20px"/></span></div>
+</div>
+
+<div style={{border:"1px solid #EAEAEA",position:"absolute",height:"70px",marginTop:"15%",marginLeft:"46%"}}/>
+
+<div> 
+  <span style={{position: "absolute", top: "35.29%", left: "54.39%", fontWeight: "500",fontSize:"13x",color:"#fff"}}>Cost</span>
+  <span style={{position: "absolute", top: "53.29%", left: "54.39%", fontWeight: "600",fontSize:"24px",color:"#fff"}}> &#8377; <span style={{fontWeight: "600",fontSize:"24px"}}>1 K</span> </span>
+  <div style={{position: "absolute", top: "75.29%", left: "54.39%", fontWeight: "400",fontSize:"14px",color:"#fff"}}>Total<span style={{marginLeft:"5px"}}><MdOutlineInfo size="20px"/></span></div>
+</div>
   
 </div>
 

@@ -101,24 +101,24 @@ function DashboardEvcharger() {
       
 
 
-      <div style={{position: "relative", width: "100%", height: "800px",  fontSize: "16px", color: "#fff",}}> 
-        <div style={{position: "absolute", top: "24%", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "550px"}}> 
+      <div > 
+        <div style={{ left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "auto",paddingBottom:"15%",marginBottom:"5%"}}> 
 
 <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={0} > 
-     <Grid item xs={12} md={4}>
+     <Grid item xs={12} md={5}>
      <div style={{position: "absolute", fontSize: "18px", fontWeight: "600",color:"black",marginTop:"4%",marginLeft:"3%"}}>EV Chargers</div>
-     <div style={{position: "absolute", fontSize: "18px", fontWeight: "600",color:"black",marginTop:"12%",marginLeft:"3%"}}>All Chargers</div>
+     <div style={{position: "absolute", fontSize: "18px", fontWeight: "600",color:"black",marginTop:"10%",marginLeft:"3%"}}>All Chargers</div>
 
      </Grid>
-     <Grid item xs={12} md={8}>
-     <div style={{ position: "absolute",borderRadius: "10px", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "700px", height: "87px", marginTop: "4%", position: "relative",marginLeft:"80px" }}>
+     <Grid item xs={12} md={7}>
+     <div style={{ position: "absolute",borderRadius: "10px", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "auto", height: "87px", marginTop: "4%", position: "relative",marginRight:"30px" }}>
  <div style={{position: "absolute", top: "15%", left: "2%", borderRadius: "5px",width: "213px", height: "63px", overflow: "hidden",}}>
 
  <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar2}/>
     <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",}}>No.of chargers used </div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",}}>0{NoOfchargersused }</div>
+    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",color:"white"}}>No.of chargers used </div>
+    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600", color:"white"}}>0{NoOfchargersused }</div>
   </div>
 
 
@@ -126,16 +126,16 @@ function DashboardEvcharger() {
    
     <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar3}/>
     <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",}}>Total Sessions Today</div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",}}>0{totalSessions}</div>
+    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500", color:"white"}}>Total Sessions Today</div>
+    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",color:"white"}}>0{totalSessions}</div>
   </div>
 
   <div style={{position: "absolute", top: "15%", left: "67.8%", borderRadius: "5px", width: "213px", height: "63px", overflow: "hidden",}}>
 
     <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar4}/>
     <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",}}>Total Energy Used</div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",}}>{totalEnergy} kWh</div>
+    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",color:"white"}}>Total Energy Used</div>
+    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",color:"white"}}>{totalEnergy} kWh</div>
   </div>
   <div style={{position: "absolute", fontSize: "14px", fontWeight: "500",color:"black",marginTop:"16%",marginLeft:"89%"}}>Today  <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span></div> 
       </div>
@@ -189,9 +189,9 @@ function DashboardEvcharger() {
         <div style={{position: "relative",}}>3.3 KW</div>
       </div>
     </div>
-   <div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px",}} />
-    
-    
+    {
+      CP13_1Status==="active"?<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px",}} />:<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px",}} />
+    }
     <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
     <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "#ffeb39", width: "60px", height: "60px",}}> 
     <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
