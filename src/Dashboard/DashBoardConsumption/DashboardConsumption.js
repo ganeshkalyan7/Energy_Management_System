@@ -305,7 +305,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
           <p style={{fontSize:"18px",fontWeight:"500",color:"#2b2b2b"}}>Top Clients</p>
   <Grid container spacing={1}>
   <Grid item xs={3}> 
-     <div style={{width:"100%",height:"163px",border:"1px solid #D5D5D5",borderRadius:"5px",padding:"2%"}}>
+  <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
      {/* <img src={clientImage} style={{width:"57px",height:"24px",marginTop:"10%"}}/> */}
       <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
       {
@@ -313,52 +313,59 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
       }
      </div>
      <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[0]}</p>
-     <div style={{border:"1px solid gray",width:"100%",marginTop:"0%"}}></div>
+     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
+     <div className="Text-buttom">
      <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
      <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[0]?EnergyUsed[0]:0)}kWh </p>
-     
+     </div>
      </div>
   </Grid>
+  <Grid item xs={3}>
+    <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
+        <div style={{ fontSize: "18px", fontWeight: "500", marginLeft: "0%", textAlign: "center", color: "#bf0a2e"}}>
+            {CompanyName[1] ? CompanyName[1] : ""}
+        </div>
+        <p style={{ fontSize: "15px", textAlign: "center", fontWeight: "500", color: "gray" }}>
+            {PysicalAddress[1] ? PysicalAddress[1] : ""}
+        </p>
+        <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
+        <div className="Text-buttom"> 
+        <p style={{ fontSize: "15px", fontWeight: "500", color: "gray" }}>Total Energy</p>
+        <p style={{ fontSize: "15px", fontWeight: "600", color: "black" }}>
+            {Math.trunc(EnergyUsed[1] ? EnergyUsed[1] : 0)} kWh
+        </p>
+        </div>
+    </div>
+</Grid>
+
   <Grid item xs={3}> 
-     <div style={{width:"100%",height:"163px",border:"1px solid #D5D5D5",borderRadius:"5px",padding:"2%"}}>
-     <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
-      {
-       CompanyName[1] ? CompanyName[1]:""
-      }
-     </div>
-     <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[1]? PysicalAddress[1]:"" }</p>
-     <div style={{border:"1px solid gray",width:"100%",marginTop:"0%"}}></div>
-     <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
-     <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[1]?EnergyUsed[1]:0)} kWh </p> 
-     
-     </div>
-    
-  </Grid>
-  <Grid item xs={3}> 
-     <div style={{width:"100%",height:"163px",border:"1px solid #D5D5D5",borderRadius:"5px",padding:"2%"}}> 
+  <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
      <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
       {
        CompanyName[2] ? CompanyName[2]:""
       }
      </div>
      <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[2]? PysicalAddress[2]:"" }</p>
-     <div style={{border:"1px solid gray",width:"100%",marginTop:"0%"}}></div>
+     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
+     <div className="Text-buttom"> 
      <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
      <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[2]?EnergyUsed[2]:0)} kWh </p> 
-
+     </div>
      </div>
   </Grid>
   <Grid item xs={3}> 
-     <div style={{width:"100%",height:"163px",border:"1px solid #D5D5D5",borderRadius:"5px",padding:"2%"}}> 
+  <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
      <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
       {
        CompanyName[3] ? CompanyName[3]:""
       }
      </div>
      <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[3]? PysicalAddress[3]:"" }</p>
-     <div style={{border:"1px solid gray",width:"100%",marginTop:"0%"}}></div>
+     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
+     <div className="Text-buttom"> 
      <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
      <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[3]?EnergyUsed[3]:0)} kWh </p>
+     </div> 
      </div>
   </Grid>
   </Grid>

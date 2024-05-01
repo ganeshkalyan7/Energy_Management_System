@@ -12,8 +12,10 @@ import subtract from "../../images/subtract.svg"
 import vector from '../../images/vector.svg'
 import { dashboardAddress } from '../../ipAdress';
 import { RxTriangleDown } from "react-icons/rx";
-import DatePicker from 'react-datepicker';
+import DatePickers from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { GridDeleteForeverIcon } from '@mui/x-data-grid';
 
 function DashboardEvcharger() {
   const [EvChargerData, setEvChargerData] = useState([])
@@ -95,224 +97,312 @@ function DashboardEvcharger() {
     }
     
 
+  
+
+    const now = new Date();
+    const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+    const [month, day, year] = local.split("/"); // Split the date by "/"
+    const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
     
   return (
     <div className='maincontainer'>
+      <div className='Evchargermaincontainer'> 
+
+     
+      <Box sx={{ flexGrow: 1 }} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}> 
+      <Grid container spacing={1}>
+      <Grid item xs={5}> 
+      <div style={{fontSize: "18px", fontWeight: "600",color:"black",marginTop:"0%",marginLeft:"3%"}}>EV Chargers</div>
+      <div style={{fontSize: "18px", fontWeight: "600",color:"black",marginTop:"20%",marginLeft:"3%"}}>All Chargers</div>
+      </Grid> 
+      <Grid item xs={7}> 
+      <div style={{width:"100%",height:"100px",background:"#F5F5F5",borderRadius: "10px",marginTop:"-2%",paddingLeft:"3%",paddingRight:"3%",paddingBottom:"11%",paddingTop:"2%"}}>
+      <Box sx={{ flexGrow: 1 }}> 
+      <Grid container spacing={1}>
+      <Grid item xs={4}>
+  {/* Container with relative positioning */}
+  <div style={{ position: "relative", height: "100%", width: "100%" }}>
+    {/* Image with full dimensions */}
+    <img style={{ height: "100%",width: "100%",overflow: "hidden"}} alt="" src={Bar2}/>
+    {/* Overlay for text with absolute positioning */}
+    <div style={{position: "absolute",paddingLeft: "5%",width: "100%",top:"20%",color: "#ffffff", textAlign: "start", }}>
+      <p style={{fontWeight: "500",color:"white",fontSize:"15px",whiteSpace:"pre"}}>No.of chargers used <br/> <span>0{NoOfchargersused}</span></p>
+    </div>
+  </div>
+</Grid>
+
+<Grid item xs={4}>
+  {/* Container with relative positioning */}
+  <div style={{ position: "relative", height: "100%", width: "100%" }}>
+    {/* Image with full dimensions */}
+    <img style={{ height: "100%",width: "100%",overflow: "hidden"}} alt="" src={Bar3}/>
+    {/* Overlay for text with absolute positioning */}
+    <div style={{position: "absolute",paddingLeft: "5%",width: "100%",top:"20%",color: "#ffffff", textAlign: "start", }}>
+      <p style={{fontWeight: "500",color:"white",fontSize:"15px",whiteSpace:"pre"}}>Total Sessions Today<br/> <span>0{totalSessions}</span></p>
+    </div>
+  </div>
+</Grid>
+
+<Grid item xs={4}>
+  {/* Container with relative positioning */}
+  <div style={{ position: "relative", height: "100%", width: "100%" }}>
+    {/* Image with full dimensions */}
+    <img style={{ height: "100%",width: "100%",overflow: "hidden"}} alt="" src={Bar4}/>
+    {/* Overlay for text with absolute positioning */}
+    <div style={{position: "absolute",paddingLeft: "5%",width: "100%",top:"20%",color: "#ffffff", textAlign: "start", }}>
+      <p style={{fontWeight: "500",color:"white",fontSize:"15px",whiteSpace:"pre"}}>Total Energy Used <br/> <span>{totalEnergy} kWh</span></p>
+    </div>
+  </div>
+</Grid>
+
+
+      </Grid>
       
+      </Box>
 
-
-      <div > 
-        <div style={{ left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "auto",paddingBottom:"15%",marginBottom:"5%"}}> 
-
-<Box sx={{ flexGrow: 1 }}>
-     <Grid container spacing={0} > 
-     <Grid item xs={12} md={5}>
-     <div style={{position: "absolute", fontSize: "18px", fontWeight: "600",color:"black",marginTop:"4%",marginLeft:"3%"}}>EV Chargers</div>
-     <div style={{position: "absolute", fontSize: "18px", fontWeight: "600",color:"black",marginTop:"10%",marginLeft:"3%"}}>All Chargers</div>
-
-     </Grid>
-     <Grid item xs={12} md={7}>
-     <div style={{ position: "absolute",borderRadius: "10px", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "auto", height: "87px", marginTop: "4%", position: "relative",marginRight:"30px" }}>
- <div style={{position: "absolute", top: "15%", left: "2%", borderRadius: "5px",width: "213px", height: "63px", overflow: "hidden",}}>
-
- <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar2}/>
-    <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",color:"white"}}>No.of chargers used </div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600", color:"white"}}>0{NoOfchargersused }</div>
-  </div>
-
-
-  <div style={{position: "absolute", top: "15%", left: "35%", borderRadius: "5px", width: "213px", height: "63px", overflow: "hidden",}}>
-   
-    <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar3}/>
-    <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500", color:"white"}}>Total Sessions Today</div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",color:"white"}}>0{totalSessions}</div>
-  </div>
-
-  <div style={{position: "absolute", top: "15%", left: "67.8%", borderRadius: "5px", width: "213px", height: "63px", overflow: "hidden",}}>
-
-    <img style={{position: "absolute", height: "194%", width: "129.36%",  maxWidth: "100%", overflow: "hidden", maxHeight: "100%",}} alt="" src={Bar4}/>
-    <div style={{position: "absolute", height: "77%", width: "89.91%", top: "11.5%", right: "5.2%", bottom: "11.5%", left: "4.89%", backgroundColor: "#989898", display: "none",}} />
-    <div style={{position: "absolute", top: "14.29%", left: "9.39%", fontWeight: "500",color:"white"}}>Total Energy Used</div>
-    <div style={{position: "absolute", top: "47.62%", left: "9.39%", fontSize: "16px", fontWeight: "600",color:"white"}}>{totalEnergy} kWh</div>
-  </div>
-  <div style={{position: "absolute", fontSize: "14px", fontWeight: "500",color:"black",marginTop:"16%",marginLeft:"89%"}}>Today  <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span></div> 
       </div>
 
+      <div   style={{ width: "250px", height: "20px",border:"none",marginLeft:"66%",marginTop:"4%"}}>
+  <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
+    <DatePickers
+      id="date"
+      className="form-control"
+      selected={selectedDate}
+      onChange={handleDateChange}
+      placeholderText={currentdate}
+    />
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
+      </svg> */}
+    </div>
+  </div>
 
 
+
+               </div>
+  
+      </Grid>
       
       </Grid>
-     </Grid>
-</Box>
+      
+      </Box>
+      <Box sx={{ flexGrow: 1 }} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}> 
+      <Grid container spacing={1} >
+        {/* CP12_1 */}
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>3.3 KW</p>
 
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP12_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP12_1EnergyConsumed} kWh</p>
 
-<Box sx={{ flexGrow: 1 }}>
-     <Grid container spacing={-6} style={{marginTop:"7%",marginLeft:"3%"}}> 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute", width: "332px", height: "132px",}}>
-      {/* CP12_1 */}
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP12_1Location }</div>
-    <div style={{position: "absolute", top: "61px", left: "107px", fontSize:"14px",fontWeight: "500",color:"#000000"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px", fontSize:"14px",fontWeight:"600",color:"#000000"}}>{CP12_1EnergyConsumed} kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",fontSize:"12px",fontWeight:"400",}}>3.3 KW</div>
+            </Grid>
+            <Grid md={2}>
+              {
+                CP12_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+              }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    {
-      CP12_1Status==="active"?<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px",}} />:<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px",}} />
-    }
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "#ffeb39", width: "60px", height: "60px",}}> 
-    
-     <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
-    
-    
-     </div>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
+      {/* CP13_1 */}
 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute", width: "332px", height: "132px",}}>
-     {/* CP13_1 */}
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP13_1Location}</div>
-    <div style={{position: "absolute", top: "61px", left: "107px",fontSize: "14px", fontWeight: "500",color:"#000000"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px", fontSize: "14px",fontWeight: "600",color:"#000000"}}>{CP13_1EnergyConsumed} kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",}}>3.3 KW</div>
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>3.3 KW</p>
+
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP13_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP13_1EnergyConsumed} kWh</p>
+
+            </Grid>
+            <Grid md={2}>
+              
+            {
+              CP13_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+            }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    {
-      CP13_1Status==="active"?<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px",}} />:<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px",}} />
-    }
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "#ffeb39", width: "60px", height: "60px",}}> 
-    <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
-     </div>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
+       {/* CP14 */}
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute",  width: "332px", height: "132px",}}>
-      {/* CP14 */}
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</div>
-    <div style={{position: "absolute", top: "61px", left: "107px", fontSize:"14px",fontWeight: "500",color:"#000000"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px", fontSize:"14px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",}}>7 KW</div>
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</p>
+
+            </Grid>
+            <Grid md={2}>
+              {
+                CP14_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+              }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    {
-      CP14_1Status==="active"?<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px",}} />:<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px",}} />
-    }
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "#ffeb39", width: "60px", height: "60px",}}> 
-    <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
-     </div>
+      </Grid>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
-     </Grid>
-     
-</Box>
+      </Box>
 
+      <Box sx={{ flexGrow: 1 }} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}> 
+      <Grid container spacing={1} >
+        {/* LEV4_1 */}
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#2E61E6"}}>   
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#fff"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
 
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{LEV4_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{LEV4_1EnergyConsumed} kWh</p>
 
-<Box sx={{ flexGrow: 1 }}>
-     <Grid container spacing={-6} style={{marginTop:"13%",marginLeft:"3%"}}> 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute", width: "332px", height: "132px",}}>
-      {/* LEV4_1 */}
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"#000000"}}>{LEV4_1Location}</div>
-    <div style={{position: "absolute", top: "61px", left: "107px", fontSize:"14px",fontWeight: "500",color:"#000000"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px", fontSize:"14px",fontWeight: "600",color:"#000000"}}>{LEV4_1EnergyConsumed} kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",}}>7 KW</div>
+            </Grid>
+            <Grid md={2}>
+              {
+                LEV4_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+              }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    
-    {
-      LEV4_1Status="" ? <div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#33ff00", width: "15px", height: "15px",}} />:<div style={{position: "absolute", top: "15px", left: "330px", borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px",}} />
-    }
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "#2E61E6", width: "60px", height: "60px",}}> 
-    <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#fff"   alt="" src={vector} />
-     </div>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute", width: "332px", height: "132px",}}>
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"gray"}}>Pond Area</div>
-    <div style={{position: "absolute", top: "61px", left: "107px", fontSize:"14px",fontWeight: "500",color:"gray"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px",fontSize:"14px", fontWeight: "600",color:"gray"}}>20 kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",}}>7 KW</div>
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</p>
+
+            </Grid>
+            <Grid md={2}>
+              {
+                CP14_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+              }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    <div style={{position: "absolute", top: "22px", left: "299px", borderRadius: "50%", backgroundColor: "gray", width: "15px", height: "15px",top: "15px", left: "330px"}} />
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "gray", width: "60px", height: "60px",}}> 
-    <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
-     </div>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
 
-     <Grid item xs={12} md={4}>
-     <div style={{position: "absolute",  width: "332px", height: "132px",}}>
-  <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "360px", height: "132px", overflow: "hidden",}}>
-    <div style={{position: "absolute", top: "16px", left: "107px", fontSize: "18px", fontWeight: "500",color:"gray"}}>Pond Area</div>
-    <div style={{position: "absolute", top: "61px", left: "107px", fontSize:"14px",fontWeight: "500",color:"gray"}}>Total Energy consumed</div>
-    <div style={{position: "absolute", top: "88px", left: "107px", fontSize:"14px",fontWeight: "600",color:"gray"}}>0 kWh</div>
-    <div style={{position: "absolute", top: "82px", left: "24px", display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start", fontSize: "12px", color: "#fff",}}>
-      <div style={{borderRadius: "5px", backgroundColor: "#3c3c43", border: "1px solid #3c3c43", display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "center", padding: "8px",width:"60px",height:"35px",fontSize:"12px",fontWeight:"400"}}>
-        <div style={{position: "relative",}}>7 KW</div>
+      <Grid item xs={12} md={4} > 
+      <div style={{width:"100%",height:"150px",border:"1px solid #D5D5D5",borderRadius:"10px",padding:"2%"}}>
+        <Box> 
+          <Grid container spacing={1} style={{marginLeft:"3%",marginRight:"3%",marginTop:"2%"}}>
+            <Grid md={2}> 
+              <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
+              <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
+              </div>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
+              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
+
+              </div>
+            </Grid> 
+            <Grid md={8} style={{textAlign:"center"}}> 
+            <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</p>
+            <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</p>
+
+            </Grid>
+            <Grid md={2}>
+              {
+                CP14_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
+              }
+             
+
+            </Grid>
+
+          </Grid>
+        </Box> 
+
       </div>
-    </div>
-    <div style={{position: "absolute", top: "22px", left: "299px", borderRadius: "50%", backgroundColor: "gray", width: "15px", height: "15px",top: "15px", left: "330px"}} />
-    <img style={{position: "relative", width: "0px", height: "0px",}} alt="" src={subtract}/>
-    <div style={{position: "absolute", top: "16px", left: "24px", borderRadius: "12px", backgroundColor: "gray", width: "60px", height: "60px",}}> 
-    <BsEvStation style={{position: "relative", top: "20%", right: "79.82%", bottom: "55.3%", left: "15px", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000000"   alt="" src={vector} />
-     </div>
+      </Grid>
+      </Grid>
 
-  </div>
-</div>
-     </Grid>
-     </Grid>
-     
-</Box>
-
-
-
-
-
-
-
-
-
-
-</div>
-</div>
+      </Box>
+      </div>
     </div>
 
    
