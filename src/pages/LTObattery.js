@@ -154,7 +154,8 @@ const LtoLogsLogPopup = () => {
 
 
   return (
-    <div style={{marginTop:"90px",marginLeft:"90px",overflowX: "hidden"}}>
+    <div>
+    <div style={{marginTop:"90px",marginLeft:"40px",overflowX: "hidden"}}>
       <div style={{marginLeft:""}}> 
       <button type="submit" class="btn btn-dark bt-lg" style={{height:"40px",width:"300px",marginLeft:"60px"}} onClick={LtoLogsLogPopup}><b>Lto Logs</b></button>
       </div>
@@ -182,15 +183,6 @@ const LtoLogsLogPopup = () => {
               </div>
               </td>
             </tr>
-            {/* <tr> 
-              <td> 
-              <div class="progress" style={{height:"30px",color:"black",background:"gray"}}>
-              <div class="progress-bar" role="progressbar" style={{ width: `${packSOC}%`,color:"white",background:"#85BB65"}} aria-valuenow={packSOC} aria-valuemin="0" aria-valuemax="100">{packSOC}%</div>
-              </div>
-              </td>
-              <td></td>
-              <td><h4 style={{color:"tomato"}}><b>{TimeStamp}</b></h4></td>
-            </tr> */}
             <tr style={{marginTop:"30px"}}>
               <td><h4 style={{ color: "teal" }}><b>Current Status</b></h4></td>
               <td><h4>:</h4></td>
@@ -273,7 +265,7 @@ const LtoLogsLogPopup = () => {
   <br/>
   <div class="input-group mb-3"  style={{width:"300px"}}>
       <label class="input-group-text" for="inputGroupSelect01" style={{color:"gray",fontFamily:"sans-serif",fontSize:"19px"}} ><b>Function</b></label>
-  <select class="form-select" id="inputGroupSelect01" value={ltoBatteryControlData.functioncode} onChange={(e) => setLtoBatteryControlData({ ...ltoBatteryControlData, functioncode: e.target.value })}>
+  <select class="form-select" id="inputGroupSelect01x" value={ltoBatteryControlData.functioncode} onChange={(e) => setLtoBatteryControlData({ ...ltoBatteryControlData, functioncode: e.target.value })}>
   <option value="">ON/OFF</option>
           <option value={"ON"} style={{color:"green"}} >ON</option>
           <option value={"OFF"} style={{color:"red"}} >OFF</option>
@@ -308,26 +300,18 @@ const LtoLogsLogPopup = () => {
       </div>
     </div>
   </div>
-
-      {/* <div style={{ display: 'inline-block',marginTop:"40px"}} class="col-sm-12 mb-3 mb-sm-0">
-      <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Scheduled Control</b></h4>
-      <br/>
-    <div class="card" style={{background:"white",width:"auto", height:"auto",marginLeft:"10px",marginBottom:"30px"}} >
-      <div class="card-body" style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
-     <BatteryShedule/>
-
-      </div>
-    </div>
-  </div> */}
-
-
+  
+  <div style={{width:"75em",marginLeft:"auto",marginRight:"auto",marginTop:"50px",marginBottom:"50px"}}> 
+  <TableFilte/>
+  </div>
 
   
-</div>
+  </div>
 
-{/* <div id="tableFilte" style={{marginTop:"50px"}}>
-  <TableFilte/>
-</div> */}
+
+    </div>
+
+
     </div>
   )
 }

@@ -15,6 +15,7 @@ import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import { nodeAdress,analyticsAdress } from '../ipAdress';
+import Wheeledinsolarphase2 from './Wheeledinsolarphase2';
 
 function WheeledInsolar() {
   exportingInit(Highcharts);
@@ -30,6 +31,12 @@ function WheeledInsolar() {
 
     const [inverterInitial,setInverterInitial]=useState([])
     const[wmsMeter,setWmsMeter]=useState([])
+
+
+
+
+
+
   
     
     //-----------function for date change----------//
@@ -106,7 +113,10 @@ function WheeledInsolar() {
         zoomType: 'x'
     },
     title: {
-        text: null
+      text: 'Inverter Active Power',
+      style: {
+        color: '#cc0000	' // You can replace 'red' with any desired color value
+    }
     },
     // subtitle: {
     //     text: 'Source: WorldClimate.com'
@@ -118,7 +128,7 @@ function WheeledInsolar() {
     yAxis: {
         min: 0,
         title: {
-            text: 'Diesel Energy(kWh)'
+            text: 'Energy(kWh)'
         }
     },
     tooltip: {
@@ -221,7 +231,10 @@ function WheeledInsolar() {
         zoomType: 'x'
     },
     title: {
-        text: null
+        text: "Daily Solar data",
+        style:{
+          color: '#cc0000	' 
+        },
     },
     // subtitle: {
     //     text: 'Source: WorldClimate.com'
@@ -284,7 +297,10 @@ function WheeledInsolar() {
             zoomType: 'x'
         },
         title: {
-            text: null
+            text:"Expected VS Actual Generation (kwh)",
+            style:{
+              color: '#cc0000	' 
+            },
         },
         xAxis: {
             categories: selectedDate==null?wmsMeter.map((Time) => Time.polledTime):wmsMeterdata.map((Time) =>Time.polledTime),
@@ -351,56 +367,28 @@ function WheeledInsolar() {
 const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
   
   return (
-    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
+    <div style={{marginTop:"10px",marginLeft:"80px",overflowX: "hidden"}}>
       <div> 
-      <h4 style={{textAlign:'center',marginTop:"15px"}}><b style={{fontSize:"30px"}}>Wheeled In Solar </b></h4>
+      <h4 style={{textAlign:'center',marginTop:"15px"}}><b style={{fontSize:"30px"}}>Wheeled In Solar PHASE I </b></h4>
       </div>
+
        <form  onSubmit={handleSubmit} >
-      {/* <div class='row' style={{display:'flex'}}>
-        <div>  */}
-         {/* <Grid sx={{ flexGrow: 1 }} container spacing={2} >
-  <Grid item xs={12} sm={6} ></Grid> */}
-    {/* <div className="row" style={{ marginLeft: "20px", marginTop: "10px" }}>
-  <div className="col">
-    <div className="input-group mb-4" style={{ display: "flex" }}>
-      
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h5 style={{color:"brown"}}><b>Date :-</b></h5> <DatePicker id="date" className="form-control" selected={selectedDate} onChange={handleDateChange} style={{ width: "200px" }}   />
-        </label>
-       
-      
-     
-    </div>
-  </div>
-</div> */}
 <div class="row">
   <div class="col-10" > 
   <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
         <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h5 style={{color:"brown"}}><b>Date :-</b></h5> <DatePicker id="date" className="form-control" selected={selectedDate} onChange={handleDateChange} style={{ width: "200px" }} placeholderText={dateValue}/>
+        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={selectedDate} onChange={handleDateChange} style={{ width: "200px" }} placeholderText={dateValue}/>
         </label>
         
       </div>
   </div>
-  {/* <div class="col-2"><h3>{dateValue}</h3></div> */}
 </div>
-
-        {/* <div class="input-group mb-3"  style={{width:"300px",marginTop:"50px"}}>
-       
-         
-        </div> */}
-        {/* </div>
-      </div> */}
-
-
-
-   </form>
+</form>
    <br/>
    <Grid sx={{ flexGrow: 1 }} container spacing={2} >
 
    <Grid item xs={12} sm={6} >
     <div> 
-    <h3 style={{textAlign:"center",color:"brown"}}><b>Daily Solar data</b></h3>
    {
      <HighchartsReact highcharts={Highcharts} options={WmsMetergraph} />
    }
@@ -409,7 +397,6 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
 
   <Grid item xs={12} sm={6} > 
   <div id="chart2">
-  <h3 style={{textAlign:"center",color:"brown"}}><b>Inverter Active Power</b></h3>
 {
 
 <HighchartsReact highcharts={Highcharts} options={InverterData} />
@@ -429,11 +416,10 @@ const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.
 <br/>
   
    <div>
-   <h3 style={{textAlign:"center",color:"brown"}}><b>Expected VS Actual Generation (kwh)</b></h3>
    <HighchartsReact highcharts={Highcharts} options={Actual_ExpectedEnergy} />
    </div>
 
-    </div>
+   </div>
   )
 }
 

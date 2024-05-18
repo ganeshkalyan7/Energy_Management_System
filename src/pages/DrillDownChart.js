@@ -612,23 +612,23 @@ else{
       colorByPoint: true,
       data: [
         {
-          name: 'primarypump1PH1',
+          name: 'pump1PH1',
           y: primarypump1ph1 
         },
         {
-          name: 'primarypump2PH1',
+          name: 'pump2PH1',
           y: primarypump2ph1 
         },
         {
-          name: 'primarypump3PH1',
+          name: 'pump3PH1',
           y: primarypump3ph1 
         },
         {
-          name: 'primarypump4PH1',
+          name: 'pump4PH1',
           y: primarypump4ph1  
         },
         {
-          name: 'primarypump5PH1',
+          name: 'pump5PH1',
           y: primarypump5ph1   
         },
   
@@ -687,28 +687,28 @@ else{
       name: 'Value',
       colorByPoint: true,
       data: [{
-          name: 'primarypump1PH2',
+          name: 'pump1PH2',
           y: primarypump1ph2
         },
         {
-          name: 'primarypump2PH2',
+          name: 'pump2PH2',
           sliced: false,
           selected: true,
           y: primarypump2ph2
           //electricEnergy.chiller_ElectricalEnergy
         },
         {
-          name: 'primarypump3PH2',
+          name: 'pump3PH2',
           y: primarypump3ph2
           //electricEnergy.Primarypump_ElecticalEnergy
         },
         {
-          name: 'primarypump4ph2PH2',
+          name: 'pump4PH2',
           y: primarypump4ph2
   
         },
         {
-          name: 'primarypump5ph2PH2 ',
+          name: 'pump5PH2 ',
           y: primarypump5ph2 
         },
   

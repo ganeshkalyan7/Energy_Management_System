@@ -9,7 +9,7 @@ import UPSDashBoardBattery from './UPSDashBoardBattery';
 import IOEDashBoardBattery from './IOEDashBoardBattery';
 import { GoTriangleDown } from "react-icons/go";
 import { RxTriangleDown } from "react-icons/rx";
-
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function DashboardBatteries() {
   const[batterySelect,setBatterySelect]=useState("IOE")
@@ -56,189 +56,99 @@ console.log(batterySelect)
 
  <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={1} >
-        <Grid item xs={12} md={6}> 
+        <Grid item xs={6} md={6}> 
         <div style={{fontSize:"18px",fontWeight:"600",color:"#2B2B2B",marginLeft:"5%",marginTop:"3%"}}>Batteries </div>
-        </Grid>
-        <Grid item xs={12} md={6}> 
-        <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div>
-        </Grid>
-    
-      </Grid>
-     </Box>
-     <select className="form-control" id="graphSelector" onChange={handleBatteryChange} value={batterySelect} style={{width:"110px",marginLeft:"2%",marginTop:"4%",textAlign:"center",fontWeight:"700"}}> 
+          
+        <div onChange={handleBatteryChange} value={batterySelect}  style={{width:"110px",marginLeft:"5%",marginTop:"4%",fontWeight:"700"}}>
+  <select class="form-select"  style={{textAlign:"center"}} >
   <option selected value="IOE">IOE </option>
   <option value="UPS">UPS</option>
   <option value="LTO">LTO</option>
-</select>
+  </select>
+</div>
+
+        </Grid>
+        <Grid item xs={6} md={6}> 
+        <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div>
+
+
+        </Grid>
+       
+      </Grid>
+     </Box>
 
 <Box sx={{ flexGrow: 1 }}> 
 <Grid container spacing={1} >
-{
-  batterySelect === 'IOE' ? (
-    <React.Fragment>
-      <Grid item xs={12} md={6}> 
-       
-       <IOEDashBoardBattery/>
+  {
+    batterySelect === 'IOE' ? (
+      <React.Fragment>
+         <Grid item xs={12} md={6}> 
+           <IOEDashBoardBattery/>
+           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}> 
 
-       <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
-       
-       <Box sx={{ flexGrow: 1 }}> 
-       <Grid container spacing={1} >
-       <Grid item xs={12} md={6}>
-        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
-        <span style={{fontSize: "15px"}}>Next Cycle</span>
-        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-              <p>Tomorrow, 15:00 hrs</p>
-        </div>
-        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-             <p>Tomorrow, 18:00 hrs</p>
-         </div>
-         
-        </div> 
-       
-      
-       </Grid>
-      
-       <Grid item xs={12} md={6}> 
-       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
-       <span>Previous Cycle</span>
-       </div>
-       
-       </Grid>
-       </Grid>
-       </Box>
-
-
-    
-
-       </div>
-         
+           </div>
+         </Grid>
+         <Grid item xs={12} md={6}> 
+         <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>LTO</div>
+        <LTODashBoradBattery/>
+        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
+        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>UPS</div>
+        <UPSDashBoardBattery/>
+        
       </Grid>
-
-      <Grid item xs={12} md={6}> 
+      </React.Fragment>
+    ): batterySelect === 'LTO' ?(
+      <React.Fragment> 
+        <Grid item xs={12} md={6}> 
         <LTODashBoradBattery/>
         
-        <div style={{marginTop:"50%"}}> 
+        </Grid>
+        <Grid item xs={12} md={6}>
+        <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>IOE</div> 
+        <IOEDashBoardBattery/>
+        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
+        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>UPS</div>
         <UPSDashBoardBattery/>
-        </div>
-        <div style={{border:"1px solid #adadad",marginRight:"3%",marginLeft:"5%"}}></div>
         
-      </Grid>
-    </React.Fragment>
-  ) : batterySelect === 'LTO' ? (
-    <React.Fragment>
-      <Grid item xs={12} md={6}> 
-      <LTODashBoradBattery/>
-      <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
-       
-       <Box sx={{ flexGrow: 1 }}> 
-       <Grid container spacing={1} >
-       <Grid item xs={12} md={6}>
-        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
-        <span style={{fontSize: "15px"}}>Next Cycle</span>
-        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-              <p>Tomorrow, 15:00 hrs</p>
-        </div>
-        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-             <p>Tomorrow, 18:00 hrs</p>
-         </div>
-         
-        </div> 
-       
-      
-       </Grid>
-      
-       <Grid item xs={12} md={6}> 
-       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
-       <span>Previous Cycle</span>
-       </div>
-       
-       </Grid>
-       </Grid>
-       </Box>
+        </Grid>
 
 
-    
-
-       </div>
-      </Grid>
-      <Grid item xs={12} md={6}> 
-      <IOEDashBoardBattery/>
-      <div style={{marginTop:"50%"}}> 
-        <UPSDashBoardBattery/>
-        </div>
-        <div style={{border:"1px solid #adadad",marginRight:"3%",marginLeft:"5%"}}></div>
-      </Grid>
-    </React.Fragment>
-  ) : batterySelect === 'UPS' ? (
-    <React.Fragment>
-      <Grid item xs={12} md={6}> 
-      <UPSDashBoardBattery/>
-      <div className='Battery-info' style={{width:'93%',border:"1px solid #EAEAEA",marginTop:"60%",marginLeft:"50px",paddingLeft:"30px",paddingTop:"30px",paddingRight:"20px"}}>
-       
-       <Box sx={{ flexGrow: 1 }}> 
-       <Grid container spacing={1} >
-       <Grid item xs={12} md={6}>
-        <div style={{color:"#2B2B2B",textAlign:"start"}}> 
-        <span style={{fontSize: "15px"}}>Next Cycle</span>
-        <div style={{marginTop:"20%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Charge Time</span>
-              <p>Tomorrow, 15:00 hrs</p>
-        </div>
-        <div style={{marginTop:"15%",color:"#000000",fontSize: "15px",textAlign:"start"}}> 
-              <span style={{fontWeight: "600",}} >Scheduled Discharge Time</span>
-             <p>Tomorrow, 18:00 hrs</p>
-         </div>
-         
-        </div> 
-       
-      
-       </Grid>
-      
-       <Grid item xs={12} md={6}> 
-       <div style={{color:"#2B2B2B",textAlign:"end"}}> 
-       <span>Previous Cycle</span>
-       </div>
-       
-       </Grid>
-       </Grid>
-       </Box>
+      </React.Fragment>
 
 
-    
-
-       </div>
-      </Grid>
-      <Grid item xs={12} md={6}> 
-      <LTODashBoradBattery/>
-      <div style={{marginTop:"50%"}}> 
-      <IOEDashBoardBattery/>
-        </div>
-        <div style={{border:"1px solid #adadad",marginRight:"3%",marginLeft:"5%"}}></div>
-      </Grid>
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      {/* Default case, add content if needed */}
-    </React.Fragment>
-  )
-}
-
-
-
-
-
-
+    ): batterySelect === 'UPS' ?(
+      <React.Fragment> 
+        <Grid item xs={12} md={6}>
+        <UPSDashBoardBattery/> 
+        
+        </Grid>
+        <Grid item xs={12} md={6}>
+        <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>LTO</div>
+        <LTODashBoradBattery/>
+        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
+        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>IOE</div>
+        <IOEDashBoardBattery/>
+        </Grid>
+      </React.Fragment>
+    ):(
+      <React.Fragment>
+        {/* Default case, add content if needed */}
+      </React.Fragment>
+    )
+  }
 </Grid>
-
 
 </Box>
 
+
+
+
+
+
+
 </div>
+
+
 </div>
 
 

@@ -1603,7 +1603,6 @@ return (
               >
                 
                 {Math.trunc(avg_condenserLineInletTemp[avg_condenserLineInletTemp.length-1])}°C
-                {/* 10 °C */}
               </div>
               <div
                 style={{

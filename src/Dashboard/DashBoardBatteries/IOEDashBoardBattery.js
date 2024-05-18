@@ -8,6 +8,7 @@ import rectangle56 from "../../images/rectangle-56.svg"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
+
 function IOEDashBoardBattery() {
 
   const [clickedValue, setClickedValue] = useState(null);
@@ -73,88 +74,81 @@ function IOEDashBoardBattery() {
     // Calculate the gradient color based on the percentage
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
   const IOEBattery = {
-    position: "absolute",
-    top: "39px",
-    left: "0px",
-    width: "132px",
+    width: "80%",
     height: "160px",
     background: `linear-gradient(to top, orange ${percentage}%, #D3D3D3 ${percentage}%)`,
-    borderRadius:"9%"
+    borderRadius:"5%"
   };
   return (
     <div>
-      <div>
+      <div style={{marginTop: "39px",marginLeft:"5%"}}>
           <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={1}> 
-     <Grid item xs={12} md={4}>
+     <Grid item xs={6} md={4}>
+     <div style={IOEBattery}>
+      <p style={{textAlign:"center",display: "flex",flexDirection: "column",justifyContent: "flex-end",paddingTop:"80px",color:"white"}}>Discharging </p>
+          
+     
+     </div>
+     <div style={{textAlign:"center",borderRadius: "4px", border: "1px solid #ADADAD", width: "80%", height: "16%",marginTop:"4%",color:'gray',fontSize:"11px",fontWeight: "700"}}> 
+     <div style={{textAlign:"center",marginTop:"5%",whiteSpace:"pre"}}>Capacity  <span>1000(kWh)</span></div>
+
+     </div>
+     </Grid>
+     <Grid item xs={6} md={4}>
+      <div> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Charge </div>
+     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+     </div>
+
+     <div style={{marginTop:"17%"}}> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Energy Saved</div>
+     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+     </div>
+      <div style={{marginTop:"6%"}}> 
+        <div>Active Strings</div>
+        <Box sx={{ flexGrow: 1 }}> 
+        <Grid container spacing={1}>
+        <Grid item xs={6} md={2.4}>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(1)}>1</button>
+
+        </Grid>
+        <Grid item xs={6} md={2.4}>
+          <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(2)}>2</button>
+        </Grid>
+        <Grid item xs={6} md={2.4}>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(3)}>3</button>
+
+        </Grid>
+        <Grid item xs={6} md={2.4}>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(4)}>4</button>
+
+        </Grid>
+        <Grid item xs={6} md={2.4}>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%",textAlign:"center"}} onClick={() => handleButtonClick(5)}>5</button>
+
+        </Grid>
+        </Grid>
         
-   <span style={{color:"#000",fontSize:"20px",fontWeight:"500",marginLeft:"50px",paddingTop:"3%",position: "absolute" }}>IOE</span>
-     <div style={{position: "absolute", width: "132px", height: "146px",marginLeft:"5%",marginTop:"4%", fontSize: "16px", color: "#fff",}}>
- {/* <img style={{position: "absolute", top: "0px", left: "0px", width: "132px", height: "146px",}} alt="" src={group153} /> */}
- <div style={IOEBattery}></div>
-
-
- <div style={{position: "absolute", top: "103px", left: "8px", fontWeight: "600",}}>{percentage}%</div>
- <div style={{position: "absolute", top: "127px", left: "8px", fontSize: "10px", fontWeight: "500",}}>600 kWh</div>
- 
-
- 
-
-</div>
-<div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "23%", marginLeft:"5%",color: "#adadad",}}>
-<div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "4px", border: "1px solid #adadad", boxSizing: "border-box", width: "132px", height: "25px",}} /> 
-<div style={{position: "absolute", top: "4px", left: "8px", fontWeight: "500",}}>Capacity</div> 
-<div style={{position: "absolute", top: "4px", left: "74px", fontWeight: "500",}}>800 kWh</div>
-</div>
-     
-     
+        </Box>
+        
+      </div>
      </Grid>
 
+     <Grid item xs={6} md={4}>
+     <div> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Discharge</div>
+     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+     </div>
 
-
-     
-     <Grid item xs={12} md={8}>
-     {/* <span style={{position: "absolute", width: "150px", marginTop:"8%", height: "45px",marginLeft:"4%"}}>
- <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Energy Saved</span>
- <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100 kWh</p>
- </span> */}
-
- {/* <span style={{position: "absolute", width: "95px", marginTop:"8%", marginLeft:"20%", height: "45px",}}>
- <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Cost Saved</span>
- <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100(₹)</p>
- </span> */}
-  <br/>
-
-  <span style={{position: "absolute", width: "130px", marginTop:"13%", height: "45px",marginLeft:"4%"}}>
- <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Total Charge </span>
- <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100 kWh</p>
- </span>
-
- <span style={{position: "absolute", width: "150px", marginTop:"13%", marginLeft:"20%", height: "45px",}}>
- <span style={{position: "absolute", top: "0px", left: "0px",color:"#000000"}}>Total Discharge </span>
- <p style={{position: "absolute", top: "21px", left: "0px", fontSize: "16px", fontWeight: "600", color: "#18822d",}}>100 kWh</p>
- </span>
-
-
-<div style={{marginTop:"18.4%",position: "absolute",marginLeft:"3%"}}> 
-<p style={{color:"#2B2B2B",marginLeft:"4%"}}>Strings</p>
-{/* {clickedValue && <p>Button {clickedValue} clicked</p>} */}
-<div style={{display:"flex",marginTop:"-15px"}}> 
-<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(1)}>1</button>
-<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(2)}>2</button>
-<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(3)}>3</button>
-<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(4)}>4</button>
-<button type="button" class="btn btn-outline-secondary" style={{width:"39px",height:"35px",marginLeft: "4%"}} onClick={() => handleButtonClick(5)}>5</button>
-
-</div>
-</div>
-
-
-
- <div style={{position: "absolute",width: "132px", height: "25px",fontSize: "12px", marginTop: "20%", marginLeft:"22%",color: "#adadad",}}>
- <button type="button" class="btn btn-outline-primary" style={{width:"100%"}}>Control</button>
-</div>
-      </Grid>
+     <div style={{marginTop:"17%"}}> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Cost Saved</div>
+     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+     </div>
+     <div style={{marginTop:"20.5%",marginLeft:"5%"}}> 
+     <button type="button" class="btn btn-outline-primary" style={{width:"auto"}}>Control</button>
+     </div>
+     </Grid>
      
      </Grid>
 

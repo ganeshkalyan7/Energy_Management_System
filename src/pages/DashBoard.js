@@ -97,6 +97,7 @@ useEffect(() => {
 
 
 let  WheeledInsolar=0
+let WheeledInSolarPhase2=0
 let RoofTopSolar=0
 let Grid=0
 let Diesel=0
@@ -110,12 +111,13 @@ for(let i=0;i<dashBoardHighlightsdata.length;i++){
   Diesel=dashBoardHighlightsdata[i].diesel
   PowerFactor_avg=dashBoardHighlightsdata[i].avgFactor
   PowerFactor_min=dashBoardHighlightsdata[i].minFactor
+  WheeledInSolarPhase2=dashBoardHighlightsdata[i].wheeled2
 
 }
 const values=[]
 
 
-values.push(Math.round(Grid),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel)
+values.push(Math.round(Grid),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel,Math.trunc(WheeledInSolarPhase2))
  
   
   const EvChargerData=()=>{
@@ -181,7 +183,7 @@ const state = {
         toolbar: {
           show: true,
         },
-        labels: ['Grid', 'Rooftop', 'wheeled_in_solar', 'Diesel'],
+        labels: ['Grid', 'Rooftop', 'Solar Phase1', 'Diesel','Solar Phase2'],
         // title: {
         //   text: 'Fruit Sales',
         //   align: 'center',
@@ -199,7 +201,7 @@ const state = {
             horizontalAlign: 'left',
             fontSize: '27px',
             markers: {
-              fillColors: ['#1fc270', '#FFAE42', '#FF5349', '#546E7A']
+              fillColors: ['#e6773c', '#FFAE42', '#0e8045', '#546E7A',"#0e807a"]
             }
           }
         },
@@ -224,7 +226,7 @@ const state = {
             }
           },
         },      
-        colors: ['#1fc270', '#FFAE42', '#FF5349', '#546E7A'],
+        colors: ['#d94930', '#FFAE42', '#0e8045', '#546E7A',"#1db548"],
       },
     };
   const now = new Date();
@@ -278,7 +280,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 <div class="row" >
 
 <div class="col-sm-4 mb-3 mb-sm-0"  >
-<div  style={{ position: 'relative' }}>
+<div  style={{ position: 'relative',top:"11%" }}>
 
         <ReactApexChart options={state.options} series={state.series} type="donut" width={'100%'} height={'400px'}  />
         <Link to='/peakgraph' style={{ textDecoration: 'none' }}> 
@@ -287,17 +289,21 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
       </div>
 </div>
 <div  class="col-sm-8 mb-3 mb-sm-0" >
-<div style={{marginTop:"10px",marginLeft:"30px"}}> 
+<div style={{marginTop:"10px",marginLeft:"-40px"}}> 
 <div class="data-container-legends">
     <span>
-    <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#1fc270'/> &nbsp; <b style={{ color: 'black', textAlign: 'right',fontSize:"18px"}}>Grid</b> </span>
+    <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#d94930'/> &nbsp; <b style={{ color: 'black', textAlign: 'right',fontSize:"18px"}}>Grid</b> </span>
     </span>
     <span>
     <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#FFAE42'/> &nbsp;<b style={{ color: 'black', textAlign: 'right',fontSize:"18px"}}>Rooftop</b> </span>
 
     </span>
     <span>
-    <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#FF5349'/>&nbsp;<b style={{ color: 'black', textAlign: 'right',fontSize:"18px"}}>Wheeled in  solar</b> </span>  
+    <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#0e8045'/>&nbsp;<b style={{ color: 'black', textAlign: 'right',fontSize:"18px",whiteSpace:"pre"}}>Solar Phase1</b> </span>  
+
+    </span>
+    <span>
+    <span style={{ color: '#5e5d5c' }}><BsFillCircleFill color='#1db548'/>&nbsp;<b style={{ color: 'black', textAlign: 'right',fontSize:"18px",whiteSpace:"pre"}}>Solar Phase2</b> </span>  
 
     </span>
     <span>
@@ -316,20 +322,32 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
 
   <div class="container">
   <div class="row">
-    <div class="col-6">
+    <p style={{color:"#5e5d5c",fontSize: "25px",fontWeight:"600"}}>Solar :</p>
+    <div class="col-4">
       <table> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Wheeled in solar:</b></td>
-          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.trunc(WheeledInsolar)}</td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"0px",fontWeight:"600",whiteSpace:"pre"}}>Phase  I : </b></td>
+          <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} >{Math.trunc(WheeledInsolar)}</td>
         </tr>
+        
       </table>
     
     </div>
-    <div class="col-6">
-    <table style={{marginLeft:"40px"}}> 
+    <div class="col-4">
+      <table style={{marginLeft:"0%"}}> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600"}}>Diesel:</b></td>
-          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Diesel}</td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"0px",fontWeight:"600",whiteSpace:"pre"}}>Phase  II : </b></td>
+          <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} >{Math.trunc(WheeledInSolarPhase2)}</td>
+        </tr>
+        
+      </table>
+    
+    </div>
+    <div class="col-4">
+    <table style={{marginLeft:"0%"}}> 
+        <tr> 
+        <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"0px",fontWeight:"600",whiteSpace:"pre"}}>Rooftop  : </b></td> 
+        <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} >{Math.trunc(RoofTopSolar)}</td>
         </tr>
       </table>
     </div>
@@ -341,16 +359,16 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="col-6">
       <table> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Rooftop{' '} :</b></td> 
-          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.trunc(RoofTopSolar)}</td>
+        <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600",whiteSpace:"pre"}}>Diesel : </b></td>
+          <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Diesel}</td>
         </tr>
       </table>
     
     </div>
     <div class="col-6">
-    <table style={{marginLeft:"40px"}}> 
+    <table style={{marginLeft:"35%"}}> 
         <tr> 
-          <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600"}}>Grid{' '} :</b></td>
+          <td><b style={{ fontSize: "25px",color: '#5e5d5c',fontWeight:"600",whiteSpace:"pre"}}>Grid : </b></td>
           <td style={{ fontSize: "25px",color:"black",fontWeight:"600"}} >{Math.round(Grid)}</td>
         </tr>
       </table>
@@ -364,16 +382,16 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
     <div class="col-6">
       <table > 
         <tr> 
-          <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"40px",fontWeight:"600"}}>Power Factor(Min){' '} :</b></td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',marginLeft:"0px",fontWeight:"600",whiteSpace:"pre"}}>Power Factor(Min) : </b></td>
           <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} > {PowerFactor_min}</td>
         </tr>
       </table>
     
     </div>
     <div class="col-6">
-    <table style={{marginLeft:"40px"}} > 
+    <table style={{marginLeft:"0px"}} > 
         <tr> 
-          <td><b style={{ fontSize: "22px",color: '#5e5d5c',fontWeight:"600"}}>Power Factor(Avg){' '} :</b></td>
+          <td><b style={{ fontSize: "22px",color: '#5e5d5c',fontWeight:"600",whiteSpace:"pre"}}>Power Factor(Avg) : </b></td>
           <td style={{ fontSize: "22px",color:"black",fontWeight:"600"}} >{PowerFactor_avg}</td>
         </tr>
       </table>

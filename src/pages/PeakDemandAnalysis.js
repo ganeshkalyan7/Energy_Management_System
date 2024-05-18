@@ -56,6 +56,11 @@ const CountAboveBelow_API=`${bmssAdress}/PeakDemand/Analysis/Count/Peak/Filtered
 const [countAboveBelowData,setCountAboveBelowData]=useState([])
 
 
+const maximumJump_API=`${analyticsAdress}/Analysis/MaxPeak`
+const [maximumJump,setMaximumJump]=useState([])
+const  maximumJumpDateFiltered_API=`${analyticsAdress}/Analysis/MaxPeak/Filtered`
+const [maximumJumpDateFiltered,setMaximumJumpDateFiltered]=useState([])
+
 
 
 
@@ -183,6 +188,7 @@ const fetchData = async () => {
     const minWiseDataJumpDataDateFilteredResponse_API=await axios.post(minWiseDataJump_APIDateFiltered_API,{date:formattedStartDate})
     const countAnalysisDataDateFilteredResponse_API=await axios.post(CountAnalysisDateFiltered_API,{date:formattedStartDate})
    const sumOfEnergyDataDateFilteredResponse_API=await axios.post(SumOfEnergyDateFiltered_API,{date:formattedStartDate})
+   const MaximumJumDateFilteredResponse_API=await axios.post(maximumJumpDateFiltered_API,{date:formattedStartDate})
 
 
     setPeakRangeDataDateFiltered(PeakDemandRangeWiseDataDateFilteredResponse_API.data)
@@ -192,6 +198,7 @@ const fetchData = async () => {
     setMinWiseDataJumpDataDateFiltered(minWiseDataJumpDataDateFilteredResponse_API.data)
     setCountAnalysisDataDateFiltered(countAnalysisDataDateFilteredResponse_API.data)
     setSumOfEnergyDataDateFiltered(sumOfEnergyDataDateFilteredResponse_API.data)
+    setMaximumJumpDateFiltered(MaximumJumDateFilteredResponse_API.data)
 
     setLoading(false);
     console.log(formattedStartDate)
@@ -721,7 +728,40 @@ tooltip: {
 ]
 };
 
+
+
+useEffect(() => {
+  axios.get(maximumJump_API)
+    .then((res) => {
+      const dataResponse = res.data;
+      setMaximumJump(dataResponse);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+
 console.log(PeakDemandGraph)
+console.log(maximumJump)
+
+let MaximumJumpValue=0
+let Time=""
+if(selectedDate==null){
+  for(let i=0;i<maximumJump.length;i++){
+    MaximumJumpValue=Math.trunc(maximumJump[i].maxJump)
+    let TimeRange=(new Date(maximumJump[i].peakTime))
+    Time=(TimeRange.toLocaleString()).split(",")
+  }
+
+}
+else{
+  for(let i=0;i<maximumJumpDateFiltered.length;i++){
+    MaximumJumpValue=Math.trunc(maximumJumpDateFiltered[i].maxJump)
+    let TimeRange=(new Date(maximumJumpDateFiltered[i].peakTime))
+    Time=TimeRange.toLocaleString()
+  }
+}
+
 
 
   return (
@@ -867,8 +907,27 @@ console.log(PeakDemandGraph)
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
         <Grid item xs>
-         
           <div> 
+          <h6 class="card-title" style={{textAlign:"center"}}><b>Maximum Jump of the day kVA</b></h6>
+          <table class="table table-dark table-hover">
+             <thead> 
+             <tr> 
+                <td> Maximum Jump</td>
+                <td>Time</td>
+             </tr>
+
+             </thead>
+             <tbody> 
+                <tr> 
+                  <td>{MaximumJumpValue}</td>
+                  <td>{Time[1]}</td>
+                </tr>
+             </tbody>
+          </table>
+
+          </div>
+         
+          <div style={{marginTop:"20%"}}> 
         <h6 class="card-title" style={{textAlign:"center"}}><b>Hours where  demand crossed {DemandLimit} kVA</b></h6>
         <div style={{overflowX: "auto", overflowY: "auto", maxHeight: '300px'}}> 
         <table class="table table-dark table-hover">

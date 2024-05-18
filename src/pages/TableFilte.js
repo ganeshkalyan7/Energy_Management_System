@@ -5,6 +5,9 @@ import 'react-datetime/css/react-datetime.css';
 import axios from 'axios';
 import { nodeAdress } from '../ipAdress';
 
+import Box from '@mui/material/Box';
+
+
 function TableFilte() {
   const LTOLogApi=`${nodeAdress}/Logs/LTO`
   const [ltoLogsData,setLtoLogsData]=useState([])
@@ -26,7 +29,7 @@ function TableFilte() {
     LtoLogsData()
   },[])
   const columns = [
-    { field: 'recordID', headerName: 'ID', width: 70 },
+    { field: 'recordID', headerName: 'ID', width: 70 ,editable: true,},
     {
       field: 'TimeStamp',
       headerName: 'TimeStamp',
@@ -119,8 +122,8 @@ const rows = ltoLogsData.map((log) => ({
 
 
   return (
-    <div style={{ height:'500px', width: '100%'}}>
-      <DataGrid
+    <div>
+      {/* <DataGrid
         rows={rows}
         columns={columns}
         pageSize={5}
@@ -129,9 +132,24 @@ const rows = ltoLogsData.map((log) => ({
         classes={{
           row: 'custom-row-class', // Add a custom class for rows
           cell: 'custom-cell-class', // Add a custom class for cells
+        }} */}
+           <Box>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
         }}
-        // style={darkTheme} // Apply the dark theme styles
+        pageSizeOptions={[5]}
+        checkboxSelection
+        disableRowSelectionOnClick
       />
+    </Box>
+    
     </div>
   );
 }

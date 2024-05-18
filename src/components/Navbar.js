@@ -33,7 +33,7 @@ import * as TbIcons from  'react-icons/tb'
 //-------------------batteries icons---------------------------//
 import { FaCarBattery } from "react-icons/fa";
 import BatterySaverIcon from '@mui/icons-material/BatterySaver';
-
+import { IoMdBatteryCharging } from "react-icons/io";
 //-----------------------end-----------------------------------//
 
 //---------------------------chillers icons---------------------------//
@@ -110,8 +110,9 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
         }
         
         
-        <Link to='/NewDashboard'> </Link>
+        <Link to='/'> 
         <img src={IITM} width="190px" height="190px" style={{marginTop:"10px",marginLeft:"-30px"}}/>
+        </Link>
         {/* <span class="logo-name">EMS</span> */}
 
         {/* <i class="fas fa-bars" onClick={toggleSidebar} style={{marginLeft:"100px"}}></i> */}
@@ -184,6 +185,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
             <li style={{backgroundColor:currentPath==="/Battery_Analytics"?"#41bf7e" : "transparent"}}><Link to="/Battery_Analytics"><TbIcons.TbBatteryAutomotive size="24px" style={{color:currentPath==="/Battery_Analytics"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px",paddingRight:"10px",color:currentPath==="/Battery_Analytics"?"white":"black"}}>UPS </span></Link></li>
             <li style={{backgroundColor:currentPath==="/LTOBattery_Analytics"?"#41bf7e" : "transparent"}}><Link to="/LTOBattery_Analytics"> <BatterySaverIcon size="30px" style={{color:currentPath==="/LTOBattery_Analytics"?"white":"black",marginTop:"10px"}}/> <span style={{marginLeft:"30px",marginTop:"15px",paddingRight:"10px",color:currentPath==="/LTOBattery_Analytics"?"white":"black"}}> LTO </span> </Link></li>
             <li style={{backgroundColor:currentPath==="/Battery/IOE"?"#41bf7e" : "transparent"}}><Link to="/Battery/IOE"> <BatterySaverIcon  size="30px" style={{color:currentPath==="/Battery/IOE"?"white":"black",marginTop:"13px"}}/> <span style={{marginLeft:"30px",marginTop:"15px", paddingRight:"10px",color:currentPath==="/Battery/IOE"?"white":"black"}}> IOE </span></Link></li>
+            
           </ul>
         </li>
 
@@ -218,6 +220,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
             <li style={{ backgroundColor: currentPath === "/Control/thermal" ? "#41bf7e" : "transparent"}}><Link to="/Control/thermal"><ThermostatAutoIcon size="35px" style={{color:currentPath==="/Control/thermal"?"white":"black",marginTop:"15px",marginLeft:"5px"}} /><span style={{marginLeft:"28px",marginTop:"15px",color:currentPath==="/Control/thermal"?"white":"black"}}>Thermal control</span></Link></li>
             <li style={{ backgroundColor: currentPath === "/control/ltoBattery" ? "#41bf7e" : "transparent"}}><Link to="/control/ltoBattery"><BatterySaverIcon size="37px" style={{color:currentPath==="/control/ltoBattery"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"34px",marginTop:"15px",color:currentPath==="/control/ltoBattery"?"white":"black"}}>LTO Battery  control</span></Link></li>
             <li style={{ backgroundColor: currentPath === "/control/HOTWater" ? "#41bf7e" : "transparent",paddingLeft:"-10px"}}><Link to="/control/HOTWater"><FaHotTub size="20px" style={{color:currentPath==="/control/HOTWater"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"36px",marginTop:"15px",color:currentPath==="/control/HOTWater"?"white":"black"}}>Hot Water  control</span></Link></li>
+            <li style={{ backgroundColor: currentPath === "/control/IOE" ? "#41bf7e" : "transparent",paddingLeft:"-10px"}}><Link to="/control/IOE"><IoMdBatteryCharging  size="25px" style={{color:currentPath==="/control/IOE"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"36px",marginTop:"15px",color:currentPath==="/control/IOE"?"white":"black"}}>IOE Battery  control</span></Link></li>
           </ul>
         </li>
 

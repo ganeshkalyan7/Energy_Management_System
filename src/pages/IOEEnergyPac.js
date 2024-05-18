@@ -525,6 +525,9 @@ console.log(String1and2Graph.series)
   </div>
         }
       </div>
+    
+     
+
     </div>
   );
 }

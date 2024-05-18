@@ -6,14 +6,14 @@ import axios from 'axios';
 import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,analyticsAdress } from '../ipAdress';
 
 function Diesel_Analysis() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
  
     const host="43.205.196.66"
-    const Diesel_Api=`${nodeAdress}/Deisel/analytics/graph`
+    const Diesel_Api=`${analyticsAdress}/Deisel/analytics/graph`
 
     const [DieselData, setDieselData] = useState([]);
 
@@ -48,7 +48,7 @@ function Diesel_Analysis() {
         try {
           const formattedStartDate = filterDate ? new Date(filterDate.getTime() - filterDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       
-          const response = await axios.post(`${nodeAdress}/Deisel/analytics/graph/DateFilter`, {
+          const response = await axios.post(`${analyticsAdress}/Deisel/analytics/graph/DateFilter`, {
             date: formattedStartDate,
           });
         
@@ -79,7 +79,7 @@ function Diesel_Analysis() {
     //     text: 'Source: WorldClimate.com'
     // },
     xAxis: {
-        categories:DieselData.map((Time)=>Time.TimeStamp),
+        categories:DieselData.map((Time)=>Time.Timestamp),
         crosshair: true
     },
     yAxis: {
@@ -150,7 +150,7 @@ const DieselDataDateFilter={
     //     text: 'Source: WorldClimate.com'
     // },
     xAxis: {
-        categories:data.map((Time)=>Time.TimeStamp),
+        categories:data.map((Time)=>Time.Timestamp),
         crosshair: true
     },
     yAxis: {

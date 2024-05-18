@@ -19,11 +19,15 @@ import Buttons from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import WaitImage from '../images/wait.png'
 import WaitoverImage from '../images/work-in-progress.png'
-import { nodeAddress } from '../ipAdress';
+import { nodeAddress } from '../ipAdress';  
 import HighchartsReact from 'highcharts-react-official';
-import Highcharts from 'highcharts';
+import Highcharts, { color } from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
+import PDF from "../images/pdf.png";
+import '../App.css';
+
+
 
 
 function Documentation() {
@@ -37,6 +41,7 @@ function Documentation() {
   const [downloadFile,setDownloadFile]=useState([])
   const [value, setValue] = useState('');
   const userPIN="69125"
+  const documentAddress="https://ems.tre100.in/documents"
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -67,7 +72,7 @@ function Documentation() {
 
   useEffect(() => {
     axios
-      .get('http://121.242.232.211:5007/getdocs')
+      .get(`${documentAddress}/getdocs`)
       .then((res) => {
         const dataResponse = res.data;
         setFileReceive(dataResponse);
@@ -87,7 +92,7 @@ function Documentation() {
     }).then(async (result) => {
       if (result === userPIN) {
     try {
-      await fetch(`http://121.242.232.211:5007/deletefile/${filename}`, {
+      await fetch(`${documentAddress}/deletefile/${filename}`, {
         method: 'DELETE',
       });
       // Update the state after successful deletion
@@ -131,7 +136,7 @@ function Documentation() {
 
   const handleDownloadFile = (filename) => {
     try {
-      axios.get(`http://121.242.232.211:5007/downloadfile/${filename}`)
+      axios.get(`${documentAddress}/downloadfile/${filename}`)
         .then((res) => {
           const dataresponse = res.data;
           const urlResponse = dataresponse.presigned_url;
@@ -170,7 +175,7 @@ function Documentation() {
 
   const requestPinAndUpload = () => {
     swal({
-      title: 'Enter PIN',
+      title: 'Enter FileType',
       content: "input",
       showCancelButton: true,
       confirmButtonText: 'Submit',
@@ -197,56 +202,78 @@ function Documentation() {
     
   //requestPinAndUpload()
   const customRequest = async ({ file, onSuccess, onError }) => {
-    swal({
-      title: 'Enter PIN',
-      content: "input",
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-      cancelButtonText: 'Cancel',
-    }).then(async (result) => {
-      if (result === userPIN) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileType', value);
-        try {
-          const response = await axios.post('http://121.242.232.211:5007/uploadbill', formData, {
-            onUploadProgress: (progressEvent) => {
-              const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-              setUploadProgress(progress);
-            },
-          });
+    try {
+      // Prompt for PIN
+      const { value: enteredPIN } = await Swal.fire({
+        title: 'Enter PIN',
+        input: 'password',
+        inputPlaceholder: 'Enter your PIN',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+      });
   
-          const data = response.data;
-          setFileHandle(data.message);
-          setFileReceive((prevFileReceive) => [...prevFileReceive, data.message]);
-          setUploadProgress(0); // Reset progress after successful upload
-          onSuccess();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `${file.name} file uploaded successfully`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-  
-          message.success(`${file.name} file uploaded successfully`);
-          // Handle other responses as needed
-        } catch (error) {
-          console.error('Error uploading file:', error);
-          setUploadProgress(0); // Reset progress on error
-          onError(error);
-        }
-      } else {
+      // Check if the user canceled or provided incorrect PIN
+      if (!enteredPIN || enteredPIN !== userPIN) {
         Swal.fire({
           imageUrl: 'https://img.freepik.com/premium-vector/frustrated-man-touching-his-head-holding-phone-trying-remember-forgets-password-account_199628-198.jpg',
           imageWidth: 400,
           imageHeight: 350,
           imageAlt: 'Custom image',
-          // footer: '<a href="">Why do I have this issue?</a>'
         });
+        return;
       }
-    });
+  
+      // Prompt for file type if PIN is correct
+      const { value: fileType } = await Swal.fire({
+        title: 'Enter FileType',
+        input: 'text',
+        inputPlaceholder: 'Enter file type',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+      });
+  
+      // Check if the user canceled or didn't provide a file type
+      if (!fileType) {
+        return;
+      }
+  
+      // Prepare form data
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileType', fileType);
+  
+      // Upload the file
+      const response = await axios.post(`${documentAddress}/uploadbill`, formData, {
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          setUploadProgress(progress);
+        },
+      });
+  
+      // Handle successful upload
+      const data = response.data;
+      setFileHandle(data.message);
+      setFileReceive((prevFileReceive) => [...prevFileReceive, data.message]);
+      setUploadProgress(0); // Reset progress
+      onSuccess(); // Notify parent component
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `${file.name} file uploaded successfully`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      message.success(`${file.name} file uploaded successfully`);
+  
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setUploadProgress(0); // Reset progress on error
+      onError(error); // Notify parent component
+    }
   };
+  
   
 
 
@@ -265,7 +292,7 @@ function Documentation() {
 
 
   return (
-    <div>
+    <div >
 
 
 <div style ={{width:"400px",justifyContent:'center',alignItems:"center",marginLeft: "auto",marginRight: "auto", flexDirection: "column",marginTop:"100px"}}>
@@ -339,20 +366,27 @@ function Documentation() {
           ))}
         </tbody>
       </Table> */}
-      <div style={{marginTop:"3rem",marginLeft:"100px"}}>
+      <div style={{marginTop:"3rem",marginLeft:"100px",marginRight:"auto",marginRight:"50px"}}  >
 
 <Box sx={{ flexGrow: 1 }}>
   <Grid container spacing={2}>
     {fileReceive.map((file, index) => (
-      <Grid item xs={4} md={4} sm={1} key={index}>
-        <Card sx={{ minWidth: 275, margin: '10px'}}>
+      <Grid item xs={12} md={4} sm={1} key={index}>
+        <Card sx={{ minWidth: 0, margin: '10px'}}    className='cards'  style={{background:"#536fdb",color:"white",cursor:"pointer"}} onClick={() => handleDownloadFile(file[2])}>
           <CardContent>
             <Typography variant="h5" component="div">
-            {file[2]}  <FileCopyIcon/>
+            {file[2]} {file[3]==="pdf"?<img src={PDF} alt='pdf' style={{width:"35px",height:"35px"}}/>:""} 
+              
+
+             
             </Typography>
             <br/>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography sx={{ mb: 1.5 }} >
               <b>Uploaded Date:</b> {file[1]}
+            </Typography>
+            <br/>
+            <Typography sx={{ mb: 1.5 }}>
+              <b>File Type:</b> {file[3]}
             </Typography>
             {/* <Typography variant="body2">
               Description or additional content goes here.

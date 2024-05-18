@@ -14,7 +14,7 @@ import Peakdemand from './pages/Peakdemand';
 import Thermalalers from './pages/Thermalalers';
 import ChillerAlerts from './pages/ChillerAlerts';
 import RooftopSolar from './pages/RooftopSolar';
-import Wheeledinsolar from './pages/Wheeledinsolar';
+import Wheeledinsolar from  "./pages/Wheeledinpahse1phase2";
 import axios from 'axios';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -49,6 +49,9 @@ import HOTWaterControl from './pages/HOTWaterControl';
 import { Light, Dark } from "./styles/Themes";
 import { ThemeProvider } from "styled-components";
 import IOEEnergyPac from './pages/IOEEnergyPac';
+import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
+
+
 
 export const ThemeContext = React.createContext(null);
 function App() {
@@ -91,6 +94,8 @@ function App() {
             <Route path="/NewDashboard" element={<DashBoardCombine/>}/>
             <Route path="/control/HOTWater" element={<HOTWaterControl/>}/>
             <Route path="/Battery/IOE" element={<IOEEnergyPac/>}/>
+            <Route path="/control/IOE" element={<IOEControl/>}/>
+            
             
                     
             </Routes>
