@@ -183,7 +183,7 @@ enabled: false, // Disable markers for the series
     yAxis:[{
         min: 0,
         title: {
-            text: 'Energy(kWh)'
+            text: 'Energy(kW)'
         },
       },
    ],
@@ -202,7 +202,7 @@ enabled: false, // Disable markers for the series
         }
     },
     series: [{
-        name: 'Inverter9(kWh)',
+        name: 'Inverter9(kW)',
         data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter9)):inveterPhase2DateFiltered.map((value)=>(value.inverter9)),
         yAxis:0,        
  
@@ -211,7 +211,7 @@ enabled: false, // Disable markers for the series
 },
 },
 {
-    name: 'Inverter10(kWh)',
+    name: 'Inverter10(kW)',
     data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter10)):inveterPhase2DateFiltered.map((value)=>(value.inverter10)),
     yAxis:0,        
 
@@ -220,7 +220,7 @@ enabled: false, // Disable markers for the series
 },
 },
 {
-    name: 'Inverter11(kWh)',
+    name: 'Inverter11(kW)',
     data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter11)):inveterPhase2DateFiltered.map((value)=>(value.inverter11)),
     yAxis:0,        
 
@@ -230,7 +230,7 @@ enabled: false, // Disable markers for the series
 },
 
 {
-    name: 'Inverter12(kWh)',
+    name: 'Inverter12(kW)',
     data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter12)):inveterPhase2DateFiltered.map((value)=>(value.inverter12)),
     yAxis:0,        
 
@@ -240,7 +240,7 @@ enabled: false, // Disable markers for the series
 },
 
 {
-    name: 'Inverter13(kWh)',
+    name: 'Inverter13(kW)',
     data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter13)):inveterPhase2DateFiltered.map((value)=>(value.inverter13)),
     yAxis:0,        
 
@@ -249,7 +249,7 @@ enabled: false, // Disable markers for the series
 },
 },
 {
-    name: 'Inverter14(kWh)',
+    name: 'Inverter14(kW)',
     data:selectedDate==null?inveterPhase2.map((value)=>(value.inverter14)):inveterPhase2DateFiltered.map((value)=>(value.inverter14)),
     yAxis:0,        
 
@@ -338,7 +338,7 @@ enabled: false, // Disable markers for the series
   return (
     <div style={{marginTop:"10px",marginLeft:"80px",overflowX: "hidden"}}>
        <div> 
-      <h4 style={{textAlign:'center',marginTop:"15px"}}><b style={{fontSize:"30px"}}>Wheeled In Solar PHASE II </b></h4>
+      <h4 style={{textAlign:'center',marginTop:"15px"}}><b style={{fontSize:"30px"}}>Wheeled In Solar Phase II </b></h4>
       </div>
 
 <div className="row" >

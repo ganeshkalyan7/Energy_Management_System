@@ -546,7 +546,7 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
               <td><h4 style={{ color: "teal" }}><b>Last Discharge</b></h4></td>
               <td><h4>:</h4></td>
               <td>
-                {DCHG[DCHG.length - 1] ? <h4 style={{ color: "black",fontSize:"20px"  }}>{Math.round(DCHG[DCHG.length - 1])} kWh  </h4> : <h4 style={{ fontSize: "20px",color:"gray" }}>yet to discharge</h4>}
+                {DCHG[DCHG.length - 1] > 1  ? <h4 style={{ color: "black",fontSize:"20px"  }}>{Math.round(DCHG[DCHG.length - 1])} kWh  </h4> : <h4 style={{ fontSize: "20px",color:"gray" }}>0 kWh</h4>}
               </td>
               <td> 
               {disformattedTimestamp!=="Invalid Date"?<span style={{ color: "gray",fontSize:"20px" }}>{disformattedTimestamp}</span>:<p>_______</p>}

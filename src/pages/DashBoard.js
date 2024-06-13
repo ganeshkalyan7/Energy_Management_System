@@ -22,6 +22,7 @@ import WheeledInSolarCard from './Dashboard/WheeledInSolarCard';
 import RoofTopCard from './Dashboard/RoofTopCard';
 import C02ReductionCard from './Dashboard/C02ReductionCard';
 import ChillerStatus from './Dashboard/ChillerStatus';
+import IOEBatteryHourly from './Dashboard/IOEBatteryHourly';
 
 import './DashBoard.css'
 import { fontSize } from '@mui/system';
@@ -511,6 +512,23 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
         <hr/>
         <div id="chart2"> 
         <HotWaterStorage/>
+  
+   </div>
+   <div class="card-text"style={{font:'caption',fontStretch:"extra-expanded",fontFamily:"serif",fontSize:'17px' }}> 
+          <br/>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12" style={{marginTop:"5%"}}>
+    <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
+      <div class="card-body">
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery </b></h4> 
+        <hr/>
+        <div id="chart2"> 
+        <IOEBatteryHourly/>
   
    </div>
    <div class="card-text"style={{font:'caption',fontStretch:"extra-expanded",fontFamily:"serif",fontSize:'17px' }}> 

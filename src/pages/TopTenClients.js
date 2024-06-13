@@ -17,8 +17,6 @@ function TopTenClients() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
 
-
-
 const ClientDataApi=`${analyticsAdress}/BuildingConsumption/TopTenClients`
 const ClientDataDateFilteredApi=`${analyticsAdress}/BuildingConsumption/TopTenClients/filtered`
 const [clientData,setClientData]=useState("")
@@ -32,6 +30,9 @@ const[clientsGraphDateFiltered,setClientsGraphDateFiltered]=useState([])
 const ClientsGraph_API=`${analyticsAdress}/Analysis/TopCoolingClients`
 const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClients/Filtered`
 
+
+const ClientSearch_API="http://127.0.01:5002/Analysis/TopCoolingClients/search"
+const [ClientSearch,setClientSearch]=useState([])
 
 
  const colourOptions = [
@@ -58,13 +59,13 @@ const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClient
   { value: "Confederation of Indian Industry", label: "Confederation of Indian Industry" },
   { value: "Crion Technology", label: "Crion Technology" },
   { value: "Crossbow", label: "Crossbow" },
-
-
-
+  { value: "Yalamanchili Software Exports Pvt. Ltd.", label: "Yalamanchili Software Exports Pvt. Ltd" }  
   
+
 ];
      // Step 2: Create a state variable to store the selected values
      const [selectedValues, setSelectedValues] = useState([]);
+     const clientNameFilter=[]
 
        // Step 3: Define an onChange handler function
   const handleSelectChange = (selectedOptions) => {
@@ -72,8 +73,19 @@ const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClient
     setSelectedValues(selectedOptions);
 
     // Step 4: Log the new selection to the console
-    console.log('Selected values:', selectedOptions);
+    // console.log('Selected values:', selectedValues);
   };
+  if(selectedValues){
+    selectedValues.map((clientname)=>{
+      clientNameFilter.push(clientname.value)
+    })
+
+  }
+  console.log(clientNameFilter)
+
+  
+
+
 
 
 const TopTenClienData=()=>{
@@ -131,10 +143,35 @@ useEffect(() => {
     }
   };
   
+
+
+  const now = new Date();
+const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+const [month, day, year] = local.split("/"); // Split the date by "/"
+const currentdate = `${year}-${month}-${day}`; // Rearrange the day and month
+const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
+const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+
+console.log(dateValue,formattedDate)
+
+  const clientSearchResponse=async ()=>{
+    try{
+      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+      const clientNameResult=clientNameFilter
+
+      const clientNameSearchRespone = await axios.post( ClientSearch_API,{date:formattedDate,tenantNames:clientNameResult})
+      setClientSearch(clientNameSearchRespone.data)
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
   
   useEffect(() => {
     fetchData();
-  }, [selectedDate]);
+    clientSearchResponse()
+  }, [selectedDate,selectedValues]);
+  console.log(ClientSearch)
   //-------------------------END---------------------------------------------//
 
   console.log(clientsGraphDateFiltered)
@@ -265,11 +302,7 @@ const TopTenClientsDatausage=selectedDate==null?clientData:clientDataDateFiltere
 console.log(TopTenClientsDatausage)
 
 
-const now = new Date();
-const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
-const [month, day, year] = local.split("/"); // Split the date by "/"
-const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
-const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
+
 
 
 
@@ -600,6 +633,80 @@ enabled: false, // Disable markers for the series
   ]
   };
   
+
+// Function to group data by tenantname
+function groupByTenantName(data) {
+  const groupedData = {};
+  data.forEach(item => {
+      if (!groupedData[item.tenantname]) {
+          groupedData[item.tenantname] = [];
+      }
+      groupedData[item.tenantname].push(item);
+  });
+  return groupedData;
+}
+
+// Group the data by tenantname
+const groupedData = groupByTenantName(ClientSearch);
+
+// Extract unique times for the x-axis categories
+const uniqueTimes = Array.from(new Set(ClientSearch.map(item => item.polledTime)));
+
+// Generate the series data
+const seriesData = Object.keys(groupedData).map(tenant => {
+  return {
+      name: tenant,
+      data: uniqueTimes.map(time => {
+          const dataPoint = groupedData[tenant].find(item => item.polledTime === time);
+          return dataPoint ? dataPoint.client_energy : 0;  // Ensure all times are represented
+      }),
+      marker: {
+        enabled: false, // Disable markers for the series
+        },
+        
+
+  };
+});
+
+const TOPClinetsGraphClientSearch = {
+  chart: {
+      type: 'line',
+      zoomType: 'x'
+  },
+  title: {
+      text: "TOP 10 Cooling",
+      align: 'center'
+  },
+  xAxis: {
+      categories: uniqueTimes,
+      crosshair: true
+  },
+  yAxis: {
+      min: 0,
+      title: {
+          text: "Energy(kWh)"
+      }
+  },
+  tooltip: {
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+          '<td style="padding:0"><b>{point.y}</b></td></tr>',
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
+  },
+  plotOptions: {
+      column: {
+          stacking: 'normal',
+          pointWidth: 20
+      }
+  },
+  legend: {
+      enabled: true // Enable the legend to show different tenants
+  },
+  series: seriesData
+};
+
   return (
     <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}> 
       
@@ -622,7 +729,14 @@ enabled: false, // Disable markers for the series
   </div>
  </div>
 
-<div style={{width:"400px",marginLeft:"30px"}}> 
+
+
+
+    <HighchartsReact highcharts={Highcharts} options={TopTenClient}  />
+  </div>
+
+
+  <div style={{width:"400px",marginLeft:"30px"}}> 
  <Select
         defaultValue={selectedValues}
         isMulti
@@ -634,18 +748,39 @@ enabled: false, // Disable markers for the series
       />
   </div>
 
-
-    <HighchartsReact highcharts={Highcharts} options={TopTenClient}  />
-  </div>
-  {/* <HighchartsReact highcharts={Highcharts} options={Actual_ExpectedEnergy}  />
-   */}
-
    <div> 
-   <HighchartsReact highcharts={Highcharts} options={TOPClinetsGraph}  />
+
+    {
+      clientNameFilter.length<= 0 ? <HighchartsReact highcharts={Highcharts} options={TOPClinetsGraph}  />:<HighchartsReact highcharts={Highcharts} options={TOPClinetsGraphClientSearch}  />
+    }
+   
    
    </div>
+
+   <div> 
+   
+   
+   </div>
+   
       
     </div>
+
+    <br/>
+    <br/>
+
+<div style={{marginLeft:"100px"}}> 
+{/* <Box sx={{ width:"80%"}}>
+<Slider
+  aria-label="Always visible"
+  defaultValue={80}
+  getAriaValueText={valuetext}
+  step={20}
+  marks={marks}
+  valueLabelDisplay="off"
+/>
+    </Box> */}
+</div>
+
     </div>
   )
 }

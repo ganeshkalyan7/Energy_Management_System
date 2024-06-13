@@ -42,7 +42,7 @@ function HotWaterTS() {
     setSystemOverviewfilterDate(date);
   };
 
-  const HotWater_API=`${dashboardAddress}/HOTWaterStorage`
+  const HotWater_API=`${dashboardAddress}/Dashboard/HOTWaterStorage`
   const HOTWaterStatus_API=`${dashboardAddress}/HOTWaterStorage/Status`
   const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
   const HotWaterCHG_DCHG_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`

@@ -67,7 +67,7 @@ function HotWaterStorage() {
     >
       {/* Add information for the bottom position */}
       <tr>
-        <td><b style={{ color: "black" }}>Mass of stored water</b></td>
+        <td><b style={{ color: "black" }}>Mass of stored water (L)</b></td>
         <td style={{ color: "black" }}>:</td>
         <td><span style={{ color: "red" }}><b>{Math.trunc(Mass_of_stored_water)}</b></span></td>
       </tr>

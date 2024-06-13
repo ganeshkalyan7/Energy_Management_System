@@ -42,7 +42,7 @@ function BatteryHourly() {
        
         try {
           const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
-          const response = await axios.post(`${dashboardAddress}/filtered/Battery`, { date: formattedDate });
+          const response = await axios.post(`${dashboardAddress}/Dashboard/upsBattery/filtered`, { date: formattedDate });
           setSingledaydata(response.data);
         } catch (error) {
           console.error(error);
@@ -109,7 +109,7 @@ function BatteryHourly() {
             color:"#528AAE"
         }, {
             name: 'Discharging  Energy',
-            data:  battery.map((val)=>val.dischargingEnergy),
+            data:  battery.map((val)=>val.dischargingEnergy/1000),
             type: 'column',
             yAxis: 0, // Primary y-axis
             color:"#00008B"
@@ -186,7 +186,7 @@ function BatteryHourly() {
           color:"#528AAE"
       }, {
           name: 'Discharging  Energy',
-          data:  singledaydata.map((val)=>val.dischargingEnergy),
+          data:  singledaydata.map((val)=>val.dischargingEnergy/1000),
           type: 'column',
           yAxis: 0, // Primary y-axis
           color:"#00008B"

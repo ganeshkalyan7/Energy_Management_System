@@ -99,7 +99,7 @@ function WheeledInSolarCard() {
 
   <tr>
     <td><b style={{color:"#5e5d5c"}}>Performance %:</b></td>
-    <td><span style={{color:"black"}}>{WheeledinsolarperformanceValue}</span></td>
+    <td><span style={{color:"black"}}>{Math.trunc(WheeledinsolarperformanceValue)}</span></td>
   </tr>
 
 

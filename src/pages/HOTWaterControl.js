@@ -99,7 +99,7 @@ function HOTWaterControl() {
         dangerMode: false,
       }).then((willContinue) => {
         if (willContinue) {
-          axios.post("https://ems.tre100.in/control/control/HotwaterStorage", formattedData)
+          axios.post("https://ems.tre100.in/controlapi/control/HotwaterStorage", formattedData)
             .then((response) => {
               const result = response.data;
               console.log(result)

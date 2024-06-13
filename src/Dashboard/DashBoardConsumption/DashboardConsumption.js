@@ -263,7 +263,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
    
 
   <span style={{border:"1px solid #f2f2f2",height:"400px",width:"1px",marginTop:"10%",marginLeft:"4.6em",position:"absolute"}}>
-    <span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600"}}>{FirstSystemName} </span>
+    <span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FirstSystemName} </span>
     <br/> 
     <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
 
@@ -271,14 +271,14 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
   </span>
   <span style={{border:"1px solid #f2f2f2",height:"350px",width:"0.5px",marginTop:"10%",marginLeft:"27%",position:"absolute"}}>
     
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600"}}> {SecoundSystemName} </span>
+    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {SecoundSystemName} </span>
     <br/>
     <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
     <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(SecoundSystemValue)} (kWh)</p>
   </span>
   <span style={{border:"1px solid #f2f2f2",height:"320px",width:"0.5px",marginTop:"10%",marginLeft:"49%",position:"absolute"}}>
     
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600"}}>{ThirdSystemName}</span> 
+    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{ThirdSystemName}</span> 
     <br/>
     <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
     <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(ThirdSystemValue)} (kWh)</p>
@@ -287,7 +287,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
    </span>
   <span style={{border:"1px solid #f2f2f2",height:"320px",width:"0.5px",marginTop:"10%",marginLeft:"70.3%",position:"absolute"}}>
     
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600"}}>{FourtSystemName}</span>
+    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FourtSystemName}</span>
     <br/>
     <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
     <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(FourtSystemValue)} (kWh)</p>

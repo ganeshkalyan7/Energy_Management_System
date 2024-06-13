@@ -121,6 +121,8 @@ function DashBoardSecoundLayer() {
   },[selectedDate])
   
   let  WheeledInsolar=0
+  let WheeledInsolarPhase2=0
+  let TodayRE=0
   let RoofTopSolar=0
   let GridEnegy=0
   let Diesel=0
@@ -132,6 +134,8 @@ function DashBoardSecoundLayer() {
   if(selectedDate==null){
     for(let i=0;i<dashBoardHighlightsdata.length;i++){
       WheeledInsolar=Math.trunc(dashBoardHighlightsdata[i].wheeled)
+      WheeledInsolarPhase2=Math.trunc(dashBoardHighlightsdata[i].wheeled2)
+      TodayRE=Math.trunc(dashBoardHighlightsdata[i].RE)
       RoofTopSolar=Math.trunc(dashBoardHighlightsdata[i].rooftop)
       GridEnegy=Math.trunc(dashBoardHighlightsdata[i].grid)
       Diesel=Math.trunc(dashBoardHighlightsdata[i].diesel)
@@ -144,6 +148,8 @@ function DashBoardSecoundLayer() {
   else{
     for(let i=0;i<dashBoardHighlightsDateFiltered.length;i++){
       WheeledInsolar=Math.trunc(dashBoardHighlightsDateFiltered[i].wheeled)
+      WheeledInsolarPhase2=Math.trunc(dashBoardHighlightsDateFiltered[i].wheeled2)
+      TodayRE=Math.trunc(dashBoardHighlightsDateFiltered[i].RE)
       RoofTopSolar=Math.trunc(dashBoardHighlightsDateFiltered[i].rooftop)
       GridEnegy=Math.trunc(dashBoardHighlightsDateFiltered[i].grid)
       Diesel=Math.trunc(dashBoardHighlightsDateFiltered[i].diesel)
@@ -157,7 +163,7 @@ function DashBoardSecoundLayer() {
   const values=[]
   
   
-  values.push(Math.round(GridEnegy),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel)
+  values.push(Math.round(GridEnegy),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel,WheeledInsolarPhase2)
  
 
 console.log(values)
@@ -221,7 +227,7 @@ console.log(values)
       toolbar: {
         show: true,
       },
-      labels: ['Grid', 'Rooftop', 'wheeled_in_solar', 'Diesel'],
+      labels: ['Grid', 'Rooftop', 'Solar Phase1', 'Diesel','Solar Phase2'],
       // title: {
       //   text: 'Fruit Sales',
       //   align: 'center',
@@ -239,7 +245,7 @@ console.log(values)
           horizontalAlign: 'left',
           fontSize: '27px',
           markers: {
-            fillColors: ['#1fc270', '#FFAE42', '#F99E7D', '#546E7A']
+            fillColors: ['#e6773c', '#FFAE42', '#0e8045', '#546E7A',"#0e807a"]
           }
         }
       },
@@ -502,11 +508,14 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{GridEnegy}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Wheeled In Solar</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar Phase |</span>
                             <br />
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{WheeledInsolar}</span>
                             <br />
                             <br />
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar Phase ||</span>
+                            <br />
+                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{WheeledInsolarPhase2}</span>
                            
                           </Grid>
 
@@ -516,17 +525,34 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{RoofTopSolar}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#ADADAD"  }}>Diesel</span>
+                            {
+                              Diesel>0?
+                            
+                            <div style={{color:"#2B2B2B"}}>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400' }}>Diesel</span>
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#ADADAD"  }}>{Diesel}</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600'}}>{Diesel}</span>
+                            </div>:
+
+                   <div style={{color:"#ADADAD"}}>
+                <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400'}}>Diesel</span>
+<br />
+<span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600'}}>{Diesel}</span>
+</div>
+
+                            }
                             <br />
+                            
+
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#ADADAD"  }}>Wind</span>
                             <br />
+                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#ADADAD"  }}>0</span>
                             
                           </Grid >
                           <Grid item xs={12}> 
                           <div style={{marginLeft:"5%"}}> 
                           <p style={{fontSize: '14px',fontWeight: '400',color:"#2B2B2B",whiteSpace:"pre"}}>Today’s Renewable Share</p>
-                          <p style={{fontSize:"22px",fontWeight:"600",color:"#E80707",marginTop:"-5%"}}><FaArrowDown /> <span >2%</span></p>
+                          <p style={{fontSize:"22px",fontWeight:"600",color:"#21D544",marginTop:"-5%"}}><FaArrowUp /> <span >{TodayRE} %</span></p>
                           </div>
                           </Grid>
                           <Grid item xs={6}> 

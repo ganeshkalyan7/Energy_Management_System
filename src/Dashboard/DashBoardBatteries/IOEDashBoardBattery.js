@@ -14,7 +14,7 @@ function IOEDashBoardBattery() {
   const [clickedValue, setClickedValue] = useState(null);
 
   const [ioeBatteryData,setIOEBatteryData]=useState([])
-  const IOEAPi="https://ems.tre100.in/analytics/IoeBattery/EnergyVsPacksoc"
+  const IOEAPi="https://ems.tre100.in/controlapi/control/ioeDetails"
 
   useEffect(() => {
     axios
@@ -41,34 +41,86 @@ function IOEDashBoardBattery() {
   let packSOC4 =0
   let packSOC5 =0
 
+  let Status1=""
+  let Status2=""
+  let Status3=""
+  let Status4=""
+  let Status5=""
+
   for(let i=0;i<ioeBatteryData.length;i++){ 
-    packSOC1=ioeBatteryData[i].packSocst1 == null ? 0 : ioeBatteryData[i].packSocst1
-    packSOC2=ioeBatteryData[i].packSocst2 == null ? 0 : ioeBatteryData[i].packSocst2
-    packSOC3=ioeBatteryData[i].packSocst3 == null ? 0 : ioeBatteryData[i].packSocst3
-    packSOC4=ioeBatteryData[i].packSocst4 == null ? 0 : ioeBatteryData[i].packSocst4
-    packSOC5=ioeBatteryData[i].packSocst5 == null ? 0 : ioeBatteryData[i].packSocst5
+    packSOC1=ioeBatteryData[i].packSoc1 == null ? 0 : ioeBatteryData[i].packSoc1
+    packSOC2=ioeBatteryData[i].packSoc2 == null ? 0 : ioeBatteryData[i].packSoc2
+    packSOC3=ioeBatteryData[i].packSoc3 == null ? 0 : ioeBatteryData[i].packSoc3
+    packSOC4=ioeBatteryData[i].packSoc4 == null ? 0 : ioeBatteryData[i].packSoc4
+    packSOC5=ioeBatteryData[i].packSoc5 == null ? 0 : ioeBatteryData[i].packSoc5
+
+    Status1=ioeBatteryData[i].batteryStatus1 == null ? "" : ioeBatteryData[i].batteryStatus1
+    Status2=ioeBatteryData[i].batteryStatus2 == null ? "" : ioeBatteryData[i].batteryStatus2
+    Status3=ioeBatteryData[i].batteryStatus3 == null ? "" : ioeBatteryData[i].batteryStatus3
+    Status4=ioeBatteryData[i].batteryStatus4 == null ? "" : ioeBatteryData[i].batteryStatus4
+    Status5=ioeBatteryData[i].batteryStatus5 == null ? "" : ioeBatteryData[i].batteryStatus5
   }
 
 
-    let  percentage =packSOC1;
+
+
+    let  percentage =(packSOC1+packSOC2+packSOC3+packSOC4+packSOC5)/5;
+    let BatteryStatus="";
 
     if(clickedValue===1){
       percentage=packSOC1
+       if(Status1==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status1==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
+      
     }
    if(clickedValue===2){
       percentage=packSOC2
+      if(Status2==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status2==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
 
     }
     if(clickedValue===3){
       percentage=packSOC3
+      if(Status3==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status3==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
+
 
     }
     if(clickedValue===4){
       percentage=packSOC4
+      if(Status4==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status4==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
 
     }
     if(clickedValue===5){
       percentage=packSOC5
+      if(Status5==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status5==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
 
     }
     // Calculate the gradient color based on the percentage
@@ -86,7 +138,9 @@ function IOEDashBoardBattery() {
      <Grid container spacing={1}> 
      <Grid item xs={6} md={4}>
      <div style={IOEBattery}>
-      <p style={{textAlign:"center",display: "flex",flexDirection: "column",justifyContent: "flex-end",paddingTop:"80px",color:"white"}}>Discharging </p>
+     <p style={{textAlign:"center",paddingTop:"80px",color:"white",fontSize: "14px", fontWeight: "700"}}>{BatteryStatus}</p>
+     <p style={{textAlign:"start",fontWeight: "700",paddingLeft:"10%",color:"white"}}>{percentage}%</p>
+      
           
      
      </div>
@@ -96,16 +150,16 @@ function IOEDashBoardBattery() {
      </div>
      </Grid>
      <Grid item xs={6} md={4}>
-      <div> 
-     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Charge </div>
+      {/* <div> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Energy Saved </div>
      <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
-     </div>
+     </div> */}
 
      <div style={{marginTop:"17%"}}> 
-     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Energy Saved</div>
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Charge</div>
      <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
      </div>
-      <div style={{marginTop:"6%"}}> 
+      <div style={{marginTop:"30%"}}> 
         <div>Active Strings</div>
         <Box sx={{ flexGrow: 1 }}> 
         <Grid container spacing={1}>
@@ -136,16 +190,16 @@ function IOEDashBoardBattery() {
      </Grid>
 
      <Grid item xs={6} md={4}>
-     <div> 
+     {/* <div> 
+     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Discharge</div>
+     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+     </div> */}
+
+     <div style={{marginTop:"17%"}}> 
      <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Discharge</div>
      <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
      </div>
-
-     <div style={{marginTop:"17%"}}> 
-     <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Cost Saved</div>
-     <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
-     </div>
-     <div style={{marginTop:"20.5%",marginLeft:"5%"}}> 
+     <div style={{marginTop:"42.5%",marginLeft:"5%"}}> 
      <button type="button" class="btn btn-outline-primary" style={{width:"auto"}}>Control</button>
      </div>
      </Grid>
