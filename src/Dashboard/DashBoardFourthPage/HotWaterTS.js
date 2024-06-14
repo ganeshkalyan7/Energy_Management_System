@@ -42,8 +42,9 @@ function HotWaterTS() {
     setSystemOverviewfilterDate(date);
   };
 
-  const HotWater_API=`${dashboardAddress}/Dashboard/HOTWaterStorage`
-  const HOTWaterStatus_API=`${dashboardAddress}/HOTWaterStorage/Status`
+  const HotWater_API=`${dashboardAddress}/Dashboard/HotWaterStorage`
+  const HOTWaterStatus_API=`https://ems.tre100.in/controlapi/control/HotwaterDetails`
+  // https://ems.tre100.in/controlapi/control/HotwaterDetails
   const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
   const HotWaterCHG_DCHG_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`
   const [hotWaterStorageResponse,setHotWaterStorageResponsed]=useState([])
@@ -170,10 +171,10 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
  
 
   for(let i=0;i<hotWaterStorageResponse.length;i++){
-    storedwatertemperature=hotWaterStorageResponse[i].storedwatertemperature
-    DeliveryTemperature=hotWaterStorageResponse[i].DeliveryTemperature
-    Deliveryflowrate=hotWaterStorageResponse[i].Deliveryflowrate
-    Mass_of_storedwater=hotWaterStorageResponse[i].Mass_of_storedwater
+    storedwatertemperature=Math.trunc(hotWaterStorageResponse[i].Stored_Water_Temperature)
+    DeliveryTemperature=Math.trunc(hotWaterStorageResponse[i].Delivery_Temperature)
+    Deliveryflowrate=Math.trunc(hotWaterStorageResponse[i].Hot_water_delivery_Flow_rate)
+    Mass_of_storedwater=Math.trunc(hotWaterStorageResponse[i].Mass_of_stored_water)
 
   
 
@@ -203,8 +204,25 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
   }, []);
 
   let HOTWaterStaus=""
+  
   for(let i=0;i<hotWaterStorageStatusResponse.length;i++){
-    HOTWaterStaus=hotWaterStorageStatusResponse[i].HOTWaterStorageStatus
+
+     if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Recirculation"){
+      HOTWaterStaus="ON"
+
+     }
+     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Freshwater"){
+      HOTWaterStaus="ON"
+
+     }
+     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Discharge"){
+      HOTWaterStaus="ON"
+
+     }
+     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="IDLE"){
+      HOTWaterStaus="OFF"
+
+     }
   }
   
 
@@ -286,7 +304,7 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
             <Grid item  md={12}>
               <span style={{textAlign:"start",position:"relative", fontWeight: "500", fontSize:"16px", color: "#000000",marginLeft:"10px"}}>
               Stored Water Temperature
-              <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{tsStoredWaterTemperature}° C</p>
+              <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{Math.trunc(tsStoredWaterTemperature)}° C</p>
               </span>
             </Grid>
             </Grid> 
@@ -308,14 +326,14 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
       <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px",paddingTop:"5px"}} >
         <div style={{fontSize:"14px",fontWeight:"500"}}>Inlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} m3/h</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} m<sup>3</sup>/h</div>
         </span>
       
   </div>
   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
       <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"20px",paddingTop:"5px"}} >
         <div style={{fontSize:"14px",fontWeight:"500"}}>Outlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} m3/h</div>
+        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} m<sup>3</sup>/h</div>
         </span>
       
   </div>
@@ -471,7 +489,7 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
 <div style={{position: "absolute", top: "83%", left: "63%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
 
 <div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Mass of stored water</div>
-<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Mass_of_storedwater} kWh</div>
+<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Mass_of_storedwater} (L)</div>
 </div>
           
           

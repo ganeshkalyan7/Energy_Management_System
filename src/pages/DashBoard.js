@@ -525,7 +525,7 @@ const longText = " According to CEA Emission Database,2021 the weighted C02 emis
   <div class="col-sm-12" style={{marginTop:"5%"}}>
     <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
       <div class="card-body">
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery </b></h4> 
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (660 kWh) </b></h4> 
         <hr/>
         <div id="chart2"> 
         <IOEBatteryHourly/>

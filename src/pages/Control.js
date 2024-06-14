@@ -46,7 +46,8 @@ function Control() {
 
 
 
-  const batteryurl=`${nodeAdress}/Batterydata`
+  const batteryurl="https://ems.tre100.in/controlapi/control/UpsDetails"
+  // https://ems.tre100.in/controlapi/control/UpsDetails
 
 
 //  function batteryData() {
@@ -97,68 +98,56 @@ function Control() {
 
 
   console.log(batterydata)
- const packSoc=[]
- const currentStatus=[]
- const CHG=[]
- const chgtime=[]
- const DCHG=[]
- const dscgtime=[]
- const current=[]
- const voltage=[]
+ let packSoc=0
+ let  currentStatus=0
+ let  current=0
+ let voltage=0
+ let mainConStatus=""
+ let preConStatus=""
+ 
 
  for(let i=0;i<batterydata.length;i++){
-  packSoc.push(batterydata[i].pack_usable_soc)
-  current.push(parseFloat(batterydata[i].BatteryCurrent))
-  voltage.push(parseFloat(batterydata[i].BatteryVoltage))
+  packSoc=batterydata[i].packSOC
+  current=batterydata[i].batteryCurrent
+
+  voltage=batterydata[i].batteryVoltage
+  if(batterydata[i].mainConStatus===2.0){
+    mainConStatus="OFF"
+  }
+  else if (batterydata[i].mainConStatus===1.0){
+    mainConStatus="ON"
+  }
+  else if(batterydata[i].mainConStatus===3.0){
+    mainConStatus="FAULT"
+  }
+
+  if(batterydata[i].preConStatus===2.0){
+    preConStatus="OFF"
+  }
+  else if (batterydata[i].preConStatus===1.0){
+    preConStatus="ON"
+  }
+  else if(batterydata[i].preConStatus===3.0){
+    preConStatus="FAULT"
+  }
+
  
   if(batterydata[i].batteryStatus==="CHG"){
-    CHG.push((batterydata[i].chargingAVG))
-    chgtime.push(batterydata[i].timestamp)
-    currentStatus.push("Charging")
+    currentStatus="CHARGING"
    
   }
   if(batterydata[i].batteryStatus==="DCHG"){
-    DCHG.push((batterydata[i].dischargingAVG))
-    dscgtime.push(batterydata[i].timestamp)
-    currentStatus.push("Discharging")
+    currentStatus="DISCHARGING"
+
    
   }
   if(batterydata[i].batteryStatus==="IDLE"){
-    currentStatus.push("IDLE")
+    currentStatus="IDLE"
+
    
   }
 }
 
-
-const val=CHG[CHG.length - 1]
-const time=chgtime[chgtime.length-1]
-const date = new Date(time);
-const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-const formattedTimestamp = date.toLocaleString('en-US', options);
-//console.log(formattedTimestamp.split(",")[1])
-
-const distime=dscgtime[dscgtime.length-1]
-const disdate = new Date(distime);
-const disoptions = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-const disformattedTimestamp = disdate.toLocaleString('en-US', options);
-//const dischargeTime=distime.split(",")
-//console.log(typeof(distime))
-
-
-
-
-// const date = time.toLocaleString()
-
-  // const [chargeOrDischarge, setChargeOrDischarge] = useState('');
-  // const [functioncode, setFunctioncode] = useState('');
-
-  // const handleChargeOrDischargeChange = (event) => {
-  //   setChargeOrDischarge(event.target.value);
-  // };
-
-  // const handleOnOrOffChange = (event) => {
-  //   setFunctioncode(event.target.value);
-  // };
 
   
 
@@ -499,7 +488,7 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
               <td><h4>:</h4></td>
               <td>  
               <div class="progress" style={{height:"30px",color:"black",background:"gray"}}>
-              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(packSoc[packSoc.length - 1])}%`,color:"white"}} aria-valuenow={Math.round(packSoc[packSoc.length - 1])} aria-valuemin="0" aria-valuemax="100">{Math.round(packSoc[packSoc.length - 1])}%</div>
+              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(packSoc)}%`,color:"white"}} aria-valuenow={Math.round(packSoc)} aria-valuemin="0" aria-valuemax="100">{Math.round(packSoc)}%</div>
               </div>
               
               
@@ -509,7 +498,7 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
             <tr style={{marginTop:"30px"}}>
               <td><h4 style={{ color: "teal" }}><b>Current Status</b></h4></td>
               <td><h4>:</h4></td>
-              <td><h4>{currentStatus[currentStatus.length - 1]}</h4></td>
+              <td><h4>{currentStatus}</h4></td>
             </tr>
             {/* <tr> 
             {packSoc[packSoc.length - 1] >= 65  ? (
@@ -523,33 +512,27 @@ const disformattedTimestamp = disdate.toLocaleString('en-US', options);
             <tr> 
               <td><h4  style={{ color: "teal" }}><b>Current (A)</b></h4></td>
               <td><h4>:</h4></td>
-              <td><h4>{current[current.length-1]}</h4></td>
+              <td><h4>{current}</h4></td>
             </tr>
             <tr> 
               <td><h4  style={{ color: "teal" }}><b>Voltage (V)</b></h4></td>
               <td><h4>:</h4></td>
-              <td><h4>{voltage[voltage.length-1]}</h4></td>
+              <td><h4>{voltage}</h4></td>
             </tr>
             <tr>
-              <td><h4 style={{ color: "teal" }}><b>Last Charge</b></h4></td>
+              <td><h4 style={{ color: "teal" }}><b>Main Contactor Status</b></h4></td>
               <td><h4>:</h4></td>
               <td>
-                {val ? <h4 style={{ color: "black",fontSize:"20px" }}>{(Math.floor(val))} kWh  </h4> : <h4 style={{ fontSize: "20px",color:"gray" }}>yet to charge</h4>}
+                <h4>{mainConStatus}</h4>
               </td>
-              {/* <br/> */}
-              <td> 
-              {formattedTimestamp!=="Invalid Date"?<span style={{ color: "gray",fontSize:"20px" }}>{formattedTimestamp}</span>:<p>_______</p>}
-              </td>
+
               
             </tr>
             <tr>
-              <td><h4 style={{ color: "teal" }}><b>Last Discharge</b></h4></td>
+              <td><h4 style={{ color: "teal" }}><b>Precharge Contactor Status</b></h4></td>
               <td><h4>:</h4></td>
               <td>
-                {DCHG[DCHG.length - 1] > 1  ? <h4 style={{ color: "black",fontSize:"20px"  }}>{Math.round(DCHG[DCHG.length - 1])} kWh  </h4> : <h4 style={{ fontSize: "20px",color:"gray" }}>0 kWh</h4>}
-              </td>
-              <td> 
-              {disformattedTimestamp!=="Invalid Date"?<span style={{ color: "gray",fontSize:"20px" }}>{disformattedTimestamp}</span>:<p>_______</p>}
+                <h4>{preConStatus}</h4>
               </td>
             </tr>
           </tbody>

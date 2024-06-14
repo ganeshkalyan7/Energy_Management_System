@@ -170,8 +170,8 @@ function IOEEnergyPac() {
           text: 'Charging / Discharging Energy (kWh)',
       },
   }, {
-      //min: 2,
-      //max: 8, // Set the maximum value for the second y-axis
+      min: 0,
+      max: 100, // Set the maximum value for the second y-axis
       title: {
           text: 'Packsoc (%)',
       },
@@ -328,8 +328,8 @@ function IOEEnergyPac() {
           text: 'Charging / Discharging Energy (kWh)',
       },
   }, {
-      //min: 2,
-      //max: 8, // Set the maximum value for the second y-axis
+      min: 0,
+      max: 100, // Set the maximum value for the second y-axis
       title: {
           text: 'Packsoc (%)',
       },

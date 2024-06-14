@@ -6,11 +6,15 @@ import Box from '@mui/material/Box';
 import { nodeAdress } from '../../ipAdress';
 import group153 from '../../images/group-153.svg' 
 import rectangle56 from "../../images/rectangle-56.svg"
+import { Link } from "react-router-dom";
 
 function UPSDashBoardBattery() {
 
   const [upsBatteryData,setUpsBatteryData]=useState([])
-  const UPSApi=`${nodeAdress}/Batterydata`
+  const UPSApi="https://ems.tre100.in/controlapi/control/UpsDetails"
+  const totalCHG_DCHG_Dat_API=" https://ems.tre100.in/dashboard/Dashboard/upsTotal"
+ 
+  const [totalCHG_DCHG_Dat,setTotalCHG_DCHG_Dat]=useState([])
 
   useEffect(() => {
     axios
@@ -18,6 +22,19 @@ function UPSDashBoardBattery() {
       .then((res) => {
         const dataResponse = res.data;
         setUpsBatteryData(dataResponse);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    axios
+      .get(totalCHG_DCHG_Dat_API)
+      .then((res) => {
+        const dataResponse = res.data;
+        setTotalCHG_DCHG_Dat(dataResponse);
       })
       .catch((err) => {
         console.log(err);
@@ -47,12 +64,21 @@ for(let i=0;i<upsBatteryData.length;i++){
 
   }
  
-  packSOC=upsBatteryData[i].pack_usable_soc
+  packSOC=upsBatteryData[i].packSOC
 
 
 
 }
 
+
+let TotalChargeEnergy=0
+let TotalDischargeEnergy=0
+
+for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
+  TotalChargeEnergy=totalCHG_DCHG_Dat[i].chargeEnergy
+  TotalDischargeEnergy=totalCHG_DCHG_Dat[i].dischargeEnergy
+
+}
 
 
     const percentage = packSOC;
@@ -119,30 +145,34 @@ for(let i=0;i<upsBatteryData.length;i++){
    </div>
    </Grid>
    <Grid item xs={6} md={4}>
-    <div> 
+    {/* <div> 
    <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Charge </div>
    <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
-   </div>
+   </div> */}
 
    <div style={{marginTop:"17%"}}> 
-   <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Energy Saved</div>
-   <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+   <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Charge</div>
+   <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>{TotalChargeEnergy} kWh</div>
    </div>
 
    </Grid>
 
+
+
    <Grid item xs={6} md={4}>
-   <div> 
+   {/* <div> 
    <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Discharge</div>
    <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
-   </div>
+   </div> */}
 
    <div style={{marginTop:"17%"}}> 
-   <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Cost Saved</div>
-   <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>192 kWh</div>
+   <div style={{top: "0px", left: "0px",color:"#000000",whiteSpace:"pre"}}>Total Discharge</div>
+   <div style={{fontSize: "16px",fontWeight: "600", color: "#18822d"}}>{TotalDischargeEnergy} kWh</div>
    </div>
-   <div style={{marginTop:"20.5%",marginLeft:"5%"}}> 
+   <div style={{marginTop:"53.5%",marginLeft:"5%"}}> 
+   <Link to="/Control/upsbattery">
    <button type="button" class="btn btn-outline-primary" style={{width:"auto"}}>Control</button>
+   </Link>
    </div>
    </Grid>
    

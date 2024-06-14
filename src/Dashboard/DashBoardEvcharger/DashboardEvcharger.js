@@ -162,7 +162,7 @@ function DashboardEvcharger() {
 
       </div>
 
-      <div   style={{ width: "250px", height: "20px",border:"none",marginLeft:"66%",marginTop:"4%"}}>
+      {/* <div   style={{ width: "250px", height: "20px",border:"none",marginLeft:"66%",marginTop:"4%"}}>
   <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
     <DatePickers
       id="date"
@@ -173,15 +173,12 @@ function DashboardEvcharger() {
     />
     <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
     <RiArrowDropDownLine  size="40px" color='gray' />
-      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
-      </svg> */}
     </div>
   </div>
 
 
 
-               </div>
+               </div> */}
   
       </Grid>
       

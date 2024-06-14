@@ -528,9 +528,103 @@ else{
 }
 
   return (
-    <div style={{marginTop:"90px",marginLeft:"90px",width:"100%",marginBottom:"50px"}}>
+    <div style={{marginTop:"80px",marginLeft:"90px",marginRight:"30px",marginBottom:"50px"}}> 
+       <div >
+        <h2 style={{fontSize:"30px",textAlign:"center"}}><b>IOE Battery Control</b></h2>
+      </div>
+      <br/>
         <Box sx={{ flexGrow: 1 }}> 
         <Grid container spacing={1} >
+
+        <Grid item xs={12} md={7}> 
+        <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Overview</b></h4>
+      <br/>
+    <div class="card" style={{background:"white",width:"100%", height:"500px",marginLeft:"auto",marginRight:"auto"}} >
+      <div class="card-body" style={{justifyContent:"center",alignItems:'center'}}>
+        <div style={{display:"flex",flexGrow:1,gap:"20px"}}> 
+          <p style={{fontSize:"25px",fontWeight:"600",whiteSpace:"pre"}}>Soc (%)</p>
+          <div class="progress" style={{height:"30px",color:"black",background:"gray",width:"100%",marginLeft:"auto",marginRight:"auto"}}>
+              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(TotalSoc)}%`,color:"white"}} aria-valuenow={Math.round(TotalSoc)} aria-valuemin="0" aria-valuemax="100">{Math.round(TotalSoc)}%</div>
+              </div>
+        </div>
+
+        <table style={{ width: "100%", textAlign: "left"}}>
+      <tbody> 
+        <tr> 
+        <td><p style={{fontSize:"25px",fontWeight:"600",whiteSpace:"pre"}}>Current Status</p></td>
+        <td><h4>:</h4></td>
+        <td><h4>{currentStatus}</h4></td>
+        </tr>
+        </tbody> 
+      </table>
+
+        <div style={{display:"flex",flexGrow:1,gap:"30px"}}> 
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(1)}>String 1</button>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(2)}>String 2</button>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(3)}>String 3</button>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(4)}>String 4</button>
+        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(5)}>String 5</button>
+        </div>
+    </div>
+    <br/>
+
+   <p style={{textAlign:"center",fontSize:"20px",fontWeight:"700"}}>{CurrentString}</p>
+
+
+    <div style={{alignItems:"center",justifyContent:"center",width:"80%",marginLeft:"auto",marginRight:"auto"}}>
+      <div style={{display:"flex",flexGrow:1,gap:"30px"}}>
+       <p style={{fontSize:"22px",fontWeight:"600",whiteSpace:"pre",color: "teal"}}><b>SoC (%)</b></p>
+       <div class="progress" style={{height:"30px",color:"black",background:"gray", width:"100%"}}>
+              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(soc)}%`,color:"white",backgroundColor:"#6CBC6F"}} aria-valuenow={Math.round(soc )} aria-valuemin="0" aria-valuemax="100">{Math.round(soc)}%</div>
+              </div>
+      </div>
+
+      <table style={{ width: "100%", textAlign: "left"}}>
+      <tbody> 
+
+      <tr> 
+          <td><h4 style={{ color: "teal" }}><b>Status</b></h4></td>
+          <td><h4>:</h4></td>
+          <td><h4>{Status}</h4></td>
+          
+        </tr>
+        <tr> 
+        <td><h4 style={{ color: "teal" }}><b>Battery Current (A)</b></h4></td>
+        <td><h4>:</h4></td>
+        <td><h4>{Current}</h4></td>
+        </tr>
+
+        <tr> 
+          <td><h4 style={{ color: "teal" }}><b>Battery Voltage (V)</b></h4></td>
+          <td><h4>:</h4></td>
+          <td><h4>{Voltage}</h4></td>
+          
+        </tr>
+
+        <tr> 
+          <td><h4 style={{ color: "teal" }}><b>Main Contactor Status</b></h4></td>
+          <td><h4>:</h4></td>
+          <td><h4>{MainCon}</h4></td>
+          
+        </tr>
+
+        <tr> 
+          <td><h4 style={{ color: "teal" }}><b>Precharge Contactor Status</b></h4></td>
+          <td><h4>:</h4></td>
+          <td><h4>{PreCon}</h4></td>
+          
+        </tr>
+      </tbody>
+      </table>
+
+
+    </div>
+
+    </div>
+
+   
+
+        </Grid>
         <Grid item xs={12} md={5}> 
       <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Instantaneous Control</b></h4>
       <br/>
@@ -638,95 +732,7 @@ else{
         
         </Grid>
 
-        <Grid item xs={12} md={6}> 
-        <h4 style={{textAlign:"center"}}><b style={{color:"brown"}}>Overview</b></h4>
-      <br/>
-    <div class="card" style={{background:"white",width:"100%", height:"500px",marginLeft:"auto",marginRight:"auto"}} >
-      <div class="card-body" style={{justifyContent:"center",alignItems:'center'}}>
-        <div style={{display:"flex",flexGrow:1,gap:"20px"}}> 
-          <p style={{fontSize:"25px",fontWeight:"600",whiteSpace:"pre"}}>Soc (%)</p>
-          <div class="progress" style={{height:"30px",color:"black",background:"gray",width:"100%",marginLeft:"auto",marginRight:"auto"}}>
-              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(TotalSoc)}%`,color:"white"}} aria-valuenow={Math.round(TotalSoc)} aria-valuemin="0" aria-valuemax="100">{Math.round(TotalSoc)}%</div>
-              </div>
-        </div>
-
-        <table style={{ width: "100%", textAlign: "left"}}>
-      <tbody> 
-        <tr> 
-        <td><p style={{fontSize:"25px",fontWeight:"600",whiteSpace:"pre"}}>Current Status</p></td>
-        <td><h4>:</h4></td>
-        <td><h4>{currentStatus}</h4></td>
-        </tr>
-        </tbody> 
-      </table>
-
-        <div style={{display:"flex",flexGrow:1,gap:"30px"}}> 
-        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(1)}>String 1</button>
-        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(2)}>String 2</button>
-        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(3)}>String 3</button>
-        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(4)}>String 4</button>
-        <button type="button" class="btn btn-outline-secondary" style={{width:"120%",height:"100%",marginLeft: "0%"}} onClick={() => handleButtonClick(5)}>String 5</button>
-        </div>
-    </div>
-    <br/>
-
-   <p style={{textAlign:"center",fontSize:"20px",fontWeight:"700"}}>{CurrentString}</p>
-
-
-    <div style={{alignItems:"center",justifyContent:"center",width:"80%",marginLeft:"auto",marginRight:"auto"}}>
-      <div style={{display:"flex",flexGrow:1,gap:"30px"}}>
-       <p style={{fontSize:"22px",fontWeight:"600",whiteSpace:"pre",color: "teal"}}><b>SoC (%)</b></p>
-       <div class="progress" style={{height:"30px",color:"black",background:"gray", width:"100%"}}>
-              <div class="progress-bar" role="progressbar" style={{ width: `${Math.round(soc)}%`,color:"white",backgroundColor:"#6CBC6F"}} aria-valuenow={Math.round(soc )} aria-valuemin="0" aria-valuemax="100">{Math.round(soc)}%</div>
-              </div>
-      </div>
-
-      <table style={{ width: "100%", textAlign: "left"}}>
-      <tbody> 
-
-      <tr> 
-          <td><h4 style={{ color: "teal" }}><b>Status</b></h4></td>
-          <td><h4>:</h4></td>
-          <td><h4>{Status}</h4></td>
-          
-        </tr>
-        <tr> 
-        <td><h4 style={{ color: "teal" }}><b>Battery Current (A)</b></h4></td>
-        <td><h4>:</h4></td>
-        <td><h4>{Current}</h4></td>
-        </tr>
-
-        <tr> 
-          <td><h4 style={{ color: "teal" }}><b>Battery Voltage (V)</b></h4></td>
-          <td><h4>:</h4></td>
-          <td><h4>{Voltage}</h4></td>
-          
-        </tr>
-
-        <tr> 
-          <td><h4 style={{ color: "teal" }}><b>Main Contactor Status</b></h4></td>
-          <td><h4>:</h4></td>
-          <td><h4>{MainCon}</h4></td>
-          
-        </tr>
-
-        <tr> 
-          <td><h4 style={{ color: "teal" }}><b>Precharge Contactor Status</b></h4></td>
-          <td><h4>:</h4></td>
-          <td><h4>{PreCon}</h4></td>
-          
-        </tr>
-      </tbody>
-      </table>
-
-
-    </div>
-
-    </div>
-
-   
-
-        </Grid>
+        
 
 
         </Grid>

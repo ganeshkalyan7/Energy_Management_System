@@ -55,6 +55,8 @@ function DashBoardSecoundLayer() {
 
   const [reShareData,setReShareData]=useState([])
   const REShareResponse_API=`${dashboardAddress}/Dashboard/REprofile` 
+  const[REProfileTillDateData,setREProfileTillDateData]=useState([])
+  const REProfileTillDate=`${dashboardAddress}/Dashboard/REtillDay`
 
 
 
@@ -80,6 +82,36 @@ function DashBoardSecoundLayer() {
   }, []);
 
 
+
+//re profile  data responese till date function 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(REProfileTillDate);
+        const dataResponse = res.data;
+        setREProfileTillDateData(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    // Initial data fetch
+    fetchData();
+  
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+  
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+  
+
+
+  let REProfileTillDateResponse=0
+
+  for(let i=0;i<REProfileTillDateData.length;i++){
+    REProfileTillDateResponse=REProfileTillDateData[i].RE
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -406,7 +438,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 <Box sx={{ position: 'relative' }}>
     <LinearProgress
       variant="determinate"
-      value={Number(RenewableEnergy)}
+      value={Number(REProfileTillDateResponse)}
       sx={{
         height: '16px',
         background: '#F7F7F7',
@@ -419,14 +451,14 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
       sx={{
         position: 'absolute',
         top: '0%',
-        left: `${Number(RenewableEnergy)}%`,
+        left: `${Number(REProfileTillDateResponse)}%`,
         transform: 'translateX(-50%)',
         fontSize: '12px',
         fontWeight: 'bold',
         color: '#000',
       }}
     >
-      {`${Number(Math.trunc(RenewableEnergy))}%`}
+      {`${Number(Math.trunc(REProfileTillDateResponse))}%`}
     </Box>
   </Box>
    
