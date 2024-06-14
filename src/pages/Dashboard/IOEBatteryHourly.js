@@ -7,7 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import {Link} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { dashboardAddress } from '../../ipAdress';
+import { dashboardAddress ,ControlAPi} from '../../ipAdress';
 
 
 function IOEBatteryHourly() {
@@ -18,7 +18,7 @@ function IOEBatteryHourly() {
     const [clickedValue, setClickedValue] = useState(null);
 
     const [packSoc,setPacksoc]=useState([])
-    const IOEOverView_API="https://ems.tre100.in/controlapi/control/ioeDetails"
+      const IOEOverView_API=`${ControlAPi}/control/ioeDetails`
 
     const [ioeHourlyData,setIoeHourlyData]=useState([])
     const [ioeHourlyDataDateFiltered,setIoeHourlyDataDateFiltered]=useState([])
