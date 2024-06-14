@@ -4,7 +4,7 @@ import 'react-datetime/css/react-datetime.css';
 import axios from 'axios';
 import swal from 'sweetalert';
 import Swal from "sweetalert2";
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,ControlAPi } from '../ipAdress';
 import CircleIcon from '@mui/icons-material/Circle';
 // import ThumsUp from "../images/ThumsUpjpg.jpg"
 // import Error from "../images/ControlError.jpg"
@@ -13,7 +13,7 @@ function HOTWaterControl() {
   const [pinNumber,setPinNumber]=useState("")
   const ActualPassKey=81520
   const [hotWaterOverView,setHotWaterOverVies]=useState([])
-  const HotWater_API="https://ems.tre100.in/controlapi/control/HotwaterDetails"
+  const HotWater_API=`${ControlAPi}/control/HotwaterDetails`
 
 
 
@@ -99,7 +99,7 @@ function HOTWaterControl() {
         dangerMode: false,
       }).then((willContinue) => {
         if (willContinue) {
-          axios.post("https://ems.tre100.in/controlapi/control/HotwaterStorage", formattedData)
+          axios.post(`${ControlAPi}control/HotwaterStorage`, formattedData)
             .then((response) => {
               const result = response.data;
               console.log(result)

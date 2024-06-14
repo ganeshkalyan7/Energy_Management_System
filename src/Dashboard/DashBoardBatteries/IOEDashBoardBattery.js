@@ -8,6 +8,7 @@ import rectangle56 from "../../images/rectangle-56.svg"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
+import {ControlAPi,dashboardAddress} from "../../ipAdress"
 
 
 function IOEDashBoardBattery() {
@@ -15,9 +16,9 @@ function IOEDashBoardBattery() {
   const [clickedValue, setClickedValue] = useState(null);
 
   const [ioeBatteryData,setIOEBatteryData]=useState([])
-  const IOEAPi="https://ems.tre100.in/controlapi/control/ioeDetails"
+  const IOEAPi=`${ControlAPi}/control/ioeDetails`
 
-  const totalCHG_DCHG_Dat_API=" https://ems.tre100.in/dashboard/Dashboard/IoeTotal"
+  const totalCHG_DCHG_Dat_API=`${dashboardAddress}/Dashboard/IoeTotal`
  const [totalCHG_DCHG_Dat,setTotalCHG_DCHG_Dat]=useState([])
 
   useEffect(() => {

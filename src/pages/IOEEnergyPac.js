@@ -7,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { analyticsAdress } from '../ipAdress';
 
 function IOEEnergyPac() {
 
@@ -23,8 +24,8 @@ function IOEEnergyPac() {
 
   const [IOEDataResponse,setIOEDataResponse]=useState([])
   const [IOEDataResponseDateFiltered,setIOEDataResponseDateFiltered]=useState([])
-  const IOEData_API="https://ems.tre100.in/analytics/IoeBattery/EnergyVsPacksoc"
-  const IOEDataDateFiltered_API=" https://ems.tre100.in/analytics/IoeBattery/EnergyVsPacksoc/Filtered"
+  const IOEData_API=`${analyticsAdress}/IoeBattery/EnergyVsPacksoc`
+  const IOEDataDateFiltered_API=`${analyticsAdress}/IoeBattery/EnergyVsPacksoc/Filtered`
 
 
   useEffect(() => {

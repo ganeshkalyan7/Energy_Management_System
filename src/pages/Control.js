@@ -16,7 +16,7 @@ import batteryfull from '../images/smartphone-charger.png';
 import BatteryShedule from './BatteryShedule';
 import Swal from "sweetalert2";
 import './Battery.css';
-import { nodeAdress } from '../ipAdress';
+import { nodeAdress,ControlAPi} from '../ipAdress';
 
 // import './Controls.css'
 
@@ -46,7 +46,7 @@ function Control() {
 
 
 
-  const batteryurl="https://ems.tre100.in/controlapi/control/UpsDetails"
+  const batteryurl=`${ControlAPi}/control/UpsDetails`
   // https://ems.tre100.in/controlapi/control/UpsDetails
 
 

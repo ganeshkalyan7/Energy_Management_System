@@ -26,6 +26,7 @@ import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import PDF from "../images/pdf.png";
 import '../App.css';
+// import { nodeAdress,ControlAPi } from "../../../ipAdress";
 
 
 
@@ -41,7 +42,7 @@ function Documentation() {
   const [downloadFile,setDownloadFile]=useState([])
   const [value, setValue] = useState('');
   const userPIN="69125"
-  const documentAddress="https://ems.tre100.in/documents"
+  const documentAddress="http://3.111.70.53:5007"
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);

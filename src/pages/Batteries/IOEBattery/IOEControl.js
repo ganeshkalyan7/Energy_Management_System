@@ -8,14 +8,15 @@ import * as GiIcons from  'react-icons/gi'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import SearchTable from './SearchTable';
+import { nodeAdress,ControlAPi } from "../../../ipAdress";
 
 
 
 function IOEControl() {
   const ActualPassKey=31419
   const [pinNumber,setPinNumber]=useState("")
-  const IOEControl_API="https://ems.tre100.in/controlapi/control/ioeControl"
-  const IOEOverView_API="https://ems.tre100.in/controlapi/control/ioeDetails"
+  const IOEControl_API=`${ControlAPi}/control/ioeControl`
+  const IOEOverView_API=`${ControlAPi}/control/ioeDetails`
   const [ioeOverViewData,setIoeOverViewData]=useState([])
   
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);

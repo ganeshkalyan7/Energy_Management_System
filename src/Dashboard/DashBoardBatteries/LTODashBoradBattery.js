@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./DashboardBatteries.css"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { nodeAdress } from '../../ipAdress';
+import { nodeAdress,dashboardAddress } from '../../ipAdress';
 import group153 from '../../images/group-153.svg' 
 import rectangle56 from "../../images/rectangle-56.svg"
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function LTODashBoradBattery() {
   const [ltoBatteryData,setLtoBatteryData]=useState([])
   const LTOApi=`${nodeAdress}/battery/lto`
-  const totalCHG_DCHG_Dat_API=" https://ems.tre100.in/dashboard/Dashboard/ltoTotal"
+  const totalCHG_DCHG_Dat_API=`${dashboardAddress}/Dashboard/ltoTotal`
  
   const [totalCHG_DCHG_Dat,setTotalCHG_DCHG_Dat]=useState([])
 

@@ -69,7 +69,7 @@ console.log(batterySelect)
 
         </Grid>
         <Grid item xs={6} md={6}> 
-        <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div>
+        {/* <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div> */}
 
 
         </Grid>

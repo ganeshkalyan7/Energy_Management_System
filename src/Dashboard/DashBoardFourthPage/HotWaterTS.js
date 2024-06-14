@@ -17,7 +17,7 @@ import { FaToggleOn } from "react-icons/fa";
 import axios from 'axios';
 import { MdOutlineInfo } from "react-icons/md";
 import { RxTriangleDown } from "react-icons/rx";
-import {dashboardAddress,bmssAdress,chillersDashboard} from "../../ipAdress"
+import {dashboardAddress,bmssAdress,chillersDashboard,ControlAPi} from "../../ipAdress"
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -43,7 +43,7 @@ function HotWaterTS() {
   };
 
   const HotWater_API=`${dashboardAddress}/Dashboard/HotWaterStorage`
-  const HOTWaterStatus_API=`https://ems.tre100.in/controlapi/control/HotwaterDetails`
+  const HOTWaterStatus_API=`${ControlAPi}/control/HotwaterDetails`
   // https://ems.tre100.in/controlapi/control/HotwaterDetails
   const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
   const HotWaterCHG_DCHG_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`
