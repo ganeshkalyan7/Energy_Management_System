@@ -10,8 +10,46 @@ import IOEDashBoardBattery from './IOEDashBoardBattery';
 import { GoTriangleDown } from "react-icons/go";
 import { RxTriangleDown } from "react-icons/rx";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import {dashboardAddress} from "../../ipAdress";
+import axios from 'axios';
+
 
 function DashboardBatteries() {
+
+  const[chgDchgTimings,setChgDchgTimings]=useState([])
+  const chgDchgTimings_API=`${dashboardAddress}/Dashboard/batterytimes`
+
+
+  let ioeChgTime=""
+  let ioeDchgTime=""
+  let ltoChgTime=""
+  let ltoDchgTime=""
+  let upsChgTime=""
+  let upsDchgTime=""
+
+
+  useEffect(() => {
+    axios
+      .get(chgDchgTimings_API)
+      .then((res) => {
+        const dataResponse = res.data;
+        setChgDchgTimings(dataResponse);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  for(let i=0;i<chgDchgTimings.length;i++){
+    ioeChgTime=chgDchgTimings[i].ioeChg
+    ioeDchgTime=chgDchgTimings[i].ioeDchg
+    ltoChgTime=chgDchgTimings[i].ltoChg
+    ltoDchgTime=chgDchgTimings[i].ltoDchg
+    upsChgTime=chgDchgTimings[i].upsChg
+    upsDchgTime=chgDchgTimings[i].upsDchg
+  }
+
+
   const[batterySelect,setBatterySelect]=useState("IOE")
   const percentage = 40;
   // Calculate the gradient color based on the percentage
@@ -84,8 +122,18 @@ console.log(batterySelect)
       <React.Fragment>
          <Grid item xs={12} md={6}> 
            <IOEDashBoardBattery/>
-           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}> 
+           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}> 
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}}>{(ioeChgTime)}</p>
+            </div>
 
+
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}} >{ioeDchgTime}</p>
+            </div>
+            
            </div>
          </Grid>
          <Grid item xs={12} md={6}> 
@@ -101,6 +149,20 @@ console.log(batterySelect)
       <React.Fragment> 
         <Grid item xs={12} md={6}> 
         <LTODashBoradBattery/>
+
+        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}> 
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}}>{(ltoChgTime)}</p>
+            </div>
+
+
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}} >{ltoDchgTime}</p>
+            </div>
+            
+           </div>
         
         </Grid>
         <Grid item xs={12} md={6}>
@@ -119,7 +181,22 @@ console.log(batterySelect)
     ): batterySelect === 'UPS' ?(
       <React.Fragment> 
         <Grid item xs={12} md={6}>
-        <UPSDashBoardBattery/> 
+        <UPSDashBoardBattery/>
+         
+        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}>
+          
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}}>{(upsChgTime)}</p>
+            </div>
+
+
+            <div> 
+            <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
+            <p style={{fontSize:"18px",fontWeight:"400"}} >{upsDchgTime}</p>
+            </div>
+            
+           </div>
         
         </Grid>
         <Grid item xs={12} md={6}>

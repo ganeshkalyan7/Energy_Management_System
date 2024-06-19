@@ -43,9 +43,9 @@ import { Padding } from '@mui/icons-material';
     const facilityUsageDateFiltered_API=`${dashboardAddress}/Dashboard/facilityUsage/Filtered`
 
     const [topClients,setTopClients]=useState([])
-    const TopClients_API=`${dashboardAddress}/Dashboard/topClients`
+    const TopClients_API=`${dashboardAddress}/Dashboard/TopTenClients`
     const [topClientsDateFiltered,setTopClientsDateFiltered]=useState([])
-    const TopClientsDateFiltered_API=`${dashboardAddress}/Dashboard/topClients/Filtered`
+    const TopClientsDateFiltered_API=`${dashboardAddress}/Dashboard/TopTenClients/filtered`
     // [{"client":42416.392332999996,"chiller":16446,"others":1864.8,"commonarea":1318.55658}]
 
 
@@ -178,40 +178,56 @@ import { Padding } from '@mui/icons-material';
       setSystemOverviewfilterDate(date);
     };
 
-    let CompanyName=[] 
-    let PysicalAddress=[]
-    let EnergyUsed=[]   
-    if(systemOverviewfilterDate===null){
-          // Iterate through the list of dictionaries
-    topClients.forEach(entry => {
-      // Iterate through the key-value pairs in each dictionary
-      for (const [Companyname, [Energy, Block]] of Object.entries(entry)) {
-          // Print or process the information as needed
-          CompanyName.push(Companyname)
-          EnergyUsed.push(Energy)
-          PysicalAddress.push(Block)
-      }
-    });
+    // let CompanyName=[] 
+    // let PysicalAddress=[]
+    // let EnergyUsed=[]   
+    // if(systemOverviewfilterDate===null){
 
-    }
-    else{
-          // Iterate through the list of dictionaries
-      topClientsDateFiltered.forEach(entry => {
-      // Iterate through the key-value pairs in each dictionary
-      for (const [Companyname, [Energy, Block]] of Object.entries(entry)) {
-          // Print or process the information as needed
-          CompanyName.push(Companyname)
-          EnergyUsed.push(Energy)
-          PysicalAddress.push(Block)
-      }
-    });
-    }
+    //   //sorting clients in desending order (higest to lowest)
+    //   topClients.sort((a, b) => {
+    //     // Extract the energy values
+    //     let energyA = Object.values(a)[0][0];
+    //     let energyB = Object.values(b)[0][0];
+    
+    //     // Compare the energy values in descending order
+    //     return energyB - energyA;
+    // });
+    //       // Iterate through the list of dictionaries
+    // topClients.forEach(entry => {
+    //   // Iterate through the key-value pairs in each dictionary
+    //   for (const [Companyname, [Energy, Block]] of Object.entries(entry)) {
+    //       // Print or process the information as needed
+    //       CompanyName.push(Companyname)
+    //       EnergyUsed.push(Energy)
+    //       PysicalAddress.push(Block)
+    //   }
+    // });
 
-    //console.log(clientsData)
+    // }
+    // else{
+    //   //sorting clients in desending order (higest to lowest)
 
+    //   topClientsDateFiltered.sort((a, b) => {
+    //     // Extract the energy values
+    //     let energyA = Object.values(a)[0][0];
+    //     let energyB = Object.values(b)[0][0];
+    
+    //     // Compare the energy values in descending order
+    //     return energyB - energyA;
+    // });
+    //       // Iterate through the list of dictionaries
+    //   topClientsDateFiltered.forEach(entry => {
+    //   // Iterate through the key-value pairs in each dictionary
+    //   for (const [Companyname, [Energy, Block]] of Object.entries(entry)) {
+    //       // Print or process the information as needed
+    //       CompanyName.push(Companyname)
+    //       EnergyUsed.push(Energy)
+    //       PysicalAddress.push(Block)
+    //   }
+    // });
+    // }
 
-
-  console.log(systemOverviewfilterDate)
+  // console.log(systemOverviewfilterDate)
 
 
 
@@ -303,72 +319,52 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
           <Box sx={{ flexGrow: 1 }} style={{marginLeft:"3%",marginRight:"3%",marginTop:"3%"}}> 
           <p style={{fontSize:"18px",fontWeight:"500",color:"#2b2b2b"}}>Top Clients</p>
-  <Grid container spacing={1}>
-  <Grid item xs={3}> 
+
+          <Box sx={{ flexGrow: 1 }}>
+  <Grid container spacing={2}>
+  {systemOverviewfilterDate==null ? (
+    topClients.map((val) => (
+      <Grid item xs={3}> 
   <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
      {/* <img src={clientImage} style={{width:"57px",height:"24px",marginTop:"10%"}}/> */}
       <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
       {
-       CompanyName[0] ? CompanyName[0]:""
+       val.CompanyName
       }
      </div>
-     <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[0]}</p>
-     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
+     {/* <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{0}</p> */}
+     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"5%"}}></div>
      <div className="Text-buttom">
      <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
-     <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[0]?EnergyUsed[0]:0)}kWh </p>
+     <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{val.Energy} kWh </p>
      </div>
      </div>
   </Grid>
-  <Grid item xs={3}>
-    <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
-        <div style={{ fontSize: "18px", fontWeight: "500", marginLeft: "0%", textAlign: "center", color: "#bf0a2e"}}>
-            {CompanyName[1] ? CompanyName[1] : ""}
-        </div>
-        <p style={{ fontSize: "15px", textAlign: "center", fontWeight: "500", color: "gray" }}>
-            {PysicalAddress[1] ? PysicalAddress[1] : ""}
-        </p>
-        <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
-        <div className="Text-buttom"> 
-        <p style={{ fontSize: "15px", fontWeight: "500", color: "gray" }}>Total Energy</p>
-        <p style={{ fontSize: "15px", fontWeight: "600", color: "black" }}>
-            {Math.trunc(EnergyUsed[1] ? EnergyUsed[1] : 0)} kWh
-        </p>
-        </div>
-    </div>
-</Grid>
+    ))
+  ) : (
+    topClientsDateFiltered.map((data) => (
+      <Grid item xs={3}> 
+      <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
+         {/* <img src={clientImage} style={{width:"57px",height:"24px",marginTop:"10%"}}/> */}
+          <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
+          {
+           data.CompanyName
+          }
+         </div>
+         {/* <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{0}</p> */}
+         <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"5%"}}></div>
+         <div className="Text-buttom">
+         <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
+         <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{data.Energy} kWh </p>
+         </div>
+         </div>
+      </Grid>
+    ))
+  )}
 
-  <Grid item xs={3}> 
-  <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
-     <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
-      {
-       CompanyName[2] ? CompanyName[2]:""
-      }
-     </div>
-     <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[2]? PysicalAddress[2]:"" }</p>
-     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
-     <div className="Text-buttom"> 
-     <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
-     <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[2]?EnergyUsed[2]:0)} kWh </p> 
-     </div>
-     </div>
   </Grid>
-  <Grid item xs={3}> 
-  <div style={{width: "100%",height: "100%", border: "1px solid #D5D5D5",borderRadius: "5px", padding: "2%", display: "flex",flexDirection: "column",justifyContent: "flex-end"}}>
-     <div style={{fontSize:"18px",fontWeight:"500",marginLeft:"0%",textAlign:"center",color:"#bf0a2e"}}> 
-      {
-       CompanyName[3] ? CompanyName[3]:""
-      }
-     </div>
-     <p style={{fontSize:"15px",textAlign:"center",fontWeight:"500",color:"gray"}}>{PysicalAddress[3]? PysicalAddress[3]:"" }</p>
-     <div style={{border:"1px solid #EAEAEA",width:"100%",marginTop:"0%"}}></div>
-     <div className="Text-buttom"> 
-     <p style={{fontSize:"15px",fontWeight:"500",color:"gray"}}>Total Energy</p>
-     <p style={{fontSize:"15px",fontWeight:"600",color:"black"}}>{Math.trunc(EnergyUsed[3]?EnergyUsed[3]:0)} kWh </p>
-     </div> 
-     </div>
-  </Grid>
-  </Grid>
+  </Box>
+ 
   </Box>
   </div>
 

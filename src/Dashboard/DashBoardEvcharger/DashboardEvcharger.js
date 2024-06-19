@@ -346,13 +346,14 @@ function DashboardEvcharger() {
             <Grid md={8} style={{textAlign:"center"}}> 
             <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</p>
             <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
-            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{0} kWh</p>
 
             </Grid>
             <Grid md={2}>
-              {
+              {/* {
                 CP14_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
-              }
+              } */}
+              <div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
              
 
             </Grid>
@@ -380,13 +381,15 @@ function DashboardEvcharger() {
             <Grid md={8} style={{textAlign:"center"}}> 
             <p style={{fontSize: "18px", fontWeight: "500",color:"#000000"}}>{CP14_1Location}</p>
             <p style={{fontSize:"14px",fontWeight: "500",color:"#000000",paddingTop:"3%"}}>Total Energy consumed</p>
-            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{CP14_1EnergyConsumed} kWh</p>
+            <p style={{fontSize:"17px",fontWeight: "600",color:"#000000"}}>{0} kWh</p>
 
             </Grid>
             <Grid md={2}>
-              {
+              {/* {
                 CP14_1Status==="active"?<div style={{borderRadius: "50%", backgroundColor: "#33FF00", width: "15px", height: "15px"}} />:<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
-              }
+              } */}
+
+<div style={{borderRadius: "50%", backgroundColor: "#E80707", width: "15px", height: "15px"}} />
              
 
             </Grid>

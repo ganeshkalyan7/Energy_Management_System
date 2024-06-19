@@ -1602,7 +1602,7 @@ return (
                 }}
               >
                 
-                {Math.trunc(avg_condenserLineInletTemp[avg_condenserLineInletTemp.length-1])}°C
+                {Math.trunc(avg_condenserLineOutletTemp[avg_condenserLineOutletTemp.length-1])}°C
               </div>
               <div
                 style={{
@@ -1624,7 +1624,7 @@ return (
                 }}
               >
                 
-                {Math.trunc(avg_condenserLineOutletTemp[avg_condenserLineOutletTemp.length-1])}°C
+                {Math.trunc(avg_condenserLineInletTemp[avg_condenserLineInletTemp.length-1])}°C
               </div>
             </div>
           </div>

@@ -305,7 +305,7 @@ console.log(values)
           colors: undefined, // You can also specify the color of the stroke if needed
         },
       },      
-      colors: ['#7d615f', '#9D86A5', '#F17E50', '#303030'],
+      colors: ['#7d615f', '#9D86A5', '#F17E50', '#303030','#D4501B'],
     },
   };
 
@@ -497,7 +497,9 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                     
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop</p>
              
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#F17E50' size="30px"/> wheeled in solar</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#F17E50' size="30px"/>solar Phase |</p>
+
+                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#D4501B' size="30px"/>solar Phase ||</p>
                    
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#303030' size="30px"/> Diesel</p>
 
