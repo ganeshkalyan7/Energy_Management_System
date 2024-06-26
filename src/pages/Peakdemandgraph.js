@@ -16,6 +16,7 @@ import BlockWiseData from './BlockWiseData';
 import { bmssAdress } from '../ipAdress';
 import PeakDemadDailyMonthly from './PeakDemadDailyMonthly';
 import GridMaxDailyMonthly from './GridMaxDailyMonthly';
+import BatteryUsage from './Batteries/BatteryUsage';
 
 
 
@@ -669,6 +670,8 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
       </div>
     )}
   </div>
+
+
   
 
       </Grid>
@@ -676,7 +679,10 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
      
 
 
-
+      <div style={{width:"100%"}}> 
+ <BatteryUsage/>
+  
+  </div>
 
   
      

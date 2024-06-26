@@ -208,15 +208,15 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
   for(let i=0;i<hotWaterStorageStatusResponse.length;i++){
 
      if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Recirculation"){
-      HOTWaterStaus="ON"
+      HOTWaterStaus="Charging Recirculation"
 
      }
      else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Freshwater"){
-      HOTWaterStaus="ON"
+      HOTWaterStaus="Charging Freshwater"
 
      }
      else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Discharge"){
-      HOTWaterStaus="ON"
+      HOTWaterStaus="Discharging"
 
      }
      else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="IDLE"){

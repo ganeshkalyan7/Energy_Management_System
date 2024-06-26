@@ -154,6 +154,7 @@ function DashBoardSecoundLayer() {
   
   let  WheeledInsolar=0
   let WheeledInsolarPhase2=0
+  let Wind=0
   let TodayRE=0
   let RoofTopSolar=0
   let GridEnegy=0
@@ -171,6 +172,7 @@ function DashBoardSecoundLayer() {
       RoofTopSolar=Math.trunc(dashBoardHighlightsdata[i].rooftop)
       GridEnegy=Math.trunc(dashBoardHighlightsdata[i].grid)
       Diesel=Math.trunc(dashBoardHighlightsdata[i].diesel)
+      Wind=Math.trunc(dashBoardHighlightsdata[i].wind)
       PowerFactor_avg=(dashBoardHighlightsdata[i].avgFactor).toFixed(2)
       PowerFactor_min=(dashBoardHighlightsdata[i].minFactor).toFixed(2)
     
@@ -185,6 +187,7 @@ function DashBoardSecoundLayer() {
       RoofTopSolar=Math.trunc(dashBoardHighlightsDateFiltered[i].rooftop)
       GridEnegy=Math.trunc(dashBoardHighlightsDateFiltered[i].grid)
       Diesel=Math.trunc(dashBoardHighlightsDateFiltered[i].diesel)
+      Wind=Math.trunc(dashBoardHighlightsDateFiltered[i].wind)
       PowerFactor_avg=(dashBoardHighlightsDateFiltered[i].avgFactor).toFixed(2)
       PowerFactor_min=(dashBoardHighlightsDateFiltered[i].minFactor).toFixed(2)
     
@@ -195,7 +198,7 @@ function DashBoardSecoundLayer() {
   const values=[]
   
   
-  values.push(Math.round(GridEnegy),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel,WheeledInsolarPhase2)
+  values.push(Math.round(GridEnegy),Math.trunc(RoofTopSolar),Math.trunc(WheeledInsolar),Diesel,WheeledInsolarPhase2,Wind)
  
 
 console.log(values)
@@ -215,6 +218,7 @@ console.log(values)
   let RenewableEnergyPercentage=0
   let ThisWeekMonthPercentage=0
   let WheeledWeekMonth=0
+  let WheeledWeekMonthPhase2=0
   let RoofWeekMonth=0
   let WindWeekMonth=0
 
@@ -224,12 +228,16 @@ console.log(values)
       ThisWeekMonthPercentage=reShareData[i].diffWeek
       WheeledWeekMonth=reShareData[i].WheeledWeek
       RoofWeekMonth=reShareData[i].RoofWeek
+      WheeledWeekMonthPhase2=reShareData[i].Wheeled2Week
+      WindWeekMonth=reShareData[i].windWeek
     }
     else if(selectorWeekMonth==="This Month"){
       RenewableEnergy=reShareData[i].CurrentMonth
       ThisWeekMonthPercentage=reShareData[i].diffMonth
       WheeledWeekMonth=reShareData[i].WheeledMonth
       RoofWeekMonth=reShareData[i].RoofMont
+      WheeledWeekMonthPhase2=reShareData[i].WheeledMonth2
+      WindWeekMonth=reShareData[i].windMonth
 
     }
 
@@ -259,7 +267,7 @@ console.log(values)
       toolbar: {
         show: true,
       },
-      labels: ['Grid', 'Rooftop', 'Solar Phase1', 'Diesel','Solar Phase2'],
+      labels: ['Grid', 'Rooftop', 'Solar Without  Trackers', 'Diesel','Solar With  Trackers',"Wind"],
       // title: {
       //   text: 'Fruit Sales',
       //   align: 'center',
@@ -277,7 +285,7 @@ console.log(values)
           horizontalAlign: 'left',
           fontSize: '27px',
           markers: {
-            fillColors: ['#e6773c', '#FFAE42', '#0e8045', '#546E7A',"#0e807a"]
+            fillColors: ['#e6773c', '#FFAE42', '#0e8045', '#546E7A',"#0e807a","#3B427A"]
           }
         }
       },
@@ -305,7 +313,7 @@ console.log(values)
           colors: undefined, // You can also specify the color of the stroke if needed
         },
       },      
-      colors: ['#7d615f', '#9D86A5', '#F17E50', '#303030','#D4501B'],
+      colors: ['#7d615f', '#9D86A5', '#F17E50', '#303030','#D4501B',"#3B427A"],
     },
   };
 
@@ -333,7 +341,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
             <div className='childcontainerleft' style={{marginTop:"4%"}} >
               <span style={{marginLeft:"7.4%",fontSize:"18px",fontWeight:"600"}}>Renewable Energy Profile <MdOutlineInfo size="18px" color='black' /></span>
-             <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"10%",paddingBottom:"3%"}}> 
+             <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"15%",paddingBottom:"3%"}}> 
               <div style={{ marginTop: "20px" ,marginLeft:"3%"}}>
                 <Box sx={{ flexGrow: 1 }} style={{marginTop:"25px"}}>
 
@@ -370,13 +378,21 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                 
               </div>
 
-              <div style={{width:"100%", marginLeft: "3%",paddingTop:"1%",paddingLeft:"0%",paddingRight:"3%"}}>
+              <div style={{width:"100%", marginLeft: "3%",paddingTop:"4%",paddingLeft:"0%",paddingRight:"3%"}}>
 <span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "center" }}>Sources of Renewables </span>
   <div style={{width:"97%",borderRadius:"5px",marginTop:"15px"}}> 
 
   <div class="bar-container" style={{display:"flex"}}>
     {
-      WheeledWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>:  <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>
+      WheeledWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>:  <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar Without <br/>Trackers</div>
+    }
+
+{
+      WheeledWeekMonthPhase2===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Phase2</div>:  <div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar With  <br/> Trackers</div>
+    }
+
+{
+      WindWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>:  <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>
     }
      {
       RoofWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>: <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
@@ -385,13 +401,22 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
        {/* <div class="bar white" style={{width: `${WindWeekMonth}%`}}><b>Wind</b></div>  */}
    </div>
    <div class="bar-container" style={{display:"flex",width:"100%",textAlign:"center",height:"16px"}}>
-       <div class="bar clients" style={{width: `${WheeledWeekMonth}%`,background:"#F17E50", color:"#F17E50"}}></div>
+       <div class="bar clients" style={{width: `${WheeledWeekMonth}%`,background:"#F17E50", color:"#d4501b"}}></div>
+       <div class="bar chillers" style={{width: `${WheeledWeekMonthPhase2}%`,background:"#d4501b",}}></div>
+       <div class="bar chillers" style={{width: `${WindWeekMonth}%`,background:"#3B427A",}}></div>
        <div class="bar chillers" style={{width: `${RoofWeekMonth}%`,background:"#947F9B",}}></div>
        {/* <div class="bar utilities" style={{width: `${WindWeekMonth}%`,background:"#21355e",}}></div> */}
    </div>
    <div class="bar-container" style={{display:"flex"}}>
     {
       WheeledWeekMonth===0||undefined?<div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>:<div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>
+    }
+
+{
+      WheeledWeekMonthPhase2===0||undefined?<div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonthPhase2}%</div>:<div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonthPhase2}%</div>
+    }
+     {
+      WindWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WindWeekMonth}%</div>: <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WindWeekMonth}%</div>
     }
        
     {
@@ -410,19 +435,9 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
    
 
-
-
-
-
-
-<div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"3%",paddingBottom:"3%"}}> 
+{/* <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"3%",paddingBottom:"3%"}}> 
 <span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "end",marginLeft:"3%" }}>Renewable till date</span>
 
-
-{/* <div style={{marginLeft:"0%"}}>  
-<span style={{marginLeft:`${(RenewableEnergy)-3}%`,color: "#adadad",fontWeight:"500",fontSize:"14px",position:"relative"}}>70% </span>
-
-</div> */}
 
 
 <Box sx={{  alignItems: 'center', marginLeft: "3%",marginTop:"0px",marginRight:"3%" }}>
@@ -470,13 +485,18 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
 
 
-</div>
+</div> */}
 
 
 
 
 
-<div style={{border:"0.5px solid #EAEAEA",marginRight:"0%",marginLeft:"100%",height:"400px",width:"0.3px",marginTop:"-400px"}}></div>
+
+
+
+
+
+<div style={{border:"0.5px solid #EAEAEA",marginRight:"0%",marginLeft:"100%",height:"500px",width:"0.3px",marginTop:"-350px"}}></div>
 
 
 </Grid>
@@ -494,14 +514,17 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                     <br />
                     <ReactApexChart options={state.options} series={state.series} type="donut" width='270px' height='270px' style={{marginTop:"20%",marginLeft:"-10%"}}  />
                     <p style={{marginLeft:"5%"}}><TbRectangleFilled color='#7A6464' size="30px"/> Grid</p>
-                    
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px",whiteSpace:"pre"}}><TbRectangleFilled color='#3B427A' size="30px"/>Wind</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#9D86A5' size="30px"/> RoofTop Solar</p>
              
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#F17E50' size="30px"/>solar Phase |</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px",whiteSpace:"pre"}}><TbRectangleFilled color='#F17E50' size="30px"/>Solar Without Trackers</p>
 
-                    <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#D4501B' size="30px"/>solar Phase ||</p>
+                    <p style={{marginLeft:"5%",marginTop:"-20px",whiteSpace:"pre"}}><TbRectangleFilled color='#D4501B' size="30px"/>Solar With Trackers</p>
+
+                    
                    
                     <p style={{marginLeft:"5%",marginTop:"-20px"}}><TbRectangleFilled color='#303030' size="30px"/> Diesel</p>
+                    
 
                     <div style={{border:"0.5px solid #EAEAEA",marginRight:"3%",marginLeft:"90%",height:"300px",width:"0.3px",marginTop:"-350px"}}></div>
                    
@@ -542,19 +565,19 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{GridEnegy}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar Phase |</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar Without <br/> Trackers</span>
                             <br />
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{WheeledInsolar}</span>
                             <br />
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar Phase ||</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Solar With <br/> Trackers</span>
                             <br />
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{WheeledInsolarPhase2}</span>
                            
                           </Grid>
 
                           <Grid item xs={6} >
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>Rooftop</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B"  }}>Rooftop Solar</span>
                             <br />
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{RoofTopSolar}</span>
                             <br />
@@ -578,9 +601,9 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
                             <br />
                             
 
-                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#ADADAD"  }}>Wind</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2b2b2b"  }}>Wind</span>
                             <br />
-                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#ADADAD"  }}>0</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2b2b2b"  }}>{Wind}</span>
                             
                           </Grid >
                           <Grid item xs={12}> 

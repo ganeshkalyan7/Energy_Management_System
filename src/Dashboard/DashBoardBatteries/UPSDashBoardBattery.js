@@ -77,8 +77,8 @@ let TotalChargeEnergy=0
 let TotalDischargeEnergy=0
 
 for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
-  TotalChargeEnergy=totalCHG_DCHG_Dat[i].chargeEnergy
-  TotalDischargeEnergy=totalCHG_DCHG_Dat[i].dischargeEnergy
+  TotalChargeEnergy=(totalCHG_DCHG_Dat[i].chargeEnergy).toFixed(2)
+  TotalDischargeEnergy=((totalCHG_DCHG_Dat[i].dischargeEnergy)*-1).toFixed(2)
 
 }
 

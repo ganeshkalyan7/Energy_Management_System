@@ -12,6 +12,7 @@ import axios from 'axios';
 import InfoTooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Tooltip from '@mui/material/Tooltip';
 import Bar1 from '../../images/ChillersCard.png';
+import Bar2 from "../../images/EvCharger1.png"
 import { Link } from "react-router-dom";
 
 function DashBoardChillers() {
@@ -38,6 +39,9 @@ function DashBoardChillers() {
   const [chillerTotalCoolingEnergyPhase1,setChillerTotalCoolingEnergyPhase1]=useState([])
   const ChillerTotalCooling_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase2`
   const ChillerTotalCoolingPhase1_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase1`
+
+  const [totalElectricalEnergy,setTotalElectricalEnergy]=useState([])  
+  const TotalElectricalEnergy_API=`${chillersDashboard}/chillerDashboard/TotalElectricalEnergy`
 
   const value=5
   const fillColor = "#D5CECC"
@@ -163,6 +167,19 @@ console.log(chillerTotalCoolingEnergyPhase1)
 
 
 
+
+//---------------------------Total Electrical Energy-----------------------------------------//
+useEffect(() => {
+  axios.get(TotalElectricalEnergy_API)
+    .then((res) => {
+      const dataResponse = res.data;
+      setTotalElectricalEnergy(dataResponse);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+//-----------------------------end--------------------------------------------------//
 
 console.log(chillerLoading_Phase2)
 
@@ -307,21 +324,80 @@ let ChillerTotalCoolingEnergyDayPhase1=0
 
 //-------------------------------------------end of phase2(1,2,3,4)------------------------------------------------//
 
+let ChillerTotalElectricalEnergyDay=0
+
+for(let i=0;i<totalElectricalEnergy.length;i++){
+  ChillerTotalElectricalEnergyDay=totalElectricalEnergy[i].TotalElectricalEnergy
+  //console.log(chillerTotalCoolingEnergy[i].Phase2TotalCoolingEnergy)
+}
+
 
 return (
     <div  className='ChillersMaincontrainer' style={{marginTop:"2%"}}>
       <div className='ChillersMaincontrainer-root'>
-      <div className="row"  style={{marginTop:"1%"}}>
-  <div className="col-5">
+      <div className="row"  style={{marginTop:"1%",marginBottom:"5%"}}>
+  <div className="col-4">
     <div  style={{color:"black",marginLeft:"10%",fontSize:"18px",fontWeight:"600"}}>Chillers</div>
   </div>
-  <div className="col-7" style={{ position: "relative",marginLeft:"40%",marginTop:"-30px" }}>
+  <div className="col-4" style={{ position: "relative",marginLeft:"0%",marginTop:"0px" }}>
+  <img
+    style={{
+      height: "60px",
+      width: "240px",
+      overflow: "hidden",
+      marginLeft: "60%",
+    }}
+    alt=""
+    src={Bar2}
+  />
+  <div
+    style={{
+      position: "absolute",
+      top: "30%",  // Adjust the top position as needed
+      left: "60.5%",  // Adjust the left position as needed
+      transform: "translate(-0%, -50%)",  // Center the text
+      fontWeight: "500",
+      color:"#fff",
+      fontSize:"14px",
+      whiteSpace:'pre'
+    }}
+  >
+    Total Electrical Energy of the day
+  </div>
+  <div
+    style={{
+      position: "absolute",
+      top: "45%",  // Adjust the top position as needed
+      left: "64.5%",  // Adjust the left position as needed
+      // transform: "translate(-50%, -50%)",  // Center the text
+      color:"#fff",
+      fontSize: "20px",
+      fontWeight: "600",
+    }}
+  >
+  {Math.trunc(ChillerTotalElectricalEnergyDay)} 
+  </div> 
+  <span   style={{
+      position: "absolute",
+      top: "50.5%",  // Adjust the top position as needed
+      left: "81.5%",  // Adjust the left position as needed
+      // transform: "translate(-50%, -50%)",  // Center the text
+      color:"#fff",
+      fontSize: "16px",
+      fontWeight: "600",
+    }}> 
+    kWh
+    
+    </span>
+</div>
+
+<div className="col-4" style={{ position: "relative",marginLeft:"0%",marginTop:"0px" }}>
   <img
     style={{
       height: "60px",
       width: "200px",
       overflow: "hidden",
-      marginLeft: "57%",
+      marginLeft: "30%",
     }}
     alt=""
     src={Bar1}
@@ -330,7 +406,7 @@ return (
     style={{
       position: "absolute",
       top: "30%",  // Adjust the top position as needed
-      left: "58.5%",  // Adjust the left position as needed
+      left: "38.5%",  // Adjust the left position as needed
       transform: "translate(-0%, -50%)",  // Center the text
       fontWeight: "500",
       color:"#fff",
@@ -343,7 +419,7 @@ return (
     style={{
       position: "absolute",
       top: "45%",  // Adjust the top position as needed
-      left: "58.5%",  // Adjust the left position as needed
+      left: "38.5%",  // Adjust the left position as needed
       // transform: "translate(-50%, -50%)",  // Center the text
       color:"#fff",
       fontSize: "20px",
@@ -355,7 +431,7 @@ return (
   <span   style={{
       position: "absolute",
       top: "50.5%",  // Adjust the top position as needed
-      left: "67%",  // Adjust the left position as needed
+      left: "55%",  // Adjust the left position as needed
       // transform: "translate(-50%, -50%)",  // Center the text
       color:"#fff",
       fontSize: "16px",

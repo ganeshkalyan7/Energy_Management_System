@@ -31,7 +31,7 @@ const ClientsGraph_API=`${analyticsAdress}/Analysis/TopCoolingClients`
 const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClients/Filtered`
 
 
-const ClientSearch_API="http://127.0.01:5002/Analysis/TopCoolingClients/search"
+const ClientSearch_API=`${analyticsAdress}/Analysis/TopCoolingClients/search`
 const [ClientSearch,setClientSearch]=useState([])
 
 

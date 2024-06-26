@@ -122,17 +122,21 @@ console.log(batterySelect)
       <React.Fragment>
          <Grid item xs={12} md={6}> 
            <IOEDashBoardBattery/>
-           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}> 
-            <div> 
-            <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
-            <p style={{fontSize:"18px",fontWeight:"400"}}>{(ioeChgTime)}</p>
-            </div>
+           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}>
+           <p style={{color:"black",marginLeft:"10%",marginTop:"5%"}}>Previous Cycle</p>
 
+<div style={{justifyContent:"center",alignItems:"center",display:"flex",gap:"10px",marginTop:"6%"}}>
+            <div> 
+            <span style={{fontSize:"16px",fontWeight:"600"}}>Charge Start time</span>
+            <p style={{fontSize:"16px",fontWeight:"400"}}>{(ioeChgTime)}</p>
+            </div>
+            <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
 
             <div> 
-            <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
-            <p style={{fontSize:"18px",fontWeight:"400"}} >{ioeDchgTime}</p>
+            <span style={{fontSize:"16px",fontWeight:"600"}}>Discharge Start Time</span>
+            <p style={{fontSize:"16px",fontWeight:"400"}} >{ioeDchgTime}</p>
             </div>
+ </div>
             
            </div>
          </Grid>
@@ -150,17 +154,21 @@ console.log(batterySelect)
         <Grid item xs={12} md={6}> 
         <LTODashBoradBattery/>
 
-        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"55%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}> 
+        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}> 
+        <p style={{color:"black",margin:"5%"}}>Previous Cycle</p>
+
+<div style={{justifyContent:"center",alignItems:"center",display:"flex",gap:"10px",marginTop:"6%"}}>
             <div> 
             <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
             <p style={{fontSize:"18px",fontWeight:"400"}}>{(ltoChgTime)}</p>
             </div>
 
-
+            <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
             <div> 
             <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
             <p style={{fontSize:"18px",fontWeight:"400"}} >{ltoDchgTime}</p>
             </div>
+    </div>
             
            </div>
         
@@ -183,17 +191,22 @@ console.log(batterySelect)
         <Grid item xs={12} md={6}>
         <UPSDashBoardBattery/>
          
-        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%",justifyContent:"center",alignItems:"center",display:"flex",gap:"60px"}}>
-          
+        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}>
+        <p style={{color:"black",margin:"5%"}}>Previous Cycle</p>
+
+          <div style={{justifyContent:"center",alignItems:"center",display:"flex",gap:"10px",marginTop:"6%"}}>
+
             <div> 
-            <span style={{fontSize:"18px",fontWeight:"700"}}>Charge Start time</span>
+            <span style={{fontSize:"18px",fontWeight:"600"}}>Charge Start time</span>
             <p style={{fontSize:"18px",fontWeight:"400"}}>{(upsChgTime)}</p>
             </div>
 
-
+             <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
+             
             <div> 
-            <span style={{fontSize:"18px",fontWeight:"700"}}>Discharge Start Time</span>
+            <span style={{fontSize:"18px",fontWeight:"600"}}>Discharge Start Time</span>
             <p style={{fontSize:"18px",fontWeight:"400"}} >{upsDchgTime}</p>
+            </div>
             </div>
             
            </div>

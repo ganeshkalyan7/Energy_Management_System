@@ -69,6 +69,7 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
   let packSOC3 =0
   let packSOC4 =0
   let packSOC5 =0
+  let PackSOcAVG=0
 
   let Status1=""
   let Status2=""
@@ -173,11 +174,22 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
 
     }
     // Calculate the gradient color based on the percentage
+  const percentageVal= percentage; 
   const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
+  let backgroundColor='#fa840f'
+  
+  if(percentage>40){
+    backgroundColor="#389c24"
+  }
+  if(percentage<40){
+    backgroundColor="#fa840f"
+  }
+ 
+  
   const IOEBattery = {
     width: "80%",
     height: "160px",
-    background: `linear-gradient(to top, orange ${percentage}%, #D3D3D3 ${percentage}%)`,
+    background:`linear-gradient(to top, ${backgroundColor} ${percentage}%, #D3D3D3 ${percentage}%)`,
     borderRadius:"5%"
   };
   return (

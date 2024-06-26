@@ -110,7 +110,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
         }
         
         
-        <Link to='/'> 
+        <Link to='/NewDashboard'> 
         <img src={IITM} width="190px" height="190px" style={{marginTop:"10px",marginLeft:"-30px"}}/>
         </Link>
         {/* <span class="logo-name">EMS</span> */}

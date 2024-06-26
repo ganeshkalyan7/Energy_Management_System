@@ -109,7 +109,7 @@ function BatteryHourly() {
             color:"#528AAE"
         }, {
             name: 'Discharging  Energy',
-            data:  battery.map((val)=>val.dischargingEnergy/1000),
+            data:  battery.map((val)=>val.dischargingEnergy),
             type: 'column',
             yAxis: 0, // Primary y-axis
             color:"#00008B"
@@ -186,7 +186,7 @@ function BatteryHourly() {
           color:"#528AAE"
       }, {
           name: 'Discharging  Energy',
-          data:  singledaydata.map((val)=>val.dischargingEnergy/1000),
+          data:  singledaydata.map((val)=>val.dischargingEnergy),
           type: 'column',
           yAxis: 0, // Primary y-axis
           color:"#00008B"

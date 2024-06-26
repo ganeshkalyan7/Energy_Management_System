@@ -51,6 +51,7 @@ import { ThemeProvider } from "styled-components";
 import IOEEnergyPac from './pages/IOEEnergyPac';
 import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
 import Sample from './pages/Sample';
+import BatteryUsage from "./pages/Batteries/BatteryUsage"
 
 
 
@@ -97,6 +98,8 @@ function App() {
             <Route path="/Battery/IOE" element={<IOEEnergyPac/>}/>
             <Route path="/control/IOE" element={<IOEControl/>}/>
             <Route path="/sample/page" element={<Sample/>}/>
+            <Route path="/Battery/Usage" element={<BatteryUsage/>}/>
+            
             
             
                     

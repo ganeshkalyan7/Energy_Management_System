@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import EvCharger from './EvCharger';
 
 function ChillerStatus() {
-    const chillerstatus_api = `${dashboardAddress}Dashboard/chillerstatus`
+    const chillerstatus_api = `${dashboardAddress}/Dashboard/chillerstatus`
     const [chiller, setChiller] = useState([])
 
 

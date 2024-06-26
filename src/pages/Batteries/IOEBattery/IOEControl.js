@@ -111,17 +111,36 @@ let Current = 0;
 let MainCon = "";
 let PreCon = "";
 let CurrentString="String 1"
+let AvgNumber=0
 
 const getData = (data, key) => data ? data[key] : (typeof data[key] === 'number' ? 0 : "");
 
 for (let i = 0; i < ioeOverViewData.length; i++) {
-  TotalSoc=((ioeOverViewData[i].packSoc1+ioeOverViewData[i].packSoc2+ioeOverViewData[i].packSoc3+ioeOverViewData[i].packSoc4+ioeOverViewData[i].packSoc5)/5)
+ 
   soc=ioeOverViewData[i].packSoc1
   Status=ioeOverViewData[i].batteryStatus1
   Voltage= ioeOverViewData[i].batteryVoltage1
   Current=ioeOverViewData[i].batteryCurrent1
   MainCon=ioeOverViewData[i].mainCon1
   PreCon=ioeOverViewData[i].preCon1
+
+    if(ioeOverViewData[i].packSoc1!=null){
+      AvgNumber+=1
+    }
+    if(ioeOverViewData[i].packSoc2!=null){
+      AvgNumber+=1
+    }
+    if(ioeOverViewData[i].packSoc3!=null){
+      AvgNumber+=1
+    }
+    if(ioeOverViewData[i].packSoc4!=null){
+      AvgNumber+=1
+    }
+    if(ioeOverViewData[i].packSoc5!=null){
+      AvgNumber+=1
+    }
+
+    TotalSoc=((ioeOverViewData[i].packSoc1+ioeOverViewData[i].packSoc2+ioeOverViewData[i].packSoc3+ioeOverViewData[i].packSoc4+ioeOverViewData[i].packSoc5)/AvgNumber)
    if(ioeOverViewData[i].batteryStatus1==="DCHG"){
     currentStatus="DISCHARGING"
    }
@@ -133,6 +152,7 @@ for (let i = 0; i < ioeOverViewData.length; i++) {
    }
    
    
+   console.log(AvgNumber)
 
   let data = ioeOverViewData[i];
   if (data == null) continue; // Skip null entries early
