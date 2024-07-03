@@ -7,7 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import {Link} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { dashboardAddress ,ControlAPi} from '../../ipAdress';
+import { dashboardAddress ,ControlAPi} from '../../../ipAdress';
 
 
 function IOEBatteryHourly() {

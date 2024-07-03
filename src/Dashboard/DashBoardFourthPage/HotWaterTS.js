@@ -25,6 +25,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import DatePickers from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+
 
 
 
@@ -231,8 +233,39 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
   const [month, day, year] = local.split("/"); // Split the date by "/"
   const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
+
+  const arrowStyle = {
+    position: "absolute",
+    top: "0px",
+    left: "80%", // Center the arrow horizontally
+    fontSize: "24px",
+    color: "#4bba47", // Arrow color
+    animation: "fall 1.5s infinite",
+  };
+
+
+  
+
+  
+
+
   return (
+    
     <div className='maincontainer'>
+    <style>
+        {`
+          @keyframes imageBlink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+          }
+          @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(50px); opacity: 0; }
+          }
+        `}
+      </style>
+
   <Box sx={{ flexGrow: 1 }}>
      <Grid container spacing={3}>
       
@@ -372,8 +405,8 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
            <Grid item xs={12} md={6}>
           <div > 
      <div style={{position: "relative", width: "100%", height: "497px", left:"5px", fontSize: "16px", color: "#fff",marginTop:"-15px"}} >
-        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px",}} />
-        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px",}}>
+        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px"}} />
+        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px", }}>
           <div> 
           <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Hot Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
            </div>
@@ -403,9 +436,15 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
               {
                 HOTWaterStaus==="OFF"?<CircleIcon style={{color:"red",width:"20px",height:"20px"}} />:<CircleIcon style={{color:"#33FF00",width:"20px",height:"20px"}} />
               }
+
+
+
+              
               
             <span style={{marginLeft:"5px",fontSize: "14px",fontWeight:"600"}}><b>{HOTWaterStaus}</b></span>
             </span>
+
+            
          
            <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%",width:"100%"}}>
             <Box sx={{ flexGrow: 1 }}> 
@@ -491,9 +530,31 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
 <div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Mass of stored water</div>
 <div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Mass_of_storedwater} (L)</div>
 </div>
+
+{/* <div style={{marginLeft:"80%"}}> 
+
+{[0, 0.3, 0.6].map((delay, index) => (
+        <div key={index} style={{ ...arrowStyle, animationDelay: `${delay}s` }}>
+         <MdOutlineKeyboardArrowDown />
+        </div>
+      ))}
+</div> */}
+
           
-          
-          <img style={{position: "absolute", width: "180.66px", height: "100%", marginTop:"10px",objectFit: "contain",mixBlendMode: "soft-light", marginLeft:"80px"}} alt="" src={HotTank} />
+<img 
+        style={{
+          position: "absolute",
+          width: "180.66px",
+          height: "100%",
+          marginTop: "10px",
+          objectFit: "contain",
+          mixBlendMode: "soft-light",
+          marginLeft: "80px",
+          animation: HOTWaterStaus === "Discharging" ? "imageBlink 1s infinite" : "none",
+        }} 
+        alt="" 
+        src={HotTank} 
+      />
   </div>
          
 

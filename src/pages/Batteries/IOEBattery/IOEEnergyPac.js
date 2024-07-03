@@ -7,7 +7,8 @@ import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { analyticsAdress } from '../ipAdress';
+import { analyticsAdress } from '../../../ipAdress';
+import IOEBatteryHourly from './IOEBatteryHourly';
 
 function IOEEnergyPac() {
 
@@ -483,6 +484,27 @@ console.log(String1and2Graph.series)
 
   return (
     <div style={{ marginTop: "90px", marginLeft: "100px",marginRight:"40px"}}>
+   
+   <div class="col-sm-12" style={{marginTop:"5%"}}>
+    <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
+      <div class="card-body">
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (660 kWh) </b></h4> 
+        <hr/>
+        <div id="chart2"> 
+        <IOEBatteryHourly/>
+  
+   </div>
+   <div class="card-text"style={{font:'caption',fontStretch:"extra-expanded",fontFamily:"serif",fontSize:'17px' }}> 
+          <br/>
+
+        </div>
+      </div>
+    </div>
+  </div>
+      {/* <diV> 
+        <IOEBatteryHourly/>
+      </diV> */}
+      <hr style={{border:"10px solid black"}}/>
 
 <div className="row" >
   <div className="col-4">

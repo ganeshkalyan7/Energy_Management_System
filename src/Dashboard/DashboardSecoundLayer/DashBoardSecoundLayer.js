@@ -384,43 +384,55 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
   <div class="bar-container" style={{display:"flex"}}>
     {
-      WheeledWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wheeled in Solar</div>:  <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar Without <br/>Trackers</div>
+      WheeledWeekMonth===0||undefined? "":  <div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar Without <br/>Trackers</div>
     }
 
 {
-      WheeledWeekMonthPhase2===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Phase2</div>:  <div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar With  <br/> Trackers</div>
+      WheeledWeekMonthPhase2===0||undefined?"":  <div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar With  <br/> Trackers</div>
     }
 
 {
-      WindWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>:  <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>
+      WindWeekMonth===0||undefined?"":  <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>
     }
      {
-      RoofWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>: <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
+      RoofWeekMonth===0||undefined? "" :<div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
      }
       
        {/* <div class="bar white" style={{width: `${WindWeekMonth}%`}}><b>Wind</b></div>  */}
    </div>
    <div class="bar-container" style={{display:"flex",width:"100%",textAlign:"center",height:"16px"}}>
-       <div class="bar clients" style={{width: `${WheeledWeekMonth}%`,background:"#F17E50", color:"#d4501b"}}></div>
-       <div class="bar chillers" style={{width: `${WheeledWeekMonthPhase2}%`,background:"#d4501b",}}></div>
-       <div class="bar chillers" style={{width: `${WindWeekMonth}%`,background:"#3B427A",}}></div>
-       <div class="bar chillers" style={{width: `${RoofWeekMonth}%`,background:"#947F9B",}}></div>
+    {
+      WheeledWeekMonth===0 || undefined?"":<div class="bar clients" style={{width: `${WheeledWeekMonth}%`,background:"#F17E50", color:"#d4501b"}}></div>
+    }
+       
+       {
+         WheeledWeekMonthPhase2===0 ||  undefined?"":<div class="bar chillers" style={{width: `${WheeledWeekMonthPhase2}%`,background:"#d4501b",}}></div>
+       }
+       
+       {
+        WindWeekMonth===0 || undefined?"":<div class="bar chillers" style={{width: `${WindWeekMonth}%`,background:"#3B427A",}}></div>
+       }
+       
+       {
+        RoofWeekMonth===0 || undefined?"":<div class="bar chillers" style={{width: `${RoofWeekMonth}%`,background:"#947F9B",}}></div>
+       }
+       
        {/* <div class="bar utilities" style={{width: `${WindWeekMonth}%`,background:"#21355e",}}></div> */}
    </div>
    <div class="bar-container" style={{display:"flex"}}>
     {
-      WheeledWeekMonth===0||undefined?<div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>:<div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>
+      WheeledWeekMonth===0||undefined?"":<div class="bar white" style={{width: `${WheeledWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonth}%</div>
     }
 
 {
-      WheeledWeekMonthPhase2===0||undefined?<div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonthPhase2}%</div>:<div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonthPhase2}%</div>
+      WheeledWeekMonthPhase2===0||undefined?"":<div class="bar white" style={{width: `${WheeledWeekMonthPhase2}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledWeekMonthPhase2}%</div>
     }
      {
-      WindWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{WindWeekMonth}%</div>: <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WindWeekMonth}%</div>
+      WindWeekMonth===0||undefined? "": <div class="bar white" style={{width: `${WindWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WindWeekMonth}%</div>
     }
        
     {
-      RoofWeekMonth===0||undefined? <div class="bar white" style={{width: `50%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>: <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>
+      RoofWeekMonth===0||undefined? "": <div class="bar white" style={{width: `${RoofWeekMonth}%`,fontSize:"12px",fontWeight:"500"}}>{RoofWeekMonth}%</div>
     }
       
        {/* <div class="bar white" style={{width: `${WindWeekMonth}`}}><b>{WindWeekMonth}</b></div>  */}

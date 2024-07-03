@@ -83,7 +83,23 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
     packSOC3=ioeBatteryData[i].packSoc3 == null ? 0 : ioeBatteryData[i].packSoc3
     packSOC4=ioeBatteryData[i].packSoc4 == null ? 0 : ioeBatteryData[i].packSoc4
     packSOC5=ioeBatteryData[i].packSoc5 == null ? 0 : ioeBatteryData[i].packSoc5
+    if(ioeBatteryData[i].packSoc1 != null){
+      PackSOcAVG+=1
+    }
+    if(ioeBatteryData[i].packSoc2 != null){
+      PackSOcAVG+=1
+    }
+    if(ioeBatteryData[i].packSoc3 != null){
+      PackSOcAVG+=1
+    }
 
+    if(ioeBatteryData[i].packSoc4 != null){
+      PackSOcAVG+=1
+    }
+    
+    if(ioeBatteryData[i].packSoc5 != null){
+      PackSOcAVG+=1
+    }
     Status1=ioeBatteryData[i].batteryStatus1 == null ? "" : ioeBatteryData[i].batteryStatus1
     Status2=ioeBatteryData[i].batteryStatus2 == null ? "" : ioeBatteryData[i].batteryStatus2
     Status3=ioeBatteryData[i].batteryStatus3 == null ? "" : ioeBatteryData[i].batteryStatus3
@@ -94,7 +110,8 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
 
 
 
-    let  percentage =(packSOC1+packSOC2+packSOC3+packSOC4+packSOC5)/5;
+    let  percentage =((packSOC1+packSOC2+packSOC3+packSOC4+packSOC5)/PackSOcAVG);
+    console.log("PackSOcAVG",PackSOcAVG)
     let BatteryStatus="";
 
     if(clickedValue===1){

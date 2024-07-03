@@ -7,7 +7,7 @@ import {NavBarOld} from "./components/NavBarOld"
 import styled from "styled-components";
 import DashBoard from './pages/DashBoard';
 
-import Control from './pages/Control';
+import Control from './pages/Batteries/UPSBattery/Control';
 import Alerts from './pages/Alerts';
 import Documentation from './pages/Documentation';
 import Peakdemand from './pages/Peakdemand';
@@ -23,19 +23,19 @@ import { useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import Thermalcontrol from './pages/Thermalcontrol';
 import Peakdemandgraph from './pages/Peakdemandgraph';
-import BatteryAnalytics from './pages/BatteryAnalytics';
+import BatteryAnalytics from './pages/Batteries/UPSBattery/BatteryAnalytics';
 import ChillerDashboard from './pages/ChillerDashboard';
 import ChillersDashBoardAll from './pages/ChillersDashBoardAll';
 import ChillersStatus from './pages/ChillersStatus';
 import ThermalStatus from './pages/ThermalStatus';
 import SampleFile from './pages/SamplFile';
-import LTObattery from './pages/LTObattery';
+import LTObattery from './pages/Batteries/LTOBattery/LTObattery';
 import PeakDemandAnalysis from './pages/PeakDemandAnalysis';
-import LTOAnalytics from './pages/LTOAnalytics';
+import LTOAnalytics from './pages/Batteries/LTOBattery/LTOAnalytics';
 // import HotWaterStorage from './pages/HotWaterStorage';
 import ThermalQuarterly from './pages/ThermalQuaterly';
 import Diesel_Analysis from './pages/Diesel_Analysis';
-import TableFilte from './pages/TableFilte';
+import TableFilte from './pages/Batteries/LTOBattery/TableFilte';
 import BlockWiseData from './pages/BlockWiseData';
 import TopTenClients from './pages/TopTenClients';
 import Demo from './pages/Demo'
@@ -48,10 +48,12 @@ import KvaVsKW from './pages/KvaVsKW';
 import HOTWaterControl from './pages/HOTWaterControl';
 import { Light, Dark } from "./styles/Themes";
 import { ThemeProvider } from "styled-components";
-import IOEEnergyPac from './pages/IOEEnergyPac';
+import IOEEnergyPac from './pages/Batteries/IOEBattery/IOEEnergyPac';
 import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
 import Sample from './pages/Sample';
 import BatteryUsage from "./pages/Batteries/BatteryUsage"
+import ControlsMainGraph from './Controls/ControlsMainGraph';
+
 
 
 
@@ -67,8 +69,8 @@ function App() {
               <Routes>
               
           {/* DashBoardCombine */}
-            <Route path="/" element={<DashBoard />} />
-          
+            <Route path="/" element={<DashBoardCombine />} />
+            <Route path="/old/Dashboard" element={<DashBoard/>} />
             <Route path="/Control/upsbattery" element={<Control />} />
             <Route path="/Control/thermal" element={<Thermalcontrol />} />
             <Route path="/Alertlogs" element={<Alerts />} />
@@ -99,6 +101,8 @@ function App() {
             <Route path="/control/IOE" element={<IOEControl/>}/>
             <Route path="/sample/page" element={<Sample/>}/>
             <Route path="/Battery/Usage" element={<BatteryUsage/>}/>
+            <Route path="/Controls/Renewable/Graph" element={<ControlsMainGraph/>}/>
+            
             
             
             

@@ -17,8 +17,8 @@ function TopTenClients() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
 
-const ClientDataApi=`${analyticsAdress}/BuildingConsumption/TopTenClients`
-const ClientDataDateFilteredApi=`${analyticsAdress}/BuildingConsumption/TopTenClients/filtered`
+const ClientDataApi=`${analyticsAdress}/Analysis/TopElectricClients`
+const ClientDataDateFilteredApi=`${analyticsAdress}/Analysis/TopElectricClients/Filtered`
 const [clientData,setClientData]=useState("")
 const [clientDataDateFiltered,setClientDataDateFiltered]=useState("") 
 const [selectedDate, setSelectedDate] = useState(null);
@@ -32,13 +32,22 @@ const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClient
 
 
 const ClientSearch_API=`${analyticsAdress}/Analysis/TopCoolingClients/search`
+const ElectricalSearch_API="http://127.0.0.1:5002/Analysis/TopElectricClients/search"
 const [ClientSearch,setClientSearch]=useState([])
+const [ElectricalSearchData,setElectricalSearchData]=useState([])
 
 
  const colourOptions = [
   { value: "Aaum", label: "Aaum", isFixed: false },
   { value: "Autonom8", label: "Autonom8",  isDisabled: false },
   { value: "Axilor", label: "Axilor", },
+  { value: "Alfatkg", label: "Alfatkg", },
+  { value: "Altiscale", label: "Altiscale", },
+  { value: "AMTDC", label: "AMTDC", },
+  { value: "Argee", label: "Argee", },
+  { value: "Arvrtti", label: "Arvrtti", },
+  { value: "ATM", label: "ATM", },
+  { value: "Auditcue Technologies Pvt Ltd", label: "Auditcue Technologies Pvt Ltd", },
   { value: "Beebox", label: "Beebox",  isFixed: true },
   { value: "Bharath Electronics", label: "Bharath Electronics",  },
   { value: "BHEL", label: "BHEL",  },
@@ -60,12 +69,12 @@ const [ClientSearch,setClientSearch]=useState([])
   { value: "Crion Technology", label: "Crion Technology" },
   { value: "Crossbow", label: "Crossbow" },
   { value: "Yalamanchili Software Exports Pvt. Ltd.", label: "Yalamanchili Software Exports Pvt. Ltd" }  
-  
-
 ];
      // Step 2: Create a state variable to store the selected values
      const [selectedValues, setSelectedValues] = useState([]);
+     const [electricSelectedValues,setElectricSelectedValues]=useState([])
      const clientNameFilter=[]
+     const ElectricClientsNameFilter=[]
 
        // Step 3: Define an onChange handler function
   const handleSelectChange = (selectedOptions) => {
@@ -81,7 +90,26 @@ const [ClientSearch,setClientSearch]=useState([])
     })
 
   }
+
+
+  //----------------function for filter the electric clinets--------------------//
+
+  const handleElectricSelectChange = (selectedOptions) => {
+    // Update the state variable with the new selection
+    setElectricSelectedValues(selectedOptions)
+
+    // Step 4: Log the new selection to the console
+    // console.log('Selected values:', selectedValues);
+  };
+  if(electricSelectedValues){
+    electricSelectedValues.map((clientname)=>{
+      ElectricClientsNameFilter.push(clientname.value)
+    })
+  }
+
+    //----------------function for filter the electric clinets--------------------//
   console.log(clientNameFilter)
+  console.log(ElectricClientsNameFilter)
 
   
 
@@ -158,9 +186,29 @@ console.log(dateValue,formattedDate)
     try{
       const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
       const clientNameResult=clientNameFilter
+      //const ElectricClientNameResult=ElectricClientsNameFilter
 
       const clientNameSearchRespone = await axios.post( ClientSearch_API,{date:formattedDate,tenantNames:clientNameResult})
+      //const ElectricalclientNameSearchRespone=await axios.post(ElectricalSearch_API,{date:formattedDate,tenantNames:ElectricClientNameResult})
       setClientSearch(clientNameSearchRespone.data)
+      //setElectricalSearchData(ElectricalclientNameSearchRespone.data)
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+
+ 
+
+  const ElectricalclientSearchResponse=async ()=>{
+    try{
+      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+      const ElectricClientNameResult=ElectricClientsNameFilter
+      console.log({date:formattedDate,tenantNames:ElectricClientNameResult})
+      const ElectricalclientNameSearchRespone=await axios.post(ElectricalSearch_API,{date:formattedDate,tenantNames:ElectricClientNameResult})
+
+      setElectricalSearchData(ElectricalclientNameSearchRespone.data)
     }
     catch(error){
       console.log(error)
@@ -170,8 +218,10 @@ console.log(dateValue,formattedDate)
   useEffect(() => {
     fetchData();
     clientSearchResponse()
-  }, [selectedDate,selectedValues]);
+    ElectricalclientSearchResponse()
+  }, [selectedDate,selectedValues,electricSelectedValues]);
   console.log(ClientSearch)
+  console.log(ElectricalSearchData)
   //-------------------------END---------------------------------------------//
 
   console.log(clientsGraphDateFiltered)
@@ -191,6 +241,7 @@ console.log(dateValue,formattedDate)
   let ClientTen
 
   
+  //---------------------------cooling clients -----------------------//
   if(selectedDate==null){
     for(let i=0;i<clientsGraph.length;i++){
       let clientObject = clientsGraph[i];
@@ -198,9 +249,6 @@ console.log(dateValue,formattedDate)
         if (clientObject.hasOwnProperty(key)) {
           let keyValueObject = { key: key, value: clientObject[key] };
           clientsValue.push(keyValueObject)
-  
-  
-          // clientsValue.push(keyValueObject);
           values.push(clientObject[key])
           clientName.push(key)
         }
@@ -227,71 +275,154 @@ console.log(dateValue,formattedDate)
 
   }
 
+  //---------------------------  end of calculation -----------------------//
 
+
+
+  const ElectricClientsValue=[]
+  const ElectricEnergyValue=[]
+  const ElectricClientNames=[]
+  let ElectricCommonTimeStamp=[]
+  let ElectricClientOne
+  let ElectricClientTwo
+  let ElectricClientThree
+  let ElectricClientFour
+  let ElectricClientFive
+  let ElectricClientSix
+  let ElectricClientSeven
+  let ElectricClientEight
+  let ElectricClientNine
+  let ElectricClientTen
+  //-----------------------------------------electric clients ----------------------//
+  if(selectedDate==null){
+    for(let i=0;i<clientData.length;i++){
+      let clientObject = clientData[i];
+      for (let key in clientObject) {
+        if (clientObject.hasOwnProperty(key)) {
+          let keyValueObject = { key: key, value: clientObject[key] };
+          ElectricClientsValue.push(keyValueObject)
+          ElectricEnergyValue.push(clientObject[key])
+           ElectricClientNames.push(key)
+        }
+      }
+    }
+
+  }
+  else{
+    for(let i=0;i<clientDataDateFiltered.length;i++){
+      let clientObject = clientDataDateFiltered[i];
+      for (let key in clientObject) {
+        if (clientObject.hasOwnProperty(key)) {
+          let keyValueObject = { key: key, value: clientObject[key] };
+          ElectricClientsValue.push(keyValueObject)
+          ElectricEnergyValue.push(clientObject[key])
+           ElectricClientNames.push(key)
+        }
+      }
+    }
+
+  }
+  //--------------------------------------- end of calculation ------------------------//
+
+console.log(ElectricClientNames,ElectricEnergyValue)
 
 console.log(clientName)
 ClientOne=(values[0])
 let ClientOneEnergy=[]
 for(let i in ClientOne){
-  CommonTimeStamp.push(ClientOne[i].polledTime)
-  ClientOneEnergy.push(Math.trunc(ClientOne[i].Energy))
+  if(ClientOne[i].polledTime!=undefined ||  ClientOne[i].polledTime!=null){
+    CommonTimeStamp.push(ClientOne[i].polledTime)
+  }
+
+  if(ClientOne[i].Energy!= null ){
+    ClientOneEnergy.push(Math.trunc(ClientOne[i].Energy))
+
+  }
+  
 }
 
 ClientTwo=(values[1])
 let ClientTwoEnergy=[]
 for(let i in ClientTwo){
-  ClientTwoEnergy.push(Math.trunc(ClientTwo[i].Energy))
+  if(ClientTwo[i].Energy!=null){
+    ClientTwoEnergy.push(Math.trunc(ClientTwo[i].Energy))
+  }
+  
 }
 
 ClientThree=(values[2])
 let ClientThreeEnergy=[]
 for(let i in ClientThree){
-  ClientThreeEnergy.push(Math.trunc(ClientThree[i].Energy))
+  if(ClientThree[i].Energy!=null){
+    ClientThreeEnergy.push(Math.trunc(ClientThree[i].Energy))
+  }
+  
 }
 
 ClientFour=(values[3])
 let ClientFourEnergy=[]
 for(let i in ClientFour){
-  ClientFourEnergy.push(Math.trunc(ClientFour[i].Energy))
+  if(ClientFour[i].Energy!=null){
+    ClientFourEnergy.push(Math.trunc(ClientFour[i].Energy))
+  }
+ 
 }
 
 ClientFive=(values[4])
 let ClientFiveEnergy=[]
 for(let i in ClientFive){
-  ClientFiveEnergy.push(Math.trunc(ClientFive[i].Energy))
+  if(ClientFive[i].Energy!=null){
+    ClientFiveEnergy.push(Math.trunc(ClientFive[i].Energy))
+  }
+  
 }
 
 ClientSix=(values[5])
 let ClientSixEnergy=[]
 for(let i in ClientSix){
-  ClientSixEnergy.push(Math.trunc(ClientSix[i].Energy))
+  if(ClientSix[i].Energy!=null){
+    ClientSixEnergy.push(Math.trunc(ClientSix[i].Energy))
+  }
+  
 }
 
 
 ClientSeven=(values[6])
 let ClientSevenEnergy=[]
 for(let i in ClientSeven){
-  ClientSevenEnergy.push(Math.trunc(ClientSeven[i].Energy))
+  if(ClientSeven[i].Energy!=null){
+    ClientSevenEnergy.push(Math.trunc(ClientSeven[i].Energy))
+  }
+ 
 }
 
 
 ClientEight=(values[7])
 let ClientEightEnergy=[]
 for(let i in ClientEight){
-  ClientEightEnergy.push(Math.trunc(ClientEight[i].Energy))
+  if(ClientEight[i].Energy!=null){
+    ClientEightEnergy.push(Math.trunc(ClientEight[i].Energy))
+  }
+  
 }
 
 
 ClientNine=(values[8])
 let ClientNineEnergy=[]
 for(let i in ClientNine){
-  ClientNineEnergy.push(Math.trunc(ClientNine[i].Energy))
+  if(ClientNine[i].Energy!=null){
+    ClientNineEnergy.push(Math.trunc(ClientNine[i].Energy))
+  }
+  
 }
 
 ClientTen=(values[9])
 let ClientTenEnergy=[]
 for(let i in ClientTen){
-  ClientTenEnergy.push(Math.trunc(ClientTen[i].Energy))
+  if(ClientTen[i].Energy!=null){
+    ClientTenEnergy.push(Math.trunc(ClientTen[i].Energy))
+  }
+  
 }
 
 
@@ -487,6 +618,104 @@ const TopTenClient = {
 
 
 
+  ElectricClientOne=(ElectricEnergyValue[0])
+let ElectricClientOneEnergy=[]
+for(let i in ElectricClientOne){
+  if(ElectricClientOne[i].polledTime!=undefined ||  ElectricClientOne[i].polledTime!=null){
+    ElectricCommonTimeStamp.push(ElectricClientOne[i].polledTime)
+  }
+
+  if(ElectricClientOne[i].Energy!= null ){
+    ElectricClientOneEnergy.push(Math.trunc(ElectricClientOne[i].Energy))
+
+  }
+  
+}
+
+ElectricClientTwo=(ElectricEnergyValue[1])
+let ElectricClientTwoEnergy=[]
+for(let i in ElectricClientTwo){
+  if(ElectricClientTwo[i].Energy!=null){
+    ElectricClientTwoEnergy.push(Math.trunc(ElectricClientTwo[i].Energy))
+  }
+  
+}
+
+ElectricClientThree=(ElectricEnergyValue[2])
+let ElectricClientThreeEnergy=[]
+for(let i in ElectricClientThree){
+  if(ElectricClientThree[i].Energy!=null){
+    ElectricClientThreeEnergy.push(Math.trunc(ElectricClientThree[i].Energy))
+  }
+  
+}
+
+ElectricClientFour=(ElectricEnergyValue[3])
+let ElectricClientFourEnergy=[]
+for(let i in ElectricClientFour){
+  if(ElectricClientFour[i].Energy!=null){
+    ElectricClientFourEnergy.push(Math.trunc(ElectricClientFour[i].Energy))
+  }
+ 
+}
+
+ElectricClientFive=(ElectricEnergyValue[4])
+let ElectricClientFiveEnergy=[]
+for(let i in ElectricClientFive){
+  if(ElectricClientFive[i].Energy!=null){
+    ElectricClientFiveEnergy.push(Math.trunc(ElectricClientFive[i].Energy))
+  }
+  
+}
+
+ElectricClientSix=(ElectricEnergyValue[5])
+let ElectricClientSixEnergy=[]
+for(let i in ElectricClientSix){
+  if(ElectricClientSix[i].Energy!=null){
+    ElectricClientSixEnergy.push(Math.trunc(ElectricClientSix[i].Energy))
+  }
+  
+}
+
+
+ElectricClientSeven=(ElectricEnergyValue[6])
+let ElectricClientSevenEnergy=[]
+for(let i in ElectricClientSeven){
+  if(ElectricClientSeven[i].Energy!=null){
+    ElectricClientSevenEnergy.push(Math.trunc(ElectricClientSeven[i].Energy))
+  }
+ 
+}
+
+
+ElectricClientEight=(ElectricEnergyValue[7])
+let ElectricClientEightEnergy=[]
+for(let i in ElectricClientEight){
+  if(ElectricClientEight[i].Energy!=null){
+    ElectricClientEightEnergy.push(Math.trunc(ElectricClientEight[i].Energy))
+  }
+  
+}
+
+
+ElectricClientNine=(ElectricEnergyValue[8])
+let ElectricClientNineEnergy=[]
+for(let i in ElectricClientNine){
+  if(ElectricClientNine[i].Energy!=null){
+    ElectricClientNineEnergy.push(Math.trunc(ElectricClientNine[i].Energy))
+  }
+  
+}
+
+ElectricClientTen=(ElectricEnergyValue[9])
+let ElectricClientTenEnergy=[]
+for(let i in ElectricClientTen){
+  if(ElectricClientTen[i].Energy!=null){
+    ElectricClientTenEnergy.push(Math.trunc(ElectricClientTen[i].Energy))
+  }
+  
+}
+
 
   const TOPClinetsGraph= {
 
@@ -632,6 +861,152 @@ enabled: false, // Disable markers for the series
   
   ]
   };
+
+
+  const TOPElectriceClinetsGraph= {
+
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+  
+    title: {
+        text:"TOP 10 Electrical",
+        align: 'center'
+    },
+  
+    xAxis: {
+      categories:ElectricCommonTimeStamp.map((time)=>time),
+      crosshair: true
+  },
+  
+  yAxis: {
+    min: 0,
+    title: {
+        text: "Energy(kWh)"
+    }
+  },
+  tooltip: {
+    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+    footerFormat: '</table>',
+    shared: true,
+    useHTML: true
+  },
+  
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            pointWidth: 20
+        }
+    },
+    legend: {
+      enabled: false // Disable the legend
+    },
+  
+    series: [
+      {
+        name: ElectricClientNames[0],
+        data:ElectricClientOneEnergy.map((energy)=>energy),
+        yAxis:0,   
+        color:"red",     
+ 
+        marker: {
+  enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[1],
+  data:ElectricClientTwoEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+{
+  name: ElectricClientNames[2],
+  data:ElectricClientThreeEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+{
+  name: ElectricClientNames[3],
+  data:ElectricClientFourEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[4],
+  data:ElectricClientFiveEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[5],
+  data:ElectricClientSixEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[6],
+  data:ElectricClientSevenEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[7],
+  data:ElectricClientEightEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[8],
+  data:ElectricClientNineEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+
+{
+  name: ElectricClientNames[9],
+  data:ElectricClientTenEnergy.map((energy)=>energy),
+  yAxis:0,        
+
+  marker: {
+enabled: false, // Disable markers for the series
+},
+},
+  
+  ]
+  };
   
 
 // Function to group data by tenantname
@@ -646,6 +1021,8 @@ function groupByTenantName(data) {
   return groupedData;
 }
 
+
+//----------------------cooling Clients graph filter--------------------------------//
 // Group the data by tenantname
 const groupedData = groupByTenantName(ClientSearch);
 
@@ -667,6 +1044,35 @@ const seriesData = Object.keys(groupedData).map(tenant => {
 
   };
 });
+
+
+//----------------------cooling Clients graph filter--------------------------------//
+
+
+
+//----------------------------------electrical Clients graph filter-----------------------//
+// Group the data by tenantname
+const ElectricalgroupedData = groupByTenantName(ElectricalSearchData);
+
+// Extract unique times for the x-axis categories
+const ElectricaluniqueTimes = Array.from(new Set(ElectricalSearchData.map(item => item.polledTime)));
+
+// Generate the series data
+const ElectricalseriesData = Object.keys(ElectricalgroupedData).map(tenant => {
+  return {
+      name: tenant,
+      data: ElectricaluniqueTimes.map(time => {
+          const dataPoint = ElectricalgroupedData[tenant].find(item => item.polledTime === time);
+          return dataPoint ? dataPoint.client_energy : 0;  // Ensure all times are represented
+      }),
+      marker: {
+        enabled: false, // Disable markers for the series
+        },
+        
+
+  };
+});
+//------------------------------------------electrical Clients graph filter-----------------------//
 
 const TOPClinetsGraphClientSearch = {
   chart: {
@@ -707,6 +1113,47 @@ const TOPClinetsGraphClientSearch = {
   series: seriesData
 };
 
+
+
+const TOPElectricalClinetsGraphClientSearch = {
+  chart: {
+      type: 'line',
+      zoomType: 'x'
+  },
+  title: {
+      text: "TOP 10 Electric",
+      align: 'center'
+  },
+  xAxis: {
+      categories: ElectricaluniqueTimes,
+      crosshair: true
+  },
+  yAxis: {
+      min: 0,
+      title: {
+          text: "Energy(kWh)"
+      }
+  },
+  tooltip: {
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+          '<td style="padding:0"><b>{point.y}</b></td></tr>',
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
+  },
+  plotOptions: {
+      column: {
+          stacking: 'normal',
+          pointWidth: 20
+      }
+  },
+  legend: {
+      enabled: true // Enable the legend to show different tenants
+  },
+  series: ElectricalseriesData
+};
+
   return (
     <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}> 
       
@@ -728,14 +1175,29 @@ const TOPClinetsGraphClientSearch = {
     </div>
   </div>
  </div>
-
-
-
-
-    <HighchartsReact highcharts={Highcharts} options={TopTenClient}  />
+ <div style={{width:"400px",marginLeft:"30px"}}> 
+ <Select
+        defaultValue={electricSelectedValues}
+        isMulti
+        name="colors"
+        options={colourOptions}
+        className="basic-multi-select"
+        classNamePrefix="Client"
+        onChange={handleElectricSelectChange} // Step 4: Attach the onChange handler
+      />
   </div>
 
 
+  {
+      ElectricClientsNameFilter.length<= 0 ? <HighchartsReact highcharts={Highcharts} options={TOPElectriceClinetsGraph}  />:<HighchartsReact highcharts={Highcharts} options={TOPElectricalClinetsGraphClientSearch}  />
+    
+  }
+
+
+    {/* <HighchartsReact highcharts={Highcharts} options={TOPElectriceClinetsGraph}  /> */}
+  </div>
+
+  <hr style={{border:"10px solid black"}}/>
   <div style={{width:"400px",marginLeft:"30px"}}> 
  <Select
         defaultValue={selectedValues}

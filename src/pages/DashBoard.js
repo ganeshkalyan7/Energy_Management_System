@@ -14,15 +14,15 @@ import Navbar from '../components/Navbar';
 import EvCharger from './Dashboard/EvCharger';
 
 
-import BatteryHourly from './Dashboard/BatteryHourly';
-import LTOBatteryHourly from './Dashboard/LTOBatteryHourly';
+import BatteryHourly from '../pages/Batteries/UPSBattery/BatteryHourly';
+import LTOBatteryHourly from '../pages/Batteries/LTOBattery/LTOBatteryHourly';
 import HotWaterStorage from './Dashboard/HotWaterStorage';
 import { dashboardAddress,bmssAdress,nodeAdress } from '../ipAdress';
 import WheeledInSolarCard from './Dashboard/WheeledInSolarCard';
 import RoofTopCard from './Dashboard/RoofTopCard';
 import C02ReductionCard from './Dashboard/C02ReductionCard';
 import ChillerStatus from './Dashboard/ChillerStatus';
-import IOEBatteryHourly from './Dashboard/IOEBatteryHourly';
+import IOEBatteryHourly from './Batteries/IOEBattery/IOEBatteryHourly';
 
 import './DashBoard.css'
 import { fontSize } from '@mui/system';
