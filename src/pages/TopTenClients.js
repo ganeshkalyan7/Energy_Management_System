@@ -32,7 +32,7 @@ const ClientsGraphDateFiltered_API=`${analyticsAdress}/Analysis/TopCoolingClient
 
 
 const ClientSearch_API=`${analyticsAdress}/Analysis/TopCoolingClients/search`
-const ElectricalSearch_API="http://127.0.0.1:5002/Analysis/TopElectricClients/search"
+const ElectricalSearch_API=`${analyticsAdress}/Analysis/TopElectricClients/search`
 const [ClientSearch,setClientSearch]=useState([])
 const [ElectricalSearchData,setElectricalSearchData]=useState([])
 

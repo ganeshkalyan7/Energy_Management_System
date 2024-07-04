@@ -226,18 +226,7 @@ function BatteryUsage() {
  </div>
 
 
- {/* <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",justifyContent:"center"}}> 
-      <div style={{width:"300px",height:"70px",background:"#466280",borderRadius:"10px",boxShadow: "2px 10px 8px rgba(135, 131, 130)",marginLeft:"50px"}}> 
-    <p style={{fontSize:"15px",fontWeight:"600",color:"whitesmoke",textAlign:"center",paddingTop:"15px"}}>IOE Avarage Power Discharged (kW)</p>
-    <p style={{fontSize:"20px",fontWeight:"700",color:"whitesmoke",textAlign:"center",marginTop:"-20px"}}>{IoE_Average_discharge_power}</p>
-    </div>
 
-    <div style={{width:"300px",height:"70px",background:"#48c291",borderRadius:"10px",boxShadow: "2px 10px 8px rgba(135, 131, 130)",marginLeft:"50px"}}> 
-    <p style={{fontSize:"15px",fontWeight:"600",color:"whitesmoke",textAlign:"center",paddingTop:"15px"}}>LTO Avarage Power Discharged (kW)</p>
-    <p style={{fontSize:"20px",fontWeight:"700",color:"whitesmoke",textAlign:"center",marginTop:"-20px"}}>{LTO_Average_discharge_power}</p>
-    </div>
-
-    </div> */}
 
 
 <div style={{marginTop:"1%",display:"flex",justifyContent:"space-between",alignItems:"center",justifyContent:"end",gap:"40px"}}>

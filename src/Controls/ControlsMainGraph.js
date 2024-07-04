@@ -7,6 +7,7 @@ import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import HighchartsReact from 'highcharts-react-official';
 import {ControlAPi} from "../ipAdress"
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 function ControlsMainGraph() {
@@ -15,6 +16,8 @@ function ControlsMainGraph() {
     const [RenewableEnergyDataGraph,setRenewableEnergyDataGraph]=useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const RenewableEnergyDataGraph_API=`${ControlAPi}/control/hourlyDetails`
+    const [RenewableEnergyDataGraphDateFiltered,setRenewableEnergyDataGraphDateFiltered]=useState([])
+     const RenewableEnergyDataGraphDateFiltered_API=`${ControlAPi}/control/hourlyDetails/Filtered`
 
     useEffect(()=>{
         axios.get(RenewableEnergyDataGraph_API)
@@ -32,10 +35,35 @@ function ControlsMainGraph() {
     console.log(RenewableEnergyDataGraph)
 
 
+  
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+      // You can perform additional actions when the date changes
+      // For example, fetch data for the selected date
+    };
+
 
  
+const BatteryOperationDateFilter= async()=>{
+    try{
+        const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
+        const Dataresponse = await axios.post(RenewableEnergyDataGraphDateFiltered_API, { date: formattedDate });
+        setRenewableEnergyDataGraphDateFiltered(Dataresponse.data)
+
+    }
+    catch (error){
+
+    }
+}
 
 
+useEffect(()=>{
+    BatteryOperationDateFilter()
+  },[selectedDate])
+
+
+  console.log(RenewableEnergyDataGraphDateFiltered)
+  
 
     const chillersStatus = {
         chart: {
@@ -55,7 +83,7 @@ function ControlsMainGraph() {
         },
     
         xAxis: {
-            categories: RenewableEnergyDataGraph.map((time) => time.polledTime),
+            categories:selectedDate==null?RenewableEnergyDataGraph.map((time) => time.polledTime):RenewableEnergyDataGraphDateFiltered.map((time) => time.polledTime),
             gridLineWidth: 0 // Remove grid lines on xAxis
         },
     
@@ -115,33 +143,33 @@ function ControlsMainGraph() {
         series: [
             {
                 name: 'excessRE',
-                data: RenewableEnergyDataGraph.map((excessRE) => excessRE.excessRE),
+                data: selectedDate==null?RenewableEnergyDataGraph.map((excessRE) => excessRE.excessRE):RenewableEnergyDataGraphDateFiltered.map((excessRE) => excessRE.excessRE),
                 color: "#86C45A",
                 yAxis: 0
                 //stack: 'Europe'
             },
             {
                 name: 'totalEnergy',
-                data: RenewableEnergyDataGraph.map((totalEnergy) => totalEnergy.totalEnergy),
+                data: selectedDate==null?RenewableEnergyDataGraph.map((totalEnergy) => totalEnergy.totalEnergy):RenewableEnergyDataGraphDateFiltered.map((totalEnergy) => totalEnergy.totalEnergy),
                 color: "#EAEAEA",
                 yAxis: 0
                 //stack: 'Europe'
             },
             {
                 name: "Battery Storage",
-                data: RenewableEnergyDataGraph.map((battery) => battery.battery),
+                data: selectedDate==null?RenewableEnergyDataGraph.map((battery) => battery.battery):RenewableEnergyDataGraphDateFiltered.map((battery) => battery.battery),
                 color: "#3F2EFF",
                 yAxis: 0
             },
             {
                 name: 'Deficit RE',
-                data: RenewableEnergyDataGraph.map((grid) => (grid.grid) * -1),
+                data: selectedDate==null?RenewableEnergyDataGraph.map((grid) => (grid.grid) * -1):RenewableEnergyDataGraphDateFiltered.map((grid) => (grid.grid) * -1),
                 color: "#747D6F",
                 yAxis: 0
             },
             {
                 name: 'power',
-                data: RenewableEnergyDataGraph.map((power) => power.power),
+                data: selectedDate==null?RenewableEnergyDataGraph.map((power) => power.power):RenewableEnergyDataGraphDateFiltered.map((power) => power.power),
                 type: "line",
                 color: "#E80707",
                 yAxis: 1
@@ -154,10 +182,40 @@ function ControlsMainGraph() {
 
 console.log(chillersStatus)
 
+const now = new Date();
+const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+const [month, day, year] = local.split("/"); // Split the date by "/"
+const currentdate = `${day}-${month}-${year}`; // Rearrange the day and month
+
 
   return (
-    <div>
-        <div style={{marginTop:"100px",marginLeft:"100px"}}> 
+    <div style={{marginTop:"100px",marginLeft:"100px"}}>
+
+  {/* <input type="date" id="appt" name="appt"  onChange={handleDateChange}  selected={selectedDate}/> */}
+  <div   style={{ width: "250px", height: "20px",border:"none"}}>
+  <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
+    <DatePickers
+      id="date"
+      className="form-control"
+      selected={selectedDate}
+      onChange={handleDateChange}
+      placeholderText={currentdate}
+    />
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
+      </svg> */}
+    </div>
+  </div>
+
+
+
+               </div>
+     <br/>
+     <br/>
+
+        <div > 
             
         <HighchartsReact highcharts={Highcharts} options={chillersStatus}  />
         </div>
