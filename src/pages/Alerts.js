@@ -124,7 +124,7 @@ console.log(alerts)
   <tbody>
   {filterAlert ? (
     receivedData.map((val) => (
-      <tr key={val.id}>
+      <tr key={val.id} data-testid="alerts">
         <td>{val.alerttimereceived[0]}</td>
         <td>{val.systemName}</td>
         <td>{val.alert}</td>
@@ -136,7 +136,7 @@ console.log(alerts)
     ))
   ) : (
     alerts.map((data) => (
-      <tr key={data.id}>
+      <tr key={data.id} data-testid="alerts" >
         <td>{data.alerttimereceived[0]}</td>
         <td>{data.systemName}</td>
         <td>{data.alert}</td>
