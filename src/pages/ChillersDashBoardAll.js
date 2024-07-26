@@ -115,7 +115,7 @@ function ChillersDashBoardAll() {
 
   
 
-  const ThermalQuaterly_Api=`${nodeAdress}/thermalquarter`
+  const ThermalQuaterly_Api=`${chillersDashboard}/chillerDashboard/thermalQuater`
   const thermalTempApi=`${chillersDashboard}/chillerDashboard/thermal/storedWaterTemp`
 
   const chillerLoadingApi_Phase2= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase2`
@@ -135,7 +135,7 @@ function ChillersDashBoardAll() {
   const ChillerTOtalCoolingDateFilter_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase2/Filtered`
   const ChillerTotalCoolingPhase1DateFilter_Api=`${chillersDashboard}/chillerDashboard/TotalCoolingEnergy/Phase1/Filtered`
   
-  const ThermalQuarterlyFilter_Api=`${nodeAdress}/thermalquarter/datefilter`
+  const ThermalQuarterlyFilter_Api=`${chillersDashboard}/chillerDashboard/thermalQuater/Filtered`
   const thermalTempDateFilter_Api=`${chillersDashboard}/chillerDashboard/thermal/storedWaterTemp/Filtered`
 
   const chillerLoadingApi_Phase2_Api= `${chillersDashboard}/chillerDashboard/ChillerLoading/Phase2/Filtered`
@@ -1419,7 +1419,7 @@ console.log(chillerLoading_Phase1DateFilter)
         },
         series: [{
             name: 'Discharge (ckW)',
-            data:chillerfilterDate==null? thermalQuaterlyData.map((value)=>(value.coolingEnergy)):thermalQuaterlyFilteredData.map((value)=>(value.coolingEnergy)),
+            data:chillerfilterDate==null? thermalQuaterlyData.map((value)=>((value.coolingEnergy)*-1)):thermalQuaterlyFilteredData.map((value)=>((value.coolingEnergy)*-1)),
             //type: 'column'
             marker: {
               enabled: false, // Disable markers for the series

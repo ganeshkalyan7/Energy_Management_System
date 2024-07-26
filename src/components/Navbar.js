@@ -215,7 +215,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
           </div>
 
           <ul class="sub-menu">
-            <li><a href="#" class="link-name">Controls</a></li>
+            <li><a href="/Controls/Renewable/Graph" class="link-name">Controls</a></li>
             <li style={{ backgroundColor: currentPath === "/Control/upsbattery" ? "#41bf7e" : "transparent"}}><Link to="/Control/upsbattery"><TbIcons.TbBatteryAutomotive  size="25px" style={{color:currentPath==="/Control/upsbattery"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"30px",marginTop:"0px",paddingRight:"10px", color:currentPath==="/Control/upsbattery"?"white":"black"}}> UPS Battery control</span></Link></li>
             <li style={{ backgroundColor: currentPath === "/Control/thermal" ? "#41bf7e" : "transparent"}}><Link to="/Control/thermal"><ThermostatAutoIcon size="35px" style={{color:currentPath==="/Control/thermal"?"white":"black",marginTop:"15px",marginLeft:"5px"}} /><span style={{marginLeft:"28px",marginTop:"15px",color:currentPath==="/Control/thermal"?"white":"black"}}>Thermal control</span></Link></li>
             <li style={{ backgroundColor: currentPath === "/control/ltoBattery" ? "#41bf7e" : "transparent"}}><Link to="/control/ltoBattery"><BatterySaverIcon size="37px" style={{color:currentPath==="/control/ltoBattery"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"34px",marginTop:"15px",color:currentPath==="/control/ltoBattery"?"white":"black"}}>LTO Battery  control</span></Link></li>

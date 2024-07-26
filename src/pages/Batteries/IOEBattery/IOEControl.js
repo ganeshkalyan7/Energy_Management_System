@@ -240,7 +240,8 @@ console.log(formattedDate);
       "1": "str1",
       "2": "str2",
       "3": "str3",
-      "4": "str4"
+      "4": "str4",
+      "5": "str5"
       // Add more mappings as needed
       // "label2": "value2",
       // "label3": "value3",
@@ -259,6 +260,7 @@ console.log(formattedDate);
       setIOEBatteryControlData((prevData) => {
           // Create a new copy of the activeStrings array
           const updatedActiveStrings = [...prevData.strings];
+          console.log(updatedActiveStrings)
 
           if (checked) {
               // Add the value to push if it's not already in the array
@@ -682,7 +684,7 @@ else{
     <div style={{color:"GrayText",fontSize:"17px",fontWeight:"700"}}>Strings</div>
     <Box sx={{ flexGrow: 1 }}> 
     <Grid container spacing={1}>
-        <Grid item xs={6} md={6}> 
+        <Grid item xs={4} md={4}> 
       <div class="form-check form-switch">
   <input class="form-check-input" type="checkbox" onChange={handleCheckboxChange}/>
   <label class="form-check-label">1</label>
@@ -693,7 +695,7 @@ else{
   <label class="form-check-label">2</label>
 </div>
 </Grid> 
-<Grid item xs={6} md={6}>
+<Grid item xs={4} md={4}>
 
 
 <div class="form-check form-switch">
@@ -703,9 +705,25 @@ else{
 
 <div class="form-check form-switch">
   <input class="form-check-input" type="checkbox" onChange={handleCheckboxChange}/>
-  <label class="form-check-label" >4</label>
+  <label class="form-check-label">4</label>
 </div>
+
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" onChange={handleCheckboxChange}/>
+  <label class="form-check-label">5</label>
+</div>
+
+
+
+
+
+
 </Grid>
+
+{/* <Grid item xs={4} md={4}>
+
+
+</Grid> */}
 </Grid>
 </Box>
 

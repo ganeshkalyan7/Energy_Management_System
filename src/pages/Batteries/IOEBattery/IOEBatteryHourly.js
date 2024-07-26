@@ -118,7 +118,7 @@ let IdleEnergy=[]
 let PackSoc=[]
 let AvailableEnergy=0
 let TimeStamp=[]
-let CurrentString="STRING 1"
+let CurrentString="All STRINGS"
 
 
 
@@ -127,10 +127,10 @@ if(selectedDate==null){
 
         
         if(clickedValue==null){
-            ChrgingEnergy.push(ioeHourlyData[i].chg1==null?0:ioeHourlyData[i].chg1)
-            DischargingEnergy.push(ioeHourlyData[i].dchg1==null?0:ioeHourlyData[i].dchg1)
-            IdleEnergy.push(ioeHourlyData[i].idle==null?0:ioeHourlyData[i].idle)
-            PackSoc.push(ioeHourlyData[i].pack1==null?0:ioeHourlyData[i].pack1)
+            ChrgingEnergy.push(ioeHourlyData[i].totalChg==null?0:ioeHourlyData[i].totalChg)
+            DischargingEnergy.push(ioeHourlyData[i].totalDchg==null?0:ioeHourlyData[i].totalDchg)
+            IdleEnergy.push(ioeHourlyData[i].totalIdle==null?0:ioeHourlyData[i].totalIdle)
+            PackSoc.push(ioeHourlyData[i].totalPack==null?0:ioeHourlyData[i].totalPack)
             TimeStamp.push(ioeHourlyData[i].polledTime)
             AvailableEnergy=(ioeHourlyData[i].availEn1==null?0:ioeHourlyData[i].availEn1)
 
@@ -155,7 +155,7 @@ if(selectedDate==null){
             DischargingEnergy.push(ioeHourlyData[i].dchg2==null?0:ioeHourlyData[i].dchg2)
             IdleEnergy.push(ioeHourlyData[i].idle==null?0:ioeHourlyData[i].idle)
             PackSoc.push(ioeHourlyData[i].pack2==null?0:ioeHourlyData[i].pack2)
-             TimeStamp.push(ioeHourlyData[i].polledTime)
+            TimeStamp.push(ioeHourlyData[i].polledTime)
             AvailableEnergy=(ioeHourlyData[i].availEn2==null?0:ioeHourlyData[i].availEn2)
             CurrentString="STRING 2"
             
@@ -187,7 +187,7 @@ if(selectedDate==null){
             ChrgingEnergy.push(ioeHourlyData[i].chg5==null?0:ioeHourlyData[i].chg5)
             DischargingEnergy.push(ioeHourlyData[i].dchg5==null?0:ioeHourlyData[i].dchg5)
             IdleEnergy.push(ioeHourlyData[i].idle==null?0:ioeHourlyData[i].idle)
-            //PackSoc.push(ioeHourlyData[i].pack5==null?0:ioeHourlyData[i].pack5)
+            PackSoc.push(ioeHourlyData[i].pack5==null?0:ioeHourlyData[i].pack5)
             TimeStamp.push(ioeHourlyData[i].polledTime)
             AvailableEnergy=(ioeHourlyData[i].availEn5==null?0:ioeHourlyData[i].availEn5)
             CurrentString="STRING 5"
@@ -196,12 +196,13 @@ if(selectedDate==null){
 
 }
 else{
+ 
     for(let i=0;i<ioeHourlyDataDateFiltered.length;i++){
         if(clickedValue==null){
-            ChrgingEnergy.push(ioeHourlyDataDateFiltered[i].chg1==null?0:ioeHourlyDataDateFiltered[i].chg1)
-            DischargingEnergy.push(ioeHourlyDataDateFiltered[i].dchg1==null?0:ioeHourlyDataDateFiltered[i].dchg1)
-            IdleEnergy.push(ioeHourlyDataDateFiltered[i].idle==null?0:ioeHourlyDataDateFiltered[i].idle)
-            PackSoc.push(ioeHourlyDataDateFiltered[i].pack1==null?0:ioeHourlyDataDateFiltered[i].pack1)
+            ChrgingEnergy.push(ioeHourlyDataDateFiltered[i].totalChg==null?0:ioeHourlyDataDateFiltered[i].totalChg)
+            DischargingEnergy.push(ioeHourlyDataDateFiltered[i].totalDchg==null?0:ioeHourlyDataDateFiltered[i].totalDchg)
+            IdleEnergy.push(ioeHourlyDataDateFiltered[i].totalIdle==null?0:ioeHourlyDataDateFiltered[i].totalIdle)
+            PackSoc.push(ioeHourlyDataDateFiltered[i].totalPack==null?0:ioeHourlyDataDateFiltered[i].totalPack)
             TimeStamp.push(ioeHourlyDataDateFiltered[i].polledTime)
             AvailableEnergy=(ioeHourlyDataDateFiltered[i].availEn1==null?0:ioeHourlyDataDateFiltered[i].availEn1)
     
@@ -250,14 +251,15 @@ else{
         }
     
         if(clickedValue===5){
-            ChrgingEnergy.push(ioeHourlyDataDateFiltered[i].chg5==null?0:ioeHourlyDataDateFiltered[i].chg5)
-            DischargingEnergy.push(ioeHourlyDataDateFiltered[i].dchg5==null?0:ioeHourlyDataDateFiltered[i].dchg5)
-            IdleEnergy.push(ioeHourlyDataDateFiltered[i].idle==null?0:ioeHourlyDataDateFiltered[i].idle)
-            //PackSoc.push(ioeHourlyData[i].pack5==null?0:ioeHourlyData[i].pack5)
-            TimeStamp.push(ioeHourlyDataDateFiltered[i].polledTime)
-            AvailableEnergy=(ioeHourlyDataDateFiltered[i].availEn5==null?0:ioeHourlyDataDateFiltered[i].availEn5)
-            CurrentString="STRING 5"
-        }
+          ChrgingEnergy.push(ioeHourlyDataDateFiltered[i].chg5 == null ? 0 : ioeHourlyDataDateFiltered[i].chg5);
+          DischargingEnergy.push(ioeHourlyDataDateFiltered[i].dchg5 == null ? 0 : ioeHourlyDataDateFiltered[i].dchg5);
+          IdleEnergy.push(ioeHourlyDataDateFiltered[i].idle == null ? 0 : ioeHourlyDataDateFiltered[i].idle);
+          PackSoc.push(ioeHourlyData[i] == undefined || ioeHourlyData[i].pack5 == null ? 0 : ioeHourlyData[i].pack5);
+          TimeStamp.push(ioeHourlyDataDateFiltered[i].polledTime);
+          AvailableEnergy = (ioeHourlyDataDateFiltered[i].availEn5 == null ? 0 : ioeHourlyDataDateFiltered[i].availEn5);
+          CurrentString = "STRING 5";
+      }
+      
     }
 }
 
@@ -363,6 +365,8 @@ const IOEDataGraph = {
         <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(3)}>String 3</button>
         <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(4)}>String 4</button>
         <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(5)}>String 5</button>
+
+        <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(null)}>All Strings</button>
         </div>
         <br/>
         <p style={{color:"#2b2b2b",textAlign:"center",fontSize:"20px",fontWeight:"600"}}>{CurrentString}</p>

@@ -46,7 +46,6 @@ import { Padding } from '@mui/icons-material';
     const TopClients_API=`${dashboardAddress}/Dashboard/TopTenClients`
     const [topClientsDateFiltered,setTopClientsDateFiltered]=useState([])
     const TopClientsDateFiltered_API=`${dashboardAddress}/Dashboard/TopTenClients/filtered`
-    // [{"client":42416.392332999996,"chiller":16446,"others":1864.8,"commonarea":1318.55658}]
 
 
     useEffect(() => {

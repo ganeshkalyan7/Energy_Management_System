@@ -132,7 +132,7 @@ function BuildindConsumptionPage2() {
                     }
                 },
                 series: [{
-                  name: "Wheeled In Solar(kWh)",
+                  name:  "Solar Without Trackers (kWh)",
                   data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy)):data.map((val)=>(val.wheeledEnergy)),
                     //type: 'column'
                     //yAxis: 0,
@@ -142,6 +142,20 @@ function BuildindConsumptionPage2() {
                     
               
                 },
+
+                {
+                  name: "Solar With Trackers (kWh)",
+                  data:  systemOverviewfilterDate==null?graph.map((val)=>(val.wheeledEnergy2)):data.map((val)=>(val.wheeledEnergy2)),
+                    //type: 'column'
+                    //yAxis: 0,
+                    marker: {
+                      enabled: false // Disable markers for this series
+                  }
+                    
+              
+                },
+
+                
                 {
                   name: "Grid(kWh)",
                   data:  systemOverviewfilterDate==null?graph.map((val)=>(val.gridEnergy)):data.map((val)=>(val.gridEnergy)),
@@ -149,16 +163,27 @@ function BuildindConsumptionPage2() {
                   marker: {
                     enabled: false // Disable markers for this series
                 }
-                  //type: 'column'
-                  //yAxis: 1,
-                  
-              }],
+                
+              },
+              {
+                name: "Wind(kWh)",
+                data:  systemOverviewfilterDate==null?graph.map((val)=>(val.windEnergy)):data.map((val)=>(val.windEnergy)),
+                color:"#32a852",
+                marker: {
+                  enabled: false // Disable markers for this series
+              }
+              
+            },
+            
+              ],
               };
 
 
   let  gridEnergy=0
   let  rooftopEnergy=0
   let  wheeledinEnergy=0
+  let  wheeledEnergy2=0
+  let WindEnergy=0
   let  peakDemand=0
   let   Diesel=0
   
@@ -168,6 +193,8 @@ function BuildindConsumptionPage2() {
       gridEnergy=buildingHighlights[i].gridEnergy
       rooftopEnergy=buildingHighlights[i].rooftopEnergy
       wheeledinEnergy=buildingHighlights[i].wheeledinEnergy
+      wheeledEnergy2=buildingHighlights[i].wheeledinEnergy2
+      WindEnergy=buildingHighlights[i].windEnergy
       peakDemand=buildingHighlights[i].peakDemand
       Diesel=buildingHighlights[i].Diesel
     }
@@ -178,6 +205,8 @@ function BuildindConsumptionPage2() {
       gridEnergy=buildingHighlightsDateFilter[i].gridEnergy
       rooftopEnergy=buildingHighlightsDateFilter[i].rooftopEnergy
       wheeledinEnergy=buildingHighlightsDateFilter[i].wheeledinEnergy
+      wheeledEnergy2=buildingHighlights[i].wheeledinEnergy2
+      WindEnergy=buildingHighlights[i].windEnergy
       peakDemand=buildingHighlightsDateFilter[i].peakDemand
       Diesel=buildingHighlightsDateFilter[i].Diesel
     }
@@ -216,9 +245,11 @@ function BuildindConsumptionPage2() {
     <tr style={{textAlign:"center"}}>
       <th><b>Grid Energy</b></th>
       <th><b>Rooftop Energy</b></th>
-      <th><b>Wheeledin Energy</b></th>
+      <th><b>Solar Without Trackers</b></th>
+      <th><b>Solar With Trackers</b></th>
       <th><b>PeakDemand</b></th>
       <th><b>Diesel</b></th>
+      <th><b>Wind</b></th>
     </tr>
   </thead>
   <tbody>
@@ -226,8 +257,10 @@ function BuildindConsumptionPage2() {
             <td>{Math.round(gridEnergy)}</td>
             <td>{Math.round(rooftopEnergy)}</td>
             <td>{Math.round(wheeledinEnergy)}</td>
+            <td>{Math.round(wheeledEnergy2)}</td>
             <td>{Math.round(peakDemand)}</td>
             <td>{Math.round(Diesel)}</td>
+            <td>{Math.round(WindEnergy)}</td>
         </tr>
 </tbody>
 

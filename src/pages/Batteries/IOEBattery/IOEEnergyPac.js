@@ -9,6 +9,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { analyticsAdress } from '../../../ipAdress';
 import IOEBatteryHourly from './IOEBatteryHourly';
+import IOEcurVSVolt from './IOEcurVSVolt';
 
 function IOEEnergyPac() {
 
@@ -123,7 +124,7 @@ function IOEEnergyPac() {
   let String2 = "";
   let String3 = "";
   let String4 = "";
-  let String5 = ""
+  let String5 = "";
 
   // Update string variables based on checked checkboxes
   checkedCheckboxes.forEach(id => {
@@ -488,7 +489,7 @@ console.log(String1and2Graph.series)
    <div class="col-sm-12" style={{marginTop:"5%"}}>
     <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
       <div class="card-body">
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (660 kWh) </b></h4> 
+      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (840 kWh) </b></h4> 
         <hr/>
         <div id="chart2"> 
         <IOEBatteryHourly/>
@@ -548,7 +549,10 @@ console.log(String1and2Graph.series)
   </div>
         }
       </div>
-    
+      <hr style={{border:"10px solid black"}}/>
+      <div>
+      <IOEcurVSVolt/>
+      </div>
      
 
     </div>

@@ -340,8 +340,8 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
           <Grid item xs={6}>
 
             <div className='childcontainerleft' style={{marginTop:"4%"}} >
-              <span style={{marginLeft:"7.4%",fontSize:"18px",fontWeight:"600"}}>Renewable Energy Profile <MdOutlineInfo size="18px" color='black' /></span>
-             <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"7.4%",marginRight:"5%",marginTop:"15%",paddingBottom:"3%"}}> 
+              <span style={{marginLeft:"4%",fontSize:"18px",fontWeight:"600"}}>Renewable Energy Profile <MdOutlineInfo size="18px" color='black' /></span>
+             <div style={{border:"1px solid #EAEAEA",borderRadius:"10px",marginLeft:"4%",marginRight:"2%",marginTop:"15%",paddingBottom:"3%"}}> 
               <div style={{ marginTop: "20px" ,marginLeft:"3%"}}>
                 <Box sx={{ flexGrow: 1 }} style={{marginTop:"25px"}}>
 
@@ -380,7 +380,7 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
               <div style={{width:"100%", marginLeft: "3%",paddingTop:"4%",paddingLeft:"0%",paddingRight:"3%"}}>
 <span style={{ fontFamily: 'Poppins', fontSize: '14px', fontWeight: '600', textAlign: "center" }}>Sources of Renewables </span>
-  <div style={{width:"97%",borderRadius:"5px",marginTop:"15px"}}> 
+  <div style={{width:"95%",borderRadius:"5px",marginTop:"15px"}}> 
 
   <div class="bar-container" style={{display:"flex"}}>
     {

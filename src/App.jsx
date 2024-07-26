@@ -52,7 +52,7 @@ import IOEEnergyPac from './pages/Batteries/IOEBattery/IOEEnergyPac';
 import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
 import Sample from './pages/Sample';
 import BatteryUsage from "./pages/Batteries/BatteryUsage"
-import ControlsMainGraph from './Controls/ControlsMainGraph';
+import ControlsMainPage from './Controls/ControlsMainPage';
 
 
 
@@ -101,7 +101,7 @@ function App() {
             <Route path="/control/IOE" element={<IOEControl/>}/>
             <Route path="/sample/page" element={<Sample/>}/>
             <Route path="/Battery/Usage" element={<BatteryUsage/>}/>
-            <Route path="/Controls/Renewable/Graph" element={<ControlsMainGraph/>}/>
+            <Route path="/Controls/Renewable/Graph" element={<ControlsMainPage/>}/>
             
             
             

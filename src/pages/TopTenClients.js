@@ -47,13 +47,17 @@ const [ElectricalSearchData,setElectricalSearchData]=useState([])
   { value: "Argee", label: "Argee", },
   { value: "Arvrtti", label: "Arvrtti", },
   { value: "ATM", label: "ATM", },
+  { value: "Agni Cool", label: "Agni Cool", },
   { value: "Auditcue Technologies Pvt Ltd", label: "Auditcue Technologies Pvt Ltd", },
+  { value: "Axonwise Private Ltd", label: "Axonwise Private Ltd", },
+  { value: " Axxelent Pharama Science Pvt Ltd", label: "Axxelent Pharama Science Pvt Ltd", },
   { value: "Beebox", label: "Beebox",  isFixed: true },
   { value: "Bharath Electronics", label: "Bharath Electronics",  },
   { value: "BHEL", label: "BHEL",  },
   { value: "Big Cat", label: "Big Cat",  },
   { value: "Bio-Incubator", label: "Bio-Incubator", },
   { value: "Build Lab", label: "Build Lab", },
+  { value: "CALLINGTON", label: "CALLINGTON", },
   { value: "Campus Angles", label: "Campus Angles", },
   { value: "CaterPillar", label: "CaterPillar", },
   { value: "CBEEV", label: "CBEEV", },
@@ -66,9 +70,129 @@ const [ElectricalSearchData,setElectricalSearchData]=useState([])
   { value: "CODIIS", label: "CODIIS" },
   { value: "Commscope", label: "Commscope" },
   { value: "Confederation of Indian Industry", label: "Confederation of Indian Industry" },
+  { value: "Cooking cloud", label: "Cooking cloud" },
+  { value: "CRR Project Work", label: "CRR Project Work" },
+  { value: "Cube", label: "Cube" },
+  { value: "Cyber Security", label: "Cyber Security" },
   { value: "Crion Technology", label: "Crion Technology" },
   { value: "Crossbow", label: "Crossbow" },
-  { value: "Yalamanchili Software Exports Pvt. Ltd.", label: "Yalamanchili Software Exports Pvt. Ltd" }  
+  { value: "Daimler", label: "Daimler" },
+  { value: "Debrique", label: "Debrique" },
+  { value: "Decisure Consultancy Services", label: "Decisure Consultancy Services" },
+  { value: "Defense Research Development Organisation", label: "Defense Research Development Organisation" },
+  { value: "DesiCrew", label: "DesiCrew" },
+  { value: "Detect Technologies", label: "Detect Technologies" },
+  { value: "DEV-REV", label: "DEV-REV" },
+  { value: "Dhavani", label: "Dhavani" },
+  { value: "DhavaDun and Bradstreetni", label: "Dun and Bradstreet" },
+  { value: "DVARA E-Dairy solutions", label: "DVARA E-Dairy solutions" },
+  { value: "EH Group Systems Pvt Ltd", label: "EH Group Systems Pvt Ltd" },
+  { value: "Enarka", label: "Enarka" },
+  { value: "ERNET India", label: "ERNET India" },
+  { value: "Eubix", label: "Eubix" },
+  { value: "Esmito", label: "Esmito" },
+  
+  { value: "FEV", label: "FEV" },
+  { value: "Fifth Generations", label: "Fifth Generations" },
+  { value: "Figital Technologies", label: "Figital Technologies" },
+  
+  { value: "FOBMARSHAL", label: "FOBMARSHAL" },
+  { value: "Forge", label: "Forge" },
+  { value: "FS india solar", label: "FS india solar" },
+  { value: "Garuda", label: "Garuda" },
+  { value: "Ginger", label: "Ginger" },
+  { value: "GreenEnvironmentInnovationMarketing India pvt Ltd", label: "GreenEnvironmentInnovationMarketing India pvt Ltd" },
+  { value: "Guvi", label: "Guvi" },
+  { value: "Gym", label: "Gym" },
+  { value: "HTIC", label: "HTIC" },
+  { value: "ICT Academy", label: "ICT Academy" },
+  { value: "ICCW", label: "ICCW" },
+  { value: "Idly", label: "Idly" },
+  { value: "IELECTRON-B4", label: "IELECTRON-B4" },
+  { value: "IFMR", label: "IFMR" },
+  { value: "IIT Alumni Centre", label: "IIT Alumni Centre" },
+  { value: "IIT-Research Park", label: "IIT-Research Park" },
+  { value: "IITM-10X", label: "IITM-10X" },
+  { value: "IITMIC", label: "IITMIC" },
+  { value: "INDEPEEN", label: "INDEPEEN" },
+  { value: "Ingevity", label: "Ingevity" },
+  { value: "InCore Semiconductors Pvt Ltd", label: "InCore Semiconductors Pvt Ltd" },
+  { value: "International Advanced Research Centre for Powder Metallurgy and New Materials (ARCI)", label: "International Advanced Research Centre for Powder Metallurgy and New Materials (ARCI)" },
+  { value: "Kaleidofin", label: "Kaleidofin" },
+  { value: "Kapindra Project Work", label: "Kapindra Project Work" },
+  { value: "KIVI Agrosperity", label: "KIVI Agrosperity" },
+  { value: "KLA", label: "KLA" },
+  { value: "Kotak -IIT Energy Saving Mission", label: "Kotak -IIT Energy Saving Mission" },
+  { value: "Littlemore innovation Ppyrus India Pvt Ltd", label: "Littlemore innovation Ppyrus India Pvt Ltd" },
+  { value: "LOOKMAN", label: "LOOKMAN" },
+  { value: "MEDISIM-B4", label: "MEDISIM-B4" },
+  { value: "MerasPlugins", label: "MerasPlugins" },
+  { value: "Meril Healthcare", label: "Meril Healthcare" },
+  { value: "Mindgrove Technology", label: "Mindgrove Technology" },
+  { value: "Mistral Solution", label: "Mistral Solution" },
+  { value: "Mocero Health Solutions", label: "Mocero Health Solutions" },
+  { value: "Moldex-3D", label: "Moldex-3D" },
+  { value: "MPM InfoTech", label: "MPM InfoTech" },
+  { value: "My Rmc", label: "My Rmc" },
+  { value: "NARC", label: "NARC" },
+  { value: "Natural food", label: "Natural food" },
+  { value: "NCAHT", label: "NCAHT" },
+  { value: "Net Access", label: "Net Access" },
+  { value: "Nexhas", label: "Nexhas" },
+  { value: "NMS Networks", label: "NMS Networks" },
+  { value: "NOVACIS DIGITAL", label: "NOVACIS DIGITAL" },
+  { value: "Okarango", label: "Okarango" },
+  { value: "Payagri", label: "Payagri" },
+  { value: "Pifzer", label: "Pifzer" },
+  { value: "pravartak", label: "pravartak" },
+  { value: "Prodapt Solutions", label: "Prodapt Solutions" },
+  { value: "PROMANTU-B4", label: "PROMANTU-B4" },
+  { value: "Renault Nissan", label: "Renault Nissan" },
+  { value: "REVOH Innovations", label: "REVOH Innovations" },
+  { value: "Rural Technology and Business Incubator", label: "Rural Technology and Business Incubator" },
+  { value: "Sageeza", label: "Sageeza" },
+  { value: "SAPTAG", label: "SAPTAG" },
+  { value: "Satorixr", label: "Satorixr" },
+  { value: "SCONCE", label: "SCONCE" },
+  { value: "Secure health Pvt Ltd", label: "Secure health Pvt Ltd" },
+  { value: "Seed", label: "Seed" },
+  { value: "SGRI", label: "SGRI" },
+  { value: "SIQSESS", label: "SIQSESS" },
+  { value: "Siva sakthi stall", label: "Siva sakthi stall" },
+  { value: "Skillangels", label: "Skillangels" },
+  { value: "SOLINAS INTEGRITY", label: "SOLINAS INTEGRITY" },
+  { value: "SS Infotech", label: "SS Infotech" },
+  { value: "Sundaram Clayton", label: "Sundaram Clayton" },
+  { value: "Swadha Energies Pvt Ltd", label: "Swadha Energies Pvt Ltd" },
+  { value: "TAFE", label: "TAFE" },
+  { value: "Tata Communications", label: "Tata Communications" },
+  { value: "Tata Consultancy Services", label: "Tata Consultancy Services" },
+  { value: "Tata Elxsi Limited", label: "Tata Elxsi Limited" },
+  { value: "Tata Steel", label: "Tata Steel" },
+  { value: "TCOE", label: "TCOE" },
+  { value: "Themepro Technologies Pvt Ltd", label: "Themepro Technologies Pvt Ltd" },
+  { value: "Technology Information Engineering Service Pvt Ltd", label: "Technology Information Engineering Service Pvt Ltd" },
+  { value: "Tejas", label: "Tejas" },
+  { value: "Testlab-5G", label: "Testlab-5G" },
+  { value: "Thunga", label: "Thunga" },
+  { value: "TiE Chennai", label: "TiE Chennai" },
+  { value: "Toray", label: "Toray" },
+  { value: "Toyota", label: "Toyota" },
+  { value: "TVS", label: "TVS" },
+  { value: "Twins Digital", label: "Twins Digital" },
+  { value: "Uniphore", label: "Uniphore" },
+  { value: "Villgro", label: "Villgro" },
+  { value: "Vayusastra", label: "Vayusastra" },
+  { value: "Virgina", label: "Virgina" },
+  { value: "Vortex", label: "Vortex" },
+  { value: "X2Fuel", label: "X2Fuel" },
+  { value: "XYMA", label: "XYMA" },
+  { value: "Yalamanchili Software Exports Pvt. Ltd.", label: "Yalamanchili Software Exports Pvt. Ltd" } ,
+  { value: "Ynos venture", label: "Ynos venture" },
+  { value: "ZEMBALANCE HYDROCARBONS PVT LTD", label: "ZEMBALANCE HYDROCARBONS PVT LTD" },
+  { value: "ZMED", label: "ZMED" },
+  
+   
 ];
      // Step 2: Create a state variable to store the selected values
      const [selectedValues, setSelectedValues] = useState([]);
@@ -178,13 +302,13 @@ const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of t
 const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${year}-${month}-${day}`; // Rearrange the day and month
 const dateValue = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toLocaleDateString('en-GB') : currentdate;
-const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : null;
 
 console.log(dateValue,formattedDate)
 
   const clientSearchResponse=async ()=>{
     try{
-      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : null;
       const clientNameResult=clientNameFilter
       //const ElectricClientNameResult=ElectricClientsNameFilter
 
@@ -203,7 +327,7 @@ console.log(dateValue,formattedDate)
 
   const ElectricalclientSearchResponse=async ()=>{
     try{
-      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : currentdate;
+      const formattedDate=selectedDate?new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : null;
       const ElectricClientNameResult=ElectricClientsNameFilter
       console.log({date:formattedDate,tenantNames:ElectricClientNameResult})
       const ElectricalclientNameSearchRespone=await axios.post(ElectricalSearch_API,{date:formattedDate,tenantNames:ElectricClientNameResult})
