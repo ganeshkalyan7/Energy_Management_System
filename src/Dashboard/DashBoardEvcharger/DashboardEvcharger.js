@@ -26,6 +26,8 @@ function DashboardEvcharger() {
   };
 
     const EvChargerData_api=`${dashboardAddress}/dashboard/EvCharger`
+    const EvChargerDataDateFiltered_API=`${dashboardAddress}/dashboard/EvCharger/Filtered`
+    const [EvChargerDataDateFiltered,setEvChargerDataDateFiltered]=useState([])
 
 
     useEffect(() => {
@@ -49,6 +51,27 @@ function DashboardEvcharger() {
       return () => clearInterval(intervalId);
     }, []);
 
+
+    const DashBoardEvChargerDateChange = async () => {
+       
+      try {
+        const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
+        const response = await axios.post(EvChargerDataDateFiltered_API, { date: formattedDate });
+        setEvChargerDataDateFiltered(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    //--------------------------end of function------------//
+     //-------calling the post request function inside the useEffect----------//
+     useEffect(()=>{
+      DashBoardEvChargerDateChange()
+    },[selectedDate])
+
+
+
+
+
     let totalEnergy = 0;
     let totalSessions = 0;
     let NoOfchargersused = 0;
@@ -70,31 +93,64 @@ function DashboardEvcharger() {
     let CP12_1EnergyConsumed = 0;
     let CP13_1EnergyConsumed = 0;
     let CP14_1EnergyConsumed = 0;
-    
-    for (let i = 0; i < EvChargerData.length; i++) {
-      totalEnergy = EvChargerData[i].totalEnergy;
-      totalSessions = EvChargerData[i].totalSessions;
-      NoOfchargersused = EvChargerData[i].NoOfChargersUsed;
-      CP1_1Status = EvChargerData[i].LEV1_1Status;
-      LEV4_1Status = EvChargerData[i].LEV4_1Status;
-      CP11_1Status = EvChargerData[i].CP11_1Status;
-      CP12_1Status = EvChargerData[i].CP12_1Status;
-      CP13_1Status = EvChargerData[i].CP13_1Status;
-      CP14_1Status = EvChargerData[i].CP14_1Status;
-      CP11_1Location= EvChargerData[i].CP11_1Location;
-      CP12_1Location = EvChargerData[i].CP12_1Location;
-      CP13_1Location = EvChargerData[i].CP13_1Location;
-      CP14_1Location = EvChargerData[i].CP14_1Location;
-      LEV4_1Location = EvChargerData[i].LEV4_1Location;
 
+    if(selectedDate==null){
+      for (let i = 0; i < EvChargerData.length; i++) {
+        totalEnergy = EvChargerData[i].totalEnergy;
+        totalSessions = EvChargerData[i].totalSessions;
+        NoOfchargersused = EvChargerData[i].NoOfChargersUsed;
+        CP1_1Status = EvChargerData[i].LEV1_1Status;
+        LEV4_1Status = EvChargerData[i].LEV4_1Status;
+        CP11_1Status = EvChargerData[i].CP11_1Status;
+        CP12_1Status = EvChargerData[i].CP12_1Status;
+        CP13_1Status = EvChargerData[i].CP13_1Status;
+        CP14_1Status = EvChargerData[i].CP14_1Status;
+        CP11_1Location= EvChargerData[i].CP11_1Location;
+        CP12_1Location = EvChargerData[i].CP12_1Location;
+        CP13_1Location = EvChargerData[i].CP13_1Location;
+        CP14_1Location = EvChargerData[i].CP14_1Location;
+        LEV4_1Location = EvChargerData[i].LEV4_1Location;
+  
+  
+        CP1_1EnergyConsumed=EvChargerData[i].CP1_1EnergyConsumed
+        LEV4_1EnergyConsumed=EvChargerData[i].LEV4_1EnergyConsumed
+        CP11_1EnergyConsumed=EvChargerData[i].CP11_1EnergyConsumed
+        CP12_1EnergyConsumed=EvChargerData[i].CP12_1EnergyConsumed
+        CP13_1EnergyConsumed=EvChargerData[i].CP13_1EnergyConsumed
+        CP14_1EnergyConsumed=EvChargerData[i].CP14_1EnergyConsumed
+      }
 
-      CP1_1EnergyConsumed=EvChargerData[i].CP1_1EnergyConsumed
-      LEV4_1EnergyConsumed=EvChargerData[i].LEV4_1EnergyConsumed
-      CP11_1EnergyConsumed=EvChargerData[i].CP11_1EnergyConsumed
-      CP12_1EnergyConsumed=EvChargerData[i].CP12_1EnergyConsumed
-      CP13_1EnergyConsumed=EvChargerData[i].CP13_1EnergyConsumed
-      CP14_1EnergyConsumed=EvChargerData[i].CP14_1EnergyConsumed
     }
+    else{
+      for (let i = 0; i < EvChargerDataDateFiltered.length; i++) {
+        totalEnergy = EvChargerDataDateFiltered[i].totalEnergy;
+        totalSessions = EvChargerDataDateFiltered[i].totalSessions;
+        NoOfchargersused = EvChargerDataDateFiltered[i].NoOfChargersUsed;
+        CP1_1Status = EvChargerDataDateFiltered[i].LEV1_1Status;
+        LEV4_1Status = EvChargerDataDateFiltered[i].LEV4_1Status;
+        CP11_1Status = EvChargerDataDateFiltered[i].CP11_1Status;
+        CP12_1Status = EvChargerDataDateFiltered[i].CP12_1Status;
+        CP13_1Status = EvChargerDataDateFiltered[i].CP13_1Status;
+        CP14_1Status = EvChargerDataDateFiltered[i].CP14_1Status;
+        CP11_1Location= EvChargerDataDateFiltered[i].CP11_1Location;
+        CP12_1Location = EvChargerDataDateFiltered[i].CP12_1Location;
+        CP13_1Location = EvChargerDataDateFiltered[i].CP13_1Location;
+        CP14_1Location = EvChargerDataDateFiltered[i].CP14_1Location;
+        LEV4_1Location = EvChargerDataDateFiltered[i].LEV4_1Location;
+  
+  
+        CP1_1EnergyConsumed=EvChargerDataDateFiltered[i].CP1_1EnergyConsumed
+        LEV4_1EnergyConsumed=EvChargerDataDateFiltered[i].LEV4_1EnergyConsumed
+        CP11_1EnergyConsumed=EvChargerDataDateFiltered[i].CP11_1EnergyConsumed
+        CP12_1EnergyConsumed=EvChargerDataDateFiltered[i].CP12_1EnergyConsumed
+        CP13_1EnergyConsumed=EvChargerDataDateFiltered[i].CP13_1EnergyConsumed
+        CP14_1EnergyConsumed=EvChargerDataDateFiltered[i].CP14_1EnergyConsumed
+      }
+    }
+    
+    
+    
+
     
 
   
@@ -116,7 +172,25 @@ function DashboardEvcharger() {
       <div style={{fontSize: "18px", fontWeight: "600",color:"black",marginTop:"20%",marginLeft:"3%"}}>All Chargers</div>
       </Grid> 
       <Grid item xs={7}> 
+      <div style={{ position: "relative", width: "200px",paddingLeft:"40px",marginLeft:"70%" }}>
+    <DatePickers
+      id="date"
+      className="form-control"
+      selected={selectedDate}
+      onChange={handleDateChange}
+      placeholderText={currentdate}
+    />
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
+      </svg> */}
+    </div>
+  </div>
+  <br/>
+  <br/>
       <div style={{width:"100%",height:"100px",background:"#F5F5F5",borderRadius: "10px",marginTop:"-2%",paddingLeft:"3%",paddingRight:"3%",paddingBottom:"11%",paddingTop:"2%"}}>
+    
       <Box sx={{ flexGrow: 1 }}> 
       <Grid container spacing={1}>
       <Grid item xs={4}>

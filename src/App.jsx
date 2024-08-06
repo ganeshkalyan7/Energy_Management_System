@@ -53,6 +53,7 @@ import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
 import Sample from './pages/Sample';
 import BatteryUsage from "./pages/Batteries/BatteryUsage"
 import ControlsMainPage from './Controls/ControlsMainPage';
+import WindDashboard from './pages/WindDashboard/WindDashboard';
 
 
 
@@ -102,6 +103,8 @@ function App() {
             <Route path="/sample/page" element={<Sample/>}/>
             <Route path="/Battery/Usage" element={<BatteryUsage/>}/>
             <Route path="/Controls/Renewable/Graph" element={<ControlsMainPage/>}/>
+            <Route path="/WindDashboard" element={<WindDashboard/>}/>
+            
             
             
             

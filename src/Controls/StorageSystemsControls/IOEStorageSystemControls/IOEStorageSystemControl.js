@@ -99,7 +99,7 @@ const handleEndDateChange = (date) => {
     <div>
        <div style={{fontSize:"18px",fontWeight:"600"}}>IOE Battery Overview</div>
        <br/>
-       <div className='ltoDetails'>
+       <div className='IOEDetails'>
         <div>
           <div>SOC %</div>
           <div>{PackSOC}</div>
@@ -144,7 +144,7 @@ const handleEndDateChange = (date) => {
       </div>
        <br/>
        <br/>
-       <div className='ltoControl'>
+       <div className='IOEControl'>
         <div> 
         <div>Function</div>
         <div class="input-group mb-3"  style={{width:"260px"}}>
@@ -263,7 +263,7 @@ className="form-control"
        <br/>
    
 
-       <div className='ltoControlTriger'> 
+       <div className='IOEControlTriger'> 
         <div>
        <input name="pin" type="password" class="form-control" placeholder="*****" aria-label="Username" aria-describedby="basic-addon1"   value=""/> 
        </div>

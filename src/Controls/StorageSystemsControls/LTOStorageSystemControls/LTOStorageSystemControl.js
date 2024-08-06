@@ -50,7 +50,16 @@ let PrechargeContactorStatus=0;
 
 for(let i=0;i<LTODetails.length;i++){
   PackSOC=LTODetails[i].packUsableSOC
-  Status=LTODetails[i].batteryStatus
+  if(LTODetails[i].batteryStatus==="CHG"){
+    Status="CHARGING"
+  }
+  if(LTODetails[i].batteryStatus==="DCHG"){
+    Status="DISCHARGING"
+  }
+  if(LTODetails[i].batteryStatus==="IDLE"){
+    Status="IDLE"
+  }
+  
   Voltage=LTODetails[i].batteryVoltage
   Current=LTODetails[i].batteryCurrent
   MainContactorStatus=LTODetails[i].mainContactorStatus

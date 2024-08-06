@@ -1,16 +1,16 @@
-.ltoDetails{
+.IOEDetails{
     display: grid;
     grid-template-columns:repeat(6,13%);
     font-size: 14px;
 }
-.ltoControl{
+.IOEControl{
     display: grid;
     grid-template-columns:repeat(5,1fr);
     grid-gap:10px ;
 
 }
 
-.ltoControlTriger{
+.IOEControlTriger{
     display: grid;
     grid-template-columns:repeat(2,20%);
     justify-content: center;

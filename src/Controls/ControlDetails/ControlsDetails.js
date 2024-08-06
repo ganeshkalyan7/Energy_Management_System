@@ -4,6 +4,7 @@ import {ControlAPi,nodeAdress} from  "../../ipAdress";
 import axios from 'axios';
 import LTOStorageSystemControl from '../StorageSystemsControls/LTOStorageSystemControls/LTOStorageSystemControl';
 import IOEStorageSystemControl from '../StorageSystemsControls/IOEStorageSystemControls/IOEStorageSystemControl';
+import UPSStorageSystemControl from "../StorageSystemsControls/UPSStorageSystemControls/UPSStorageSystemControl"
 
 
 
@@ -393,13 +394,30 @@ for(let i=0;i<UPSDetails.length;i++){
 
        </div>
 <br/>
-       {
-            StorageSysytemControlSelector==="IOE"?<IOEStorageSystemControl/>:""
-       }
+       
 
-       {
-        StorageSysytemControlSelector==="LTO"?<LTOStorageSystemControl/>:""
-       }
+{
+  StorageSysytemControlSelector === "IOE" ? (
+    <React.Fragment> 
+  <IOEStorageSystemControl/>
+    </React.Fragment>
+      
+  ) : StorageSysytemControlSelector === "LTO" ? (
+    <React.Fragment> 
+      <LTOStorageSystemControl/>
+    </React.Fragment>
+     
+  ) : StorageSysytemControlSelector === "UPS" ? (
+    <React.Fragment> 
+     <UPSStorageSystemControl/>
+    </React.Fragment>
+      
+  ) : (
+    <React.Fragment>
+
+    </React.Fragment>
+  )
+}
     </div>
   )
 }
