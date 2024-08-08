@@ -26,8 +26,9 @@ import { VscAccount } from "react-icons/vsc";
 
 //----------------------solar icons----------------------------//
 import { MdSolarPower } from "react-icons/md";
-import * as GiIcons from  'react-icons/gi'
-import * as TbIcons from  'react-icons/tb'
+import * as GiIcons from  'react-icons/gi';
+import * as TbIcons from  'react-icons/tb';
+import { MdWindPower } from "react-icons/md";
 //------------------------end---------------------------------//
 
 //-------------------batteries icons---------------------------//
@@ -153,21 +154,22 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
           </ul>
         </li>
 
-        <li style={{ backgroundColor: currentPath === "/Wheeledgraph"|| currentPath ==="/RoofTopSolar" ? "#41bf7e" : "transparent"}}>
+        <li style={{ backgroundColor: currentPath === "/Wheeledgraph"|| currentPath ==="/RoofTopSolar"|| currentPath ==="/WindDashboard"  ? "#41bf7e" : "transparent"}}>
           <div class="icon-link" className="icon-link" onClick={toggleSubMenu}>
             <a href="#">
-              <i ><MdSolarPower style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"? "white" : "gray" }}/></i>
-              <span class="link-name" style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"? "white" : "black" }}>Solar</span>
+              <i ><MdSolarPower style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"||currentPath ==="/WindDashboard"? "white" : "gray" }}/></i>
+              <span class="link-name" style={{ color: currentPath === "/Wheeledgraph"||currentPath ==="/RoofTopSolar"||currentPath ==="/WindDashboard"? "white" : "black" }}>Renewable`s</span>
               
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"139px",color:currentPath === "/Wheeledgraph" || currentPath === "/RoofTopSolar" ? "white" :"gray" }}></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"70px",color:currentPath === "/Wheeledgraph" || currentPath === "/RoofTopSolar"||currentPath ==="/WindDashboard" ? "white" :"gray" }}></i>
            
           </div>
 
           <ul class="sub-menu">
-            <li><a href="#" class="link-name">Solar</a></li>
+            <li><a href="#" class="link-name">Renewable`s</a></li>
             <li style={{ backgroundColor: currentPath === "/Wheeledgraph" ? "#41bf7e" : "transparent"}}><Link to="/Wheeledgraph"> <GiIcons.GiSolarPower size="30px" style={{color:currentPath==="/Wheeledgraph"?"white":"black",marginTop:"0px"}} /><span style={{marginLeft:"20px",marginTop:"0px",paddingRight:"10px",color:currentPath==="/Wheeledgraph"?"white":"black"}}>Wheeled In Solar </span></Link></li>
             <li style={{ backgroundColor: currentPath ==="/RoofTopSolar" ? "#41bf7e" : "transparent"}}><Link to="/RoofTopSolar"> <TbIcons.TbSolarPanel2 size="30px" style={{color:currentPath==="/RoofTopSolar"?"white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px",color:currentPath==="/RoofTopSolar"?"white":"black"}}> RoofTop Solar </span></Link></li>
+            <li style={{ backgroundColor: currentPath ==="/WindDashboard" ? "#41bf7e" : "transparent"}}><Link to="/WindDashboard"> <MdWindPower  size="30px" style={{color:currentPath==="/WindDashboard"?"white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px",color:currentPath==="/WindDashboard"?"white":"black"}}>Wind</span></Link></li>
           </ul>
         </li>
 

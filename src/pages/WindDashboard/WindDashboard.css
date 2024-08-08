@@ -9,6 +9,7 @@
    justify-items: center;
    margin-left: 80px;
    gap: 0px;
+   color: #343a40;
    
 }
 
@@ -61,7 +62,7 @@
   /* justify-items: stretch; */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   height: 140px;
-  /* background-color: #fff7b5; */
+  /* background-color: #fff3bf; */
   /* background-color:#3b704b; */
 }
 
@@ -84,7 +85,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   }
   
-  .arrow {
+  .arrows {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;

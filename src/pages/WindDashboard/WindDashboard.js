@@ -48,7 +48,7 @@ const Compass = ({ direction }) => {
   return (
     <div className="compass-container">
       <div className="compass">
-        <div className="arrow" style={{ transform: `rotate(${degree}deg)` }}></div>
+        <div className="arrows" style={{ transform: `rotate(${degree}deg)` }}></div>
         <div className="compass-label north">N</div>
         <div className="compass-label east">E</div>
         <div className="compass-label south">S</div>
