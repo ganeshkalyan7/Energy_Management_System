@@ -235,7 +235,7 @@ else{
       },
   }, {
       min: 0,
-      max: 100, // Set the maximum value for the second y-axis
+      max: 350, // Set the maximum value for the second y-axis
       title: {
           text: 'Cuurent (A)',
       },

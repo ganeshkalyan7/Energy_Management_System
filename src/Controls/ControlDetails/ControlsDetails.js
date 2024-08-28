@@ -4,7 +4,9 @@ import {ControlAPi,nodeAdress} from  "../../ipAdress";
 import axios from 'axios';
 import LTOStorageSystemControl from '../StorageSystemsControls/LTOStorageSystemControls/LTOStorageSystemControl';
 import IOEStorageSystemControl from '../StorageSystemsControls/IOEStorageSystemControls/IOEStorageSystemControl';
-import UPSStorageSystemControl from "../StorageSystemsControls/UPSStorageSystemControls/UPSStorageSystemControl"
+import UPSStorageSystemControl from "../StorageSystemsControls/UPSStorageSystemControls/UPSStorageSystemControl";
+import { FaCarSide } from "react-icons/fa";
+import { motion } from 'framer-motion';
 
 
 
@@ -27,8 +29,7 @@ const handleStorageControlSelector = (value) => {
  const IOEOverView_API=`${ControlAPi}/control/ioeDetails`
  const UPSOverView_API=`${ControlAPi}/control/UpsDetails`
  const LTOOvervies_API=`${nodeAdress}/battery/lto`
-
-
+ 
  //-----------------------------IOE Details -----------------------------------------//
 
  useEffect(() => {
@@ -54,15 +55,46 @@ const handleStorageControlSelector = (value) => {
 
 let  IOEStatus=""
 let IOESoc=0
+let AvgNumber=0
 
-for(let i=0;i<IOEDetails;i++){
+for(let i=0;i<IOEDetails.length;i++){
+  if(IOEDetails[i].packSoc1!=null){
+      AvgNumber+=1
+    }
+    if(IOEDetails[i].packSoc2!=null){
+      AvgNumber+=1
+    }
+    if(IOEDetails[i].packSoc3!=null){
+      AvgNumber+=1
+    }
+    if(IOEDetails[i].packSoc4!=null){
+      AvgNumber+=1
+    }
+    if(IOEDetails[i].packSoc5!=null){
+      AvgNumber+=1
+    }
 
+    IOESoc=((IOEDetails[i].packSoc1+IOEDetails[i].packSoc2+IOEDetails[i].packSoc3+IOEDetails[i].packSoc4+IOEDetails[i].packSoc5)/AvgNumber)
+   if(IOEDetails[i].batteryStatus1==="DCHG"){
+    IOEStatus="DISCHARGING"
+   }
+   else if (IOEDetails[i].batteryStatus1==="CHG"){
+    IOEStatus="CHARGING"
+   }
+   else if (IOEDetails[i].batteryStatus1==="IDLE"){
+    IOEStatus="IDLE"
+   }
+//   PackSOC=IOEDetails[i].packSoc1
+//   Status=IOEDetails[i].batteryStatus
+// Voltage=IOEDetails[i].batteryVoltage
+// Current=IOEDetails[i].batteryCurrent
+// MainContactorStatus=IOEDetails[i].mainContactorStatus
+// PrechargeContactorStatus=IOEDetails[i].prechargeContactorStatus
 }
 
 
 
-
-    const percentage = 40; 
+    const percentage = IOESoc; 
     let backgroundColor='green'
 
 //   if(packSOC>40){
@@ -221,6 +253,22 @@ for(let i=0;i<UPSDetails.length;i++){
 
 
   console.log(StorageSysytemControlSelector)
+
+
+  const [car1Distance, setCar1Distance] = useState(0);
+  const [car2Distance, setCar2Distance] = useState(0);
+  const maxDistance = 300; // Max random distance for each car
+  const intervalTime = 1000; // Interval time in milliseconds
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCar1Distance(Math.random() * maxDistance);
+      setCar2Distance(Math.random() * maxDistance);
+    }, intervalTime);
+
+    return () => clearInterval(intervalId);
+  }, [maxDistance, intervalTime]);
+
     
   return (
     <div className='detailsMaincontainer'>
@@ -233,7 +281,7 @@ for(let i=0;i<UPSDetails.length;i++){
             <div style={IOEBattery}>
                 
                 
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>Discharging</div>
+                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>{IOEStatus}</div>
                 <br/>
                 <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{percentage}%</div>
                 <br/>
@@ -418,6 +466,24 @@ for(let i=0;i<UPSDetails.length;i++){
     </React.Fragment>
   )
 }
+<br/>
+
+{/* <div className="road">
+      <motion.div
+        className="car1"
+        animate={{ x: car1Distance }}
+        transition={{ duration: 0.5 }}
+      >
+        🚗
+      </motion.div>
+      <motion.div
+        className="car2"
+        animate={{ x: car2Distance }}
+        transition={{ duration: 0.5 }}
+      >
+        <FaCarSide/>
+      </motion.div>
+    </div> */}
     </div>
   )
 }

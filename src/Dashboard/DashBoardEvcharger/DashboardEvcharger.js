@@ -26,7 +26,7 @@ function DashboardEvcharger() {
   };
 
     const EvChargerData_api=`${dashboardAddress}/dashboard/EvCharger`
-    const EvChargerDataDateFiltered_API=`${dashboardAddress}/dashboard/EvCharger/Filtered`
+    const EvChargerDataDateFiltered_API=`${dashboardAddress}/dashboard/EvCharger/filtered`
     const [EvChargerDataDateFiltered,setEvChargerDataDateFiltered]=useState([])
 
 

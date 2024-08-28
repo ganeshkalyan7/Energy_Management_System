@@ -254,7 +254,7 @@ else{
           ChrgingEnergy.push(ioeHourlyDataDateFiltered[i].chg5 == null ? 0 : ioeHourlyDataDateFiltered[i].chg5);
           DischargingEnergy.push(ioeHourlyDataDateFiltered[i].dchg5 == null ? 0 : ioeHourlyDataDateFiltered[i].dchg5);
           IdleEnergy.push(ioeHourlyDataDateFiltered[i].idle == null ? 0 : ioeHourlyDataDateFiltered[i].idle);
-          PackSoc.push(ioeHourlyData[i] == undefined || ioeHourlyData[i].pack5 == null ? 0 : ioeHourlyData[i].pack5);
+          PackSoc.push(ioeHourlyDataDateFiltered[i].pack5 == undefined || ioeHourlyDataDateFiltered[i].pack5 == null ? 0 : ioeHourlyDataDateFiltered[i].pack5);
           TimeStamp.push(ioeHourlyDataDateFiltered[i].polledTime);
           AvailableEnergy = (ioeHourlyDataDateFiltered[i].availEn5 == null ? 0 : ioeHourlyDataDateFiltered[i].availEn5);
           CurrentString = "STRING 5";

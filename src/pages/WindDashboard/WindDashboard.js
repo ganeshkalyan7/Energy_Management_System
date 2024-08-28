@@ -389,10 +389,10 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
 
   return (
     <div>
-      <div style={{ marginTop: "90px", marginLeft: "80px", overflowX: "hidden" }}>
+      <div style={{ marginTop: "120px", marginLeft: "80px", overflowX: "hidden" }}>
         <p style={{ textAlign: "center", color: "brown", fontSize: "18px", fontWeight: "700" }}>Active Power (kW) and Wind Speed (m/s)</p>
         <br />
-        <div className="row" style={{ marginLeft: "10px", marginTop: "20px" }}>
+        <div className="row" style={{ marginLeft: "10px", marginTop: "60px" }}>
           <div className="col-10">
             <div className="input-group mb-3" style={{ width: "300px" }}>
               <div className="input-group-prepend">
