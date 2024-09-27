@@ -748,12 +748,12 @@ else{
   </div>
   <br/>
 
-  <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1" style={{color:"gray"}}><b>PIN</b></span>
+    <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1" style={{color:"gray"}}><b>PIN</b></span>
+    </div>
+    <input name="pin" type="password" class="form-control" placeholder="*****" aria-label="Username" aria-describedby="basic-addon1" onChange={handlePinPasswordChange}  value={pinNumber}/>
   </div>
-  <input name="pin" type="password" class="form-control" placeholder="*****" aria-label="Username" aria-describedby="basic-addon1" onChange={handlePinPasswordChange}  value={pinNumber}/>
-</div>
   
   <br/>  
 

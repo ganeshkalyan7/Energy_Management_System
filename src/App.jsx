@@ -13,8 +13,8 @@ import Documentation from './pages/Documentation';
 import Peakdemand from './pages/Peakdemand';
 import Thermalalers from './pages/Thermalalers';
 import ChillerAlerts from './pages/ChillerAlerts';
-import RooftopSolar from './pages/RooftopSolar';
-import Wheeledinsolar from  "./pages/Wheeledinpahse1phase2";
+import RooftopSolar from './pages/Renewbles/RooftopSolar';
+import Wheeledinsolar from  "./pages/Renewbles/Wheeledinpahse1phase2";
 import axios from 'axios';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -22,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import Thermalcontrol from './pages/Thermalcontrol';
-import Peakdemandgraph from './pages/Peakdemandgraph';
+import Peakdemandgraph from "./pages/BuildindConsumption/Peakdemandgraph";
 import BatteryAnalytics from './pages/Batteries/UPSBattery/BatteryAnalytics';
 import ChillerDashboard from './pages/ChillerDashboard';
 import ChillersDashBoardAll from './pages/ChillersDashBoardAll';
@@ -51,9 +51,10 @@ import { ThemeProvider } from "styled-components";
 import IOEEnergyPac from './pages/Batteries/IOEBattery/IOEEnergyPac';
 import IOEControl from './pages/Batteries/IOEBattery/IOEControl';
 import Sample from './pages/Sample';
-import BatteryUsage from "./pages/Batteries/BatteryUsage"
+// import BatteryUsage from "./pages/Batteries/BatteryUsage"
 import ControlsMainPage from './Controls/ControlsMainPage';
-import WindDashboard from './pages/WindDashboard/WindDashboard';
+import WindDashboard from './pages/Renewbles/WindDashboard/WindDashboard';
+import HashticCode from './pages/HashticProject/HashticCode';
 
 
 
@@ -101,9 +102,12 @@ function App() {
             <Route path="/Battery/IOE" element={<IOEEnergyPac/>}/>
             <Route path="/control/IOE" element={<IOEControl/>}/>
             <Route path="/sample/page" element={<Sample/>}/>
-            <Route path="/Battery/Usage" element={<BatteryUsage/>}/>
+            {/* <Route path="/Battery/Usage" element={<BatteryUsage/>}/> */}
             <Route path="/Controls/Renewable/Graph" element={<ControlsMainPage/>}/>
             <Route path="/WindDashboard" element={<WindDashboard/>}/>
+            <Route path="/HashticCode" element={<HashticCode/>}/>
+
+            
             
             
             

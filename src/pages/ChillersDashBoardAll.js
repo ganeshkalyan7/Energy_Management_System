@@ -18,6 +18,8 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Bar1 from '../images/ChillersCard.png'
 import Bar2 from "../images/EvCharger1.png"
 import DrillDownChart from './DrillDownChart';
+import { RiArrowDropDownLine } from "react-icons/ri";
+
 
 import { FaSquare } from "react-icons/fa";
 
@@ -1063,7 +1065,7 @@ console.log(chillerLoading_Phase1DateFilter)
             type: 'line'
         },
         title: {
-            text: 'Condenser In/Out Temperature',
+            text: null,
             align: 'center',
             style: {
                 color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1145,7 +1147,7 @@ console.log(chillerLoading_Phase1DateFilter)
           type: 'line'
       },
       title: {
-          text: 'Condenser In/Out Temperature',
+          text:null,
           align: 'center',
           style: {
               color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1227,7 +1229,7 @@ console.log(chillerLoading_Phase1DateFilter)
             type: 'line'
         },
         title: {
-            text: 'Evaporator In/Out Temperature',
+            text: null,
             align: 'center',
             style: {
                 color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1306,7 +1308,7 @@ console.log(chillerLoading_Phase1DateFilter)
           type: 'line'
       },
       title: {
-          text: 'Evaporator In/Out Temperature',
+          text:null,
           align: 'center',
           style: {
               color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1383,7 +1385,7 @@ console.log(chillerLoading_Phase1DateFilter)
             type: 'area'
         },
         title: {
-            text: "Cooling Energy",
+            text:null,
             align: 'center',
           style: {
               color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1446,7 +1448,7 @@ console.log(chillerLoading_Phase1DateFilter)
             type: 'line'
         },
         title: {
-            text: 'Stored Water Temperature',
+            text:null,
             align: 'center',
             style: {
                 color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -1498,7 +1500,7 @@ console.log(chillerLoading_Phase1DateFilter)
           type: 'line'
       },
       title: {
-          text: 'Stored Water Temperature',
+          text:null,
           align: 'center',
           style: {
               color: '#cc0000	' // You can replace 'red' with any desired color value
@@ -2198,7 +2200,7 @@ tooltip: {
         type: 'line'
     },
     title: {
-        text: 'Charging / Discharging Energy',
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -2376,23 +2378,10 @@ tooltip: {
   return (
     <div style={{marginTop:"100px",paddingLeft:"50px",overflowX: "hidden",}} id="container">
 
-<div className="row" >
-  <div className="col-4">
-    <div className="input-group mb-3" style={{ width: "300px",marginLeft:"70px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePickers id="date" selected={chillerfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
-        </label>
-      </div>
+<div style={{display:"flex",justifyContent:"space-between",marginLeft:"70px",marginRight:"30px"}} >
+ 
 
-     
-     
-    </div>
-
-  
-  </div>
-
-  <div className="col-4" style={{ position: "relative" }}>
+  <div  style={{ position: "relative" }}>
   <img
     style={{
       height: "70px",
@@ -2433,7 +2422,7 @@ tooltip: {
   </div>
 </div>
 
-  <div className="col-4" style={{ position: "relative"}}>
+  <div  style={{ position: "relative"}}>
   <img
     style={{
       height: "70px",
@@ -2473,21 +2462,35 @@ tooltip: {
   {Math.trunc(ChillerTotalCoolingEnergyDay + ChillerTotalCoolingEnergyDayPhase1)} TRh
   </div>
 </div>
+<div >
+    <div style={{position:"relative",width:"170px",marginRight:"0px",marginTop:"10px"}} >
 
+         <DatePickers id="date" selected={chillerfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
+      
+         <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
+    </div>
+     
+     
+    </div>
+
+  
+  </div>
 
 
 </div>
-<h5 style={{ textAlign: "center",marginTop:"4%" }}><b>Chiller Status</b></h5>
+<p style={{ textAlign: "center",marginTop:"4%",fontSize:"20px",fontWeight:"600",color:"#212529" }}>Chiller Status</p>
 <HighchartsReact highcharts={Highcharts} options={chillersStatus}  />
 
 
 
 <Box sx={{ flexGrow: 1 }} style={{marginTop:"10%"}}> 
-<h5 style={{ textAlign: "center",marginBottom:"5%" }}><b> Instantaneous Chiller COP / Loading</b></h5> 
+<p style={{ textAlign: "center",marginBottom:"5%",fontSize:"20px",fontWeight:"600",color:"#212529" }}> Instantaneous Chiller COP / Loading</p> 
 
 <Grid container spacing={1} > 
 <Grid item xs={12} md={6}>
-<h5 style={{ textAlign: "center" }}><b>E Block</b></h5>
+<p style={{ textAlign: "center",color:"#212529",fontSize:"18px",fontWeight:"600" }}>E Block</p>
 
 <div
         style={{
@@ -3133,12 +3136,12 @@ tooltip: {
             </div>
           </div>
         </div>
-        <div style={{ textAlign: "center",textAlign: "center",marginLeft:"65%",marginTop:"5%"}}><b>Loading Percentage <CircleIcon style={{color:"#ff7338",fontSize:'17px'}}/> </b></div>
+        <div style={{ textAlign: "center",fontSize:"16px",fontWeight:"600",color:"#212529",marginLeft:"65%",marginTop:"5%"}}>Loading Percentage <CircleIcon style={{color:"#ff7338",fontSize:'17px'}}/></div>
 </div>
 </Grid>
 
 <Grid item xs={12} md={6}>
-<h5 style={{ textAlign: "center" }}><b>D Block</b></h5>
+<p style={{ textAlign: "center",fontSize:"18px",fontWeight:"600",color:"#212529"}}>D Block</p>
 <div
         style={{
           position: "relative",
@@ -3801,25 +3804,25 @@ tooltip: {
   ---------------------------------------------------------- */}
   
 <Box sx={{ flexGrow: 1 }} style={{marginTop:"15%"}}> 
-<h5 style={{ textAlign: "center",marginBottom:"5%" }}><b> Ambient Temperature</b></h5> 
+<p style={{ textAlign: "center",marginBottom:"5%",fontSize:"20px",fontWeight:"600",color:"#212529" }}> Ambient Temperature</p> 
 
 <Grid container spacing={1}> 
 <Grid item xs={12} md={4}> 
 <div style={{width:"60%",background:"#50ebd6",height:"100px",borderRadius:"15px",marginLeft:"15%",paddingTop:"4%"}}> 
- <div style={{fontSize:"20px",fontWeight:"700",textAlign:"center",color:"#000",}}>Minimum</div>
+ <div style={{fontSize:"18px",fontWeight:"600",textAlign:"center",color:"#212529",}}>Minimum</div>
  <div style={{fontSize:"24px",fontWeight:"700",textAlign:"center",color:"#000"}}>{MinimumTemp}(°C)</div>
 
 </div>
 </Grid>
 <Grid item xs={12} md={4}> 
 <div style={{width:"60%",background:"#ffdd33 ",height:"100px",borderRadius:"15px",marginLeft:"15%",paddingTop:"4%"}}> 
-<div style={{fontSize:"20px",fontWeight:"700",textAlign:"center",color:"#000"}}>Average</div>
+<div style={{fontSize:"18px",fontWeight:"600",textAlign:"center",color:"#212529"}}>Average</div>
  <div style={{fontSize:"24px",fontWeight:"700",textAlign:"center",color:"#000"}}>{AverageTemp} (°C)</div>
 </div>
 </Grid>
 <Grid item xs={12} md={4}> 
 <div style={{width:"60%",background:"#ffa11c",height:"100px",borderRadius:"15px",marginLeft:"15%",paddingTop:"4%"}}> 
-<div style={{fontSize:"20px",fontWeight:"700",textAlign:"center",color:"#000"}}>Maximum</div>
+<div style={{fontSize:"18px",fontWeight:"600",textAlign:"center",color:"#212529"}}>Maximum</div>
  <div style={{fontSize:"24px",fontWeight:"700",textAlign:"center",color:"#000"}}>{MaximumTemp} (°C)</div>
 </div>
 </Grid>
@@ -3829,7 +3832,7 @@ tooltip: {
 
 {/* --------------- */}
 <Box sx={{ flexGrow: 1 }} style={{marginTop:"10%"}}>
-<h5 style={{ textAlign: "center" }}><b>Loading (%) vs  COP</b></h5>
+<p style={{ textAlign: "center",fontSize:"20px",fontWeight:"600",color:"#212529" }}>Loading (%) vs  COP</p>
 <Grid container spacing={1}> 
 <Grid item xs={12} md={6} style={{marginTop:"2%"}}>
   <div>
@@ -3925,10 +3928,12 @@ tooltip: {
   </div>
 
   <div style={{marginTop:"100px",marginLeft:"8%",marginRight:"8%"}}> 
+    <p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Evaporator In/Out Temperature</p>
 <HighchartsReact highcharts={Highcharts} options={optionsEvaporatorTemparature_Phase1} />
 </div>
 
 <div style={{marginTop:"100px",marginLeft:"8%",marginRight:"8%"}}> 
+<p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Condenser In/Out Temperature</p>
 <HighchartsReact highcharts={Highcharts} options={optionsCondenserTemparature_Phase1} />
 </div>
 
@@ -4032,10 +4037,12 @@ tooltip: {
 
 
 <div style={{marginTop:"100px",marginLeft:"8%",marginRight:"8%"}}> 
+<p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Evaporator In/Out Temperature Phase_2</p>
 <HighchartsReact highcharts={Highcharts} options={optionsEvaporatorTemparature} />
 </div>
 
 <div style={{marginTop:"100px",marginLeft:"8%",marginRight:"8%"}}> 
+<p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Condenser In/Out Temperature Phase_2</p>
 <HighchartsReact highcharts={Highcharts} options={optionsCondenserTemparature} />
 </div>
 
@@ -4048,10 +4055,10 @@ tooltip: {
       
   
 <Box sx={{ flexGrow: 1 }} style={{marginTop:"8%"}}> 
-<h5 style={{ textAlign: "center" }}><b>Cooling Tower Status</b></h5>  
+<p style={{ textAlign: "center",fontSize:"20px",fontWeight:"600",color:"#212529" }}>Cooling Tower Status</p>  
 <Grid container spacing={1}> 
 <Grid item xs={12} md={6} style={{marginTop:"2%"}} >
-<h5 style={{textAlign:"center",color:"#cc0000	"}}><b>Phase 1</b></h5>
+<p style={{marginLeft:"8%",fontSize:"18px",fontWeight:"600",color:"#212529"}}>Phase 1</p>
 <div style={{marginLeft:"8%",marginRight:"8%"}}> 
 <div style={{top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "100%", height: "192px", overflow: "hidden",}}> 
 <div style={{marginLeft:"10%",position:"relative",marginTop:"8%"}}>
@@ -4108,7 +4115,7 @@ tooltip: {
   <div style={{marginLeft:"8%",marginRight:"8%"}}> 
 
 
-  <h5 style={{textAlign:"center",color:"#cc0000	"}}><b> Phase 2</b> </h5>
+  <p style={{marginLeft:"8%",fontSize:"18px",fontWeight:"600",color:"#212529"}}> Phase 2 </p>
   <div style={{top: "0px", left: "0px", borderRadius: "12px", backgroundColor: "#fff", border: "1px solid #d5d5d5", boxSizing: "border-box", width: "100%", height: "192px", overflow: "hidden",}}> 
   <div style={{marginLeft:"3%",position:"relative",marginTop:"2%"}}>
   
@@ -4304,11 +4311,13 @@ tooltip: {
 <Grid container spacing={1}> 
 <Grid item xs={12} md={6}> 
 <div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+  <p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Cooling Energy</p>
 <HighchartsReact highcharts={Highcharts} options={ThermalEnergyCurrent} />
 </div>
 </Grid>
 <Grid item xs={12} md={6} > 
 <div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+  <p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Stored Water Temperature</p>
 <HighchartsReact highcharts={Highcharts} options={TsStoredWaterTemperature} />
 </div>
 </Grid>
@@ -4321,15 +4330,17 @@ tooltip: {
 
 <Box sx={{ flexGrow: 1 }} style={{marginTop:"8%"}}> 
 
-<h5 style={{ textAlign: "center" }}><b>Hot Water Storage </b></h5>  
+<p style={{ textAlign: "center",fontSize:"20px",fontWeight:"600",color:"#212529" }}>Hot Water Storage </p>  
 <Grid container spacing={1}> 
 <Grid item xs={12} md={6}> 
 <div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+  <p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Charging / Discharging Energy</p>
 <HighchartsReact highcharts={Highcharts} options={HOTWaterEnergy} />
 </div>
 </Grid>
 <Grid item xs={12} md={6} > 
 <div style={{marginTop:"60px",marginLeft:"8%",marginRight:"8%"}}> 
+<p style={{fontSize:"18px",fontWeight:"600",color:"#212529"}}>Stored Water Temperature</p>
 <HighchartsReact highcharts={Highcharts} options={HotWaterStoredWaterTemperature} />
 </div>
 </Grid>
@@ -4340,7 +4351,7 @@ tooltip: {
 <br/>
 <br/>
 <div> 
-<h5 style={{ textAlign: "center" }}><b>Electrical Energy (kWh) </b></h5> 
+
     <DrillDownChart/>
 </div> 
 </div>

@@ -758,7 +758,7 @@ else{
   for(let i=0;i<maximumJumpDateFiltered.length;i++){
     MaximumJumpValue=Math.trunc(maximumJumpDateFiltered[i].maxJump)
     let TimeRange=(new Date(maximumJumpDateFiltered[i].peakTime))
-    Time=TimeRange.toLocaleString()
+    Time=TimeRange.toLocaleString().split(",")
   }
 }
 

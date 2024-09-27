@@ -32,7 +32,7 @@ function DashBoardCombine() {
       //   marginLeft: "6%",
       // }
     }}>
-      <DashboardPage1 />
+      {/* <DashboardPage1 /> */}
       <DashBoardSecoundLayer />
       <DashboardConsumption />
       <DashBoardChillers />

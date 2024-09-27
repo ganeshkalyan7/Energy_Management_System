@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { analyticsAdress } from '../../../ipAdress';
 import IOEBatteryHourly from './IOEBatteryHourly';
 import IOEcurVSVolt from './IOEcurVSVolt';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function IOEEnergyPac() {
 
@@ -153,7 +154,7 @@ function IOEEnergyPac() {
         //height: 500, // Set the height here
     },
     title: {
-        text: 'Daily Energy cycle v/s SoC',
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -311,7 +312,7 @@ function IOEEnergyPac() {
         zoomType: 'x'
     },
     title: {
-        text: 'Daily Energy cycle v/s SoC',
+        text: null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -484,12 +485,13 @@ console.log(String1and2Graph.series)
   const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 
   return (
-    <div style={{ marginTop: "90px", marginLeft: "100px",marginRight:"40px"}}>
+    <div style={{ marginTop: "80px", marginLeft: "100px",marginRight:"13px"}}>
    
-   <div class="col-sm-12" style={{marginTop:"5%"}}>
-    <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
+   <div class="col-sm-12" style={{marginTop:"0%"}}>
+   <div > <p style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"600",color:"#212529" }}>IOE Battery (840 kWh)</p></div>
+    <div class="card" style={{height:"0%",background: 'white',color:"white"}}>
       <div class="card-body">
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (840 kWh) </b></h4> 
+      
         <hr/>
         <div id="chart2"> 
         <IOEBatteryHourly/>
@@ -507,22 +509,18 @@ console.log(String1and2Graph.series)
       </diV> */}
       <hr style={{border:"10px solid black"}}/>
 
-<div className="row" >
-  <div className="col-4">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePicker id="date" selected={BatteryfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
-        </label>
-      </div>
-
-     
-     
+      <div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>Daily Energy cycle v/s SoC</p> 
+        <div style={{position:"relative",width:"170px",marginRight:"40px"}}> 
+         <DatePicker id="date" selected={BatteryfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
     </div>
-    </div>
-
-    </div>
-      <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group" style={{marginLeft:"150px"}}>
+        </div>
+        </div>
+        <br/>
+      <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group" style={{marginLeft:"40px"}}>
         <input type="checkbox" className="btn-check" id="String1" onChange={handleCheckboxClick} autoComplete="off" />
         <label className="btn btn-outline-primary" htmlFor="String1">String 1</label>
 

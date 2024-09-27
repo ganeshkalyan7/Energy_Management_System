@@ -18,11 +18,22 @@ import { FaRegClock } from "react-icons/fa";
 
 
 
-function DashboardPage1() {
+function DashboardPage1({ selectedDate }) {
   const [co2Reduction,setCo2Reduction]=useState([])
   const co2Reduction_api=`${dashboardAddress}/Dashboard/co2`
+  const co2ReductionDateFiltered_API=`${dashboardAddress}/Dashboard/co2/filtered`
+  const [co2ReductionDateFiltered,setCo2ReductionDateFiltered]=useState([])
+
   const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
   const maximumPeakDemand_API=`${bmssAdress}/PeakDemand/Maximum`
+
+  const [maximumPeakDemandDateFiltered,setMaximumPeakDemandDateFiltered]=useState([])
+  const maximumPeakDemandDateFiltered_API=`${bmssAdress}/PeakDemand/Maximum/Filtered`
+
+  const EnergyConsumption_API=`${dashboardAddress}/Dashboard/Highlights`
+  const [energyConsumption,setEnergyConsumption]=useState([])
+  const [energyConsumptionsDateFiltered,setEnergyConsumptionsDateFiltered]=useState([])
+ const  energyConsumptionsDateFiltered_API=`${dashboardAddress}/Dashboard/Highlights/Filtered`
   
 
 
@@ -76,27 +87,119 @@ useEffect(() => {
 
 
 
+console.log(selectedDate)
+const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
+console.log(formattedDate)
+
+
+
+
+const DashBoardHighlightsDateChange = async () => {
+       
+  try {
+    const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : ''
+    const TotalEnergyConsumption =  await axios.post(energyConsumptionsDateFiltered_API,{date:formattedDate})
+    const response = await axios.post(maximumPeakDemandDateFiltered_API, { date: formattedDate });
+    const co2Response=await axios.post(co2ReductionDateFiltered_API,{ date: formattedDate })
+   
+    setMaximumPeakDemandDateFiltered(response.data);
+    setEnergyConsumptionsDateFiltered(TotalEnergyConsumption.data)
+    setCo2ReductionDateFiltered(co2Response.data)
+  } catch (error) {
+    console.error(error);
+  }
+};
+//--------------------------end of function------------//
+ //-------calling the post request function inside the useEffect----------//
+ useEffect(()=>{
+  DashBoardHighlightsDateChange()
+},[selectedDate])
+
+console.log(maximumPeakDemandDateFiltered)
+
+
 
 
 
   let co2ResuctionDatA=0
-
-  for(let i=0;i<co2Reduction.length;i++){
-    co2ResuctionDatA=co2Reduction[i].co2reduced
+  
+  if(selectedDate){
+    for(let i=0;i<co2ReductionDateFiltered.length;i++){
+      co2ResuctionDatA=co2ReductionDateFiltered[i].co2reduced
+    }
   }
+  else{
+    for(let i=0;i<co2Reduction.length;i++){
+      co2ResuctionDatA=co2Reduction[i].co2reduced
+    }
+  }
+ 
 
 
   let MaxPeakDemand=0
  let  PeakDemandTime=""
 
-for(let i=0;i<maximumPeakDemand.length;i++){
-  MaxPeakDemand=Math.round(maximumPeakDemand[i].totalApparentPower2)
-  PeakDemandTime=maximumPeakDemand[i].PolledTime
-}
+ if(selectedDate){
+  for(let i=0;i<maximumPeakDemandDateFiltered.length;i++){
+    MaxPeakDemand=Math.round(maximumPeakDemandDateFiltered[i].totalApparentPower2)
+    PeakDemandTime=maximumPeakDemandDateFiltered[i].PolledTime
+  }
+
+ }
+ else{
+  for(let i=0;i<maximumPeakDemand.length;i++){
+    MaxPeakDemand=Math.round(maximumPeakDemand[i].totalApparentPower2)
+    PeakDemandTime=maximumPeakDemand[i].PolledTime
+  }
+
+ }
 
 
 
 
+
+
+  //Energy Consumption data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(EnergyConsumption_API);
+        const dataResponse = res.data;
+        setEnergyConsumption(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // Initial data fetch
+    fetchData();
+
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+
+  let TotalEnergyConsumedToday=0
+
+  if(selectedDate){
+    for(let i=0;i<energyConsumptionsDateFiltered.length;i++){
+      TotalEnergyConsumedToday=Math.trunc(energyConsumptionsDateFiltered[i].wheeled+energyConsumptionsDateFiltered[i].wheeled2+energyConsumptionsDateFiltered[i].rooftop+energyConsumptionsDateFiltered[i].grid+energyConsumptionsDateFiltered[i].wind+energyConsumptionsDateFiltered[i].diesel)
+  
+    }
+
+  }
+  else{
+    for(let i=0;i<energyConsumption.length;i++){
+      TotalEnergyConsumedToday=Math.trunc(energyConsumption[i].wheeled+energyConsumption[i].wheeled2+energyConsumption[i].rooftop+energyConsumption[i].grid+energyConsumption[i].wind+energyConsumption[i].diesel)
+  
+    }
+
+  }
+
+  
 
 
   return (
@@ -110,13 +213,11 @@ for(let i=0;i<maximumPeakDemand.length;i++){
         
           <div className="ReactanleRoot">
           <Grid item xs={4}> 
-         <div  style={{marginTop:"25px",marginLeft:"40px",position:"absolute"}}> 
-         <span className='Facility' style={{fontSize: '18px',fontWeight:"600"}}>Facility</span>
-         <br/>
-         <h5 className='DivRoot2' style={{fontSize: '16px',marginTop:"20px",fontWeight:'600',marginTop:"25px"}}> IIT Madras Research Park </h5  > 
-         <p className='TonsOfCo2Root' style={{color:"black",fontFamily: 'Poppins',fontSize:"14px",fontWeight:'400',marginTop:"8px",}}>Chennai, India</p>
+         <div  style={{marginTop:"25px",marginLeft:"40px",padding:"5px",position:"absolute"}}> 
+         <h4 className='TodaysCo2ReductionRoot ' style={{fontSize: '18px',fontWeight:"600",marginTop:"-3px"}}>Energy Consumed</h4>
+         <span className='DivRoot ' style={{color:"#0084CE",fontSize:"36px",fontWeight:'600',fontFamily: 'Poppins'}}> {TotalEnergyConsumedToday} </span>
+         <p className='TonsOfCo2Root' style={{color:"black",fontFamily: 'Poppins',fontSize:"14px",marginTop:"-5px",fontWeight:"400"}}>kWh</p>
           </div>
-
          </Grid>
          <div style={{border:"1px solid #EAEAEA",position:"relative",height:"70px",marginTop:"5%"}}/>
       
@@ -171,12 +272,6 @@ for(let i=0;i<maximumPeakDemand.length;i++){
           </Grid>  */}
         </Grid>
         </Box>
-
-
-
-    
-
-       
        <br/>
        <br/>
         <br/>

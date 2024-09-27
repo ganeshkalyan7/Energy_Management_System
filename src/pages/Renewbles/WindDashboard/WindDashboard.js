@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillPlusCircle } from "react-icons/ai";
-import { nodeAdress, ControlAPi, bmssAdress,analyticsAdress } from "../../ipAdress";
+import { nodeAdress, ControlAPi, bmssAdress,analyticsAdress } from "../../../ipAdress";
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,6 +19,10 @@ import { GiWindTurbine } from "react-icons/gi";
 import { TbSunWind } from "react-icons/tb";
 import { TbWindElectricity } from "react-icons/tb";
 import { FaWind } from "react-icons/fa";
+
+import WindMill from "../../../images/windmill.gif"
+
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 
@@ -389,20 +393,22 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
 
   return (
     <div>
-      <div style={{ marginTop: "120px", marginLeft: "80px", overflowX: "hidden" }}>
-        <p style={{ textAlign: "center", color: "brown", fontSize: "18px", fontWeight: "700" }}>Active Power (kW) and Wind Speed (m/s)</p>
-        <br />
-        <div className="row" style={{ marginLeft: "10px", marginTop: "60px" }}>
-          <div className="col-10">
-            <div className="input-group mb-3" style={{ width: "300px" }}>
-              <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="inputGroupSelect01">
-                  <h5 style={{ color: "brown" }}><b> Date :- </b></h5><DatePicker id="date" selected={selectedDate} onChange={handleDateChange} placeholderText={dateValue} />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div style={{width:"100%",marginLeft:"auto",marginRight:"auto",marginTop:"100px" }}>
+        <div style={{display:"flex",justifyContent:"space-between"}}> 
+      <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"130px"}}>Active Power (kW) and Wind Speed (m/s)</p>
+
+      <div  style={{width:"170px",marginRight:"40px",position: "relative"}}>
+        
+        <DatePicker id="date"  className="form-control"  selected={selectedDate} onChange={handleDateChange}  placeholderText={currentdate}/>
+          
+      
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+     <RiArrowDropDownLine  size="40px" color='gray' />
+     </div>
+     </div>
+  
+      </div>
+        
       </div>
       <div className='windGraph'>
         <HighchartsReact highcharts={Highcharts} options={WindDataGraph} />
@@ -464,7 +470,8 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
         <div> 
           <div className='WindSpecs'>
             <div> 
-              <GiWindTurbine size="80px" color='#4CAF50'/>
+              {/* <GiWindTurbine size="80px" color='#4CAF50'/> */}
+              <img src={WindMill} height="100px" width="100px" style={{color:'#4CAF50'}}  />
               
               <p style={{fontSize:"16px",fontWeight:"500"}}>Wind Speed</p>
               <div style={{fontSize:"18px",fontWeight:"600",textAlign:"center"}}>{windSpeed}</div>

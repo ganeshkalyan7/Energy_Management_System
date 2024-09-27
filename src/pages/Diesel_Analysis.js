@@ -7,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { nodeAdress,analyticsAdress } from '../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function Diesel_Analysis() {
     exportingInit(Highcharts);
@@ -218,21 +219,26 @@ const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTim
     <div style={{marginTop:"100px",marginLeft:"80px",marginRight:"20px"}}>
     <div> 
 
-<div> <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Diesel  Energy Analytics</h5></div>
+<div style={{display:"flex",justifyContent:"space-between"}}> 
+  
+  <p style={{marginLeft:"35px",color:"black", fontSize:"18px",color:"#212529",fontWeight:"600" }}>Diesel  Energy Analytics</p>
 
-<div class="row">
-  <div class="col-9" > 
-  <div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :-</b></h5><DatePicker id="date" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue} />
-          
-          {/* <h3 style={{marginLeft:"135%"}}>{dateValue}</h3> */}
-          
-        </label>
+
+  <div style={{ width: "170px", marginTop: '0px', marginLeft: "0px",position: "relative" }}>
+       
+<DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue} />
+  
+<div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+      {/* <svg width="15" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.10938 3.10938L6 7.99999L10.8906 3.10938L12 4.21875L6 10.219L0 4.21875L1.10938 3.10938Z" fill="black"/>
+      </svg> */}
+    </div>
+       
         
       </div>
-  </div>
 </div>
+
 <div> 
  {/* <div> <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Daily Energy cycle v/s SoC</h5></div> */}
  {

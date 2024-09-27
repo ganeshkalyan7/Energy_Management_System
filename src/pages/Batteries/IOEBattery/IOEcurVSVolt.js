@@ -8,6 +8,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { analyticsAdress } from '../../../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 function IOEcurVSVolt() {
@@ -80,7 +81,7 @@ function IOEcurVSVolt() {
   let  Voltage=[]
   let  Current=[]
   let  TimeStamp=[]
-  let CurrentString=""
+  let CurrentString="All STRINGS"
 
   if(BatteryfilterDate==null){
     for(let i=0;i<IOEBatteryvoltcurentData.length;i++){
@@ -214,7 +215,7 @@ else{
         //height: 500, // Set the height here
     },
     title: {
-        text: 'Voltage v/s Current',
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -287,22 +288,18 @@ else{
   };
   return (
     <div>
-        <div className="row" >
-  <div className="col-4">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePicker id="date" selected={BatteryfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
-        </label>
-      </div>
-
-     
-     
+        
+   <div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>Voltage v/s Current</p> 
+        <div style={{position:"relative",width:"170px",marginRight:"40px"}}> 
+         <DatePicker id="date" selected={BatteryfilterDate} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
     </div>
-    </div>
-
-    </div>
-
+        </div>
+        </div>
+        <br/>
     <div style={{display:"flex",flexGrow:1,gap:"30px",width:"100px"}}> 
         <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(1)} >String 1</button>
         <button type="button" class="btn btn-outline-secondary" style={{width:"100%",height:"100%",marginLeft: "0%",whiteSpace:"pre"}} onClick={() => handleButtonClick(2)}>String 2</button>

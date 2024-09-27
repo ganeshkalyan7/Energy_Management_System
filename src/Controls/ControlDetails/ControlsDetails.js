@@ -255,19 +255,8 @@ for(let i=0;i<UPSDetails.length;i++){
   console.log(StorageSysytemControlSelector)
 
 
-  const [car1Distance, setCar1Distance] = useState(0);
-  const [car2Distance, setCar2Distance] = useState(0);
-  const maxDistance = 300; // Max random distance for each car
-  const intervalTime = 1000; // Interval time in milliseconds
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCar1Distance(Math.random() * maxDistance);
-      setCar2Distance(Math.random() * maxDistance);
-    }, intervalTime);
 
-    return () => clearInterval(intervalId);
-  }, [maxDistance, intervalTime]);
 
     
   return (
@@ -319,7 +308,7 @@ for(let i=0;i<UPSDetails.length;i++){
             <br/>
             <div style={{marginLeft:"37px"}}> 
               <div style={{fontSize:"16px",fontWeight:"600"}}>LTO</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  800 kWh</div>
+              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  15 kWh</div>
             </div>
             
             </div>
@@ -350,7 +339,7 @@ for(let i=0;i<UPSDetails.length;i++){
             <br/>
             <div style={{marginLeft:"37px"}}> 
               <div style={{fontSize:"16px",fontWeight:"600"}}>UPS</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  800 kWh</div>
+              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  44 kWh</div>
             </div>
             
             </div>
@@ -379,7 +368,7 @@ for(let i=0;i<UPSDetails.length;i++){
             <div style={{marginLeft:"37px"}}> 
                
               <div style={{fontSize:"16px",fontWeight:"600"}}>Cold Water Storage</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  800 kWh</div>
+              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  2.5 MWh</div>
               
             </div>
             
@@ -407,7 +396,7 @@ for(let i=0;i<UPSDetails.length;i++){
             <br/>
             <div style={{marginLeft:"37px"}}> 
               <div style={{fontSize:"16px",fontWeight:"600"}}>Hot Water Storage</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  800 kWh</div>
+              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  18 kWh</div>
             </div>
             
             </div>
@@ -468,22 +457,7 @@ for(let i=0;i<UPSDetails.length;i++){
 }
 <br/>
 
-{/* <div className="road">
-      <motion.div
-        className="car1"
-        animate={{ x: car1Distance }}
-        transition={{ duration: 0.5 }}
-      >
-        🚗
-      </motion.div>
-      <motion.div
-        className="car2"
-        animate={{ x: car2Distance }}
-        transition={{ duration: 0.5 }}
-      >
-        <FaCarSide/>
-      </motion.div>
-    </div> */}
+
     </div>
   )
 }

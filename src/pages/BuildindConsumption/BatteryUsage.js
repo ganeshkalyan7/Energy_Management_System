@@ -9,7 +9,8 @@ import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import { analyticsAdress } from '../../ipAdress';
 import Bar1 from "../../images/ChillersCard.png"
-import Bar2 from "../../images/EvCharger1.png"
+import Bar2 from "../../images/EvCharger1.png";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 function BatteryUsage() {
@@ -209,23 +210,25 @@ function BatteryUsage() {
 
   return (
     <div style={{width:"100%",marginLeft:"auto",marginRight:"auto",marginTop:"100px"}}>
-      <p style={{fontSize:"18px",fontWeight:"600",textAlign:"center"}}>Peak Shaving Using IOE and LTO</p>
- 
+      <div style={{display:"flex",justifyContent:"space-between"}}> 
+      <p style={{fontSize:"18px",fontWeight:"600",textAlign:"start",marginLeft:"30px"}}>Peak Shaving Using IOE and LTO</p>
 
-  <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-  <div className="col-10">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h6 style={{color:"brown",marginTop:"5px" }}><b> Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" selected={selectedDate} onChange={handleDateChange}  placeholderText={currentdate}/>
-        </label>
+      <div  style={{width:"170px",marginLeft:"30px",position: "relative"}}>
+        
+        <DatePicker id="date"  className="form-control"  selected={selectedDate} onChange={handleDateChange}  placeholderText={currentdate}/>
+          
+      
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+     <RiArrowDropDownLine  size="40px" color='gray' />
+     </div>
+     </div>
+  
       </div>
      
-    </div>
-  </div>
- </div>
+ 
+    
 
-
+ <br/>
 
 
 
@@ -294,7 +297,7 @@ function BatteryUsage() {
       whiteSpace:"pre"
     }}
   >
-   IOE Avarage Power Discharged (kW)
+   IOE Average Power Discharged (kW)
   </div>
   <div
     style={{

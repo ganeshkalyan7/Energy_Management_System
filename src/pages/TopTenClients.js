@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import { analyticsAdress } from '../ipAdress';
 //import { colourOptions } from './Batteries/IOEBattery/Data';
 import Select from 'react-select';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 
 
@@ -849,7 +850,7 @@ for(let i in ElectricClientTen){
     },
   
     title: {
-        text:"TOP 10 Cooling",
+        text:null,
         align: 'center'
     },
   
@@ -995,7 +996,7 @@ enabled: false, // Disable markers for the series
     },
   
     title: {
-        text:"TOP 10 Electrical",
+        text:null,
         align: 'center'
     },
   
@@ -1204,7 +1205,7 @@ const TOPClinetsGraphClientSearch = {
       zoomType: 'x'
   },
   title: {
-      text: "TOP 10 Cooling",
+      text:null,
       align: 'center'
   },
   xAxis: {
@@ -1245,7 +1246,7 @@ const TOPElectricalClinetsGraphClientSearch = {
       zoomType: 'x'
   },
   title: {
-      text: "TOP 10 Electric",
+      text: null,
       align: 'center'
   },
   xAxis: {
@@ -1284,22 +1285,25 @@ const TOPElectricalClinetsGraphClientSearch = {
    
     <div id="topTenClients">
         <div>
-            <h4 style={{textAlign:"center",color:"brown"}}><b>Top Clients</b></h4>
-            <br/>
+           
+   
 
-            <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-  <div className="col-10">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h6 style={{color:"brown",marginTop:"5px" }}><b> Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
-        </label>
-      </div>
-     
+    <div style={{display:"flex",justifyContent:"space-between",marginTop:"30px"}} >
+    <p style={{color:"#212529",fontSize:"20px",fontWeight:"600",marginLeft:"40px"}}>Top Clients</p>
+    <div style={{width:"170px",position:"relative",marginRight:"40px"}}> 
+    <DatePicker id="date" className="form-control" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
+    <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
     </div>
-  </div>
- </div>
- <div style={{width:"400px",marginLeft:"30px"}}> 
+    </div>
+       
+    </div>
+
+    <br/>
+    <br/>
+    <div style={{display:"flex",justifyContent:"space-between"}}>
+    <p style={{fontSize:"18px",fontWeight:"600",textAlign:"start",marginLeft:"30px"}}>Top 10 Electrical Consumers (kWh)</p>
+ <div style={{width:"400px",marginRight:"40px"}}> 
  <Select
         defaultValue={electricSelectedValues}
         isMulti
@@ -1309,6 +1313,7 @@ const TOPElectricalClinetsGraphClientSearch = {
         classNamePrefix="Client"
         onChange={handleElectricSelectChange} // Step 4: Attach the onChange handler
       />
+  </div>
   </div>
 
 
@@ -1322,7 +1327,10 @@ const TOPElectricalClinetsGraphClientSearch = {
   </div>
 
   <hr style={{border:"10px solid black"}}/>
-  <div style={{width:"400px",marginLeft:"30px"}}> 
+
+  <div style={{display:"flex",justifyContent:"space-between"}}>
+  <p style={{fontSize:"18px",fontWeight:"600",textAlign:"start",marginLeft:"30px"}}>Top 10 Cooling Consumers (ckWh)</p>
+  <div style={{width:"400px",marginRight:"40px"}}> 
  <Select
         defaultValue={selectedValues}
         isMulti
@@ -1333,9 +1341,9 @@ const TOPElectricalClinetsGraphClientSearch = {
         onChange={handleSelectChange} // Step 4: Attach the onChange handler
       />
   </div>
-
+  </div> 
    <div> 
-
+ <br/>
     {
       clientNameFilter.length<= 0 ? <HighchartsReact highcharts={Highcharts} options={TOPClinetsGraph}  />:<HighchartsReact highcharts={Highcharts} options={TOPClinetsGraphClientSearch}  />
     }

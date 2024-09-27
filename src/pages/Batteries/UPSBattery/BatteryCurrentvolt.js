@@ -8,6 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { analyticsAdress } from '../../../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function BatteryCurrentvolt() {
   const host='43.205.196.66'
@@ -198,7 +199,7 @@ exportDataInit(Highcharts);
               data: voltcurrent.map((val) => val.BatteryCurrent),
               yAxis: 1,
               type: "area",
-              color:'##f58e40',
+              color:'#f58e40',
               marker: {
                 enabled: false, // Disable markers for the series
               },
@@ -259,6 +260,7 @@ exportDataInit(Highcharts);
           xAxis: {
               type: "category",
               categories: voltcurrent.map((time) => time.polledTime), // Use the pre-formatted timestamp from the API
+              tickInterval: 10 * 10,
             },
             plotOptions: {
               line: {
@@ -381,6 +383,7 @@ const option = {
   xAxis: {
       type: "category",
       categories: data.map((val) => val.polledTime), // Use the pre-formatted timestamp from the API
+      tickInterval: 10 * 10,
     },
     plotOptions: {
       line: {
@@ -451,22 +454,21 @@ const now = new Date();
   return (
     <div>
               <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-  <div className="col">
-  <div className="input-group-prepend" style={{width:"300px",marginLeft:"30px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          {/* <h5 style={{color:"brown"}}><b>Date :-</b></h5><DatePicker id="date" selected={voltcurrentfilterDate} onChange={handleEndDateChange} /> */}
-          <h6 style={{color:"brown",marginTop:"10px"}}><b>Date</b></h6> &nbsp; &nbsp; <DatePicker id="date" className="form-control" selected={voltcurrentfilterDate} onChange={handleEndDateChange} style={{ width: "200px" }}  placeholderText={currentdate}  />
-        </label>
-      </div>
-     
+              <div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>Voltage v/s Current</p> 
+        <div style={{position:"relative",width:"170px",marginRight:"40px"}}> 
+        <DatePicker id="date" className="form-control" selected={voltcurrentfilterDate} onChange={handleEndDateChange} style={{ width: "0px" }}  placeholderText={currentdate}  />
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
     </div>
-  </div>
+        </div>
+        </div>
 
  
 </div>
 <div> 
-<div > <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Voltage v/s Current</h5></div>
+
 {
     voltcurrentfilterDate===null? <HighchartsReact highcharts={Highcharts} options={options} />: <HighchartsReact highcharts={Highcharts} options={option} />
 }

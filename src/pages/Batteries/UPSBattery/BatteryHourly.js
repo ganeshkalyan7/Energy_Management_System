@@ -9,6 +9,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { dashboardAddress } from '../../../ipAdress';
 
+import { RiArrowDropDownLine } from "react-icons/ri";
+
 function BatteryHourly() {
     exportingInit(Highcharts);
     exportDataInit(Highcharts);
@@ -252,32 +254,31 @@ function BatteryHourly() {
     <div>
 
 <div class="row"   >
-<div class="col-sm-12" style={{marginTop:"5%"}}>
-    <div class="card" style={{height:"600px",background: ' white',color:"white"}}>
+<div class="col-sm-12" style={{marginTop:"%"}}>
+    <div class="card" style={{height:"500px",background: ' white',color:"white"}}>
       <div class="card-body">
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>UPS Battery (48 kWh)</b></h4> 
+        <div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>UPS Battery Hourly</p> 
+        <div style={{position:"relative",width:"170px"}}> 
+        <DatePicker id="date" className="form-control"   selected={selectedDate} onChange={handleDateChange} placeholderText={currentdate} />
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
+    </div>
+        </div>
+        </div>
+      
         <hr/>
         <div id="chart2"> 
         <div> 
-      <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-  <div className="col-10">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :- </b></h5><DatePicker id="date" selected={selectedDate} onChange={handleDateChange} placeholderText={currentdate} />
-        </label>
-      </div>
-     
-    </div>
-  </div>
-  </div>
+
       </div>
         <div>
           {
             selectedDate==null? <HighchartsReact highcharts={Highcharts} options={options} height="300px" />: <HighchartsReact highcharts={Highcharts} options={filteredGraph} height="300px" />
           } 
        
-        <table style={{font:'caption',fontStretch:"extra-expanded",fontFamily:"serif",fontSize:'20px', margin: '0 auto'}}>
+        <table style={{font:'caption',fontStretch:"extra-expanded",fontSize:'18px', margin: '0 auto'}}>
           <tr>
     <td ><b style={{color:"#5e5d5c"}}>Soc(%)</b></td>
     <td style={{color:"black"}}>:</td>

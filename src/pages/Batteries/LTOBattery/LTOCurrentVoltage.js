@@ -7,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { bmssAdress } from '../../../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function LTOCurrentVoltage() {
     const host='43.205.196.66'
@@ -338,25 +339,17 @@ const dateValue = filterDate ? new Date(filterDate.getTime() - filterDate.getTim
     <div>
          <div> 
 
-<div> <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Voltage v/s Current</h5></div>
-
-<div class="row">
-<div class="col-9" > 
-<div className="input-group-prepend" style={{width:"270px",marginLeft:"30px"}}>
-<label className="input-group-text" htmlFor="inputGroupSelect01">
-
-  <h6 style={{color:"brown"}}><b> Date &nbsp; &nbsp; </b></h6><DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue}  />
+         <div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>Voltage v/s Current</p> 
+        <div style={{position:"relative",width:"170px",marginRight:"40px"}}> 
+        <DatePicker id="date" className="form-control" selected={filterDate} onChange={handleEndDateChange} placeholderText={dateValue}  />
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
   
-  {/* <h3 style={{marginLeft:"135%"}}>{dateValue}</h3> */}
-  
-</label>
+    </div>
+        </div>
+        </div>
 
-</div>
-</div>
-{/* <div class="col-3">{
-    filterDate===null?<h5 ><b style={{color:"black"}}>Current status:{currentBatteryStatus[currentBatteryStatus.length-1]}</b></h5>:""
-  }</div> */}
-</div>
 <div> 
 {/* <div> <h5 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"bold",fontFamily:undefined,color:"brown" }}>Daily Energy cycle v/s SoC</h5></div> */}
 {

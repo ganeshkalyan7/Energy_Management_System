@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 import {chillersDashboard} from '../ipAdress'
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePickers from 'react-datepicker';
-
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 const DrillDownChart = () => {
   const [currentChartData, setCurrentChartData] = useState(null);
@@ -1186,25 +1186,22 @@ else{
   return (
     <div>
 
-<div className="row" >
-  <div className="col-4">
-    <div className="input-group mb-3" style={{ width: "300px",marginLeft:"70px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePickers id="date" selected={elctricDateFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
-        </label>
-      </div>
-
-     
-     
-    </div>
-
+<div style={{display:"flex",justifyContent:"space-between"}}> 
+        <p class="card-title" style={{fontSize:"20px",fontWeight:"600",color:"#212529",marginLeft:"40px"}}>Electrical Energy (kWh)</p> 
+        <div style={{position:"relative",width:"170px",marginRight:"40px"}}> 
+         <DatePickers id="date" selected={elctricDateFilter} onChange={handlesingleDayFilterChange} placeholderText={currentdate} className="form-control" />  
+        <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
   
-  </div>
-  </div>
-      <button type="button" class="btn btn-primary"  onClick={() => setCurrentChartData(null)}  style={{marginLeft:"100px"}}>Back</button>
+    </div>
+        </div>
+        </div>
+        <br/>
+      
       {currentChartData && seoundChartData ? (
+        
         <div>
+          <button type="button" class="btn btn-primary"  onClick={() => setCurrentChartData(null)}  style={{marginLeft:"100px"}}>Back</button>
           <div class="container text-center">
   <div class="row">
     <div class="col">

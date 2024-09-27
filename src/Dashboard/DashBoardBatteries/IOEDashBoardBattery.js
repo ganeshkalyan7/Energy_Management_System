@@ -114,6 +114,19 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
     console.log("PackSOcAVG",PackSOcAVG)
     let BatteryStatus="";
 
+    if(clickedValue==null){
+      if(Status1==="DCHG"){
+        BatteryStatus="DISCHARGING"
+       }
+       else if(Status1==="CHG"){
+        BatteryStatus="CHARGING"
+
+       }
+       else if(Status1==="IDLE"){
+        BatteryStatus="IDLE"
+
+       }
+    }
     if(clickedValue===1){
       percentage=packSOC1
        if(Status1==="DCHG"){

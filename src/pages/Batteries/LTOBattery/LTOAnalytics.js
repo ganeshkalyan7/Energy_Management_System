@@ -4,9 +4,9 @@ import LTOCurrentVoltage from './LTOCurrentVoltage'
 import LTOBatteryHourly from './LTOBatteryHourly'
 function LTOAnalytics() {
   return (
-    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
+    <div style={{marginTop:"70px",marginLeft:"80px",overflowX: "hidden",marginRight:"5px"}}>
        <div> 
-    <div > <p style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"600",fontFamily:undefined, }}>LTO Battery</p></div>
+    <div > <p style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"600",color:"#212529" }}>LTO Battery (660 kWh)</p></div>
 
 
 
@@ -17,7 +17,7 @@ function LTOAnalytics() {
 <div class="col-sm-12" style={{marginTop:"0%"}}>
     <div class="card" style={{height:"100%",background: 'white',color:"white"}}>
       <div class="card-body">
-      <h4 class="card-title" style={{textAlign:"center",color:"#145369"}}><b>IOE Battery (660 kWh) </b></h4> 
+
         <hr/>
         <div id="chart2"> 
         <LTOBatteryHourly/>

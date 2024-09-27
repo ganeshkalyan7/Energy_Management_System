@@ -17,7 +17,7 @@ import ControlsDetails from './ControlDetails/ControlsDetails';
 function ControlsMainGraph() {
     const [RenewableEnergyDataGraph, setRenewableEnergyDataGraph] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
-    const RenewableEnergyDataGraph_API = `${ControlAPi}/control/hourlyDetails`;
+    const RenewableEnergyDataGraph_API = `${ControlAPi}/control/hourlyDetails`
     const [RenewableEnergyDataGraphDateFiltered, setRenewableEnergyDataGraphDateFiltered] = useState([]);
     const RenewableEnergyDataGraphDateFiltered_API = `${ControlAPi}/control/hourlyDetails/Filtered`;
     const [selectedDateValue,setSelectedDateValue]=useState(null)
@@ -25,14 +25,25 @@ function ControlsMainGraph() {
 
 const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
   const maximumPeakDemand_API=`${bmssAdress}/PeakDemand/Maximum`
+const [maximumPeakDemandDateFiltered,setmaximumPeakDemandDateFiltered]=useState([])
+const maximumPeakDemandDateFiltered_API=`${bmssAdress}/PeakDemand/Maximum/Filtered` 
 
 
   const [batteryDischargedPower,setBatteryDischargedPower]=useState([])
   const batteryDischargedPower_API=`${analyticsAdress}/battery/Usage`
-
+  const [batteryDischargedPowerDateFiltered,setbatteryDischargedPowerDateFiltered]=useState([])
+  const batteryDischargedPowerDateFiltered_API=`${analyticsAdress}/battery/Usage/Filtered`
 
   const [ExcessRE,setExcessRE]=useState([])
   const ExcessRE_API=`${ControlAPi}/ExcessRE/Details`
+  const [ExcessREDateFiltered,setExcessREDateFiltered]=useState([])
+  const ExcessREDateFiltered_API=`${ControlAPi}/ExcessRE/Details/Filtered`
+
+
+  const [PeakTariffData,setPeakTariffData]=useState([])
+  const PeakTariff_API=`${ControlAPi}/PeakTariff/Details`
+  const [PeakTariffDataDateFiltered,setPeakTariffDataDateFiltered]=useState([])
+  const PeakTariffDateFiltered_API=`${ControlAPi}/PeakTariff/Details/Filtered`
 
       // Function to handle the date range change
   const handleDateRangeChange = (value) => {
@@ -42,6 +53,38 @@ const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
 
   console.log(selectedDateValue)
 
+
+//------------------------- date Change function ------------------------//
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+};
+//------------------------- date Change function ------------------------//
+
+
+
+const BatteryOperationDateFilter = async () => {
+    try {
+        const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
+        const Dataresponse = await axios.post(RenewableEnergyDataGraphDateFiltered_API, { date: formattedDate });
+        const ExcessReDateFilteredResponse=await axios.post(ExcessREDateFiltered_API,{date:formattedDate});
+        const PeakTariffDateFilteredResponse=await axios.post(PeakTariffDateFiltered_API,{date:formattedDate});
+        const PeakDemandDateFilteredResponse=await axios.post(maximumPeakDemandDateFiltered_API,{date:formattedDate})
+        const BatteryUsageDateFilteredResponse=await axios.post(batteryDischargedPowerDateFiltered_API,{date:formattedDate})
+        setRenewableEnergyDataGraphDateFiltered(Dataresponse.data);
+        setExcessREDateFiltered(ExcessReDateFilteredResponse.data);
+        setPeakTariffDataDateFiltered(PeakTariffDateFilteredResponse.data);
+        setmaximumPeakDemandDateFiltered(PeakDemandDateFilteredResponse.data)
+        setbatteryDischargedPowerDateFiltered(BatteryUsageDateFilteredResponse.data)
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+  //----------------------- Excess Renewable Generated card---------------------------------//
+       
+        //--------------- ExcessRE Function  graph ------------------//
     useEffect(() => {
         axios.get(RenewableEnergyDataGraph_API)
             .then((response) => {
@@ -54,6 +97,61 @@ const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
     }, []);
 
 
+     //ExcessRE Function Call and calculations
+  useEffect(()=>{
+    axios.get(ExcessRE_API)
+    .then((response)=>{
+        const Data=response.data
+        setExcessRE(Data)
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
+ },[])
+
+
+    let ExcessREData=0
+    let Duration=0
+    let IOE_StoredIN=0
+    let LTO_StoredIN=0
+    let Cold_StoredIN=0
+    let DeficitRE=0
+   
+    if(selectedDate!=null){
+        for(let i=0;i<ExcessREDateFiltered.length;i++){
+            ExcessREData+=Math.trunc(ExcessREDateFiltered[i].ExcessRE)
+            IOE_StoredIN+=Math.trunc(ExcessREDateFiltered[i].IOE_Stored_in)
+            LTO_StoredIN+=Math.trunc(ExcessREDateFiltered[i].LTO_Stored_in)
+            Cold_StoredIN+=Math.trunc(ExcessREDateFiltered[i].Cold_Stored_in)
+            DeficitRE+=Math.trunc(ExcessREDateFiltered[i].DeficitRE)
+            if(ExcessREDateFiltered[i].Duration!=0){
+                Duration=ExcessREDateFiltered[i].Duration
+            }
+        }
+
+    }
+    else{
+        for(let i=0;i<ExcessRE.length;i++){
+            ExcessREData+=Math.trunc(ExcessRE[i].ExcessRE)
+            IOE_StoredIN+=Math.trunc(ExcessRE[i].IOE_Stored_in)
+            LTO_StoredIN+=Math.trunc(ExcessRE[i].LTO_Stored_in)
+            Cold_StoredIN+=Math.trunc(ExcessRE[i].Cold_Stored_in)
+            DeficitRE+=Math.trunc(ExcessRE[i].DeficitRE)
+            if(ExcessRE[i].Duration!=0){
+                Duration=ExcessRE[i].Duration
+            }
+        }
+    }
+   
+
+   
+
+//-----------------------  end of Excess Renewable Generated card---------------------------------//
+
+
+
+//--------------------------------------  Peak Demand Reached  ---------------------------------//
 
     // battery Discharged Power 
     useEffect(() => {
@@ -67,12 +165,35 @@ const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
             });
     }, []);
 
+
+
+    
+
     let BatteriesPowerDischarged=0
     let IOEDischargedPower=0
     let LTODischargedPower=0
     let IOEDurationTime=0
     let LTODurationTime=0
 
+
+    if(selectedDate!=null){
+        for(let i=0;i<batteryDischargedPowerDateFiltered.length;i++){
+            BatteriesPowerDischarged=Math.trunc(batteryDischargedPowerDateFiltered[i].LTO_Average_discharge_power+batteryDischargedPowerDateFiltered[i].IoE_Average_discharge_power)
+            IOEDischargedPower=Math.trunc(batteryDischargedPowerDateFiltered[i].IoE_Average_discharge_power)
+            LTODischargedPower=Math.trunc(batteryDischargedPowerDateFiltered[i].LTO_Average_discharge_power)
+            if(batteryDischargedPowerDateFiltered[i].IOEDuration!=null || batteryDischargedPowerDateFiltered[i].IOEDuration!=0 ){
+                IOEDurationTime=batteryDischargedPowerDateFiltered[i].IOEDuration
+            }
+            if(batteryDischargedPowerDateFiltered[i].LTODuration!=null || batteryDischargedPowerDateFiltered[i].LTODuration!=0 ){
+                LTODurationTime=batteryDischargedPowerDateFiltered[i].LTODuration
+            }
+           
+        }
+
+    }
+    else{
+
+    
     for(let i=0;i<batteryDischargedPower.length;i++){
         BatteriesPowerDischarged=Math.trunc(batteryDischargedPower[i].LTO_Average_discharge_power+batteryDischargedPower[i].IoE_Average_discharge_power)
         IOEDischargedPower=Math.trunc(batteryDischargedPower[i].IoE_Average_discharge_power)
@@ -85,6 +206,7 @@ const [maximumPeakDemand,setMaximumPeakDemand]=useState([])
         }
        
     }
+}
 
 
     //Maximum demand
@@ -113,19 +235,34 @@ useEffect(() => {
   let MaxPeakDemand=0
   let  PeakDemandTime=""
  
+  if(selectedDate!=null){
+    for(let i=0;i<maximumPeakDemandDateFiltered.length;i++){
+        MaxPeakDemand=Math.round(maximumPeakDemandDateFiltered[i].totalApparentPower2)
+        PeakDemandTime=maximumPeakDemandDateFiltered[i].PolledTime
+      }
+  }
+  else{
  for(let i=0;i<maximumPeakDemand.length;i++){
    MaxPeakDemand=Math.round(maximumPeakDemand[i].totalApparentPower2)
    PeakDemandTime=maximumPeakDemand[i].PolledTime
  }
  
+  }
 
 
- //ExcessRE Function Call and calculations
+
+
+ //--------------------------------------  end of  Peak Demand Reached  ---------------------------------//
+
+ console.log(ExcessRE)
+
+
+  //---------------------------------------- PeakTariff Function Call and calculations ------------------//
   useEffect(()=>{
-    axios.get(ExcessRE_API)
+    axios.get(PeakTariff_API)
     .then((response)=>{
         const Data=response.data
-        setExcessRE(Data)
+        setPeakTariffData(Data)
     })
     .catch((error)=>{
         console.log(error)
@@ -133,27 +270,32 @@ useEffect(() => {
 
  },[])
 
- console.log(ExcessRE)
 
- let ExcessREData=0
- let Duration=0
- let IOE_StoredIN=0
- let LTO_StoredIN=0
- let Cold_StoredIN=0
- let DeficitRE=0
-
- for(let i=0;i<ExcessRE.length;i++){
-    ExcessREData+=Math.trunc(ExcessRE[i].ExcessRE)
-    IOE_StoredIN+=Math.trunc(ExcessRE[i].IOE_Stored_in)
-    LTO_StoredIN+=Math.trunc(ExcessRE[i].LTO_Stored_in)
-    Cold_StoredIN+=Math.trunc(ExcessRE[i].Cold_Stored_in)
-    DeficitRE+=Math.trunc(ExcessRE[i].DeficitRE)
-    if(ExcessRE[i].Duration!=0){
-        Duration=ExcessRE[i].Duration
-    }
+ let IOE_Discharged=0
+ let LTO_Discharged=0
+ let Cold_Discharged=0
+ 
+ if(selectedDate!=null){
+    console.log(PeakTariffDataDateFiltered)
+    for(let i=0;i<PeakTariffDataDateFiltered.length;i++){
+        IOE_Discharged=PeakTariffDataDateFiltered[i].IOE_Discharge
+        LTO_Discharged=PeakTariffDataDateFiltered[i].LTO_Discharge
+        Cold_Discharged=PeakTariffDataDateFiltered[i].Cold_Discharge
+     }
+ }
+ else{
+ for(let i=0;i<PeakTariffData.length;i++){
+    IOE_Discharged=PeakTariffData[i].IOE_Discharge
+    LTO_Discharged=PeakTariffData[i].LTO_Discharge
+    Cold_Discharged=PeakTariffData[i].Cold_Discharge
+ }
 }
 
-// time duration Calculation for 
+
+//---------------------------------------- end of PeakTariff Function Call and calculations ------------------//
+
+
+// ------------------------------ time  conversion in duration Calculation  ------------------------------//
 
 function convertMinutesToReadableTime(minutes) {    
     if (minutes < 60) {
@@ -173,24 +315,17 @@ const DurationformattedData = convertMinutesToReadableTime(Duration);
 const IOEDurationformattedData=IOEDurationTime > 0 ? convertMinutesToReadableTime(IOEDurationTime):0;
 const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTime(LTODurationTime):0;
 
+// ------------------------------ time  conversion in duration Calculation  ------------------------------//
+
 
  console.log(ExcessREData,Duration,DeficitRE,DurationformattedData)
 
 
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
-    const BatteryOperationDateFilter = async () => {
-        try {
-            const formattedDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
-            const Dataresponse = await axios.post(RenewableEnergyDataGraphDateFiltered_API, { date: formattedDate });
-            setRenewableEnergyDataGraphDateFiltered(Dataresponse.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+
+   
+
 
     useEffect(() => {
         BatteryOperationDateFilter();
@@ -251,31 +386,31 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
         },
         series: [
             {
-                name: 'excessRE',
+                name: 'Excess RE (kWh)',
                 data: selectedDate == null ? RenewableEnergyDataGraph.map((excessRE) => excessRE.excessRE) : RenewableEnergyDataGraphDateFiltered.map((excessRE) => excessRE.excessRE),
                 color: "#86C45A",
                 yAxis: 0
             },
             {
-                name: 'totalEnergy',
+                name: 'Consumption (kWh)',
                 data: selectedDate == null ? RenewableEnergyDataGraph.map((totalEnergy) => totalEnergy.totalEnergy) : RenewableEnergyDataGraphDateFiltered.map((totalEnergy) => totalEnergy.totalEnergy),
                 color: "#EAEAEA",
                 yAxis: 0
             },
             {
-                name: "Battery Storage",
+                name: "Battery Storage (kWh)",
                 data: selectedDate == null ? RenewableEnergyDataGraph.map((battery) => battery.battery) : RenewableEnergyDataGraphDateFiltered.map((battery) => battery.battery),
                 color: "#3F2EFF",
                 yAxis: 0
             },
             {
-                name: 'Deficit RE',
-                data: selectedDate == null ? RenewableEnergyDataGraph.map((grid) => (grid.grid) * -1) : RenewableEnergyDataGraphDateFiltered.map((grid) => (grid.grid) * -1),
+                name: 'Deficit RE (kWh)',
+                data: selectedDate == null ? RenewableEnergyDataGraph.map((DeficitRE) => (DeficitRE.DeficitRE)) : RenewableEnergyDataGraphDateFiltered.map((DeficitRE) => (DeficitRE.DeficitRE)),
                 color: "#747D6F",
                 yAxis: 0
             },
             {
-                name: 'power',
+                name: 'Demand (kVA)',
                 data: selectedDate == null ? RenewableEnergyDataGraph.map((power) => power.power) : RenewableEnergyDataGraphDateFiltered.map((power) => power.power),
                 type: "line",
                 color: "#E80707",
@@ -289,6 +424,70 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
     const [month, day, year] = local.split("/");
     const currentdate = `${day}-${month}-${year}`;
 
+
+
+    
+    const options = {
+        chart: {
+          type: 'scatter',
+          zoomType: 'xy'
+        },
+        title: {
+          text: 'Scatter plot example'
+        },
+        xAxis: {
+          title: {
+            enabled: true,
+            text: 'X Axis Label'
+          },
+          startOnTick: true,
+          endOnTick: true,
+          showLastLabel: true
+        },
+        yAxis: {
+          title: {
+            text: 'Y Axis Label'
+          }
+        },
+        plotOptions: {
+          scatter: {
+            marker: {
+              radius: 5,
+              states: {
+                hover: {
+                  enabled: true,
+                  lineColor: 'rgb(100,100,100)'
+                }
+              }
+            },
+            states: {
+              hover: {
+                marker: {
+                  enabled: false
+                }
+              }
+            },
+            tooltip: {
+              headerFormat: '<b>{series.name}</b><br>',
+              pointFormat: '{point.x}, {point.y}'
+            }
+          }
+        },
+        series: [{
+          name: 'Data Series 1',
+          color: 'rgba(223, 83, 83, .5)',
+          data: [
+            3 ,4,6,8,10
+          ]
+        }, {
+          name: 'Data Series 2',
+          color: 'rgba(119, 152, 191, .5)',
+          data: [
+            3.5, 4.5, 7,  9,  11
+          ]
+        }]
+      };
+    
     return (
         <div className='ControlsMainPage'>
         <div className='controlMaincontainer'>
@@ -442,7 +641,7 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
                  <br/>
                  <div> 
                     <div style={{fontSize:"18px"}}>Energy Discharged</div>
-                    <div style={{fontSize:"18px",fontWeight:"700"}}>200 kWh</div>
+                    <div style={{fontSize:"18px",fontWeight:"700"}}>{(IOE_Discharged+LTO_Discharged+Cold_Discharged)} kWh</div>
                  </div>
                  <br/>
                  <div style={{fontSize:"18px"}}> 
@@ -451,23 +650,31 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
                     <div style={{display:"flex",gap:"60px"}}> 
                         <div style={{fontSize:"18px",fontWeight:"700"}}> 
                             <div>IOE</div>
-                            <div style={{border:"1px solid #FF9900",background:"#FF9900",borderRadius:"5px",color:"#FFFF",textAlign:"center",width:"90px"}}>800 kWh</div>
+                            <div style={{border:"1px solid #FF9900",background:"#FF9900",borderRadius:"5px",color:"#FFFF",textAlign:"center",width:"90px"}}>{Math.trunc(IOE_Discharged)} kWh</div>
 
                         </div>
 
                         <div style={{fontSize:"18px",fontWeight:"700"}}> 
                             <div>Cold Water Storage</div>
-                            <div style={{border:"1px solid #FF9900",background:"#FF9900",borderRadius:"5px",color:"#FFFF",textAlign:"center",width:"90px"}}>800 kWh</div>
+                            <div style={{border:"1px solid #FF9900",background:"#FF9900",borderRadius:"5px",color:"#FFFF",textAlign:"center",width:"90px"}}>{Math.trunc(Cold_Discharged)} kWh</div>
 
                         </div>
                     </div>
+                    <br/>
+
+                    <div style={{fontSize:"18px",fontWeight:"700"}}> 
+                            <div>LTO</div>
+                            <div style={{border:"1px solid #FF9900",background:"#FF9900",borderRadius:"5px",color:"#FFFF",textAlign:"center",width:"90px"}}>{Math.trunc(LTO_Discharged)} kWh</div>
+
+                        </div>
                  </div>
             </div>
 
          
                
         </div>
-
+        {/* <HighchartsReact highcharts={Highcharts} options={options} /> */}
+        
         </div>
     );
 }

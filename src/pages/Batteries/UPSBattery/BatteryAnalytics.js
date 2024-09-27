@@ -5,8 +5,8 @@ import BatteryHourly from './BatteryHourly';
 
 function BatteryAnalytics() {
   return (
-    <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}> 
-    <div > <h4 style={{textAlign:"center",margin:"20px",color:"black", fontSize:"30px",fontWeight:"bold",fontFamily:undefined, }}>48 kWh UPS Battery</h4></div>
+    <div style={{marginTop:"80px",marginLeft:"80px",marginRight:"12px"}}> 
+     <div > <p style={{textAlign:"center",margin:"20px",color:"black", fontSize:"25px",fontWeight:"600",color:"#212529" }}>UPS Battery (48 kWh)</p></div>
 
 <div>
   <BatteryHourly/>

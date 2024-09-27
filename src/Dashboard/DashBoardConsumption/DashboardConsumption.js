@@ -31,6 +31,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Padding } from '@mui/icons-material';
 
 
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
+
+import Tooltip from '@mui/material/Tooltip';
+
+
   function DashboardConsumption() {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -123,7 +129,11 @@ import { Padding } from '@mui/icons-material';
     let ThirdSystemValue=0
     let FourtSystemName=""
     let FourtSystemValue=0
-
+    let FirstSystemPercentage=0
+    let SecoundSystemPercentage=0
+    let ThirdSystemPercentage=0
+    let FourthSystemPercentage=0
+    let TotalConsumption=0
 
 
     if(systemOverviewfilterDate===null){
@@ -132,18 +142,22 @@ import { Padding } from '@mui/icons-material';
          // Convert the keys and values from the object to arrays
     const keys = Object.keys(systemData);
     const values = Object.values(systemData);
-  
+    TotalConsumption=values[0]+values[1]+values[2]+values[3]
     FirstSystemName=keys[0]
     FirstSystemValue=values[0]
+    FirstSystemPercentage=(values[0]/TotalConsumption)*100
   
     SecoundSystemName=keys[1]
     SecoundSystemValue=values[1]
+    SecoundSystemPercentage=(values[1]/TotalConsumption)*100
   
     ThirdSystemName=keys[2]
     ThirdSystemValue=values[2]
+    ThirdSystemPercentage=(values[2]/TotalConsumption)*100
   
     FourtSystemName=keys[3]
     FourtSystemValue=values[3]
+    FourthSystemPercentage=(values[3]/TotalConsumption)*100
   
       }
     }
@@ -153,18 +167,23 @@ import { Padding } from '@mui/icons-material';
          // Convert the keys and values from the object to arrays
     const keys = Object.keys(systemData);
     const values = Object.values(systemData);
+    TotalConsumption=values[0]+values[1]+values[2]+values[3]
   
     FirstSystemName=keys[0]
     FirstSystemValue=values[0]
+    FirstSystemPercentage=(values[0]/TotalConsumption)*100
   
     SecoundSystemName=keys[1]
     SecoundSystemValue=values[1]
+    SecoundSystemPercentage=(values[1]/TotalConsumption)*100
   
     ThirdSystemName=keys[2]
     ThirdSystemValue=values[2]
+    ThirdSystemPercentage=(values[2]/TotalConsumption)*100
   
     FourtSystemName=keys[3]
     FourtSystemValue=values[3]
+    FourthSystemPercentage=(values[3]/TotalConsumption)*100
   
       }
 
@@ -235,6 +254,7 @@ import { Padding } from '@mui/icons-material';
 console.log(selectedDate)
 
 
+const OthersConsumptionData="Lifts , MLCP , Exhaust , APFC , New Auditorium , Food Court ,Fire Pumps" 
 const now = new Date();
 const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
 const [month, day, year] = local.split("/"); // Split the date by "/"
@@ -278,34 +298,45 @@ const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
    
 
   <span style={{border:"1px solid #f2f2f2",height:"400px",width:"1px",marginTop:"10%",marginLeft:"4.6em",position:"absolute"}}>
-    <span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FirstSystemName} </span>
+    {
+      FirstSystemName==="Others"?<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {FirstSystemName} <Tooltip title={OthersConsumptionData} style={{ color: 'gray',cursor:"pointer" }}> <IoMdInformationCircleOutline/></Tooltip> </span>:<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {FirstSystemName}</span>
+    }
+    
     <br/> 
-    <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
-
-    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(FirstSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",marginTop:"20px",whiteSpace:"pre"}}>{Math.trunc(FirstSystemValue)} (kWh) </p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{(FirstSystemPercentage.toFixed(2))} (%)</p>
   </span>
   <span style={{border:"1px solid #f2f2f2",height:"350px",width:"0.5px",marginTop:"10%",marginLeft:"27%",position:"absolute"}}>
     
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {SecoundSystemName} </span>
+    {
+      SecoundSystemName==="Others"?<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {SecoundSystemName} <Tooltip title={OthersConsumptionData} style={{ color: 'gray',cursor:"pointer" }}> <IoMdInformationCircleOutline/></Tooltip> </span>:<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {SecoundSystemName}</span>
+    }
+    {/* <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {SecoundSystemName} </span> */}
     <br/>
-    <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
-    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(SecoundSystemValue)} (kWh)</p>
+    
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre",marginTop:"20px"}}>{Math.trunc(SecoundSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{(SecoundSystemPercentage.toFixed(2))} (%)</p>
   </span>
   <span style={{border:"1px solid #f2f2f2",height:"320px",width:"0.5px",marginTop:"10%",marginLeft:"49%",position:"absolute"}}>
-    
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{ThirdSystemName}</span> 
+    {
+      ThirdSystemName==="Others"?<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {ThirdSystemName} <Tooltip title={OthersConsumptionData} style={{ color: 'gray',cursor:"pointer" }}> <IoMdInformationCircleOutline/></Tooltip> </span>:<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{ThirdSystemName}</span> 
+    }
+    {/* <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{ThirdSystemName}</span>  */}
     <br/>
-    <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
-    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(ThirdSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre",marginTop:"20px"}}>{Math.trunc(ThirdSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{(ThirdSystemPercentage.toFixed(2))} (%)</p>
   
   
    </span>
   <span style={{border:"1px solid #f2f2f2",height:"320px",width:"0.5px",marginTop:"10%",marginLeft:"70.3%",position:"absolute"}}>
     
-    <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FourtSystemName}</span>
+    {
+      FourtSystemName==="Others"?<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}> {FourtSystemName} <Tooltip title={OthersConsumptionData} style={{ color: 'gray',cursor:"pointer" }}> <IoMdInformationCircleOutline/></Tooltip> </span>:<span style={{color:"#2B2B2B",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FourtSystemName}</span> 
+    }
+    {/* <span style={{color:"black",marginLeft:"20px",fontSize:"14px",fontWeight:"600",whiteSpace:"pre"}}>{FourtSystemName}</span> */}
     <br/>
-    <p style={{color:"gray",marginLeft:"20px",fontSize:"14px",fontWeight:"400",marginTop:"20px"}}> Total </p>
-    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{Math.trunc(FourtSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre",marginTop:"20px"}}>{Math.trunc(FourtSystemValue)} (kWh)</p>
+    <p style={{color:"black",marginLeft:"20px",fontSize:"16px",fontWeight:"600",whiteSpace:"pre"}}>{((FourthSystemPercentage).toFixed(2))} (%)</p>
   
   
   </span>

@@ -7,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { nodeAdress } from '../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function KvaVsKW() {
     exportingInit(Highcharts);
@@ -201,20 +202,25 @@ function KvaVsKW() {
     
   return (
     <div style={{marginTop:"90px",marginLeft:"80px",overflowX: "hidden"}}>
-        <h4 style={{textAlign:"center",color:"brown"}}><b>MVP Wise (KW )  vs Apparent Power (kVA)</b></h4>
-        <br/>
-        <div className="row" style={{marginLeft:"10px",marginTop:"20px"}}>
-  <div className="col-10">
-    <div className="input-group mb-3" style={{ width: "300px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-          <h5 style={{color:"brown"}}><b> Date :- </b></h5><DatePicker id="date" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
-        </label>
+        
+    
+
+    <div style={{display:"flex",justifyContent:"space-between"}}>
+
+      <p style={{color:"#212529",fontSize:"18px",fontWeight:"600",marginLeft:"35px"}}>MVP Wise (KW )  vs Apparent Power (kVA)</p>
+
+      <div  style={{width:"170px",position:"relative",marginRight:"20px"}}>
+        
+         <DatePicker id="date"  className="form-control" selected={selectedDate} onChange={handleDateChange}  placeholderText={dateValue}/>
+         <div style={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}>
+    <RiArrowDropDownLine  size="40px" color='gray' />
+  
+    </div>
       </div>
      
-    </div>
-  </div>
+
  </div>
+ <br/>
       <HighchartsReact highcharts={Highcharts} options={KvaKwGraph} />
     </div>
   )

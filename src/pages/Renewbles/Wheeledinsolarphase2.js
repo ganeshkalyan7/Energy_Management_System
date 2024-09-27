@@ -14,7 +14,8 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
-import { nodeAdress,analyticsAdress } from '../ipAdress';
+import { nodeAdress,analyticsAdress } from '../../ipAdress';
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function Wheeledinsolarphase2() {
 
@@ -94,7 +95,7 @@ function Wheeledinsolarphase2() {
         //height: 500, // Set the height here
     },
     title: {
-        text: 'Daily Solar data',
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -167,7 +168,7 @@ enabled: false, // Disable markers for the series
         //height: 500, // Set the height here
     },
     title: {
-        text: 'Inverter Active Power',
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -269,7 +270,7 @@ enabled: false, // Disable markers for the series
         zoomType: 'x'
     },
     title: {
-        text:"Expected VS Actual Generation (kwh)",
+        text:null,
         style: {
           color: '#cc0000	' // You can replace 'red' with any desired color value
       }
@@ -336,38 +337,40 @@ enabled: false, // Disable markers for the series
   const [month, day, year] = local.split("/"); // Split the date by "/"
   const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
   return (
-    <div style={{marginTop:"10px",marginLeft:"80px",overflowX: "hidden"}}>
-       <div> 
-      <h4 style={{textAlign:'center',marginTop:"15px"}}><b style={{fontSize:"30px"}}>Wheeled In Solar Phase II </b></h4>
-      </div>
-
-<div className="row" >
-  <div className="col-4">
-    <div className="input-group mb-3" style={{ width:"270px",marginLeft:"30px"}}>
-      <div className="input-group-prepend">
-        <label className="input-group-text" htmlFor="inputGroupSelect01">
-        <h6 style={{ color: "brown",marginTop:"8px" }}><b>Date</b></h6>  &nbsp; &nbsp; <DatePicker id="date" selected={selectedDate} onChange={handleDateChange} placeholderText={currentdate} className="form-control" />  
-        </label>
-      </div>
-
+    <div style={{marginTop:"10px",marginLeft:"80px"}}>
+<div style={{display:"flex",justifyContent:"space-between"}}> 
+<p style={{fontSize:"20px",fontWeight:"600",marginLeft:"40px",color:"#212529"}}>Wheeled In Solar Phase II </p>
+<div style={{width:"170px",marginRight:"40px",position:"relative"}}>
      
      
-    </div>
-    </div>
-
-    </div>
+          <DatePicker id="date" className="form-control" selected={selectedDate} onChange={handleDateChange} placeholderText={currentdate}  />  
+     
+          <div style={{ position: "absolute", top: "40%", right: "10px", transform: "translateY(-50%)" }}>
+     <RiArrowDropDownLine  size="40px" color='gray' />
+   
+     </div>
+ 
+      
+      
+     </div>
+</div>
+   
+ 
     <div > 
-    <Grid sx={{ flexGrow: 1 }} container spacing={2}> 
+    <Grid sx={{ flexGrow: 1 }} container spacing={2} style={{marginTop:"20px"}} > 
     <Grid item xs={12} sm={6} >
+    <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"40px",color:"#212529"}}>Daily Solar data</p>
     <HighchartsReact highcharts={Highcharts} options={SolarPhase2Data} />
 
     </Grid>
     <Grid item xs={12} sm={6}> 
+    <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"40px",color:"#212529"}}>Inverter Active Power</p>
     <HighchartsReact highcharts={Highcharts} options={InverterPhase2} />
     
     </Grid>
 
     <Grid item xs={12} sm={12}>
+    <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"40px",color:"#212529"}}>Expected VS Actual Generation (kwh)</p>
     <HighchartsReact highcharts={Highcharts} options={Actual_ExpectedEnergy} /> 
     
     </Grid>
