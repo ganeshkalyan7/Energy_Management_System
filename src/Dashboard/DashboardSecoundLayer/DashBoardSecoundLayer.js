@@ -829,9 +829,9 @@ const currentYearMont=`${month}/${year}`
                             
                           </Grid >
                           <Grid item xs={12}> 
-                          <div style={{marginLeft:"5%"}}> 
+                          <div style={{marginLeft:"0%"}}> 
                           <p style={{fontSize: '14px',fontWeight: '400',color:"#2B2B2B",whiteSpace:"pre"}}>Today’s Renewable Share</p>
-                          <p style={{fontSize:"22px",fontWeight:"600",color:"#21D544",marginTop:"-5%"}}><FaArrowUp /> <span >{TodayRE} %</span></p>
+                          <p style={{fontSize:"22px",fontWeight:"600",color:"#21D544",marginTop:"-5%",textAlign:"center",marginRight:"60px"}}><span >{TodayRE} %</span></p>
                           </div>
                           </Grid>
                           <Grid item xs={6}> 
