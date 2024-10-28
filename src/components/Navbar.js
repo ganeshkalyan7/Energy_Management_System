@@ -22,6 +22,7 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { AiFillSliders } from "react-icons/ai";
 import { VscAccount } from "react-icons/vsc";
+import { MdContentPasteSearch } from "react-icons/md";
 //----------------------------end------------------------------//
 
 //----------------------solar icons----------------------------//
@@ -132,20 +133,21 @@ export function Navbar({ sidebarOpen, setSidebarOpen }) {
           </ul>
         </li>
 
-        <li  style={{ backgroundColor: currentPath === "/peakgraph"|| currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "#41bf7e" : "transparent"}}>
+        <li  style={{ backgroundColor: currentPath === "/peakgraph"|| currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients"||currentPath ==="/MontlySlotegraphs"? "#41bf7e" : "transparent"}}>
           <div class="icon-link"  className="icon-link" onClick={toggleSubMenu} >
             <a href="#">
-            <div style={{ backgroundColor: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "#41bf7e" : "transparent",borderRadius: "0%",display: "flex", justifyContent: "center", alignItems: "center" }}>
-  <i><RoomPreferencesIcon style={{ color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "gray" }}/></i>
+            <div style={{ backgroundColor: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients"||currentPath ==="/MontlySlotegraphs" ? "#41bf7e" : "transparent",borderRadius: "0%",display: "flex", justifyContent: "center", alignItems: "center" }}>
+  <i><RoomPreferencesIcon style={{ color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients"||currentPath ==="/MontlySlotegraphs" ? "white" : "gray" }}/></i>
 </div>
-              <span class="link-name" style={{whiteSpace: 'pre',color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "black"}}>Building Consumption</span>
+              <span class="link-name" style={{whiteSpace: 'pre',color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients"||currentPath ==="/MontlySlotegraphs" ? "white" : "black"}}>Building Consumption</span>
             </a>
-            <i class="fas fa-caret-down arrow" style={{marginLeft:"-18px",color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients" ? "white" : "gray"}} ></i>
+            <i class="fas fa-caret-down arrow" style={{marginLeft:"-18px",color: currentPath === "/peakgraph"||currentPath ==="/Diesel_Analysis"||currentPath ==="/PeakDemandAnalysis"||currentPath ==="/kVAvsKW"||currentPath ==="/TopTenClients"||currentPath ==="/MontlySlotegraphs" ? "white" : "gray"}} ></i>
           </div>
 
           <ul class="sub-menu">
             <li><a href="#" class="link-name">Building Consumption</a></li>
             <li style={{ backgroundColor: currentPath === "/peakgraph" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to='/peakgraph' style={{ textDecoration: 'none' }}> <SiIcons.SiGoogleanalytics size="25px"  style={{color: currentPath === "/peakgraph"? "white" : "black" ,marginTop:"0px"}} /> <span style={{marginLeft:"20px",marginTop:"0px",color:currentPath ==="/peakgraph"?"white":"black"}}>Building Highlights</span></Link>  </li>
+            <li style={{ backgroundColor: currentPath === "/MontlySlotegraphs" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to='/MontlySlotegraphs' style={{ textDecoration: 'none' }}> <MdContentPasteSearch size="25px"  style={{color: currentPath === "/MontlySlotegraphs"? "white" : "black" ,marginTop:"15px"}} /> <span style={{marginLeft:"20px",marginTop:"15px",color:currentPath ==="/MontlySlotegraphs"?"white":"black"}}>Slot Swise</span></Link>  </li>
             <li style={{ backgroundColor: currentPath === "/Diesel_Analysis" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to="/Diesel_Analysis"> <LocalGasStationIcon size="30px" style={{color:currentPath==="/Diesel_Analysis"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px",color:currentPath === "/Diesel_Analysis"?"white":"black"}}>Diesel Analysis </span></Link></li>
             <li style={{ backgroundColor: currentPath === "/PeakDemandAnalysis" ? "#41bf7e" : "transparent",borderRadius: "0%" }} ><Link to="/PeakDemandAnalysis"><AnalyticsIcon size="30px" style={{color:currentPath==="/PeakDemandAnalysis"?"white":"black",marginTop:"15px"}} /><span style={{marginLeft:"22px",marginTop:"15px",color:currentPath === "/PeakDemandAnalysis"?"white":"black"}}>PeakAnalysis </span></Link></li>
             <li style={{ backgroundColor: currentPath === "/kVAvsKW" ? "#41bf7e" : "transparent",borderRadius: "0%" }}><Link to="/kVAvsKW"> <AiFillSliders size="27px" style={{color:currentPath==="/kVAvsKW"?"white":"black",marginTop:"15px"}} /> <span style={{marginLeft:"19px",marginTop:"15px",color:currentPath==="/kVAvsKW"?"white":"black"}}>kVA vs KW</span></Link></li>

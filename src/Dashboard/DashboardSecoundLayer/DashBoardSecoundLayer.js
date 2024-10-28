@@ -23,7 +23,8 @@ import { Doughnut } from 'react-chartjs-2';
 import DatePickers from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { RiArrowDropDownLine } from "react-icons/ri";
-import DashboardPage1 from "../DashBoardTopLayer/DashboardPage1"
+import DashboardPage1 from "../DashBoardTopLayer/DashboardPage1";
+import { format } from 'date-fns';
 
 
 
@@ -47,11 +48,21 @@ function DashBoardSecoundLayer() {
   const [MonthlyEnergyProfile_SourcesofRenewables_DateFiltered_Data,setMonthlyEnergyProfile_SourcesofRenewables_DateFiltered_Data]=useState([])
 
   const formatSelectedDate = (date) => {
+    // if (date) {
+    //   const local = date.toLocaleDateString();
+    //   console.log(local)
+    //    const [month,year,day] = local.split("/");
+    //   // const month=local.split("/")[1]
+    //   // const year=local.split("/")[2]
+    //   console.log(month)
+    //   const formattedDate = `${year}-${month}-${day}`;
+    //   console.log(formattedDate)
+    //   return formattedDate;
+    // }
+
     if (date) {
-      const local = date.toLocaleDateString();
-      const [month, day, year] = local.split("/");
-      const formattedDate = `${year}-${month}`;
-      console.log(formattedDate)
+      const formattedDate = format(date, 'yyyy/MM');
+      console.log(formattedDate); // Outputs: 2024/09
       return formattedDate;
     }
     return null;
@@ -80,8 +91,8 @@ function DashBoardSecoundLayer() {
     // setLoading(true);
     try {
      
-        const response = await axios.post(MonthlyEnergyProfile_Renwables_Filtered_API, {date:(responseStartYear)});
-        const SourceOfRenwablesResponse = await axios.post(MonthlyEnergyProfile_SourcesofRenewables_DateFiltered_API, {date:(responseStartYear)});
+        const response = await axios.post(MonthlyEnergyProfile_Renwables_Filtered_API, {date:responseStartYear});
+        const SourceOfRenwablesResponse = await axios.post(MonthlyEnergyProfile_SourcesofRenewables_DateFiltered_API, {date:responseStartYear});
         setMonthlyEnergyProfile_Renwables_data_DateFiltered(response.data);
         setMonthlyEnergyProfile_SourcesofRenewables_DateFiltered_Data(SourceOfRenwablesResponse.data)
 
@@ -256,7 +267,7 @@ function DashBoardSecoundLayer() {
       RoofTopSolar=Math.trunc(dashBoardHighlightsdata[i].rooftop)
       GridEnegy=Math.trunc(dashBoardHighlightsdata[i].grid)
       Diesel=Math.trunc(dashBoardHighlightsdata[i].diesel)
-      Wind=Math.trunc(dashBoardHighlightsdata[i].wind)
+      Wind=dashBoardHighlightsdata[i].wind < 79000 ? dashBoardHighlightsdata[i].wind:2244
       PowerFactor_avg=(dashBoardHighlightsdata[i].avgFactor).toFixed(2)
       PowerFactor_min=(dashBoardHighlightsdata[i].minFactor).toFixed(2)
     
@@ -329,10 +340,10 @@ console.log(values)
 
     if(selectedYear==null){
       for(let i=0;i<MonthlyEnergyProfile_SourcesofRenewables_Data.length;i++){
-        WheeledMonth=Math.round(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wheeledph1_percentage)
-        WheeledMonthPhase2=Math.round(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wheeledph2_percentage)
-        RoofMonth=Math.round(MonthlyEnergyProfile_SourcesofRenewables_Data[i].rooftop_percentage)
-        WindMonth=Math.round(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wind_percentage)
+        WheeledMonth=Math.trunc(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wheeledph1_percentage)
+        WheeledMonthPhase2=Math.trunc(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wheeledph2_percentage)
+        RoofMonth=Math.trunc(MonthlyEnergyProfile_SourcesofRenewables_Data[i].rooftop_percentage)
+        WindMonth=Math.trunc(MonthlyEnergyProfile_SourcesofRenewables_Data[i].wind_percentage)
       }
     }
  
@@ -496,7 +507,7 @@ const currentYearMont=`${month}/${year}`
       className="form-control"
       selected={selectedYear}
       onChange={handleYearChange}
-      dateFormat="MM/yyyy"
+      dateFormat="yyyy/MM"
       showMonthYearPicker
       placeholderText={currentYearMont}
     />
@@ -581,23 +592,23 @@ const currentYearMont=`${month}/${year}`
 
   <div class="bar-container" style={{display:"flex"}}>
     {
-      WheeledMonth===0||undefined? "":  <div class="bar white" style={{width: `${WheeledMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar Without <br/>Trackers</div>
+      WheeledMonth===0||undefined? "":  <div class="bar white" style={{width: `${WheeledMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B",textAlign:"center"}}>Solar Without <br/>Trackers</div>
     }
 
 {
-      WheeledMonthPhase2===0||undefined?"":  <div class="bar white" style={{width: `${WheeledMonthPhase2}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Solar With  <br/> Trackers</div>
+      WheeledMonthPhase2===0||undefined?"":  <div class="bar white" style={{width: `${WheeledMonthPhase2}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B",textAlign:"center"}}>Solar With  <br/> Trackers</div>
     }
 
 {
-      WindMonth===0||undefined?"":  <div class="bar white" style={{width: `${WindMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Wind</div>
+      WindMonth===0||undefined?"":  <div class="bar white" style={{width: `${WindMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B",textAlign:"center"}}>Wind</div>
     }
      {
-      RoofMonth===0||undefined? "" :<div class="bar white" style={{width: `${RoofMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B"}}>Rooftop</div>
+      RoofMonth===0||undefined? "" :<div class="bar white" style={{width: `${RoofMonth}%`,fontSize:"12px",fontWeight:"500",color:"#2B2B2B",textAlign:"center"}}>Rooftop</div>
      }
       
        {/* <div class="bar white" style={{width: `${WindWeekMonth}%`}}><b>Wind</b></div>  */}
    </div>
-   <div class="bar-container" style={{display:"flex",width:"100%",textAlign:"center",height:"16px"}}>
+   <div class="bar-container" style={{display:"flex",width:"100%",height:"16px"}}>
     {
       WheeledMonth===0 || undefined?"":<div class="bar clients" style={{width: `${WheeledMonth}%`,background:"#F17E50", color:"#d4501b"}}></div>
     }
@@ -618,18 +629,18 @@ const currentYearMont=`${month}/${year}`
    </div>
    <div class="bar-container" style={{display:"flex"}}>
     {
-      WheeledMonth===0||undefined?"":<div class="bar white" style={{width: `${WheeledMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledMonth}%</div>
+      WheeledMonth===0||undefined?"":<div class="bar white" style={{width: `${WheeledMonth}%`,fontSize:"12px",fontWeight:"500",textAlign:"center"}}>{WheeledMonth}%</div>
     }
 
 {
-      WheeledMonthPhase2===0||undefined?"":<div class="bar white" style={{width: `${WheeledMonthPhase2}%`,fontSize:"12px",fontWeight:"500"}}>{WheeledMonthPhase2}%</div>
+      WheeledMonthPhase2===10||undefined?"":<div class="bar white" style={{width: `${WheeledMonthPhase2}%`,fontSize:"12px",fontWeight:"500",textAlign:"center"}}>{WheeledMonthPhase2}%</div>
     }
      {
-      WindMonth===0||undefined? "": <div class="bar white" style={{width: `${WindMonth}%`,fontSize:"12px",fontWeight:"500"}}>{WindMonth}%</div>
+      WindMonth===0||undefined? "": <div class="bar white" style={{width: `${WindMonth}%`,fontSize:"12px",fontWeight:"500",textAlign:"center"}}>{WindMonth}%</div>
     }
        
     {
-      RoofMonth===0||undefined? "": <div class="bar white" style={{width: `${RoofMonth}%`,fontSize:"12px",fontWeight:"500"}}>{RoofMonth}%</div>
+      RoofMonth===0||undefined? "": <div class="bar white" style={{width: `${RoofMonth}%`,fontSize:"12px",fontWeight:"500",textAlign:"center"}}>{RoofMonth}%</div>
     }
       
        {/* <div class="bar white" style={{width: `${WindWeekMonth}`}}><b>{WindWeekMonth}</b></div>  */}
@@ -768,7 +779,9 @@ const currentYearMont=`${month}/${year}`
                     <div style={{ marginTop: "30%",paddingTop:"0%" }}>
                       <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2} justifyContent="space-between">
+                        {/* <p style={{ fontFamily: 'Poppins', fontSize: '12px', fontWeight: '400',color:"#adadad",marginLeft:"0%"}}>Day Cummulative Energy in kWh</p> */}
                           <Grid item xs={6}>
+                          
                             <span style={{ fontFamily: 'Poppins', fontSize: '14px',fontWeight: '400',color:"#2B2B2B" }}>Grid</span>
                             <br />
                             <span style={{ fontFamily: 'Poppins', fontSize: '16px', fontWeight: '600',color:"#2B2B2B"  }}>{GridEnegy}</span>
@@ -840,9 +853,10 @@ const currentYearMont=`${month}/${year}`
                             <br/>
                             <br/>
                             <br/>
-                            <span style={{ fontFamily: 'Poppins', fontSize: '12px', fontWeight: '400',color:"#adadad"}}>Energy in kWh</span>
+                            <span style={{ fontFamily: 'Poppins', fontSize: '12px', fontWeight: '400',color:"#adadad",marginRight:"0px"}}>Day Cummulative Energy in kWh</span>
 
                           </Grid>
+                         
                         </Grid>
                       </Box>
                     </div>

@@ -55,6 +55,7 @@ import Sample from './pages/Sample';
 import ControlsMainPage from './Controls/ControlsMainPage';
 import WindDashboard from './pages/Renewbles/WindDashboard/WindDashboard';
 import HashticCode from './pages/HashticProject/HashticCode';
+import MontlySlotegraphs from './pages/BuildindConsumption/MontlySlotegraphs';
 
 
 
@@ -106,6 +107,8 @@ function App() {
             <Route path="/Controls/Renewable/Graph" element={<ControlsMainPage/>}/>
             <Route path="/WindDashboard" element={<WindDashboard/>}/>
             <Route path="/HashticCode" element={<HashticCode/>}/>
+            <Route path="/MontlySlotegraphs" element={<MontlySlotegraphs/>}/>
+            
 
             
             

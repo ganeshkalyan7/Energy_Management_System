@@ -270,8 +270,9 @@ function DashboardEvcharger() {
               <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
               </div>
-              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>3.3 KW</p>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}>
+                <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div> 
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>3.3 KW</div>
 
               </div>
             </Grid> 
@@ -305,8 +306,9 @@ function DashboardEvcharger() {
               <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
               </div>
-              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>3.3 KW</p>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div> 
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>3.3 KW</div>
 
               </div>
             </Grid> 
@@ -340,8 +342,9 @@ function DashboardEvcharger() {
               <div style={{width:"100%",height:"60px",borderRadius:"10px",background:"#FFEB39"}}> 
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
               </div>
-              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
+              <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div> 
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>7 KW</div>
 
               </div>
             </Grid> 
@@ -380,7 +383,8 @@ function DashboardEvcharger() {
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#fff"  />
               </div>
               <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>7 KW</div>
 
               </div>
             </Grid> 
@@ -413,7 +417,8 @@ function DashboardEvcharger() {
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
               </div>
               <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>7 KW</div>
 
               </div>
             </Grid> 
@@ -448,7 +453,8 @@ function DashboardEvcharger() {
               <BsEvStation style={{position: "relative", top: "20%", right: "20%", bottom: "20%", left: "25%", maxWidth: "100%", overflow: "hidden"}}   size="35px" color="#000"  />
               </div>
               <div style={{width:"100%",height:"34%",borderRadius:"5px",background:"#3C3C43",marginTop:"20%"}}> 
-              <p style={{color:"#fff",textAlign:"center",paddingTop:"10%"}}>7 KW</p>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%",fontSize:"12px"}}>Capacity</div>
+              <div style={{color:"#fff",textAlign:"center",paddingTop:"0%"}}>7 KW</div>
 
               </div>
             </Grid> 

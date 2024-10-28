@@ -30,10 +30,10 @@ function DashboardPage1({ selectedDate }) {
   const [maximumPeakDemandDateFiltered,setMaximumPeakDemandDateFiltered]=useState([])
   const maximumPeakDemandDateFiltered_API=`${bmssAdress}/PeakDemand/Maximum/Filtered`
 
-  const EnergyConsumption_API=`${dashboardAddress}/Dashboard/Highlights`
+  const EnergyConsumption_API=`${dashboardAddress}/EnergyProfile/Consumption`
   const [energyConsumption,setEnergyConsumption]=useState([])
   const [energyConsumptionsDateFiltered,setEnergyConsumptionsDateFiltered]=useState([])
- const  energyConsumptionsDateFiltered_API=`${dashboardAddress}/Dashboard/Highlights/Filtered`
+ const  energyConsumptionsDateFiltered_API=`${dashboardAddress}/EnergyProfile/Consumption/Filtered`
   
 
 
@@ -186,14 +186,14 @@ console.log(maximumPeakDemandDateFiltered)
 
   if(selectedDate){
     for(let i=0;i<energyConsumptionsDateFiltered.length;i++){
-      TotalEnergyConsumedToday=Math.trunc(energyConsumptionsDateFiltered[i].wheeled+energyConsumptionsDateFiltered[i].wheeled2+energyConsumptionsDateFiltered[i].rooftop+energyConsumptionsDateFiltered[i].grid+energyConsumptionsDateFiltered[i].wind+energyConsumptionsDateFiltered[i].diesel)
+      TotalEnergyConsumedToday=Math.trunc(energyConsumptionsDateFiltered[i].Consumption)
   
     }
 
   }
   else{
     for(let i=0;i<energyConsumption.length;i++){
-      TotalEnergyConsumedToday=Math.trunc(energyConsumption[i].wheeled+energyConsumption[i].wheeled2+energyConsumption[i].rooftop+energyConsumption[i].grid+energyConsumption[i].wind+energyConsumption[i].diesel)
+      TotalEnergyConsumedToday=Math.trunc(energyConsumption[i].Consumption)
   
     }
 

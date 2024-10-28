@@ -424,71 +424,8 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
     const [month, day, year] = local.split("/");
     const currentdate = `${day}-${month}-${year}`;
 
-
-
-    
-    const options = {
-        chart: {
-          type: 'scatter',
-          zoomType: 'xy'
-        },
-        title: {
-          text: 'Scatter plot example'
-        },
-        xAxis: {
-          title: {
-            enabled: true,
-            text: 'X Axis Label'
-          },
-          startOnTick: true,
-          endOnTick: true,
-          showLastLabel: true
-        },
-        yAxis: {
-          title: {
-            text: 'Y Axis Label'
-          }
-        },
-        plotOptions: {
-          scatter: {
-            marker: {
-              radius: 5,
-              states: {
-                hover: {
-                  enabled: true,
-                  lineColor: 'rgb(100,100,100)'
-                }
-              }
-            },
-            states: {
-              hover: {
-                marker: {
-                  enabled: false
-                }
-              }
-            },
-            tooltip: {
-              headerFormat: '<b>{series.name}</b><br>',
-              pointFormat: '{point.x}, {point.y}'
-            }
-          }
-        },
-        series: [{
-          name: 'Data Series 1',
-          color: 'rgba(223, 83, 83, .5)',
-          data: [
-            3 ,4,6,8,10
-          ]
-        }, {
-          name: 'Data Series 2',
-          color: 'rgba(119, 152, 191, .5)',
-          data: [
-            3.5, 4.5, 7,  9,  11
-          ]
-        }]
-      };
-    
-    return (
+   
+ return (
         <div className='ControlsMainPage'>
         <div className='controlMaincontainer'>
             
@@ -673,7 +610,8 @@ const LTODurationformattedData= LTODurationTime > 0 ? convertMinutesToReadableTi
          
                
         </div>
-        {/* <HighchartsReact highcharts={Highcharts} options={options} /> */}
+
+        
         
         </div>
     );

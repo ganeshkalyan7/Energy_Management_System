@@ -449,7 +449,11 @@ for(let i=0;i<UPSDetails.length;i++){
      <UPSStorageSystemControl/>
     </React.Fragment>
       
-  ) : (
+  ) : StorageSysytemControlSelector === "HOTWater" ? (
+      <React.Fragment> 
+        <UPSStorageSystemControl/>
+      </React.Fragment>
+  ):(
     <React.Fragment>
 
     </React.Fragment>

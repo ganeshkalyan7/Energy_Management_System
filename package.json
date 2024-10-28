@@ -24,6 +24,7 @@
     "cdbreact": "^1.5.18",
     "chart.js": "^4.4.2",
     "chartjs-plugin-zoom": "^2.0.1",
+    "date-fns": "^3.6.0",
     "devextreme-react": "^23.2.3",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.3.29",

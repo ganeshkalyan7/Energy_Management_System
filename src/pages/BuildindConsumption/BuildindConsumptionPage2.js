@@ -11,6 +11,8 @@ import Table from 'react-bootstrap/Table';
 import { bmssAdress,analyticsAdress } from '../../ipAdress';
 import {Link} from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
+import MontlySlotWise from './MontlySlotWise';
+import MontlySlotegraphs from './MontlySlotegraphs';
   
 function BuildindConsumptionPage2() {
   const host='43.205.196.66'
@@ -285,6 +287,15 @@ function BuildindConsumptionPage2() {
       <HighchartsReact highcharts={Highcharts} options={DieselDataCurrent} />
     
      {/* <ReactApexChart options={state.options} series={state.series}height="400px" /> */}
+
+
+     <div> 
+      <MontlySlotWise/>
+     </div>
+
+     <div> 
+      <MontlySlotegraphs/>
+     </div>
     </div>
   )
 }

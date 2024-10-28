@@ -4,7 +4,7 @@ import { nodeAdress, ControlAPi, bmssAdress,analyticsAdress } from "../../../ipA
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Highcharts from 'highcharts';
+import Highcharts, { color } from 'highcharts';
 import exportingInit from 'highcharts/modules/exporting';
 import exportDataInit from 'highcharts/modules/export-data';
 import HighchartsReact from 'highcharts-react-official';
@@ -75,6 +75,11 @@ function WindDashboard() {
   const [selectedDate, setSelectedDate] = useState(null);
   const windGraphData_API = `${bmssAdress}/wind/speedVSpower`;
   const windGraphDataDateFiltered_API = `${bmssAdress}/wind/speedVSpower/Filtered`;
+
+  const [WindPowerScatterGraph,setWindPowerScatterGraph]=useState([])
+  const [WindPowerScatterGraphDateFiltered,setWindPowerScatterGraphDateFiltered]=useState([])
+  const WindPowerScatterGraph_API=`${bmssAdress}/wind/powerVSspeedScatter`
+  const WindPowerScatterGraphDateFiltered_API=`${bmssAdress}/wind/powerVSspeedScatter/Filtered`
   
 
   const [WindParameters,setWindParameters]=useState([])
@@ -111,6 +116,21 @@ function WindDashboard() {
         console.log(err);
       });
   }, []);
+
+
+    // Fetch wind VS Power ScatterPlot graph data
+    useEffect(() => {
+      axios.get(WindPowerScatterGraph_API)
+        .then((res) => {
+          const dataResponse = res.data;
+          setWindPowerScatterGraph(dataResponse);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
+
+
 
 
   // Fetch wind Parameters data
@@ -252,7 +272,9 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
     try {
       const formattedStartDate = selectedDate ? new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10) : '';
       const windGraphDataDateFilteredResponse = await axios.post(windGraphDataDateFiltered_API, { date: formattedStartDate });
+      const WindPowerScatterGraphDateFilteredResponse=await axios.post(WindPowerScatterGraphDateFiltered_API,{date:formattedStartDate})
       setWindGraphDataDateFiltered(windGraphDataDateFilteredResponse.data);
+      setWindPowerScatterGraphDateFiltered(WindPowerScatterGraphDateFilteredResponse.data)
     } catch (error) {
       console.error(error);
     }
@@ -265,6 +287,7 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
   const WindDataGraph = {
     chart: {
       type: 'line',
+      zoomType: 'x'
     },
     title: {
       text: null,
@@ -311,8 +334,73 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
       name: 'Wind Speed (m/s)',
       data: selectedDate == null ? windGraphData.map((value) => value.windSpeed) : windGraphDataDateFiltered.map((value) => value.windSpeed),
       type: 'line',
+      //color: 'rgba(223, 83, 83, .5)',
       yAxis: 1,
     }],
+  };
+
+
+  const Wind_VS_power_ScatterPlot = {
+    chart: {
+      type: 'scatter',
+      zoomType: 'xy'
+    },
+    title: {
+      text: null
+    },
+    xAxis: {
+      title: {
+        enabled: true,
+        text: 'Wind Speed (m/s)'
+      },
+      startOnTick: true,
+      endOnTick: true,
+      showLastLabel: true
+    },
+    yAxis: {
+      title: {
+        text: 'Active Power (kW)'
+      }
+    },
+    plotOptions: {
+      scatter: {
+        marker: {
+          radius: 5,
+          states: {
+            hover: {
+              enabled: true,
+              lineColor: 'rgb(100,100,100)'
+            }
+          }
+        },
+        states: {
+          hover: {
+            marker: {
+              enabled: false
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{" "}</b><br>',
+          pointFormat: 'WIND SPEED (m/s): {point.x}  ,  ACTIVE POWER (kW): {point.y}'
+        }
+      }
+    },
+    series: [
+      {
+        name: 'Active Power (kW)',
+        color: 'rgba(223, 83, 83, .5)',
+        data:selectedDate == null? WindPowerScatterGraph.map(value => [value.windspeed, value.power]):WindPowerScatterGraphDateFiltered.map(value => [value.windspeed, value.power]),
+        //color:"#da77f2"
+        //yAxis: 0
+      },
+      // {
+      //   name: 'windspeed',
+      //   color: 'rgba(119, 152, 191, .5)',
+      //   data: WindPowerScatterGraph.map((value) => value.windspeed),
+      //   yAxis: 1
+      // }
+    ]
   };
 
 
@@ -410,9 +498,20 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
       </div>
         
       </div>
-      <div className='windGraph'>
+      <br/>
+      <div className='windGraph' >
+        <div> 
         <HighchartsReact highcharts={Highcharts} options={WindDataGraph} />
+        </div>
+        <br/>
+        <div> 
+        <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"55px",textAlign:"start"}}>Turbine Efficiency </p>
+        <HighchartsReact highcharts={Highcharts} options={Wind_VS_power_ScatterPlot} />
+        </div>
+      
+       
       </div>
+      <br/>
       <div className='WindDetails'>
         <div className='WindDetailsTotally'>
           <div className='windEndline'>
@@ -433,11 +532,11 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
               <div style={{ fontSize: "18px", fontWeight: "700", textAlign: "center" }}>{MonthTotalEnrgy}</div>
               <div style={{ textAlign: "center", color: "gray" }}>(kWh)</div>
             </div>
-            <div style={{ marginTop: "30%" }}>
+            {/* <div style={{ marginTop: "30%" }}>
               <p style={{ fontSize: "16px", fontWeight: "500", textAlign: "center" }}>Montly Energy Meter </p>
               <div style={{ fontSize: "18px", fontWeight: "700", textAlign: "center" }}>19</div>
               <div style={{ fontSize: "18px", fontWeight: "700", textAlign: "center", color: "gray" }}>(kWh)</div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className='expectedspeedmain'>
