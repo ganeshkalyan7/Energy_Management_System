@@ -228,7 +228,7 @@ const SlotWiseConsumption={
       }
   },
   series: [{
-    name:  "wheeled In Solar (MWh)",
+    name:  "Wheeled In Solar (MWh)",
     data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.wheeledSolar)):SlotWiseConsumptionDataDateFilter.map((val)=>(val.wheeledSolar)),
     color:"#d9480f",
     type: 'line',
@@ -243,7 +243,7 @@ const SlotWiseConsumption={
 
   {
     name: "Total RE (MWh)",
-    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.RE)):SlotWiseConsumptionData.map((val)=>(val.RE)),
+    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.RE)):SlotWiseConsumptionDataDateFilter.map((val)=>(val.RE)),
     color:"#2b8a3e",  
     //type: 'column'
       //yAxis: 0,
@@ -255,7 +255,7 @@ const SlotWiseConsumption={
   },
   {
     name: "Grid (MWh)",
-    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.grid)):SlotWiseConsumptionData.map((val)=>(val.grid)),
+    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.grid)):SlotWiseConsumptionDataDateFilter.map((val)=>(val.grid)),
     color:"#862e9c",  
     //type: 'column'
       //yAxis: 0,
@@ -266,9 +266,9 @@ const SlotWiseConsumption={
 
   },
   {
-    name: "wheeled In Wind (MWh)",
-    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.wind)):SlotWiseConsumptionData.map((val)=>(val.wind)),
-    color:"#099268",  
+    name: "Wheeled In Wind (MWh)",
+    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.wind)):SlotWiseConsumptionDataDateFilter.map((val)=>(val.wind)),
+    color:"#1864ab",  
     type: 'line',
     dashStyle: 'dash',
       marker: {
@@ -280,7 +280,7 @@ const SlotWiseConsumption={
 
   {
     name: "Rooftop Solar (MWh)",
-    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.roof)):SlotWiseConsumptionData.map((val)=>(val.roof)),
+    data:  selectedDate==null?SlotWiseConsumptionData.map((val)=>(val.roof)):SlotWiseConsumptionDataDateFilter.map((val)=>(val.roof)),
     color:"#fcc419",  
     type: 'line',
     dashStyle: 'dash',
@@ -315,14 +315,17 @@ const SlotWiseConsumption={
 
 const now = new Date();
 const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
+const dateMonth=format(now, 'MM/yyyy')
+console.log(dateMonth)
 const [month, day, year] = local.split("/"); // Split the date by "/"
 const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
 const currentYearMont=`${month}/${year}`
+console.log(currentdate,currentYearMont)
   return (
-    <div  style={{marginTop:"90px",marginLeft:"60px",marginRight:"30px"}}>
+    <div  style={{marginTop:"90px",marginLeft:"80px",marginRight:"20px"}}>
              <div style={{display:"flex",marginLeft:"0px",justifyContent:"space-between",position: "relative"}}>
                <div> 
-                  <p style={{textAlign:"start",color:"#212529",marginTop:"40px",fontSize:"20px",fontWeight:"600",marginLeft:"60px"}}>Monthly Slot wise Consumption and Wheeled in Energy(MWh) <br/> (ALL values from the TNEB Bill)</p>
+                  <p style={{textAlign:"start",color:"#212529",marginTop:"40px",fontSize:"20px",fontWeight:"600",marginLeft:"60px"}}>Monthly Slot wise Consumption and Wheeled in Energy(MWh) <br/> (All values from the TNEB Bill)</p>
                 </div>
                 <div>
                 <DatePickers
@@ -332,7 +335,7 @@ const currentYearMont=`${month}/${year}`
                  onChange={handleYearChange}
                  dateFormat="MM/yyyy"
                  showMonthYearPicker
-                 placeholderText={currentYearMont}
+                 placeholderText={dateMonth}
                 />
                 
                 </div>
@@ -350,6 +353,20 @@ const currentYearMont=`${month}/${year}`
                 </tr>
                 </thead>
                 <tbody> 
+               <tr style={{textAlign:"center",fontSize:"14px"}}>
+                <th>06:00 am - 10:00 am</th>
+                <td>{Consumption_C1}</td>
+                <td>{WheeledInSolar_C1}</td>
+                <td>{WheeledInWind_C1}</td>
+                </tr>
+
+                <tr style={{textAlign:"center",fontSize:"14px"}}>
+                <th>06:00 pm - 10:00 pm</th>
+                <td>{Consumption_C2}</td>
+                <td>{WheeledInSolar_C2}</td>
+                <td>{WheeledInWind_C2}</td>
+                </tr>
+
                 <tr style={{textAlign:"center",fontSize:"14px"}}>
                 <th>05:00 am - 06:00 am 10:00 am - 06:00 pm</th>
                 <td>{Consumption_C4}</td>
@@ -362,20 +379,6 @@ const currentYearMont=`${month}/${year}`
                 <td>{Consumption_C5}</td>
                 <td>{WheeledInSolar_C5}</td>
                 <td>{WheeledInWind_C5}</td>
-                </tr>
-
-                <tr style={{textAlign:"center",fontSize:"14px"}}>
-                <th>06:00 pm - 10:00 pm</th>
-                <td>{Consumption_C2}</td>
-                <td>{WheeledInSolar_C2}</td>
-                <td>{WheeledInWind_C2}</td>
-                </tr>
-
-                <tr style={{textAlign:"center",fontSize:"14px"}}>
-                <th>06:00 am - 10:00 am</th>
-                <td>{Consumption_C1}</td>
-                <td>{WheeledInSolar_C1}</td>
-                <td>{WheeledInWind_C1}</td>
                 </tr>
 
 

@@ -23,6 +23,7 @@ import { FaWind } from "react-icons/fa";
 import WindMill from "../../../images/windmill.gif"
 
 import { RiArrowDropDownLine } from "react-icons/ri";
+import WindDayMonth from './WindDayMonth';
 
 
 
@@ -504,9 +505,16 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
         <HighchartsReact highcharts={Highcharts} options={WindDataGraph} />
         </div>
         <br/>
-        <div> 
-        <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"55px",textAlign:"start"}}>Turbine Efficiency </p>
-        <HighchartsReact highcharts={Highcharts} options={Wind_VS_power_ScatterPlot} />
+        <div style={{display:"flex",justifyContent:"space-between"}}> 
+          <div style={{width:"100%",marginTop:"100px",height:"0px"}}> 
+          <p style={{fontSize:"20px",fontWeight:"600",marginLeft:"55px",textAlign:"start"}}>Turbine Efficiency </p>
+          <HighchartsReact highcharts={Highcharts} options={Wind_VS_power_ScatterPlot} />
+          </div>
+
+          <div> 
+          <WindDayMonth/>
+          </div>
+       
         </div>
       
        
@@ -632,6 +640,8 @@ for(let i=0;i<WindExpectedVSActualData.length;i++){
 
         
       </div>
+
+    
     </div>
   )
 }

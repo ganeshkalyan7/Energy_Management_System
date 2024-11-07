@@ -293,9 +293,7 @@ function BuildindConsumptionPage2() {
       <MontlySlotWise/>
      </div>
 
-     <div> 
-      <MontlySlotegraphs/>
-     </div>
+
     </div>
   )
 }
