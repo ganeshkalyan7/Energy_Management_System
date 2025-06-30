@@ -1,12 +1,13 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
 /* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"); */
-@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Mochiy+Pop+One&family=Poppins:wght@100&display=swap');
+
+@import url("https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Mochiy+Pop+One&family=Poppins:wght@100&display=swap");
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .home,
@@ -17,4 +18,22 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
+}
+
+/* Limit the size of carousel navigation buttons */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 40px; /* Make the button smaller */
+  height: 40px; /* Set height to match icon size */
+  top: 30%; /* Center the buttons */
+  transform: translateY(-50%); /* Adjust for perfect centering */
+  background: rgba(0, 0, 0, 0.6); /* Optional: Adds slight background */
+  border-radius: 50%; /* Makes the button circular */
+}
+
+/* Make sure icons are centered */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
 }

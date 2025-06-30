@@ -1,15 +1,16 @@
-import React from 'react'
-import ControlsMainGraph from './ControlsMainGraph'
-import ControlsDetails from './ControlDetails/ControlsDetails'
+import React from "react";
+import ControlsMainGraph from "./ControlsMainGraph";
+import ControlsDetails from "./ControlDetails/ControlsDetails";
 
 function ControlsMainPage() {
   return (
     <div>
-      <ControlsMainGraph/>
-      <br/>
-      <ControlsDetails/>
+      <ControlsMainGraph />
+      <br />
+      <ControlsDetails />
+      <br />
     </div>
-  )
+  );
 }
 
-export default ControlsMainPage
+export default ControlsMainPage;

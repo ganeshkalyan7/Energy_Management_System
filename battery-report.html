@@ -1,0 +1,5152 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ms="urn:schemas-microsoft-com:xslt"
+  xmlns:bat="http://schemas.microsoft.com/battery/2012"
+  xmlns:js="http://microsoft.com/kernel"
+>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="ReportUtcOffset" content="+5:30" />
+    <title>Battery report</title>
+    <style type="text/css">
+      body {
+        font-family: Segoe UI Light;
+
+        letter-spacing: 0.02em;
+
+        background-color: #181818;
+
+        color: #f0f0f0;
+
+        margin-left: 5.5em;
+      }
+
+      h1 {
+        color: #11d8e8;
+
+        font-size: 42pt;
+      }
+
+      h2 {
+        font-size: 15pt;
+
+        color: #11eef4;
+
+        margin-top: 4em;
+
+        margin-bottom: 0em;
+
+        letter-spacing: 0.08em;
+      }
+
+      td {
+        padding-left: 0.3em;
+
+        padding-right: 0.3em;
+      }
+
+      .nobatts {
+        font-family: Segoe UI Semibold;
+
+        background: #272727;
+
+        color: #acac60;
+
+        font-size: 13pt;
+
+        padding-left: 0.4em;
+
+        padding-right: 0.4em;
+
+        padding-top: 0.3em;
+
+        padding-bottom: 0.3em;
+      }
+
+      .explanation {
+        color: #777777;
+
+        font-size: 12pt;
+
+        margin-bottom: 1em;
+      }
+
+      .explanation2 {
+        color: #777777;
+
+        font-size: 12pt;
+
+        margin-bottom: 0.1em;
+      }
+
+      table {
+        border-width: 0;
+
+        table-layout: fixed;
+
+        font-family: Segoe UI Light;
+
+        letter-spacing: 0.02em;
+
+        background-color: #181818;
+
+        color: #f0f0f0;
+      }
+
+      .even {
+        background: #272727;
+      }
+
+      .odd {
+        background: #1e1e1e;
+      }
+
+      .even.suspend {
+        background: #1a1a28;
+      }
+
+      .odd.suspend {
+        background: #1a1a2c;
+      }
+
+      thead {
+        font-family: Segoe UI Semibold;
+
+        font-size: 85%;
+
+        color: #bcbcbc;
+      }
+
+      text {
+        font-size: 12pt;
+
+        font-family: Segoe UI Light;
+
+        fill: #11eef4;
+      }
+
+      .centered {
+        text-align: center;
+      }
+
+      .label {
+        font-family: Segoe UI Semibold;
+
+        font-size: 85%;
+
+        color: #bcbcbc;
+      }
+
+      .dc.even {
+        background: #40182c;
+      }
+
+      .dc.odd {
+        background: #30141f;
+      }
+
+      td.colBreak {
+        padding: 0;
+
+        width: 0.15em;
+      }
+
+      td.state {
+        text-align: center;
+      }
+
+      td.hms {
+        font-family: Segoe UI Symbol;
+
+        text-align: right;
+
+        padding-right: 3.4em;
+      }
+
+      td.dateTime {
+        font-family: Segoe UI Symbol;
+      }
+
+      td.nullValue {
+        text-align: center;
+      }
+
+      td.percent {
+        font-family: Segoe UI Symbol;
+
+        text-align: right;
+
+        padding-right: 2.5em;
+      }
+
+      col:first-child {
+        width: 13em;
+      }
+
+      col.col2 {
+        width: 10.4em;
+      }
+
+      col.percent {
+        width: 7.5em;
+      }
+
+      td.mw {
+        text-align: right;
+
+        padding-right: 2.5em;
+      }
+
+      td.acdc {
+        text-align: center;
+      }
+
+      span.date {
+        display: inline-block;
+
+        width: 5.5em;
+      }
+
+      span.time {
+        text-align: right;
+
+        width: 4.2em;
+
+        display: inline-block;
+      }
+
+      text {
+        font-family: Segoe UI Symbol;
+      }
+
+      .noncontigbreak {
+        height: 0.3em;
+
+        background-color: #1a1a28;
+      }
+    </style>
+    <script type="text/javascript">
+      // Formats a number using the current locale (to handle the 1000's separator).
+
+      // The result is rounded so no decimal point is shown.
+
+      function numberToLocaleString(value) {
+        var localeString = Math.round(parseFloat(value + "")).toLocaleString();
+
+        return localeString.substring(0, localeString.indexOf("."));
+      }
+
+      function padLeft(number, length) {
+        var str = "" + number;
+
+        while (str.length < length) {
+          str = "0" + str;
+        }
+
+        return str;
+      }
+
+      // Returns the number of milliseconds between 2 date-times represented as strings.
+
+      function msBetween(startTime, endTime) {
+        return startTime > endTime
+          ? msBetween(endTime, startTime)
+          : parseDateTime(endTime) - parseDateTime(startTime);
+      }
+
+      var dateFormat = /(\d{4})-(\d{2})-(\d{2})[T](\d{2}):(\d{2}):(\d{2})/;
+
+      // Parses a date-time string and returns a Date (i.e. number of milliseconds)
+
+      function parseDateTime(value) {
+        if (!value) {
+          return 0;
+        }
+
+        var match = dateFormat.exec(value);
+
+        if (!match) {
+          return 0;
+        }
+
+        return Date.parse(
+          match[1] +
+            "/" +
+            match[2] +
+            "/" +
+            match[3] +
+            " " +
+            match[4] +
+            ":" +
+            match[5] +
+            ":" +
+            match[6]
+        );
+      }
+
+      // Parses just the date portion of a date-time string and returns a Date
+
+      // (i.e. number of milliseconds)
+
+      function parseDate(value) {
+        if (!value) {
+          return 0;
+        }
+
+        var match = dateFormat.exec(value);
+
+        if (!match) {
+          return 0;
+        }
+
+        return Date.parse(match[1] + "/" + match[2] + "/" + match[3]);
+      }
+
+      var durationFormat = /P((\d+)D)?T((\d+)H)?((\d+)M)?(\d+)S/;
+
+      // Convert a string of the form P10DT1H15M40S to a count of milliseconds
+
+      function parseDurationToMs(value) {
+        var match = durationFormat.exec(value);
+
+        if (!match) {
+          return 0;
+        }
+
+        var days = parseInt(match[2] || "0");
+
+        var hrs = parseInt(match[4] || "0");
+
+        var mins = parseInt(match[6] || "0");
+
+        var secs = parseInt(match[7] || "0");
+
+        return (((days * 24 + hrs) * 60 + mins) * 60 + secs) * 1000;
+      }
+
+      // Converts milliseconds to days
+
+      function msToDays(ms) {
+        return ms / 1000 / 60 / 60 / 24;
+      }
+
+      function daysToMs(days) {
+        return days * 24 * 60 * 60 * 1000;
+      }
+
+      // Formats a number of milliseconds as h:mm:ss
+
+      function formatDurationMs(value) {
+        var ms = parseInt(value);
+
+        var secs = ms / 1000;
+
+        var mins = secs / 60;
+
+        var hrs = Math.floor(mins / 60);
+
+        mins = Math.floor(mins % 60);
+
+        secs = Math.floor(secs % 60);
+
+        return hrs + ":" + padLeft(mins, 2) + ":" + padLeft(secs, 2);
+      }
+
+      // Converts a millisecond timestamp to a day and month string
+
+      // Note: dayOffset is forward from date.
+
+      function dateToDayAndMonth(ms, dayOffset) {
+        var adjustedDate = new Date(ms + dayOffset * 24 * 60 * 60 * 1000);
+
+        return (
+          padLeft(adjustedDate.getMonth() + 1, 2) +
+          "-" +
+          padLeft(adjustedDate.getDate(), 2)
+        );
+      }
+
+      // Takes a millisecond timestamp and returns a new millisecond timestamp
+
+      // rounded down to the current day.
+
+      function dateFloor(ms) {
+        var dt = new Date(ms);
+
+        return Date.parse(
+          dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate()
+        );
+      }
+
+      Timegraph = {
+        axisTop: 9.5,
+
+        axisRight: 24.5,
+
+        axisBottom: 25.5,
+
+        axisLeft: 25.5,
+
+        ticks: 10,
+
+        // Maximum number of 24 hour ticks for showing 12 and 6 hour ticks
+
+        ticks12Hour: 8,
+
+        ticks6Hour: 4,
+
+        // Shading
+
+        lineColor: "#B82830",
+
+        shadingColor: "#4d1d35",
+
+        precompute: function (graph) {
+          var canvas = graph.canvas;
+
+          var data = graph.data;
+
+          var min = 0;
+
+          var max = 0;
+
+          graph.height =
+            canvas.height - Timegraph.axisTop - Timegraph.axisBottom;
+
+          graph.width = canvas.width - Timegraph.axisLeft - Timegraph.axisRight;
+
+          for (var i = 0; i < data.length; i++) {
+            data[i].t0 = parseDateTime(data[i].x0);
+
+            data[i].t1 = parseDateTime(data[i].x1);
+
+            if (i == 0) {
+              min = data[i].t0;
+
+              max = data[i].t1;
+            }
+
+            if (data[i].t0 < min) {
+              min = data[i].t0;
+            }
+
+            if (data[i].t1 > max) {
+              max = data[i].t1;
+            }
+
+            data[i].yy0 =
+              Timegraph.axisTop + graph.height - data[i].y0 * graph.height;
+
+            data[i].yy1 =
+              Timegraph.axisTop + graph.height - data[i].y1 * graph.height;
+          }
+
+          if (graph.startTime != null) {
+            graph.startMs = parseDateTime(graph.startTime);
+          } else {
+            graph.startMs = min;
+          }
+
+          graph.endMs = max;
+
+          graph.durationMs = max - min;
+        },
+
+        drawFrame: function (graph) {
+          var canvas = graph.canvas;
+
+          var context = graph.context;
+
+          graph.width = canvas.width - Timegraph.axisRight - Timegraph.axisLeft;
+
+          graph.height =
+            canvas.height - Timegraph.axisTop - Timegraph.axisBottom;
+
+          context.beginPath();
+
+          context.moveTo(Timegraph.axisLeft, Timegraph.axisTop);
+
+          context.lineTo(
+            Timegraph.axisLeft + graph.width,
+
+            Timegraph.axisTop
+          );
+
+          context.lineTo(
+            Timegraph.axisLeft + graph.width,
+
+            Timegraph.axisTop + graph.height
+          );
+
+          context.lineTo(
+            Timegraph.axisLeft,
+
+            Timegraph.axisTop + graph.height
+          );
+
+          context.lineTo(Timegraph.axisLeft, Timegraph.axisTop);
+
+          context.strokeStyle = "#c0c0c0";
+
+          context.stroke();
+        },
+
+        drawRange: function (graph) {
+          var canvas = graph.canvas;
+
+          var context = graph.context;
+
+          context.font = "12pt Segoe UI";
+
+          context.fillStyle = "#00b0f0";
+
+          context.fillText("%", 0, Timegraph.axisTop + 5, Timegraph.axisLeft);
+
+          var tickSpacing = graph.height / 10;
+
+          var offset = Timegraph.axisTop + tickSpacing;
+
+          var tickValue = 90;
+
+          for (var i = 0; i < 9; i++) {
+            context.beginPath();
+
+            context.moveTo(Timegraph.axisLeft, offset);
+
+            context.lineTo(
+              Timegraph.axisLeft + graph.width,
+
+              offset
+            );
+
+            context.stroke();
+
+            context.fillText(
+              tickValue.toString(),
+
+              0,
+
+              offset + 5,
+
+              Timegraph.axisLeft
+            );
+
+            offset += tickSpacing;
+
+            tickValue -= 10;
+          }
+        },
+
+        drawDomain: function (graph, start, end) {
+          var canvas = graph.canvas;
+
+          var context = graph.context;
+
+          var data = graph.data;
+
+          var duration = end - start;
+
+          if (end < start) {
+            return;
+          }
+
+          var startDay = dateFloor(start);
+
+          var t0 = startDay;
+
+          var t1 = dateFloor(end);
+
+          var dayOffset = 0;
+
+          if (start > t0) {
+            t0 = t0 + daysToMs(1);
+
+            dayOffset++;
+          }
+
+          if (t0 >= t1) {
+            return;
+          }
+
+          var increment = Math.max(
+            Math.floor((t1 - t0) / daysToMs(Timegraph.ticks)),
+            1
+          );
+
+          var incrementMs = daysToMs(increment);
+
+          var spacing = (incrementMs / duration) * graph.width;
+
+          var offset = (t0 - start) / duration;
+
+          var ticksCount = Math.floor((t1 - t0) / incrementMs);
+
+          for (
+            offset = offset * graph.width + Timegraph.axisLeft;
+            offset < graph.width + Timegraph.axisLeft;
+            offset += spacing
+          ) {
+            context.beginPath();
+
+            context.moveTo(offset, Timegraph.axisTop);
+
+            context.lineTo(offset, Timegraph.axisTop + graph.height);
+
+            context.stroke();
+
+            context.fillText(
+              dateToDayAndMonth(startDay, dayOffset),
+
+              offset,
+
+              Timegraph.axisTop + graph.height + 15,
+
+              spacing
+            );
+
+            dayOffset += increment;
+          }
+        },
+
+        plot: function (graph, start, end) {
+          var canvas = graph.canvas;
+
+          var context = graph.context;
+
+          var data = graph.data;
+
+          if (end < start) {
+            return;
+          }
+
+          var duration = end - start;
+
+          Timegraph.drawDomain(graph, start, end);
+
+          context.fillStyle = Timegraph.shadingColor;
+
+          for (var i = 0; i < data.length - 1; i++) {
+            if (data[i].t0 < start || data[i].t0 > end || data[i].t1 > end) {
+              continue;
+            }
+
+            var x1 = (data[i].t0 - start) / duration;
+
+            x1 = x1 * graph.width + Timegraph.axisLeft;
+
+            var x2 = (data[i].t1 - start) / duration;
+
+            x2 = x2 * graph.width + Timegraph.axisLeft;
+
+            context.globalAlpha = 0.3;
+
+            context.fillRect(x1, Timegraph.axisTop, x2 - x1, graph.height);
+
+            context.globalAlpha = 1;
+
+            context.beginPath();
+
+            context.strokeStyle = Timegraph.lineColor;
+
+            context.lineWidth = 1.5;
+
+            context.moveTo(x1, data[i].yy0);
+
+            context.lineTo(x2, data[i].yy1);
+
+            context.stroke();
+          }
+        },
+
+        draw: function (graph) {
+          var canvas = document.getElementById(graph.element);
+
+          if (canvas == null) {
+            return;
+          }
+
+          var context = canvas.getContext("2d");
+
+          if (context == null) {
+            return;
+          }
+
+          graph.width = 0;
+
+          graph.height = 0;
+
+          graph.context = context;
+
+          graph.canvas = canvas;
+
+          Timegraph.precompute(graph);
+
+          Timegraph.drawFrame(graph);
+
+          Timegraph.drawRange(graph);
+
+          Timegraph.plot(graph, graph.startMs, graph.endMs);
+        },
+      };
+
+      drainGraphData = [];
+
+      function main() {
+        Timegraph.draw({
+          element: "drain-graph",
+
+          data: drainGraphData,
+
+          startTime: "2025-02-11T15:52:25",
+
+          endTime: "2025-02-14T15:52:30",
+        });
+      }
+
+      if (window.addEventListener != null) {
+        window.addEventListener("load", main, false);
+      } else if (window.attachEvent != null) {
+        window.attachEvent("onload", main);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Battery report</h1>
+    <table style="margin-bottom: 6em">
+      <col />
+      <tr>
+        <td class="label">COMPUTER NAME</td>
+        <td>DESKTOP-BN5UF9K</td>
+      </tr>
+      <tr>
+        <td class="label">SYSTEM PRODUCT NAME</td>
+        <td>HP HP 250 G7 Notebook PC</td>
+      </tr>
+      <tr>
+        <td class="label">BIOS</td>
+        <td>F.23 11/29/2019</td>
+      </tr>
+      <tr>
+        <td class="label">OS BUILD</td>
+        <td>19041.1.amd64fre.vb_release.191206-1406</td>
+      </tr>
+      <tr>
+        <td class="label">PLATFORM ROLE</td>
+        <td>Mobile</td>
+      </tr>
+      <tr>
+        <td class="label">CONNECTED STANDBY</td>
+        <td>Not supported</td>
+      </tr>
+      <tr>
+        <td class="label">REPORT TIME</td>
+        <td class="dateTime">
+          <span class="date">2025-02-14 </span
+          ><span class="time">15:52:30</span>
+        </td>
+      </tr>
+    </table>
+    <h2>Installed batteries</h2>
+    <div class="explanation">
+      Information about each currently installed battery
+    </div>
+    <table>
+      <colgroup>
+        <col style="width: 15em" />
+        <col style="width: 14em" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td></td>
+          <td>BATTERY 1</td>
+        </tr>
+      </thead>
+      <tr>
+        <td><span class="label">NAME</span></td>
+        <td>PABAS0241231</td>
+      </tr>
+      <tr>
+        <td><span class="label">MANUFACTURER</span></td>
+        <td>Hewlett-Packard</td>
+      </tr>
+      <tr>
+        <td><span class="label">SERIAL NUMBER</span></td>
+        <td>41167</td>
+      </tr>
+      <tr>
+        <td><span class="label">CHEMISTRY</span></td>
+        <td>LION</td>
+      </tr>
+      <tr>
+        <td><span class="label">DESIGN CAPACITY</span></td>
+        <td>41,753 mWh</td>
+      </tr>
+      <tr style="height: 0.4em"></tr>
+      <tr>
+        <td><span class="label">FULL CHARGE CAPACITY</span></td>
+        <td>2,183 mWh</td>
+      </tr>
+      <tr>
+        <td><span class="label">CYCLE COUNT</span></td>
+        <td>-</td>
+      </tr>
+    </table>
+    <h2>Recent usage</h2>
+    <div class="explanation">Power states over the last 3 days</div>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 4.2em" />
+        <col class="percent" />
+        <col style="width: 11em" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>START TIME</td>
+          <td class="centered">STATE</td>
+          <td class="centered">SOURCE</td>
+          <td colspan="2" class="centered">CAPACITY REMAINING</td>
+        </tr>
+      </thead>
+      <tr class="even">
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+    </table>
+    <h2>Battery usage</h2>
+    <div class="explanation">Battery drains over the last 3 days</div>
+    <canvas id="drain-graph" width="864" height="400"></canvas>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 10em" />
+        <col class="percent" />
+        <col style="width: 11em" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>START TIME</td>
+          <td class="centered">STATE</td>
+          <td class="centered">DURATION</td>
+          <td class="centered" colspan="2">ENERGY DRAINED</td>
+        </tr>
+      </thead>
+      <tr class="even">
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+    </table>
+    <h2>Usage history</h2>
+    <div class="explanation2">History of system usage on AC and battery</div>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 10em" />
+        <col style="" />
+        <col style="width: 10em" />
+        <col style="width: 10em" />
+        <col style="" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td></td>
+          <td colspan="2" class="centered">BATTERY DURATION</td>
+          <td class="colBreak"></td>
+          <td colspan="3" class="centered">AC DURATION</td>
+        </tr>
+        <tr>
+          <td>PERIOD</td>
+          <td class="centered">ACTIVE</td>
+          <td class="centered">CONNECTED STANDBY</td>
+          <td class="colBreak"></td>
+          <td class="centered">ACTIVE</td>
+          <td class="centered">CONNECTED STANDBY</td>
+        </tr>
+      </thead>
+      <tr class="even 1">
+        <td class="dateTime">2020-11-11 - 2020-11-16</td>
+        <td class="hms">3:21:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:03:35</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 2">
+        <td class="dateTime">2020-11-16 - 2020-11-23</td>
+        <td class="hms">0:00:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:21:46</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 3">
+        <td class="dateTime">2020-11-23 - 2020-11-30</td>
+        <td class="hms">0:36:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">11:26:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 4">
+        <td class="dateTime">2020-11-30 - 2020-12-07</td>
+        <td class="hms">3:06:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:39:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 5">
+        <td class="dateTime">2020-12-07 - 2020-12-14</td>
+        <td class="hms">3:44:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:30:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 6">
+        <td class="dateTime">2020-12-14 - 2020-12-21</td>
+        <td class="hms">0:10:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">36:23:51</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 7">
+        <td class="dateTime">2020-12-21 - 2020-12-28</td>
+        <td class="hms">1:07:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:58:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 8">
+        <td class="dateTime">2020-12-28 - 2021-01-04</td>
+        <td class="hms">3:00:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">22:09:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 9">
+        <td class="dateTime">2021-01-04 - 2021-01-11</td>
+        <td class="hms">1:12:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:21:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 10">
+        <td class="dateTime">2021-01-11 - 2021-01-18</td>
+        <td class="hms">2:29:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:29:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 11">
+        <td class="dateTime">2021-01-18 - 2021-01-25</td>
+        <td class="hms">1:35:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:21:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 12">
+        <td class="dateTime">2021-01-25 - 2021-02-01</td>
+        <td class="hms">5:07:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:25:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 13">
+        <td class="dateTime">2021-02-01 - 2021-02-08</td>
+        <td class="hms">3:51:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">11:56:46</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 14">
+        <td class="dateTime">2021-02-08 - 2021-02-15</td>
+        <td class="hms">14:41:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">51:54:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 15">
+        <td class="dateTime">2021-02-15 - 2021-02-22</td>
+        <td class="hms">1:43:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">42:38:24</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 16">
+        <td class="dateTime">2021-02-22 - 2021-03-01</td>
+        <td class="hms">4:06:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">17:41:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 17">
+        <td class="dateTime">2021-03-01 - 2021-03-08</td>
+        <td class="hms">4:52:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">14:30:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 18">
+        <td class="dateTime">2021-03-08 - 2021-03-22</td>
+        <td class="hms">2:57:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:14:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 19">
+        <td class="dateTime">2021-03-22 - 2021-03-29</td>
+        <td class="hms">3:57:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:16:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 20">
+        <td class="dateTime">2021-03-29 - 2021-04-05</td>
+        <td class="hms">4:47:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">11:32:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 21">
+        <td class="dateTime">2021-04-05 - 2021-04-12</td>
+        <td class="hms">4:10:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">12:50:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 22">
+        <td class="dateTime">2021-04-12 - 2021-04-19</td>
+        <td class="hms">10:47:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">33:17:29</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 23">
+        <td class="dateTime">2021-04-19 - 2021-05-07</td>
+        <td class="hms">0:24:07</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">9:32:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 24">
+        <td class="dateTime">2021-05-07 - 2021-05-10</td>
+        <td class="hms">11:31:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">56:32:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 25">
+        <td class="dateTime">2021-05-10 - 2021-05-17</td>
+        <td class="hms">4:02:00</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:20:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 26">
+        <td class="dateTime">2021-05-17 - 2021-05-24</td>
+        <td class="hms">0:50:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">49:01:34</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 27">
+        <td class="dateTime">2021-05-24 - 2021-05-31</td>
+        <td class="hms">7:02:38</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">156:25:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 28">
+        <td class="dateTime">2021-05-31 - 2021-06-07</td>
+        <td class="hms">9:10:57</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">224:23:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 29">
+        <td class="dateTime">2021-06-07 - 2021-06-14</td>
+        <td class="hms">5:32:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">57:35:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 30">
+        <td class="dateTime">2021-06-14 - 2021-06-21</td>
+        <td class="hms">3:28:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">59:24:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 31">
+        <td class="dateTime">2021-06-21 - 2021-06-28</td>
+        <td class="hms">5:30:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">53:13:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 32">
+        <td class="dateTime">2021-06-28 - 2021-07-05</td>
+        <td class="hms">5:09:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">49:48:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 33">
+        <td class="dateTime">2021-07-05 - 2021-07-19</td>
+        <td class="hms">17:18:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">267:57:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 34">
+        <td class="dateTime">2021-07-19 - 2021-07-26</td>
+        <td class="hms">24:22:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">314:19:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 35">
+        <td class="dateTime">2021-07-26 - 2021-10-28</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 36">
+        <td class="dateTime">2021-10-28 - 2021-11-01</td>
+        <td class="hms">1:31:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:26:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 37">
+        <td class="dateTime">2021-11-01 - 2021-11-16</td>
+        <td class="hms">14:59:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">32:34:27</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 38">
+        <td class="dateTime">2021-11-16 - 2021-11-22</td>
+        <td class="hms">12:28:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">20:17:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 39">
+        <td class="dateTime">2021-11-22 - 2021-11-29</td>
+        <td class="hms">10:21:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">21:56:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 40">
+        <td class="dateTime">2021-11-29 - 2021-12-06</td>
+        <td class="hms">9:47:45</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">23:03:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 41">
+        <td class="dateTime">2021-12-06 - 2021-12-13</td>
+        <td class="hms">39:40:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">87:42:34</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 42">
+        <td class="dateTime">2021-12-13 - 2021-12-20</td>
+        <td class="hms">47:47:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">109:59:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 43">
+        <td class="dateTime">2021-12-20 - 2021-12-27</td>
+        <td class="hms">6:51:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">14:02:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 44">
+        <td class="dateTime">2021-12-27 - 2022-01-03</td>
+        <td class="hms">10:10:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">87:31:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 45">
+        <td class="dateTime">2022-01-03 - 2022-01-10</td>
+        <td class="hms">11:39:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">34:09:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 46">
+        <td class="dateTime">2022-01-10 - 2022-01-17</td>
+        <td class="hms">4:29:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">13:36:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 47">
+        <td class="dateTime">2022-01-17 - 2022-01-24</td>
+        <td class="hms">11:15:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">23:43:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 48">
+        <td class="dateTime">2022-01-24 - 2022-01-31</td>
+        <td class="hms">22:42:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">41:38:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 49">
+        <td class="dateTime">2022-01-31 - 2022-02-07</td>
+        <td class="hms">10:30:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">22:40:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 50">
+        <td class="dateTime">2022-02-07 - 2022-02-16</td>
+        <td class="hms">9:39:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">16:30:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 51">
+        <td class="dateTime">2022-02-16 - 2022-02-21</td>
+        <td class="hms">12:17:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">19:21:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 52">
+        <td class="dateTime">2022-02-21 - 2022-02-28</td>
+        <td class="hms">67:36:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">123:32:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 53">
+        <td class="dateTime">2022-02-28 - 2022-03-08</td>
+        <td class="hms">17:50:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">26:58:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 54">
+        <td class="dateTime">2022-03-08 - 2022-03-14</td>
+        <td class="hms">15:59:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">14:01:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 55">
+        <td class="dateTime">2022-03-14 - 2022-03-21</td>
+        <td class="hms">27:49:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">20:48:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 56">
+        <td class="dateTime">2022-03-21 - 2022-03-28</td>
+        <td class="hms">20:19:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">15:07:12</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 57">
+        <td class="dateTime">2022-03-28 - 2022-04-04</td>
+        <td class="hms">142:57:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">174:17:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 58">
+        <td class="dateTime">2022-04-04 - 2022-04-11</td>
+        <td class="hms">16:00:25</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">24:41:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 59">
+        <td class="dateTime">2022-04-11 - 2022-04-19</td>
+        <td class="hms">2:05:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">15:54:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 60">
+        <td class="dateTime">2022-04-19 - 2022-04-25</td>
+        <td class="hms">9:40:21</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">19:32:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 61">
+        <td class="dateTime">2022-04-25 - 2022-05-06</td>
+        <td class="hms">19:38:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">23:06:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 62">
+        <td class="dateTime">2022-05-06 - 2022-05-09</td>
+        <td class="hms">5:57:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:56:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 63">
+        <td class="dateTime">2022-05-09 - 2022-05-16</td>
+        <td class="hms">17:25:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">9:16:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 64">
+        <td class="dateTime">2022-05-16 - 2022-05-23</td>
+        <td class="hms">19:17:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">11:17:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 65">
+        <td class="dateTime">2022-05-23 - 2022-06-01</td>
+        <td class="hms">10:15:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">9:35:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 66">
+        <td class="dateTime">2022-06-01 - 2022-06-21</td>
+        <td class="hms">6:10:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">13:05:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 67">
+        <td class="dateTime">2022-06-21 - 2022-07-01</td>
+        <td class="hms">8:54:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:50:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 68">
+        <td class="dateTime">2022-07-01 - 2022-07-04</td>
+        <td class="hms">0:52:38</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:13:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 69">
+        <td class="dateTime">2022-07-04 - 2022-07-11</td>
+        <td class="hms">17:58:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">25:25:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 70">
+        <td class="dateTime">2022-07-11 - 2022-07-18</td>
+        <td class="hms">8:35:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:45:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 71">
+        <td class="dateTime">2022-07-18 - 2022-07-25</td>
+        <td class="hms">56:43:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">126:02:26</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 72">
+        <td class="dateTime">2022-07-25 - 2022-08-01</td>
+        <td class="hms">60:58:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">152:06:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 73">
+        <td class="dateTime">2022-08-01 - 2022-08-08</td>
+        <td class="hms">4:46:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">38:40:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 74">
+        <td class="dateTime">2022-08-08 - 2022-08-16</td>
+        <td class="hms">5:34:22</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:03:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 75">
+        <td class="dateTime">2022-08-16 - 2022-08-22</td>
+        <td class="hms">4:09:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:08:34</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 76">
+        <td class="dateTime">2022-08-22 - 2022-08-29</td>
+        <td class="hms">12:07:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">25:51:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 77">
+        <td class="dateTime">2022-08-29 - 2022-09-05</td>
+        <td class="hms">0:43:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">30:55:19</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 78">
+        <td class="dateTime">2022-09-05 - 2022-09-12</td>
+        <td class="hms">0:03:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">26:02:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 79">
+        <td class="dateTime">2022-09-12 - 2022-09-19</td>
+        <td class="hms">26:32:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">153:01:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 80">
+        <td class="dateTime">2022-09-19 - 2022-09-26</td>
+        <td class="hms">6:41:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:10:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 81">
+        <td class="dateTime">2022-09-26 - 2022-10-03</td>
+        <td class="hms">6:37:31</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">67:55:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 82">
+        <td class="dateTime">2022-10-03 - 2022-10-10</td>
+        <td class="hms">6:11:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">12:31:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 83">
+        <td class="dateTime">2022-10-10 - 2022-10-17</td>
+        <td class="hms">67:20:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">255:52:40</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 84">
+        <td class="dateTime">2022-10-17 - 2022-10-26</td>
+        <td class="hms">11:38:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:28:26</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 85">
+        <td class="dateTime">2022-10-26 - 2022-10-31</td>
+        <td class="hms">5:36:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">18:52:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 86">
+        <td class="dateTime">2022-10-31 - 2022-11-07</td>
+        <td class="hms">28:46:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">44:22:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 87">
+        <td class="dateTime">2022-11-07 - 2022-11-15</td>
+        <td class="hms">8:54:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">15:44:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 88">
+        <td class="dateTime">2022-11-15 - 2022-11-21</td>
+        <td class="hms">50:42:00</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">81:12:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 89">
+        <td class="dateTime">2022-11-21 - 2022-11-28</td>
+        <td class="hms">68:41:22</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">100:25:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 90">
+        <td class="dateTime">2022-11-28 - 2022-12-05</td>
+        <td class="hms">5:08:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">30:49:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 91">
+        <td class="dateTime">2022-12-05 - 2022-12-13</td>
+        <td class="hms">8:18:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">25:17:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 92">
+        <td class="dateTime">2022-12-13 - 2022-12-19</td>
+        <td class="hms">85:08:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">188:03:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 93">
+        <td class="dateTime">2022-12-19 - 2022-12-27</td>
+        <td class="hms">7:45:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:26:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 94">
+        <td class="dateTime">2022-12-27 - 2023-01-02</td>
+        <td class="hms">3:49:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">26:39:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 95">
+        <td class="dateTime">2023-01-02 - 2023-01-09</td>
+        <td class="hms">9:31:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">38:40:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 96">
+        <td class="dateTime">2023-01-09 - 2023-01-18</td>
+        <td class="hms">11:23:57</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">23:44:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 97">
+        <td class="dateTime">2023-01-18 - 2023-01-23</td>
+        <td class="hms">15:15:56</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">15:43:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 98">
+        <td class="dateTime">2023-01-23 - 2023-01-30</td>
+        <td class="hms">32:23:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">72:32:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 99">
+        <td class="dateTime">2023-01-30 - 2023-02-06</td>
+        <td class="hms">13:14:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">28:02:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 100">
+        <td class="dateTime">2023-02-06 - 2023-02-15</td>
+        <td class="hms">50:33:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">133:55:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 101">
+        <td class="dateTime">2023-02-15 - 2023-02-20</td>
+        <td class="hms">53:00:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">168:36:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 102">
+        <td class="dateTime">2023-02-20 - 2023-02-27</td>
+        <td class="hms">54:49:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">224:57:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 103">
+        <td class="dateTime">2023-02-27 - 2023-03-06</td>
+        <td class="hms">2:48:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">47:31:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 104">
+        <td class="dateTime">2023-03-06 - 2023-03-13</td>
+        <td class="hms">6:48:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">34:36:33</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 105">
+        <td class="dateTime">2023-03-13 - 2023-03-20</td>
+        <td class="hms">8:47:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">43:30:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 106">
+        <td class="dateTime">2023-03-20 - 2023-03-28</td>
+        <td class="hms">10:00:09</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">31:08:19</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 107">
+        <td class="dateTime">2023-03-28 - 2023-04-03</td>
+        <td class="hms">24:57:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">116:38:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 108">
+        <td class="dateTime">2023-04-03 - 2023-04-10</td>
+        <td class="hms">3:28:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">28:27:52</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 109">
+        <td class="dateTime">2023-04-10 - 2023-04-17</td>
+        <td class="hms">6:47:21</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">42:01:46</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 110">
+        <td class="dateTime">2023-04-17 - 2023-04-24</td>
+        <td class="hms">16:28:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">72:04:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 111">
+        <td class="dateTime">2023-04-24 - 2023-05-01</td>
+        <td class="hms">15:15:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:59:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 112">
+        <td class="dateTime">2023-05-01 - 2023-05-08</td>
+        <td class="hms">42:36:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">134:28:29</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 113">
+        <td class="dateTime">2023-05-08 - 2023-05-20</td>
+        <td class="hms">2:07:53</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:32:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 114">
+        <td class="dateTime">2023-05-20 - 2023-05-22</td>
+        <td class="hms">5:01:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:50:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 115">
+        <td class="dateTime">2023-05-22 - 2023-05-29</td>
+        <td class="hms">13:50:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">37:01:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 116">
+        <td class="dateTime">2023-05-29 - 2023-06-06</td>
+        <td class="hms">10:38:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">13:22:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 117">
+        <td class="dateTime">2023-06-06 - 2023-06-14</td>
+        <td class="hms">11:07:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">12:40:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 118">
+        <td class="dateTime">2023-06-14 - 2023-06-19</td>
+        <td class="hms">26:09:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">28:55:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 119">
+        <td class="dateTime">2023-06-19 - 2023-06-26</td>
+        <td class="hms">7:26:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">32:04:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 120">
+        <td class="dateTime">2023-06-26 - 2023-07-03</td>
+        <td class="hms">14:48:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">37:01:33</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 121">
+        <td class="dateTime">2023-07-03 - 2023-07-11</td>
+        <td class="hms">12:37:07</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">27:01:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 122">
+        <td class="dateTime">2023-07-11 - 2023-07-17</td>
+        <td class="hms">14:55:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">45:48:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 123">
+        <td class="dateTime">2023-07-17 - 2023-07-24</td>
+        <td class="hms">8:48:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">39:30:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 124">
+        <td class="dateTime">2023-07-24 - 2023-07-31</td>
+        <td class="hms">29:25:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">129:19:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 125">
+        <td class="dateTime">2023-07-31 - 2023-08-08</td>
+        <td class="hms">37:54:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">171:16:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 126">
+        <td class="dateTime">2023-08-08 - 2023-08-14</td>
+        <td class="hms">43:20:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">213:36:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 127">
+        <td class="dateTime">2023-08-14 - 2023-08-21</td>
+        <td class="hms">8:21:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">48:15:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 128">
+        <td class="dateTime">2023-08-21 - 2023-08-30</td>
+        <td class="hms">5:42:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">33:34:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 129">
+        <td class="dateTime">2023-08-30 - 2023-09-04</td>
+        <td class="hms">3:37:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">36:27:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 130">
+        <td class="dateTime">2023-09-04 - 2023-09-11</td>
+        <td class="hms">1:38:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">40:40:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 131">
+        <td class="dateTime">2023-09-11 - 2023-09-20</td>
+        <td class="hms">6:42:01</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">42:48:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 132">
+        <td class="dateTime">2023-09-20 - 2023-09-25</td>
+        <td class="hms">6:56:05</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">37:05:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 133">
+        <td class="dateTime">2023-09-25 - 2023-10-03</td>
+        <td class="hms">19:43:54</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">135:16:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 134">
+        <td class="dateTime">2023-10-03 - 2023-10-09</td>
+        <td class="hms">3:20:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">50:33:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 135">
+        <td class="dateTime">2023-10-09 - 2023-10-16</td>
+        <td class="hms">24:49:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">226:22:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 136">
+        <td class="dateTime">2023-10-16 - 2023-10-23</td>
+        <td class="hms">25:50:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">284:03:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 137">
+        <td class="dateTime">2023-10-23 - 2023-11-06</td>
+        <td class="hms">2:32:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">88:58:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 138">
+        <td class="dateTime">2023-11-06 - 2023-11-16</td>
+        <td class="hms">3:14:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">123:46:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 139">
+        <td class="dateTime">2023-11-16 - 2023-11-20</td>
+        <td class="hms">4:06:13</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">34:30:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 140">
+        <td class="dateTime">2023-11-20 - 2023-11-27</td>
+        <td class="hms">1:53:25</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:05:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 141">
+        <td class="dateTime">2023-11-27 - 2023-12-04</td>
+        <td class="hms">7:03:53</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">69:23:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 142">
+        <td class="dateTime">2023-12-04 - 2023-12-11</td>
+        <td class="hms">5:46:09</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">40:11:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 143">
+        <td class="dateTime">2023-12-11 - 2023-12-18</td>
+        <td class="hms">12:02:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">93:48:39</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 144">
+        <td class="dateTime">2023-12-18 - 2023-12-26</td>
+        <td class="hms">5:36:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">35:16:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 145">
+        <td class="dateTime">2023-12-26 - 2024-01-01</td>
+        <td class="hms">1:37:01</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">45:58:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 146">
+        <td class="dateTime">2024-01-01 - 2024-01-17</td>
+        <td class="hms">1:19:05</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">60:51:34</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 147">
+        <td class="dateTime">2024-01-17 - 2024-01-22</td>
+        <td class="hms">6:14:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">141:23:52</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 148">
+        <td class="dateTime">2024-01-22 - 2024-01-29</td>
+        <td class="hms">1:25:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">44:58:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 149">
+        <td class="dateTime">2024-01-29 - 2024-02-05</td>
+        <td class="hms">1:19:56</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">64:22:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 150">
+        <td class="dateTime">2024-02-05 - 2024-02-13</td>
+        <td class="hms">0:18:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">57:02:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 151">
+        <td class="dateTime">2024-02-13 - 2024-02-19</td>
+        <td class="hms">1:04:22</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">54:19:56</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 152">
+        <td class="dateTime">2024-02-19 - 2024-02-26</td>
+        <td class="hms">1:38:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">51:47:58</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 153">
+        <td class="dateTime">2024-02-26 - 2024-03-04</td>
+        <td class="hms">5:24:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">43:34:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 154">
+        <td class="dateTime">2024-03-04 - 2024-03-11</td>
+        <td class="hms">0:14:07</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">58:05:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 155">
+        <td class="dateTime">2024-03-11 - 2024-03-18</td>
+        <td class="hms">11:14:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">269:31:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 156">
+        <td class="dateTime">2024-03-18 - 2024-03-25</td>
+        <td class="hms">11:52:25</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">317:04:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 157">
+        <td class="dateTime">2024-03-25 - 2024-04-01</td>
+        <td class="hms">0:28:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">38:23:20</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 158">
+        <td class="dateTime">2024-04-01 - 2024-04-08</td>
+        <td class="hms">13:07:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">430:39:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 159">
+        <td class="dateTime">2024-04-08 - 2024-04-22</td>
+        <td class="hms">2:23:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">84:13:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 160">
+        <td class="dateTime">2024-04-22 - 2024-04-29</td>
+        <td class="hms">0:18:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">42:25:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 161">
+        <td class="dateTime">2024-04-29 - 2024-05-06</td>
+        <td class="hms">3:34:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">188:42:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 162">
+        <td class="dateTime">2024-05-06 - 2024-05-14</td>
+        <td class="hms">3:42:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">248:43:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 163">
+        <td class="dateTime">2024-05-14 - 2024-05-21</td>
+        <td class="hms">1:21:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">41:27:24</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 164">
+        <td class="dateTime">2024-05-21 - 2024-05-27</td>
+        <td class="hms">1:55:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:39:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 165">
+        <td class="dateTime">2024-05-27 - 2024-06-03</td>
+        <td class="hms">0:39:53</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">64:26:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 166">
+        <td class="dateTime">2024-06-03 - 2024-06-10</td>
+        <td class="hms">0:18:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">39:08:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 167">
+        <td class="dateTime">2024-06-10 - 2024-06-17</td>
+        <td class="hms">0:18:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">88:13:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 168">
+        <td class="dateTime">2024-06-17 - 2024-06-24</td>
+        <td class="hms">0:18:00</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">82:27:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 169">
+        <td class="dateTime">2024-06-24 - 2024-07-01</td>
+        <td class="hms">0:31:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">80:47:34</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 170">
+        <td class="dateTime">2024-07-01 - 2024-07-08</td>
+        <td class="hms">0:20:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">63:12:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 171">
+        <td class="dateTime">2024-07-08 - 2024-07-16</td>
+        <td class="hms">0:03:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">40:13:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 172">
+        <td class="dateTime">2024-07-16 - 2024-07-22</td>
+        <td class="hms">1:21:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">44:22:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 173">
+        <td class="dateTime">2024-07-22 - 2024-07-30</td>
+        <td class="hms">0:06:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">41:07:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 174">
+        <td class="dateTime">2024-07-30 - 2024-08-05</td>
+        <td class="hms">0:06:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">68:35:40</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 175">
+        <td class="dateTime">2024-08-05 - 2024-08-12</td>
+        <td class="hms">0:36:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">40:08:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 176">
+        <td class="dateTime">2024-08-12 - 2024-08-19</td>
+        <td class="hms">0:04:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">46:54:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 177">
+        <td class="dateTime">2024-08-19 - 2024-08-26</td>
+        <td class="hms">14:35:46</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">40:20:35</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 178">
+        <td class="dateTime">2024-08-26 - 2024-09-02</td>
+        <td class="hms">15:54:56</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">137:12:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 179">
+        <td class="dateTime">2024-09-02 - 2024-09-09</td>
+        <td class="hms">0:10:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">36:43:46</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 180">
+        <td class="dateTime">2024-09-09 - 2024-09-17</td>
+        <td class="hms">0:32:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">51:25:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 181">
+        <td class="dateTime">2024-09-17 - 2024-09-23</td>
+        <td class="hms">0:54:41</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">44:45:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 182">
+        <td class="dateTime">2024-09-23 - 2024-09-30</td>
+        <td class="hms">1:49:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">139:54:12</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 183">
+        <td class="dateTime">2024-09-30 - 2024-10-07</td>
+        <td class="hms">0:22:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">63:18:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 184">
+        <td class="dateTime">2024-10-07 - 2024-10-14</td>
+        <td class="hms">0:07:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">30:05:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 185">
+        <td class="dateTime">2024-10-14 - 2024-10-21</td>
+        <td class="hms">4:32:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">67:39:33</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 186">
+        <td class="dateTime">2024-10-21 - 2024-10-28</td>
+        <td class="hms">4:44:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">113:07:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 187">
+        <td class="dateTime">2024-10-28 - 2024-11-04</td>
+        <td class="hms">0:08:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">15:35:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 188">
+        <td class="dateTime">2024-11-04 - 2024-11-11</td>
+        <td class="hms">0:03:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">51:44:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 189">
+        <td class="dateTime">2024-11-11 - 2024-11-18</td>
+        <td class="hms">3:24:01</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">46:48:24</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 190">
+        <td class="dateTime">2024-11-18 - 2024-11-25</td>
+        <td class="hms">0:08:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">39:38:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 191">
+        <td class="dateTime">2024-11-25 - 2024-12-02</td>
+        <td class="hms">0:02:00</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">58:56:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 192">
+        <td class="dateTime">2024-12-02 - 2024-12-09</td>
+        <td class="hms">0:05:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">59:03:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 193">
+        <td class="dateTime">2024-12-09 - 2024-12-16</td>
+        <td class="hms">0:03:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">49:53:27</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 194">
+        <td class="dateTime">2024-12-16 - 2024-12-23</td>
+        <td class="hms">0:07:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">76:02:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 195">
+        <td class="dateTime">2024-12-23 - 2024-12-30</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 196">
+        <td class="dateTime">2024-12-30 - 2025-01-06</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 197">
+        <td class="dateTime">2025-01-06 - 2025-01-13</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 198">
+        <td class="dateTime">2025-01-13 - 2025-01-20</td>
+        <td class="hms">0:00:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">17:58:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="even 199">
+        <td class="dateTime">2025-01-20 - 2025-01-27</td>
+        <td class="hms">0:00:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">43:57:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr class="odd 200">
+        <td class="dateTime">2025-01-27 - 2025-02-03</td>
+        <td class="hms">0:07:46</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">36:38:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+    </table>
+    <h2>Battery capacity history</h2>
+    <div class="explanation">
+      Charge capacity history of the system's batteries
+    </div>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 10em" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td><span>PERIOD</span></td>
+          <td class="centered">FULL CHARGE CAPACITY</td>
+          <td class="centered">DESIGN CAPACITY</td>
+        </tr>
+      </thead>
+      <tr class="even 1">
+        <td class="dateTime">2020-11-11 - 2020-11-16</td>
+        <td class="mw">38,629 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 2">
+        <td class="dateTime">2020-11-16 - 2020-11-23</td>
+        <td class="mw">38,184 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 3">
+        <td class="dateTime">2020-11-23 - 2020-11-30</td>
+        <td class="mw">38,184 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 4">
+        <td class="dateTime">2020-11-30 - 2020-12-07</td>
+        <td class="mw">38,796 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 5">
+        <td class="dateTime">2020-12-07 - 2020-12-14</td>
+        <td class="mw">38,552 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 6">
+        <td class="dateTime">2020-12-14 - 2020-12-21</td>
+        <td class="mw">38,196 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 7">
+        <td class="dateTime">2020-12-21 - 2020-12-28</td>
+        <td class="mw">38,196 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 8">
+        <td class="dateTime">2020-12-28 - 2021-01-04</td>
+        <td class="mw">38,196 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 9">
+        <td class="dateTime">2021-01-04 - 2021-01-11</td>
+        <td class="mw">38,196 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 10">
+        <td class="dateTime">2021-01-11 - 2021-01-18</td>
+        <td class="mw">38,196 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 11">
+        <td class="dateTime">2021-01-18 - 2021-01-25</td>
+        <td class="mw">37,991 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 12">
+        <td class="dateTime">2021-01-25 - 2021-02-01</td>
+        <td class="mw">37,872 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 13">
+        <td class="dateTime">2021-02-01 - 2021-02-08</td>
+        <td class="mw">37,872 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 14">
+        <td class="dateTime">2021-02-08 - 2021-02-15</td>
+        <td class="mw">37,843 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 15">
+        <td class="dateTime">2021-02-15 - 2021-02-22</td>
+        <td class="mw">37,480 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 16">
+        <td class="dateTime">2021-02-22 - 2021-03-01</td>
+        <td class="mw">37,480 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 17">
+        <td class="dateTime">2021-03-01 - 2021-03-08</td>
+        <td class="mw">37,776 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 18">
+        <td class="dateTime">2021-03-08 - 2021-03-22</td>
+        <td class="mw">37,712 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 19">
+        <td class="dateTime">2021-03-22 - 2021-03-29</td>
+        <td class="mw">37,122 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 20">
+        <td class="dateTime">2021-03-29 - 2021-04-05</td>
+        <td class="mw">37,509 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 21">
+        <td class="dateTime">2021-04-05 - 2021-04-12</td>
+        <td class="mw">37,595 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 22">
+        <td class="dateTime">2021-04-12 - 2021-04-19</td>
+        <td class="mw">37,600 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 23">
+        <td class="dateTime">2021-04-19 - 2021-05-07</td>
+        <td class="mw">37,526 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 24">
+        <td class="dateTime">2021-05-07 - 2021-05-10</td>
+        <td class="mw">37,563 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 25">
+        <td class="dateTime">2021-05-10 - 2021-05-17</td>
+        <td class="mw">37,994 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 26">
+        <td class="dateTime">2021-05-17 - 2021-05-24</td>
+        <td class="mw">38,531 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 27">
+        <td class="dateTime">2021-05-24 - 2021-05-31</td>
+        <td class="mw">38,476 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 28">
+        <td class="dateTime">2021-05-31 - 2021-06-07</td>
+        <td class="mw">38,585 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 29">
+        <td class="dateTime">2021-06-07 - 2021-06-14</td>
+        <td class="mw">38,266 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 30">
+        <td class="dateTime">2021-06-14 - 2021-06-21</td>
+        <td class="mw">37,944 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 31">
+        <td class="dateTime">2021-06-21 - 2021-06-28</td>
+        <td class="mw">37,953 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 32">
+        <td class="dateTime">2021-06-28 - 2021-07-05</td>
+        <td class="mw">37,953 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 33">
+        <td class="dateTime">2021-07-05 - 2021-07-19</td>
+        <td class="mw">37,485 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 34">
+        <td class="dateTime">2021-07-19 - 2021-07-26</td>
+        <td class="mw">37,347 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 35">
+        <td class="dateTime">2021-07-26 - 2021-10-28</td>
+        <td class="mw">36,498 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 36">
+        <td class="dateTime">2021-10-28 - 2021-11-01</td>
+        <td class="mw">36,486 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 37">
+        <td class="dateTime">2021-11-01 - 2021-11-16</td>
+        <td class="mw">36,172 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 38">
+        <td class="dateTime">2021-11-16 - 2021-11-22</td>
+        <td class="mw">33,434 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 39">
+        <td class="dateTime">2021-11-22 - 2021-11-29</td>
+        <td class="mw">33,945 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 40">
+        <td class="dateTime">2021-11-29 - 2021-12-06</td>
+        <td class="mw">33,945 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 41">
+        <td class="dateTime">2021-12-06 - 2021-12-13</td>
+        <td class="mw">33,381 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 42">
+        <td class="dateTime">2021-12-13 - 2021-12-20</td>
+        <td class="mw">32,959 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 43">
+        <td class="dateTime">2021-12-20 - 2021-12-27</td>
+        <td class="mw">25,757 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 44">
+        <td class="dateTime">2021-12-27 - 2022-01-03</td>
+        <td class="mw">25,757 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 45">
+        <td class="dateTime">2022-01-03 - 2022-01-10</td>
+        <td class="mw">25,757 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 46">
+        <td class="dateTime">2022-01-10 - 2022-01-17</td>
+        <td class="mw">25,757 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 47">
+        <td class="dateTime">2022-01-17 - 2022-01-24</td>
+        <td class="mw">26,894 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 48">
+        <td class="dateTime">2022-01-24 - 2022-01-31</td>
+        <td class="mw">27,937 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 49">
+        <td class="dateTime">2022-01-31 - 2022-02-07</td>
+        <td class="mw">29,175 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 50">
+        <td class="dateTime">2022-02-07 - 2022-02-16</td>
+        <td class="mw">29,175 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 51">
+        <td class="dateTime">2022-02-16 - 2022-02-21</td>
+        <td class="mw">29,175 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 52">
+        <td class="dateTime">2022-02-21 - 2022-02-28</td>
+        <td class="mw">29,214 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 53">
+        <td class="dateTime">2022-02-28 - 2022-03-08</td>
+        <td class="mw">33,310 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 54">
+        <td class="dateTime">2022-03-08 - 2022-03-14</td>
+        <td class="mw">33,310 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 55">
+        <td class="dateTime">2022-03-14 - 2022-03-21</td>
+        <td class="mw">33,310 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 56">
+        <td class="dateTime">2022-03-21 - 2022-03-28</td>
+        <td class="mw">33,310 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 57">
+        <td class="dateTime">2022-03-28 - 2022-04-04</td>
+        <td class="mw">32,018 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 58">
+        <td class="dateTime">2022-04-04 - 2022-04-11</td>
+        <td class="mw">31,197 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 59">
+        <td class="dateTime">2022-04-11 - 2022-04-19</td>
+        <td class="mw">31,197 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 60">
+        <td class="dateTime">2022-04-19 - 2022-04-25</td>
+        <td class="mw">31,197 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 61">
+        <td class="dateTime">2022-04-25 - 2022-05-06</td>
+        <td class="mw">31,358 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 62">
+        <td class="dateTime">2022-05-06 - 2022-05-09</td>
+        <td class="mw">31,358 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 63">
+        <td class="dateTime">2022-05-09 - 2022-05-16</td>
+        <td class="mw">31,358 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 64">
+        <td class="dateTime">2022-05-16 - 2022-05-23</td>
+        <td class="mw">30,604 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 65">
+        <td class="dateTime">2022-05-23 - 2022-06-01</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 66">
+        <td class="dateTime">2022-06-01 - 2022-06-21</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 67">
+        <td class="dateTime">2022-06-21 - 2022-07-01</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 68">
+        <td class="dateTime">2022-07-01 - 2022-07-04</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 69">
+        <td class="dateTime">2022-07-04 - 2022-07-11</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 70">
+        <td class="dateTime">2022-07-11 - 2022-07-18</td>
+        <td class="mw">29,614 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 71">
+        <td class="dateTime">2022-07-18 - 2022-07-25</td>
+        <td class="mw">29,511 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 72">
+        <td class="dateTime">2022-07-25 - 2022-08-01</td>
+        <td class="mw">28,990 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 73">
+        <td class="dateTime">2022-08-01 - 2022-08-08</td>
+        <td class="mw">23,019 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 74">
+        <td class="dateTime">2022-08-08 - 2022-08-16</td>
+        <td class="mw">23,019 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 75">
+        <td class="dateTime">2022-08-16 - 2022-08-22</td>
+        <td class="mw">23,530 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 76">
+        <td class="dateTime">2022-08-22 - 2022-08-29</td>
+        <td class="mw">21,599 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 77">
+        <td class="dateTime">2022-08-29 - 2022-09-05</td>
+        <td class="mw">21,599 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 78">
+        <td class="dateTime">2022-09-05 - 2022-09-12</td>
+        <td class="mw">21,599 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 79">
+        <td class="dateTime">2022-09-12 - 2022-09-19</td>
+        <td class="mw">22,280 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 80">
+        <td class="dateTime">2022-09-19 - 2022-09-26</td>
+        <td class="mw">28,725 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 81">
+        <td class="dateTime">2022-09-26 - 2022-10-03</td>
+        <td class="mw">28,725 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 82">
+        <td class="dateTime">2022-10-03 - 2022-10-10</td>
+        <td class="mw">28,725 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 83">
+        <td class="dateTime">2022-10-10 - 2022-10-17</td>
+        <td class="mw">25,170 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 84">
+        <td class="dateTime">2022-10-17 - 2022-10-26</td>
+        <td class="mw">15,452 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 85">
+        <td class="dateTime">2022-10-26 - 2022-10-31</td>
+        <td class="mw">11,654 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 86">
+        <td class="dateTime">2022-10-31 - 2022-11-07</td>
+        <td class="mw">14,986 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 87">
+        <td class="dateTime">2022-11-07 - 2022-11-15</td>
+        <td class="mw">20,767 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 88">
+        <td class="dateTime">2022-11-15 - 2022-11-21</td>
+        <td class="mw">18,050 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 89">
+        <td class="dateTime">2022-11-21 - 2022-11-28</td>
+        <td class="mw">19,124 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 90">
+        <td class="dateTime">2022-11-28 - 2022-12-05</td>
+        <td class="mw">21,009 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 91">
+        <td class="dateTime">2022-12-05 - 2022-12-13</td>
+        <td class="mw">21,009 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 92">
+        <td class="dateTime">2022-12-13 - 2022-12-19</td>
+        <td class="mw">18,761 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 93">
+        <td class="dateTime">2022-12-19 - 2022-12-27</td>
+        <td class="mw">22,684 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 94">
+        <td class="dateTime">2022-12-27 - 2023-01-02</td>
+        <td class="mw">22,684 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 95">
+        <td class="dateTime">2023-01-02 - 2023-01-09</td>
+        <td class="mw">22,684 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 96">
+        <td class="dateTime">2023-01-09 - 2023-01-18</td>
+        <td class="mw">21,757 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 97">
+        <td class="dateTime">2023-01-18 - 2023-01-23</td>
+        <td class="mw">18,723 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 98">
+        <td class="dateTime">2023-01-23 - 2023-01-30</td>
+        <td class="mw">16,975 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 99">
+        <td class="dateTime">2023-01-30 - 2023-02-06</td>
+        <td class="mw">5,660 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 100">
+        <td class="dateTime">2023-02-06 - 2023-02-15</td>
+        <td class="mw">13,199 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 101">
+        <td class="dateTime">2023-02-15 - 2023-02-20</td>
+        <td class="mw">11,915 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 102">
+        <td class="dateTime">2023-02-20 - 2023-02-27</td>
+        <td class="mw">12,079 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 103">
+        <td class="dateTime">2023-02-27 - 2023-03-06</td>
+        <td class="mw">11,158 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 104">
+        <td class="dateTime">2023-03-06 - 2023-03-13</td>
+        <td class="mw">8,905 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 105">
+        <td class="dateTime">2023-03-13 - 2023-03-20</td>
+        <td class="mw">14,185 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 106">
+        <td class="dateTime">2023-03-20 - 2023-03-28</td>
+        <td class="mw">18,053 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 107">
+        <td class="dateTime">2023-03-28 - 2023-04-03</td>
+        <td class="mw">15,099 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 108">
+        <td class="dateTime">2023-04-03 - 2023-04-10</td>
+        <td class="mw">6,976 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 109">
+        <td class="dateTime">2023-04-10 - 2023-04-17</td>
+        <td class="mw">7,542 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 110">
+        <td class="dateTime">2023-04-17 - 2023-04-24</td>
+        <td class="mw">7,444 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 111">
+        <td class="dateTime">2023-04-24 - 2023-05-01</td>
+        <td class="mw">26,392 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 112">
+        <td class="dateTime">2023-05-01 - 2023-05-08</td>
+        <td class="mw">15,801 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 113">
+        <td class="dateTime">2023-05-08 - 2023-05-20</td>
+        <td class="mw">19,404 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 114">
+        <td class="dateTime">2023-05-20 - 2023-05-22</td>
+        <td class="mw">19,404 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 115">
+        <td class="dateTime">2023-05-22 - 2023-05-29</td>
+        <td class="mw">10,127 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 116">
+        <td class="dateTime">2023-05-29 - 2023-06-06</td>
+        <td class="mw">18,504 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 117">
+        <td class="dateTime">2023-06-06 - 2023-06-14</td>
+        <td class="mw">9,748 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 118">
+        <td class="dateTime">2023-06-14 - 2023-06-19</td>
+        <td class="mw">11,152 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 119">
+        <td class="dateTime">2023-06-19 - 2023-06-26</td>
+        <td class="mw">6,987 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 120">
+        <td class="dateTime">2023-06-26 - 2023-07-03</td>
+        <td class="mw">2,726 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 121">
+        <td class="dateTime">2023-07-03 - 2023-07-11</td>
+        <td class="mw">2,726 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 122">
+        <td class="dateTime">2023-07-11 - 2023-07-17</td>
+        <td class="mw">4,674 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 123">
+        <td class="dateTime">2023-07-17 - 2023-07-24</td>
+        <td class="mw">9,829 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 124">
+        <td class="dateTime">2023-07-24 - 2023-07-31</td>
+        <td class="mw">7,804 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 125">
+        <td class="dateTime">2023-07-31 - 2023-08-08</td>
+        <td class="mw">8,610 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 126">
+        <td class="dateTime">2023-08-08 - 2023-08-14</td>
+        <td class="mw">7,641 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 127">
+        <td class="dateTime">2023-08-14 - 2023-08-21</td>
+        <td class="mw">8,131 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 128">
+        <td class="dateTime">2023-08-21 - 2023-08-30</td>
+        <td class="mw">8,131 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 129">
+        <td class="dateTime">2023-08-30 - 2023-09-04</td>
+        <td class="mw">8,131 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 130">
+        <td class="dateTime">2023-09-04 - 2023-09-11</td>
+        <td class="mw">8,852 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 131">
+        <td class="dateTime">2023-09-11 - 2023-09-20</td>
+        <td class="mw">7,654 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 132">
+        <td class="dateTime">2023-09-20 - 2023-09-25</td>
+        <td class="mw">4,216 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 133">
+        <td class="dateTime">2023-09-25 - 2023-10-03</td>
+        <td class="mw">5,353 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 134">
+        <td class="dateTime">2023-10-03 - 2023-10-09</td>
+        <td class="mw">1,340 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 135">
+        <td class="dateTime">2023-10-09 - 2023-10-16</td>
+        <td class="mw">3,876 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 136">
+        <td class="dateTime">2023-10-16 - 2023-10-23</td>
+        <td class="mw">3,512 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 137">
+        <td class="dateTime">2023-10-23 - 2023-11-06</td>
+        <td class="mw">5,159 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 138">
+        <td class="dateTime">2023-11-06 - 2023-11-16</td>
+        <td class="mw">4,755 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 139">
+        <td class="dateTime">2023-11-16 - 2023-11-20</td>
+        <td class="mw">2,125 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 140">
+        <td class="dateTime">2023-11-20 - 2023-11-27</td>
+        <td class="mw">3,743 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 141">
+        <td class="dateTime">2023-11-27 - 2023-12-04</td>
+        <td class="mw">4,851 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 142">
+        <td class="dateTime">2023-12-04 - 2023-12-11</td>
+        <td class="mw">7,301 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 143">
+        <td class="dateTime">2023-12-11 - 2023-12-18</td>
+        <td class="mw">6,474 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 144">
+        <td class="dateTime">2023-12-18 - 2023-12-26</td>
+        <td class="mw">3,950 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 145">
+        <td class="dateTime">2023-12-26 - 2024-01-01</td>
+        <td class="mw">2,733 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 146">
+        <td class="dateTime">2024-01-01 - 2024-01-17</td>
+        <td class="mw">2,541 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 147">
+        <td class="dateTime">2024-01-17 - 2024-01-22</td>
+        <td class="mw">4,182 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 148">
+        <td class="dateTime">2024-01-22 - 2024-01-29</td>
+        <td class="mw">17,602 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 149">
+        <td class="dateTime">2024-01-29 - 2024-02-05</td>
+        <td class="mw">14,667 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 150">
+        <td class="dateTime">2024-02-05 - 2024-02-13</td>
+        <td class="mw">2,252 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 151">
+        <td class="dateTime">2024-02-13 - 2024-02-19</td>
+        <td class="mw">2,429 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 152">
+        <td class="dateTime">2024-02-19 - 2024-02-26</td>
+        <td class="mw">2,911 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 153">
+        <td class="dateTime">2024-02-26 - 2024-03-04</td>
+        <td class="mw">2,911 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 154">
+        <td class="dateTime">2024-03-04 - 2024-03-11</td>
+        <td class="mw">2,911 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 155">
+        <td class="dateTime">2024-03-11 - 2024-03-18</td>
+        <td class="mw">2,920 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 156">
+        <td class="dateTime">2024-03-18 - 2024-03-25</td>
+        <td class="mw">2,907 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 157">
+        <td class="dateTime">2024-03-25 - 2024-04-01</td>
+        <td class="mw">1,917 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 158">
+        <td class="dateTime">2024-04-01 - 2024-04-08</td>
+        <td class="mw">2,719 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 159">
+        <td class="dateTime">2024-04-08 - 2024-04-22</td>
+        <td class="mw">2,546 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 160">
+        <td class="dateTime">2024-04-22 - 2024-04-29</td>
+        <td class="mw">1,386 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 161">
+        <td class="dateTime">2024-04-29 - 2024-05-06</td>
+        <td class="mw">2,409 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 162">
+        <td class="dateTime">2024-05-06 - 2024-05-14</td>
+        <td class="mw">3,633 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 163">
+        <td class="dateTime">2024-05-14 - 2024-05-21</td>
+        <td class="mw">7,408 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 164">
+        <td class="dateTime">2024-05-21 - 2024-05-27</td>
+        <td class="mw">2,391 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 165">
+        <td class="dateTime">2024-05-27 - 2024-06-03</td>
+        <td class="mw">2,391 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 166">
+        <td class="dateTime">2024-06-03 - 2024-06-10</td>
+        <td class="mw">2,391 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 167">
+        <td class="dateTime">2024-06-10 - 2024-06-17</td>
+        <td class="mw">3,615 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 168">
+        <td class="dateTime">2024-06-17 - 2024-06-24</td>
+        <td class="mw">5,198 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 169">
+        <td class="dateTime">2024-06-24 - 2024-07-01</td>
+        <td class="mw">5,198 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 170">
+        <td class="dateTime">2024-07-01 - 2024-07-08</td>
+        <td class="mw">5,198 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 171">
+        <td class="dateTime">2024-07-08 - 2024-07-16</td>
+        <td class="mw">4,389 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 172">
+        <td class="dateTime">2024-07-16 - 2024-07-22</td>
+        <td class="mw">4,736 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 173">
+        <td class="dateTime">2024-07-22 - 2024-07-30</td>
+        <td class="mw">4,736 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 174">
+        <td class="dateTime">2024-07-30 - 2024-08-05</td>
+        <td class="mw">4,736 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 175">
+        <td class="dateTime">2024-08-05 - 2024-08-12</td>
+        <td class="mw">4,736 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 176">
+        <td class="dateTime">2024-08-12 - 2024-08-19</td>
+        <td class="mw">4,064 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 177">
+        <td class="dateTime">2024-08-19 - 2024-08-26</td>
+        <td class="mw">3,384 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 178">
+        <td class="dateTime">2024-08-26 - 2024-09-02</td>
+        <td class="mw">7,036 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 179">
+        <td class="dateTime">2024-09-02 - 2024-09-09</td>
+        <td class="mw">11,989 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 180">
+        <td class="dateTime">2024-09-09 - 2024-09-17</td>
+        <td class="mw">10,687 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 181">
+        <td class="dateTime">2024-09-17 - 2024-09-23</td>
+        <td class="mw">4,354 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 182">
+        <td class="dateTime">2024-09-23 - 2024-09-30</td>
+        <td class="mw">6,684 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 183">
+        <td class="dateTime">2024-09-30 - 2024-10-07</td>
+        <td class="mw">6,607 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 184">
+        <td class="dateTime">2024-10-07 - 2024-10-14</td>
+        <td class="mw">6,370 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 185">
+        <td class="dateTime">2024-10-14 - 2024-10-21</td>
+        <td class="mw">3,292 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 186">
+        <td class="dateTime">2024-10-21 - 2024-10-28</td>
+        <td class="mw">2,730 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 187">
+        <td class="dateTime">2024-10-28 - 2024-11-04</td>
+        <td class="mw">670 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 188">
+        <td class="dateTime">2024-11-04 - 2024-11-11</td>
+        <td class="mw">670 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 189">
+        <td class="dateTime">2024-11-11 - 2024-11-18</td>
+        <td class="mw">774 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 190">
+        <td class="dateTime">2024-11-18 - 2024-11-25</td>
+        <td class="mw">1,184 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 191">
+        <td class="dateTime">2024-11-25 - 2024-12-02</td>
+        <td class="mw">1,929 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 192">
+        <td class="dateTime">2024-12-02 - 2024-12-09</td>
+        <td class="mw">1,929 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 193">
+        <td class="dateTime">2024-12-09 - 2024-12-16</td>
+        <td class="mw">787 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 194">
+        <td class="dateTime">2024-12-16 - 2024-12-23</td>
+        <td class="mw">601 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 195">
+        <td class="dateTime">2024-12-23 - 2024-12-30</td>
+        <td class="mw">601 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 196">
+        <td class="dateTime">2024-12-30 - 2025-01-06</td>
+        <td class="mw">601 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 197">
+        <td class="dateTime">2025-01-06 - 2025-01-13</td>
+        <td class="mw">601 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 198">
+        <td class="dateTime">2025-01-13 - 2025-01-20</td>
+        <td class="mw">1,679 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="even 199">
+        <td class="dateTime">2025-01-20 - 2025-01-27</td>
+        <td class="mw">1,779 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+      <tr class="odd 200">
+        <td class="dateTime">2025-01-27 - 2025-02-03</td>
+        <td class="mw">1,779 mWh</td>
+        <td class="mw">41,753 mWh</td>
+      </tr>
+    </table>
+    <h2>Battery life estimates</h2>
+    <div class="explanation2">
+      Battery life estimates based on observed drains
+    </div>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 10em" />
+        <col style="" />
+        <col style="width: 10em" />
+        <col style="width: 10em" />
+        <col style="width: 10em" />
+      </colgroup>
+      <thead>
+        <tr class="rowHeader">
+          <td></td>
+          <td colspan="2" class="centered">AT FULL CHARGE</td>
+          <td class="colBreak"></td>
+          <td colspan="2" class="centered">AT DESIGN CAPACITY</td>
+        </tr>
+        <tr class="rowHeader">
+          <td>PERIOD</td>
+          <td class="centered"><span>ACTIVE</span></td>
+          <td class="centered"><span>CONNECTED STANDBY</span></td>
+          <td class="colBreak"></td>
+          <td class="centered"><span>ACTIVE</span></td>
+          <td class="centered"><span>CONNECTED STANDBY</span></td>
+        </tr>
+      </thead>
+      <tr style="vertical-align: top" class="even 1">
+        <td class="dateTime">2020-11-11 - 2020-11-16</td>
+        <td class="hms">2:38:01</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:50:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 2">
+        <td class="dateTime">2020-11-16 - 2020-11-23</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 3">
+        <td class="dateTime">2020-11-23 - 2020-11-30</td>
+        <td class="hms">18:14:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">19:56:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 4">
+        <td class="dateTime">2020-11-30 - 2020-12-07</td>
+        <td class="hms">2:35:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:46:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 5">
+        <td class="dateTime">2020-12-07 - 2020-12-14</td>
+        <td class="hms">3:09:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:25:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 6">
+        <td class="dateTime">2020-12-14 - 2020-12-21</td>
+        <td class="hms">40:09:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">43:53:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 7">
+        <td class="dateTime">2020-12-21 - 2020-12-28</td>
+        <td class="hms">5:37:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:09:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 8">
+        <td class="dateTime">2020-12-28 - 2021-01-04</td>
+        <td class="hms">5:45:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:17:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 9">
+        <td class="dateTime">2021-01-04 - 2021-01-11</td>
+        <td class="hms">7:12:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:52:51</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 10">
+        <td class="dateTime">2021-01-11 - 2021-01-18</td>
+        <td class="hms">5:40:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:12:40</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 11">
+        <td class="dateTime">2021-01-18 - 2021-01-25</td>
+        <td class="hms">5:42:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:16:29</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 12">
+        <td class="dateTime">2021-01-25 - 2021-02-01</td>
+        <td class="hms">5:56:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:33:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 13">
+        <td class="dateTime">2021-02-01 - 2021-02-08</td>
+        <td class="hms">6:35:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:15:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 14">
+        <td class="dateTime">2021-02-08 - 2021-02-15</td>
+        <td class="hms">4:35:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:03:27</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 15">
+        <td class="dateTime">2021-02-15 - 2021-02-22</td>
+        <td class="hms">6:16:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:59:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 16">
+        <td class="dateTime">2021-02-22 - 2021-03-01</td>
+        <td class="hms">4:38:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:10:39</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 17">
+        <td class="dateTime">2021-03-01 - 2021-03-08</td>
+        <td class="hms">4:17:05</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:44:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 18">
+        <td class="dateTime">2021-03-08 - 2021-03-22</td>
+        <td class="hms">2:45:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:02:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 19">
+        <td class="dateTime">2021-03-22 - 2021-03-29</td>
+        <td class="hms">2:27:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:45:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 20">
+        <td class="dateTime">2021-03-29 - 2021-04-05</td>
+        <td class="hms">2:30:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:47:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 21">
+        <td class="dateTime">2021-04-05 - 2021-04-12</td>
+        <td class="hms">2:25:25</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:41:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 22">
+        <td class="dateTime">2021-04-12 - 2021-04-19</td>
+        <td class="hms">2:31:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:47:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 23">
+        <td class="dateTime">2021-04-19 - 2021-05-07</td>
+        <td class="hms">3:18:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:40:40</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 24">
+        <td class="dateTime">2021-05-07 - 2021-05-10</td>
+        <td class="hms">2:34:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:52:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 25">
+        <td class="dateTime">2021-05-10 - 2021-05-17</td>
+        <td class="hms">2:47:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:04:19</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 26">
+        <td class="dateTime">2021-05-17 - 2021-05-24</td>
+        <td class="hms">26:54:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">29:09:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 27">
+        <td class="dateTime">2021-05-24 - 2021-05-31</td>
+        <td class="hms">3:32:13</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:50:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 28">
+        <td class="dateTime">2021-05-31 - 2021-06-07</td>
+        <td class="hms">3:44:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:02:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 29">
+        <td class="dateTime">2021-06-07 - 2021-06-14</td>
+        <td class="hms">2:44:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:59:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 30">
+        <td class="dateTime">2021-06-14 - 2021-06-21</td>
+        <td class="hms">3:15:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:34:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 31">
+        <td class="dateTime">2021-06-21 - 2021-06-28</td>
+        <td class="hms">2:52:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:09:46</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 32">
+        <td class="dateTime">2021-06-28 - 2021-07-05</td>
+        <td class="hms">2:33:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:48:39</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 33">
+        <td class="dateTime">2021-07-05 - 2021-07-19</td>
+        <td class="hms">3:09:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:31:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 34">
+        <td class="dateTime">2021-07-19 - 2021-07-26</td>
+        <td class="hms">2:58:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:19:19</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 35">
+        <td class="dateTime">2021-07-26 - 2021-10-28</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 36">
+        <td class="dateTime">2021-10-28 - 2021-11-01</td>
+        <td class="hms">2:11:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:31:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 37">
+        <td class="dateTime">2021-11-01 - 2021-11-16</td>
+        <td class="hms">2:13:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:34:28</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 38">
+        <td class="dateTime">2021-11-16 - 2021-11-22</td>
+        <td class="hms">2:09:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:42:19</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 39">
+        <td class="dateTime">2021-11-22 - 2021-11-29</td>
+        <td class="hms">2:37:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:13:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 40">
+        <td class="dateTime">2021-11-29 - 2021-12-06</td>
+        <td class="hms">2:19:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:51:56</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 41">
+        <td class="dateTime">2021-12-06 - 2021-12-13</td>
+        <td class="hms">2:20:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:55:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 42">
+        <td class="dateTime">2021-12-13 - 2021-12-20</td>
+        <td class="hms">2:17:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:53:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 43">
+        <td class="dateTime">2021-12-20 - 2021-12-27</td>
+        <td class="hms">1:40:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:42:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 44">
+        <td class="dateTime">2021-12-27 - 2022-01-03</td>
+        <td class="hms">1:40:09</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:42:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 45">
+        <td class="dateTime">2022-01-03 - 2022-01-10</td>
+        <td class="hms">1:38:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:40:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 46">
+        <td class="dateTime">2022-01-10 - 2022-01-17</td>
+        <td class="hms">1:39:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:41:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 47">
+        <td class="dateTime">2022-01-17 - 2022-01-24</td>
+        <td class="hms">1:54:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:58:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 48">
+        <td class="dateTime">2022-01-24 - 2022-01-31</td>
+        <td class="hms">1:59:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:58:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 49">
+        <td class="dateTime">2022-01-31 - 2022-02-07</td>
+        <td class="hms">1:59:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:51:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 50">
+        <td class="dateTime">2022-02-07 - 2022-02-16</td>
+        <td class="hms">1:51:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:40:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 51">
+        <td class="dateTime">2022-02-16 - 2022-02-21</td>
+        <td class="hms">2:30:21</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:35:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 52">
+        <td class="dateTime">2022-02-21 - 2022-02-28</td>
+        <td class="hms">2:16:46</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:15:28</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 53">
+        <td class="dateTime">2022-02-28 - 2022-03-08</td>
+        <td class="hms">4:15:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:20:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 54">
+        <td class="dateTime">2022-03-08 - 2022-03-14</td>
+        <td class="hms">4:02:07</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:03:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 55">
+        <td class="dateTime">2022-03-14 - 2022-03-21</td>
+        <td class="hms">4:16:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:20:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 56">
+        <td class="dateTime">2022-03-21 - 2022-03-28</td>
+        <td class="hms">4:05:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:07:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 57">
+        <td class="dateTime">2022-03-28 - 2022-04-04</td>
+        <td class="hms">3:30:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:34:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 58">
+        <td class="dateTime">2022-04-04 - 2022-04-11</td>
+        <td class="hms">3:57:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:18:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 59">
+        <td class="dateTime">2022-04-11 - 2022-04-19</td>
+        <td class="hms">1:59:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:40:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 60">
+        <td class="dateTime">2022-04-19 - 2022-04-25</td>
+        <td class="hms">4:32:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:04:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 61">
+        <td class="dateTime">2022-04-25 - 2022-05-06</td>
+        <td class="hms">4:10:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:34:00</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 62">
+        <td class="dateTime">2022-05-06 - 2022-05-09</td>
+        <td class="hms">4:10:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:33:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 63">
+        <td class="dateTime">2022-05-09 - 2022-05-16</td>
+        <td class="hms">5:26:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:14:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 64">
+        <td class="dateTime">2022-05-16 - 2022-05-23</td>
+        <td class="hms">4:00:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:28:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 65">
+        <td class="dateTime">2022-05-23 - 2022-06-01</td>
+        <td class="hms">4:14:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:59:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 66">
+        <td class="dateTime">2022-06-01 - 2022-06-21</td>
+        <td class="hms">2:41:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:48:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 67">
+        <td class="dateTime">2022-06-21 - 2022-07-01</td>
+        <td class="hms">2:17:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:14:04</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 68">
+        <td class="dateTime">2022-07-01 - 2022-07-04</td>
+        <td class="hms">1:54:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:41:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 69">
+        <td class="dateTime">2022-07-04 - 2022-07-11</td>
+        <td class="hms">2:44:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:52:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 70">
+        <td class="dateTime">2022-07-11 - 2022-07-18</td>
+        <td class="hms">2:51:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:02:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 71">
+        <td class="dateTime">2022-07-18 - 2022-07-25</td>
+        <td class="hms">2:47:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:56:26</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 72">
+        <td class="dateTime">2022-07-25 - 2022-08-01</td>
+        <td class="hms">2:50:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:05:24</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 73">
+        <td class="dateTime">2022-08-01 - 2022-08-08</td>
+        <td class="hms">3:29:25</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:19:51</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 74">
+        <td class="dateTime">2022-08-08 - 2022-08-16</td>
+        <td class="hms">3:21:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:05:03</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 75">
+        <td class="dateTime">2022-08-16 - 2022-08-22</td>
+        <td class="hms">2:20:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:08:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 76">
+        <td class="dateTime">2022-08-22 - 2022-08-29</td>
+        <td class="hms">3:30:06</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:46:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 77">
+        <td class="dateTime">2022-08-29 - 2022-09-05</td>
+        <td class="hms">3:16:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:19:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 78">
+        <td class="dateTime">2022-09-05 - 2022-09-12</td>
+        <td class="hms">4:28:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:39:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 79">
+        <td class="dateTime">2022-09-12 - 2022-09-19</td>
+        <td class="hms">3:16:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:07:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 80">
+        <td class="dateTime">2022-09-19 - 2022-09-26</td>
+        <td class="hms">3:53:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:39:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 81">
+        <td class="dateTime">2022-09-26 - 2022-10-03</td>
+        <td class="hms">2:37:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:48:56</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 82">
+        <td class="dateTime">2022-10-03 - 2022-10-10</td>
+        <td class="hms">7:01:51</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:13:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 83">
+        <td class="dateTime">2022-10-10 - 2022-10-17</td>
+        <td class="hms">3:38:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:02:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 84">
+        <td class="dateTime">2022-10-17 - 2022-10-26</td>
+        <td class="hms">2:13:01</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:59:26</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 85">
+        <td class="dateTime">2022-10-26 - 2022-10-31</td>
+        <td class="hms">1:01:34</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:40:35</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 86">
+        <td class="dateTime">2022-10-31 - 2022-11-07</td>
+        <td class="hms">1:40:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:40:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 87">
+        <td class="dateTime">2022-11-07 - 2022-11-15</td>
+        <td class="hms">2:06:45</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:14:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 88">
+        <td class="dateTime">2022-11-15 - 2022-11-21</td>
+        <td class="hms">2:07:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:55:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 89">
+        <td class="dateTime">2022-11-21 - 2022-11-28</td>
+        <td class="hms">2:16:31</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:58:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 90">
+        <td class="dateTime">2022-11-28 - 2022-12-05</td>
+        <td class="hms">1:24:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:47:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 91">
+        <td class="dateTime">2022-12-05 - 2022-12-13</td>
+        <td class="hms">2:35:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:08:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 92">
+        <td class="dateTime">2022-12-13 - 2022-12-19</td>
+        <td class="hms">2:08:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:46:37</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 93">
+        <td class="dateTime">2022-12-19 - 2022-12-27</td>
+        <td class="hms">2:14:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:07:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 94">
+        <td class="dateTime">2022-12-27 - 2023-01-02</td>
+        <td class="hms">2:26:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:28:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 95">
+        <td class="dateTime">2023-01-02 - 2023-01-09</td>
+        <td class="hms">2:19:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:17:33</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 96">
+        <td class="dateTime">2023-01-09 - 2023-01-18</td>
+        <td class="hms">2:10:46</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:10:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 97">
+        <td class="dateTime">2023-01-18 - 2023-01-23</td>
+        <td class="hms">2:48:44</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:16:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 98">
+        <td class="dateTime">2023-01-23 - 2023-01-30</td>
+        <td class="hms">1:59:22</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:53:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 99">
+        <td class="dateTime">2023-01-30 - 2023-02-06</td>
+        <td class="hms">0:57:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:04:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 100">
+        <td class="dateTime">2023-02-06 - 2023-02-15</td>
+        <td class="hms">1:42:38</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:24:41</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 101">
+        <td class="dateTime">2023-02-15 - 2023-02-20</td>
+        <td class="hms">1:30:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:16:56</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 102">
+        <td class="dateTime">2023-02-20 - 2023-02-27</td>
+        <td class="hms">1:31:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:14:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 103">
+        <td class="dateTime">2023-02-27 - 2023-03-06</td>
+        <td class="hms">0:51:36</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:13:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 104">
+        <td class="dateTime">2023-03-06 - 2023-03-13</td>
+        <td class="hms">0:47:55</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:44:40</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 105">
+        <td class="dateTime">2023-03-13 - 2023-03-20</td>
+        <td class="hms">1:39:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:52:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 106">
+        <td class="dateTime">2023-03-20 - 2023-03-28</td>
+        <td class="hms">2:43:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:18:20</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 107">
+        <td class="dateTime">2023-03-28 - 2023-04-03</td>
+        <td class="hms">1:44:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:48:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 108">
+        <td class="dateTime">2023-04-03 - 2023-04-10</td>
+        <td class="hms">0:35:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:32:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 109">
+        <td class="dateTime">2023-04-10 - 2023-04-17</td>
+        <td class="hms">0:50:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:37:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 110">
+        <td class="dateTime">2023-04-17 - 2023-04-24</td>
+        <td class="hms">0:44:36</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:10:09</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 111">
+        <td class="dateTime">2023-04-24 - 2023-05-01</td>
+        <td class="hms">2:21:27</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:43:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 112">
+        <td class="dateTime">2023-05-01 - 2023-05-08</td>
+        <td class="hms">1:29:45</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:57:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 113">
+        <td class="dateTime">2023-05-08 - 2023-05-20</td>
+        <td class="hms">1:01:21</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:12:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 114">
+        <td class="dateTime">2023-05-20 - 2023-05-22</td>
+        <td class="hms">2:28:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:19:18</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 115">
+        <td class="dateTime">2023-05-22 - 2023-05-29</td>
+        <td class="hms">0:50:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:27:12</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 116">
+        <td class="dateTime">2023-05-29 - 2023-06-06</td>
+        <td class="hms">3:38:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:13:41</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 117">
+        <td class="dateTime">2023-06-06 - 2023-06-14</td>
+        <td class="hms">2:01:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:38:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 118">
+        <td class="dateTime">2023-06-14 - 2023-06-19</td>
+        <td class="hms">2:09:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">8:06:35</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 119">
+        <td class="dateTime">2023-06-19 - 2023-06-26</td>
+        <td class="hms">0:48:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:51:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 120">
+        <td class="dateTime">2023-06-26 - 2023-07-03</td>
+        <td class="hms">0:16:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:11:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 121">
+        <td class="dateTime">2023-07-03 - 2023-07-11</td>
+        <td class="hms">0:17:56</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:34:41</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 122">
+        <td class="dateTime">2023-07-11 - 2023-07-17</td>
+        <td class="hms">0:37:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:32:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 123">
+        <td class="dateTime">2023-07-17 - 2023-07-24</td>
+        <td class="hms">1:01:09</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:19:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 124">
+        <td class="dateTime">2023-07-24 - 2023-07-31</td>
+        <td class="hms">0:58:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:12:02</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 125">
+        <td class="dateTime">2023-07-31 - 2023-08-08</td>
+        <td class="hms">1:09:00</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:34:38</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 126">
+        <td class="dateTime">2023-08-08 - 2023-08-14</td>
+        <td class="hms">1:00:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:32:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 127">
+        <td class="dateTime">2023-08-14 - 2023-08-21</td>
+        <td class="hms">0:51:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:26:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 128">
+        <td class="dateTime">2023-08-21 - 2023-08-30</td>
+        <td class="hms">0:34:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:54:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 129">
+        <td class="dateTime">2023-08-30 - 2023-09-04</td>
+        <td class="hms">0:40:38</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:28:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 130">
+        <td class="dateTime">2023-09-04 - 2023-09-11</td>
+        <td class="hms">0:36:16</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:51:05</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 131">
+        <td class="dateTime">2023-09-11 - 2023-09-20</td>
+        <td class="hms">0:34:36</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:08:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 132">
+        <td class="dateTime">2023-09-20 - 2023-09-25</td>
+        <td class="hms">1:17:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">12:49:45</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 133">
+        <td class="dateTime">2023-09-25 - 2023-10-03</td>
+        <td class="hms">0:39:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:06:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 134">
+        <td class="dateTime">2023-10-03 - 2023-10-09</td>
+        <td class="hms">0:05:10</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:41:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 135">
+        <td class="dateTime">2023-10-09 - 2023-10-16</td>
+        <td class="hms">0:23:10</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:09:42</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 136">
+        <td class="dateTime">2023-10-16 - 2023-10-23</td>
+        <td class="hms">0:19:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:57:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 137">
+        <td class="dateTime">2023-10-23 - 2023-11-06</td>
+        <td class="hms">0:20:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:48:22</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 138">
+        <td class="dateTime">2023-11-06 - 2023-11-16</td>
+        <td class="hms">0:20:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:56:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 139">
+        <td class="dateTime">2023-11-16 - 2023-11-20</td>
+        <td class="hms">0:11:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:49:20</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 140">
+        <td class="dateTime">2023-11-20 - 2023-11-27</td>
+        <td class="hms">0:22:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:10:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 141">
+        <td class="dateTime">2023-11-27 - 2023-12-04</td>
+        <td class="hms">0:42:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:03:20</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 142">
+        <td class="dateTime">2023-12-04 - 2023-12-11</td>
+        <td class="hms">0:39:09</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:43:58</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 143">
+        <td class="dateTime">2023-12-11 - 2023-12-18</td>
+        <td class="hms">0:36:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:53:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 144">
+        <td class="dateTime">2023-12-18 - 2023-12-26</td>
+        <td class="hms">0:11:31</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:01:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 145">
+        <td class="dateTime">2023-12-26 - 2024-01-01</td>
+        <td class="hms">0:28:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:16:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 146">
+        <td class="dateTime">2024-01-01 - 2024-01-17</td>
+        <td class="hms">0:07:24</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:01:39</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 147">
+        <td class="dateTime">2024-01-17 - 2024-01-22</td>
+        <td class="hms">0:15:18</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:32:54</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 148">
+        <td class="dateTime">2024-01-22 - 2024-01-29</td>
+        <td class="hms">0:31:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:15:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 149">
+        <td class="dateTime">2024-01-29 - 2024-02-05</td>
+        <td class="hms">2:39:39</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:34:30</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 150">
+        <td class="dateTime">2024-02-05 - 2024-02-13</td>
+        <td class="hms">0:02:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">0:50:20</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 151">
+        <td class="dateTime">2024-02-13 - 2024-02-19</td>
+        <td class="hms">0:12:03</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:27:12</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 152">
+        <td class="dateTime">2024-02-19 - 2024-02-26</td>
+        <td class="hms">0:12:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:04:17</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 153">
+        <td class="dateTime">2024-02-26 - 2024-03-04</td>
+        <td class="hms">0:31:11</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">7:27:27</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 154">
+        <td class="dateTime">2024-03-04 - 2024-03-11</td>
+        <td class="hms">0:01:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">0:22:10</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 155">
+        <td class="dateTime">2024-03-11 - 2024-03-18</td>
+        <td class="hms">0:09:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:12:03</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 156">
+        <td class="dateTime">2024-03-18 - 2024-03-25</td>
+        <td class="hms">0:08:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:01:36</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 157">
+        <td class="dateTime">2024-03-25 - 2024-04-01</td>
+        <td class="hms">0:03:04</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:06:49</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 158">
+        <td class="dateTime">2024-04-01 - 2024-04-08</td>
+        <td class="hms">0:06:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:47:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 159">
+        <td class="dateTime">2024-04-08 - 2024-04-22</td>
+        <td class="hms">0:05:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:35:29</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 160">
+        <td class="dateTime">2024-04-22 - 2024-04-29</td>
+        <td class="hms">0:05:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:48:16</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 161">
+        <td class="dateTime">2024-04-29 - 2024-05-06</td>
+        <td class="hms">0:06:30</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:52:43</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 162">
+        <td class="dateTime">2024-05-06 - 2024-05-14</td>
+        <td class="hms">0:09:53</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:53:43</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 163">
+        <td class="dateTime">2024-05-14 - 2024-05-21</td>
+        <td class="hms">0:34:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:13:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 164">
+        <td class="dateTime">2024-05-21 - 2024-05-27</td>
+        <td class="hms">0:06:52</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:00:11</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 165">
+        <td class="dateTime">2024-05-27 - 2024-06-03</td>
+        <td class="hms">0:05:17</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:32:32</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 166">
+        <td class="dateTime">2024-06-03 - 2024-06-10</td>
+        <td class="hms">0:11:43</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:24:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 167">
+        <td class="dateTime">2024-06-10 - 2024-06-17</td>
+        <td class="hms">0:10:08</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:57:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 168">
+        <td class="dateTime">2024-06-17 - 2024-06-24</td>
+        <td class="hms">0:33:37</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:30:03</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 169">
+        <td class="dateTime">2024-06-24 - 2024-07-01</td>
+        <td class="hms">0:35:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:44:43</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 170">
+        <td class="dateTime">2024-07-01 - 2024-07-08</td>
+        <td class="hms">0:25:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:23:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 171">
+        <td class="dateTime">2024-07-08 - 2024-07-16</td>
+        <td class="hms">0:17:02</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:42:06</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 172">
+        <td class="dateTime">2024-07-16 - 2024-07-22</td>
+        <td class="hms">0:44:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:30:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 173">
+        <td class="dateTime">2024-07-22 - 2024-07-30</td>
+        <td class="hms">0:43:20</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:22:08</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 174">
+        <td class="dateTime">2024-07-30 - 2024-08-05</td>
+        <td class="hms">0:04:10</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">0:36:48</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 175">
+        <td class="dateTime">2024-08-05 - 2024-08-12</td>
+        <td class="hms">0:14:59</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:12:14</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 176">
+        <td class="dateTime">2024-08-12 - 2024-08-19</td>
+        <td class="hms">0:16:32</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:50:01</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 177">
+        <td class="dateTime">2024-08-19 - 2024-08-26</td>
+        <td class="hms">4:59:48</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">61:39:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 178">
+        <td class="dateTime">2024-08-26 - 2024-09-02</td>
+        <td class="hms">4:47:19</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">28:24:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 179">
+        <td class="dateTime">2024-09-02 - 2024-09-09</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 180">
+        <td class="dateTime">2024-09-09 - 2024-09-17</td>
+        <td class="hms">0:21:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:24:21</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 181">
+        <td class="dateTime">2024-09-17 - 2024-09-23</td>
+        <td class="hms">0:34:35</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">5:31:39</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 182">
+        <td class="dateTime">2024-09-23 - 2024-09-30</td>
+        <td class="hms">0:27:31</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:51:56</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 183">
+        <td class="dateTime">2024-09-30 - 2024-10-07</td>
+        <td class="hms">0:19:12</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:01:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 184">
+        <td class="dateTime">2024-10-07 - 2024-10-14</td>
+        <td class="hms">0:39:14</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:17:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 185">
+        <td class="dateTime">2024-10-14 - 2024-10-21</td>
+        <td class="hms">4:23:50</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">55:46:23</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 186">
+        <td class="dateTime">2024-10-21 - 2024-10-28</td>
+        <td class="hms">3:07:47</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">47:52:13</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 187">
+        <td class="dateTime">2024-10-28 - 2024-11-04</td>
+        <td class="hms">0:04:40</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:50:50</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 188">
+        <td class="dateTime">2024-11-04 - 2024-11-11</td>
+        <td class="hms">0:06:33</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">6:49:07</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 189">
+        <td class="dateTime">2024-11-11 - 2024-11-18</td>
+        <td class="hms">1:09:26</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">62:25:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 190">
+        <td class="dateTime">2024-11-18 - 2024-11-25</td>
+        <td class="hms">0:05:58</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">3:30:53</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 191">
+        <td class="dateTime">2024-11-25 - 2024-12-02</td>
+        <td class="hms">0:30:22</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:57:31</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 192">
+        <td class="dateTime">2024-12-02 - 2024-12-09</td>
+        <td class="hms">0:30:28</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">10:59:47</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 193">
+        <td class="dateTime">2024-12-09 - 2024-12-16</td>
+        <td class="hms">0:05:23</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:45:55</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 194">
+        <td class="dateTime">2024-12-16 - 2024-12-23</td>
+        <td class="hms">0:02:10</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:31:25</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 195">
+        <td class="dateTime">2024-12-23 - 2024-12-30</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 196">
+        <td class="dateTime">2024-12-30 - 2025-01-06</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 197">
+        <td class="dateTime">2025-01-06 - 2025-01-13</td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="nullValue">-</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 198">
+        <td class="dateTime">2025-01-13 - 2025-01-20</td>
+        <td class="hms">0:02:15</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">0:56:15</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="even 199">
+        <td class="dateTime">2025-01-20 - 2025-01-27</td>
+        <td class="hms">0:03:42</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">1:26:59</td>
+        <td class="nullValue">-</td>
+      </tr>
+      <tr style="vertical-align: top" class="odd 200">
+        <td class="dateTime">2025-01-27 - 2025-02-03</td>
+        <td class="hms">0:05:29</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">2:08:44</td>
+        <td class="nullValue">-</td>
+      </tr>
+    </table>
+    <div class="explanation2" style="margin-top: 1em; margin-bottom: 0.4em">
+      Current estimate of battery life based on all observed drains since OS
+      install
+    </div>
+    <table>
+      <colgroup>
+        <col />
+        <col class="col2" />
+        <col style="width: 10em" />
+        <col style="" />
+        <col style="width: 10em" />
+        <col style="width: 10em" />
+        <col style="width: 10em" />
+      </colgroup>
+      <tr class="even" style="vertical-align: top">
+        <td>Since OS install</td>
+        <td class="hms">0:10:49</td>
+        <td class="nullValue">-</td>
+        <td class="colBreak"></td>
+        <td class="hms">4:13:57</td>
+        <td class="nullValue">-</td>
+      </tr>
+    </table>
+    <br /><br /><br />
+  </body>
+</html>

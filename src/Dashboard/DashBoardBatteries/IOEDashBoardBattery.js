@@ -110,7 +110,7 @@ for(let i=0;i<totalCHG_DCHG_Dat.length;i++){
 
 
 
-    let  percentage =((packSOC1+packSOC2+packSOC3+packSOC4+packSOC5)/PackSOcAVG);
+    let  percentage =(Math.trunc((packSOC1+packSOC2+packSOC3+packSOC4+packSOC5)/PackSOcAVG));
     console.log("PackSOcAVG",PackSOcAVG)
     let BatteryStatus="";
 

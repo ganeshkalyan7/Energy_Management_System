@@ -1,60 +1,61 @@
-import React, { useState,useEffect } from 'react';
-import './HotWaterTs.css';
-import HotTank from "../../images/Hot Tank.png"
-import polygon_10 from "../../images/polygon-10.svg"
-import polygon_11 from "../../images/polygon-11.svg"
-import polygon_12 from "../../images/polygon-12.svg"
-import polygon_13 from "../../images/polygon-13.svg"
-import union from "../../images/union.svg"
-import union2x from "../../images/union@2x.png"
-import ColdTank from "../../images/Cold Tank.png"
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect } from "react";
+import "./HotWaterTs.css";
+import HotTank from "../../images/Hot Tank.png";
+import polygon_10 from "../../images/polygon-10.svg";
+import polygon_11 from "../../images/polygon-11.svg";
+import polygon_12 from "../../images/polygon-12.svg";
+import polygon_13 from "../../images/polygon-13.svg";
+import union from "../../images/union.svg";
+import union2x from "../../images/union@2x.png";
+import ColdTank from "../../images/Cold Tank.png";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { CiCircleInfo } from "react-icons/ci";
-import InfoIcon from '@mui/icons-material/Info';
-import CircleIcon from '@mui/icons-material/Circle';
+import InfoIcon from "@mui/icons-material/Info";
+import CircleIcon from "@mui/icons-material/Circle";
 import { FaToggleOn } from "react-icons/fa";
-import axios from 'axios';
+import axios from "axios";
 import { MdOutlineInfo } from "react-icons/md";
 import { RxTriangleDown } from "react-icons/rx";
-import {dashboardAddress,bmssAdress,chillersDashboard,ControlAPi} from "../../ipAdress"
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import DatePickers from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import {
+  dashboardAddress,
+  bmssAdress,
+  chillersDashboard,
+  ControlAPi,
+} from "../../ipAdress";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import DatePickers from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
-
-
 
 //import HotTank from '../../Images'
 // Hot Tank.png
 
 function HotWaterTS() {
-
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [systemOverviewfilterDate, setSystemOverviewfilterDate] = useState(null);
-
+  const [systemOverviewfilterDate, setSystemOverviewfilterDate] =
+    useState(null);
 
   const handleDateChange = (date) => {
     setSystemOverviewfilterDate(date);
   };
 
-  const HotWater_API=`${dashboardAddress}/Dashboard/HotWaterStorage`
-  const HOTWaterStatus_API=`${ControlAPi}/control/HotwaterDetails`
+  const HotWater_API = `${dashboardAddress}/Dashboard/HotWaterStorage`;
+  const HOTWaterStatus_API = `${ControlAPi}/control/HotwaterDetails`;
   // https://ems.tre100.in/controlapi/control/HotwaterDetails
-  const ColdWaterStorage_API=`${bmssAdress}/thermal/dashboardSummary`
-  const HotWaterCHG_DCHG_API=`${chillersDashboard}/chillerDashboard/Hotwaterenergy`
-  const [hotWaterStorageResponse,setHotWaterStorageResponsed]=useState([])
-  const [ColdWaterStorageResponse,setColdWaterStorageResponse]=useState([])
-  const [hotWaterCHG_DCHGDataResponse,setHotWaterCHG_DCHGDataResponse]=useState([])
-  const [hotWaterStorageStatusResponse,setHotWaterStorageStatusResponsed]=useState([])
-
-
+  const ColdWaterStorage_API = `${bmssAdress}/thermal/dashboardSummary`;
+  const HotWaterCHG_DCHG_API = `${chillersDashboard}/chillerDashboard/Hotwaterenergy`;
+  const [hotWaterStorageResponse, setHotWaterStorageResponsed] = useState([]);
+  const [ColdWaterStorageResponse, setColdWaterStorageResponse] = useState([]);
+  const [hotWaterCHG_DCHGDataResponse, setHotWaterCHG_DCHGDataResponse] =
+    useState([]);
+  const [hotWaterStorageStatusResponse, setHotWaterStorageStatusResponsed] =
+    useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,44 +77,31 @@ function HotWaterTS() {
     return () => clearInterval(intervalId);
   }, []);
 
-console.log(ColdWaterStorageResponse)
+  console.log(ColdWaterStorageResponse);
 
+  let tsInletTemperature = 0;
+  let tsOutletTemperature = 0;
+  let tsStoredWaterTemperature = 0;
+  let TotaldischargingEnergy = 0;
+  let TotalchargingEnergy = 0;
+  let Status = "";
 
+  for (let i = 0; i < ColdWaterStorageResponse.length; i++) {
+    tsInletTemperature = ColdWaterStorageResponse[i].tsInletTemperature;
+    tsOutletTemperature = ColdWaterStorageResponse[i].tsOutletTemperature;
+    tsStoredWaterTemperature =
+      ColdWaterStorageResponse[i].tsStoredWaterTemperature;
+    TotaldischargingEnergy = ColdWaterStorageResponse[i].coolingEnergy;
+    TotalchargingEnergy = ColdWaterStorageResponse[i].chargingEnergy;
 
-
-
-
-let tsInletTemperature=0
-let tsOutletTemperature=0
-let tsStoredWaterTemperature=0
-let TotaldischargingEnergy=0
-let TotalchargingEnergy=0
-let Status=""
-
-for(let i=0;i<ColdWaterStorageResponse.length;i++){
-  tsInletTemperature=ColdWaterStorageResponse[i].tsInletTemperature
-  tsOutletTemperature=ColdWaterStorageResponse[i].tsOutletTemperature
-  tsStoredWaterTemperature=ColdWaterStorageResponse[i].tsStoredWaterTemperature
-  TotaldischargingEnergy=ColdWaterStorageResponse[i].coolingEnergy
-  TotalchargingEnergy=ColdWaterStorageResponse[i].chargingEnergy
-
-  if(ColdWaterStorageResponse[i].Status==="DCHG"){
-    Status="Discharging"
-
-  }
-  else if(ColdWaterStorageResponse[i].Status==="CHG"){
-    Status="charging"
-  }
-  else if(ColdWaterStorageResponse[i].Status==="IDLE"){
-    Status="OFF"
+    if (ColdWaterStorageResponse[i].Status === "DCHG") {
+      Status = "Discharging";
+    } else if (ColdWaterStorageResponse[i].Status === "CHG") {
+      Status = "charging";
+    } else if (ColdWaterStorageResponse[i].Status === "IDLE") {
+      Status = "OFF";
     }
-
-}
-
-
-
-
-
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,8 +123,6 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
     return () => clearInterval(intervalId);
   }, []);
 
-
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -157,33 +143,38 @@ for(let i=0;i<ColdWaterStorageResponse.length;i++){
     return () => clearInterval(intervalId);
   }, []);
 
-let HOTWaterTotalCHG=0
-let HOTWaterTotalDCHG=0
+  let HOTWaterTotalCHG = 0;
+  let HOTWaterTotalDCHG = 0;
 
-for(let i=0;i<hotWaterCHG_DCHGDataResponse.length;i++){
-  HOTWaterTotalCHG+=(hotWaterCHG_DCHGDataResponse[i].Freshwater_Energy+hotWaterCHG_DCHGDataResponse[i].Recirculation_Energy)
-  HOTWaterTotalDCHG+=((hotWaterCHG_DCHGDataResponse[i].Delivered_Energy)*-1)
-}
-console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water discharge ${HOTWaterTotalDCHG}`)
-  
-  let storedwatertemperature=0
-  let DeliveryTemperature=0
-  let Deliveryflowrate=0
-  let Mass_of_storedwater=0
- 
-
-  for(let i=0;i<hotWaterStorageResponse.length;i++){
-    storedwatertemperature=Math.trunc(hotWaterStorageResponse[i].Stored_Water_Temperature)
-    DeliveryTemperature=Math.trunc(hotWaterStorageResponse[i].Delivery_Temperature)
-    Deliveryflowrate=Math.trunc(hotWaterStorageResponse[i].Hot_water_delivery_Flow_rate)
-    Mass_of_storedwater=Math.trunc(hotWaterStorageResponse[i].Mass_of_stored_water)
-
-  
-
+  for (let i = 0; i < hotWaterCHG_DCHGDataResponse.length; i++) {
+    HOTWaterTotalCHG +=
+      hotWaterCHG_DCHGDataResponse[i].Freshwater_Energy +
+      hotWaterCHG_DCHGDataResponse[i].Recirculation_Energy;
+    HOTWaterTotalDCHG += hotWaterCHG_DCHGDataResponse[i].Delivered_Energy * -1;
   }
+  console.log(
+    `hot water total charge ${HOTWaterTotalCHG} and total hot water discharge ${HOTWaterTotalDCHG}`
+  );
 
+  let storedwatertemperature = 0;
+  let DeliveryTemperature = 0;
+  let Deliveryflowrate = 0;
+  let Mass_of_storedwater = 0;
 
-
+  for (let i = 0; i < hotWaterStorageResponse.length; i++) {
+    storedwatertemperature = Math.trunc(
+      hotWaterStorageResponse[i].Stored_Water_Temperature
+    );
+    DeliveryTemperature = Math.trunc(
+      hotWaterStorageResponse[i].Delivery_Temperature
+    );
+    Deliveryflowrate = Math.trunc(
+      hotWaterStorageResponse[i].Hot_water_delivery_Flow_rate
+    );
+    Mass_of_storedwater = Math.trunc(
+      hotWaterStorageResponse[i].Mass_of_stored_water
+    );
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -205,34 +196,30 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
     return () => clearInterval(intervalId);
   }, []);
 
-  let HOTWaterStaus=""
-  
-  for(let i=0;i<hotWaterStorageStatusResponse.length;i++){
+  let HOTWaterStaus = "";
 
-     if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Recirculation"){
-      HOTWaterStaus="Charging Recirculation"
-
-     }
-     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Charge Freshwater"){
-      HOTWaterStaus="Charging Freshwater"
-
-     }
-     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="Discharge"){
-      HOTWaterStaus="Discharging"
-
-     }
-     else if(hotWaterStorageStatusResponse[i].hotWaterStatus==="IDLE"){
-      HOTWaterStaus="OFF"
-
-     }
+  for (let i = 0; i < hotWaterStorageStatusResponse.length; i++) {
+    if (
+      hotWaterStorageStatusResponse[i].hotWaterStatus === "Charge Recirculation"
+    ) {
+      HOTWaterStaus = "Charging Recirculation";
+    } else if (
+      hotWaterStorageStatusResponse[i].hotWaterStatus === "Charge Freshwater"
+    ) {
+      HOTWaterStaus = "Charging Freshwater";
+    } else if (
+      hotWaterStorageStatusResponse[i].hotWaterStatus === "Discharge"
+    ) {
+      HOTWaterStaus = "Discharging";
+    } else if (hotWaterStorageStatusResponse[i].hotWaterStatus === "IDLE") {
+      HOTWaterStaus = "OFF";
+    }
   }
-  
 
   const now = new Date();
   const local = now.toLocaleDateString(); // Use toLocaleDateString() instead of toLocaleString()
   const [month, day, year] = local.split("/"); // Split the date by "/"
   const currentdate = `${day}/${month}/${year}`; // Rearrange the day and month
-
 
   const arrowStyle = {
     position: "absolute",
@@ -243,16 +230,9 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
     animation: "fall 1.5s infinite",
   };
 
-
-  
-
-  
-
-
   return (
-    
-    <div className='maincontainer'>
-    <style>
+    <div className="maincontainer">
+      <style>
         {`
           @keyframes imageBlink {
             0% { opacity: 1; }
@@ -266,18 +246,66 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
         `}
       </style>
 
-  <Box sx={{ flexGrow: 1 }}>
-     <Grid container spacing={3}>
-      
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-          <div > 
-     <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",marginTop:"-15px"}} >
-        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px",}} />
-        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "100%", height: "348px",}}>
-          <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Cold Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
+            <div>
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "497px",
+                  fontSize: "16px",
+                  color: "#fff",
+                  marginTop: "-15px",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0px",
+                    left: "0px",
+                    borderRadius: "10px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)",
+                    width: "100%",
+                    height: "460px",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    borderRadius: "10px 10px 0px 0px",
+                    background: "linear-gradient(180deg, #003e9b, #35d2e7)",
+                    width: "100%",
+                    height: "348px",
+                  }}
+                >
+                  <div>
+                    <span
+                      style={{
+                        textAlign: "start",
+                        marginLeft: "30px",
+                        position: "absolute",
+                        fontSize: "18px",
+                        fontWeight: "600",
+                        color: "#fff",
+                        top: "5%",
+                      }}
+                    >
+                      Cold Water Storage
+                      <span style={{ marginLeft: "5px" }}>
+                        <b>
+                          <MdOutlineInfo
+                            size="4%"
+                            color="#FFF"
+                            style={{ marginTop: "-3px" }}
+                          />
+                        </b>
+                      </span>
+                    </span>
 
-            {/* <div style={{ color: '#2B2B2B', fontSize: '14px', marginTop: '15px', position: 'absolute', marginLeft: '65%', fontWeight: '500', }}>
+                    {/* <div style={{ color: '#2B2B2B', fontSize: '14px', marginTop: '15px', position: 'absolute', marginLeft: '65%', fontWeight: '500', }}>
   <div   style={{ width: "250px", height: "20px",border:"none"}}>
   <div style={{ position: "relative", width: "200px",paddingLeft:"40px" }}>
     <DatePickers
@@ -298,182 +326,456 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
    
           
             </div> */}
+                  </div>
 
+                  <div>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} md={6}>
+                          <div>
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "30px",
+                                position: "absolute",
+                                top: "30%",
+                                fontWeight: "500",
+                                fontSize: "14px",
+                                color: "#fff",
+                              }}
+                            >
+                              Total Charging Energy
+                              <p
+                                style={{ fontWeight: "600", fontSize: "14px" }}
+                              >
+                                {" "}
+                                {TotalchargingEnergy == null
+                                  ? 0
+                                  : TotalchargingEnergy}{" "}
+                                kWh
+                              </p>
+                            </span>
 
-           </div>
-          
-           <div > 
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "30px",
+                                position: "absolute",
+                                top: "50%",
+                                fontWeight: "500",
+                                fontSize: "14px",
+                                color: "#fff",
+                              }}
+                            >
+                              Total Discharging Energy
+                              <p
+                                style={{ fontWeight: "60 0", fontSize: "14px" }}
+                              >
+                                {Math.trunc(TotaldischargingEnergy)} kWh
+                              </p>
+                            </span>
 
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "27px",
+                                position: "absolute",
+                                top: "87%",
+                                fontWeight: "800",
+                                color: "#fff",
+                              }}
+                            >
+                              {Status === "OFF" ? (
+                                <CircleIcon
+                                  style={{
+                                    color: "red",
+                                    width: "20px",
+                                    height: "20px",
+                                  }}
+                                />
+                              ) : (
+                                <CircleIcon
+                                  style={{
+                                    color: "#33FF00",
+                                    width: "20px",
+                                    height: "20px",
+                                  }}
+                                />
+                              )}
 
-           <Box sx={{ flexGrow: 1 }}> 
-           <Grid container spacing={1}> 
-           <Grid item xs={12} md={6}>
-            
-           <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
-            Total Charging Energy
-            <p style={{fontWeight: "600",fontSize:"14px",}}>  {TotalchargingEnergy==null?0:TotalchargingEnergy} kWh</p>
-            </span>
-            
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "500",fontSize:"14px", color: "#fff"}}>
-            Total Discharging Energy
-            <p  style={{fontWeight: "60 0",fontSize:"14px",}}>{Math.trunc(TotaldischargingEnergy)} kWh</p>
-            </span>
-            
+                              <span
+                                style={{
+                                  marginLeft: "5px",
+                                  fontSize: "14px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                <b>{Status}</b>
+                              </span>
+                            </span>
 
-            <span style={{textAlign:"start",marginLeft:"27px",position: "absolute",top:"87%", fontWeight: "800", color: "#fff"}}>
-            
-            {
-              Status==="OFF"?<CircleIcon  style={{color:"red",width:"20px",height:"20px"}} />:<CircleIcon  style={{color:"#33FF00",width:"20px",height:"20px"}} />
-            } 
-            
-            
-            <span style={{marginLeft:"5px",fontSize: "14px",fontWeight:"600"}}><b>{Status}</b></span>
-            </span> 
-         
-           <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%"}}>
-            <Box sx={{ flexGrow: 1 }}> 
-            <Grid container spacing={1}>
-            <Grid item  md={12}>
-              <span style={{textAlign:"start",position:"relative", fontWeight: "500", fontSize:"16px", color: "#000000",marginLeft:"10px"}}>
-              Stored Water Temperature
-              <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{Math.trunc(tsStoredWaterTemperature)}° C</p>
-              </span>
-            </Grid>
-            </Grid> 
-            </Box>
-            </div>
-            
-             
-            
-            </div>
-
-           </Grid>
-           <Grid item xs={12} md={6}>
-           <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={1}> 
-              <Grid item  md={6}> 
-           <div style={{marginTop:"100px",position:"absolute"}}>
-      
-               
-  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
-      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"30px",paddingTop:"5px"}} >
-        <div style={{fontSize:"14px",fontWeight:"500"}}>Inlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-50px"}}>{Math.round(tsInletTemperature)} m<sup>3</sup>/h</div>
-        </span>
-      
-  </div>
-  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
-      <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612FB2,#8D5EBC)",width: "150px", height: "50px",textAlign:"center",marginTop:"20px",paddingTop:"5px"}} >
-        <div style={{fontSize:"14px",fontWeight:"500"}}>Outlet Flow Rate</div>
-        <div style={{fontSize:"14px",fontWeight:"600",marginLeft:"-60px"}}>{Math.round(tsOutletTemperature)} m<sup>3</sup>/h</div>
-        </span>
-      
-  </div>
- 
+                            <div
+                              style={{
+                                marginTop: "370px",
+                                position: "absolute",
+                                marginLeft: "3%",
+                              }}
+                            >
+                              <Box sx={{ flexGrow: 1 }}>
+                                <Grid container spacing={1}>
+                                  <Grid item md={12}>
+                                    <span
+                                      style={{
+                                        textAlign: "start",
+                                        position: "relative",
+                                        fontWeight: "500",
+                                        fontSize: "16px",
+                                        color: "#000000",
+                                        marginLeft: "10px",
+                                      }}
+                                    >
+                                      Stored Water Temperature
+                                      <p
+                                        style={{
+                                          fontWeight: "600",
+                                          fontSize: "24px",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {Math.trunc(tsStoredWaterTemperature)}°
+                                        C
+                                      </p>
+                                    </span>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                            </div>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={1}>
+                              <Grid item md={6}>
+                                <div
+                                  style={{
+                                    marginTop: "100px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        position: "relative",
+                                        borderRadius: "5px",
+                                        background:
+                                          "linear-gradient(180deg, #612FB2,#8D5EBC)",
+                                        width: "150px",
+                                        height: "50px",
+                                        textAlign: "center",
+                                        marginTop: "30px",
+                                        paddingTop: "5px",
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          fontSize: "14px",
+                                          fontWeight: "500",
+                                        }}
+                                      >
+                                        Inlet Flow Rate
+                                      </div>
+                                      <div
+                                        style={{
+                                          fontSize: "14px",
+                                          fontWeight: "600",
+                                          marginLeft: "-50px",
+                                        }}
+                                      >
+                                        {Math.round(tsInletTemperature)} m
+                                        <sup>3</sup>/h
+                                      </div>
+                                    </span>
+                                  </div>
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        position: "relative",
+                                        borderRadius: "5px",
+                                        background:
+                                          "linear-gradient(180deg, #612FB2,#8D5EBC)",
+                                        width: "150px",
+                                        height: "50px",
+                                        textAlign: "center",
+                                        marginTop: "20px",
+                                        paddingTop: "5px",
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          fontSize: "14px",
+                                          fontWeight: "500",
+                                        }}
+                                      >
+                                        Outlet Flow Rate
+                                      </div>
+                                      <div
+                                        style={{
+                                          fontSize: "14px",
+                                          fontWeight: "600",
+                                          marginLeft: "-60px",
+                                        }}
+                                      >
+                                        {Math.round(tsOutletTemperature)} m
+                                        <sup>3</sup>/h
+                                      </div>
+                                    </span>
+                                  </div>
+                                </div>
+                              </Grid>
+                              <Grid item md={6}>
+                                <div
+                                  tyle={{
+                                    marginTop: "100px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  <img
+                                    style={{
+                                      position: "relative",
+                                      width: "105.66px",
+                                      height: "100%",
+                                      marginTop: "90px",
+                                      objectFit: "contain",
+                                      marginLeft: "10%",
+                                      mixBlendMode: "soft-light",
+                                    }}
+                                    alt=""
+                                    src={ColdTank}
+                                  />
+                                </div>
+                              </Grid>
+                            </Grid>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </div>
+                </div>
+              </div>
             </div>
           </Grid>
-          <Grid item  md={6}> 
-          <div tyle={{marginTop:"100px",position:"absolute"}}>
-          <img style={{position: "relative", width: "105.66px", height: "100%", marginTop:"90px",objectFit: "contain",marginLeft:"10%" ,mixBlendMode: "soft-light",}} alt="" src={ColdTank} />
-          </div>
+          <Grid item xs={12} md={6}>
+            <div>
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "497px",
+                  left: "5px",
+                  fontSize: "16px",
+                  color: "#fff",
+                  marginTop: "-15px",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0px",
+                    left: "0px",
+                    borderRadius: "10px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)",
+                    width: "100%",
+                    height: "460px",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    borderRadius: "10px 10px 0px 0px",
+                    background: "linear-gradient(180deg, #e17a1b, #fab87a)",
+                    width: "100%",
+                    height: "348px",
+                  }}
+                >
+                  <div>
+                    <span
+                      style={{
+                        textAlign: "start",
+                        marginLeft: "30px",
+                        position: "absolute",
+                        fontSize: "18px",
+                        fontWeight: "600",
+                        color: "#fff",
+                        top: "5%",
+                      }}
+                    >
+                      Hot Water Storage
+                      <span style={{ marginLeft: "5px" }}>
+                        <b>
+                          <MdOutlineInfo
+                            size="4%"
+                            color="#FFF"
+                            style={{ marginTop: "-3px" }}
+                          />
+                        </b>
+                      </span>
+                    </span>
+                  </div>
 
-          </Grid>
-         
+                  <div>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} md={6}>
+                          <div>
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "30px",
+                                position: "absolute",
+                                top: "30%",
+                                fontWeight: "500",
+                                fontSize: "14px",
+                                color: "#fff",
+                              }}
+                            >
+                              Total Charging Energy
+                              <p
+                                style={{ fontWeight: "600", fontSize: "14px" }}
+                              >
+                                {Math.trunc(HOTWaterTotalCHG)} kWh
+                              </p>
+                            </span>
 
-          </Grid>
-          </Box>
-           </Grid>
-           </Grid>
-           </Box>
-    
-      
-            
-           
-      
-      </div>
-     
-    
-     
-        </div>
-        </div>
-       
-        </div>
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "30px",
+                                position: "absolute",
+                                top: "50%",
+                                fontWeight: "500",
+                                fontSize: "14px",
+                                color: "#fff",
+                              }}
+                            >
+                              Total Discharging Energy
+                              <p
+                                style={{ fontWeight: "600", fontSize: "14px" }}
+                              >
+                                {Math.trunc(HOTWaterTotalDCHG)} kWh
+                              </p>
+                            </span>
 
-        
-           </Grid>
-           <Grid item xs={12} md={6}>
-          <div > 
-     <div style={{position: "relative", width: "100%", height: "497px", left:"5px", fontSize: "16px", color: "#fff",marginTop:"-15px"}} >
-        <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "460px"}} />
-        <div style={{position: "absolute", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #e17a1b, #fab87a)", width: "100%", height: "348px", }}>
-          <div> 
-          <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",fontSize: "18px", fontWeight: "600", color: "#fff",top:"5%"}}>Hot Water Storage<span style={{marginLeft:"5px"}}><b><MdOutlineInfo size="4%" color='#FFF' style={{ marginTop:"-3px"}}/></b></span></span>
-           </div>
-          
-           <div > 
+                            <span
+                              style={{
+                                textAlign: "start",
+                                marginLeft: "27px",
+                                position: "absolute",
+                                top: "87%",
+                                fontWeight: "800",
+                                color: "#fff",
+                              }}
+                            >
+                              <CircleIcon
+                                style={{
+                                  color: "red",
+                                  width: "20px",
+                                  height: "20px",
+                                }}
+                              />{" "}
+                              OFF
+                              {/*  */}
+                              {/* 
+                              {HOTWaterStaus === "OFF" ? (
+                                <CircleIcon
+                                  style={{
+                                    color: "red",
+                                    width: "20px",
+                                    height: "20px",
+                                  }}
+                                />
+                              ) : (
+                                <CircleIcon
+                                  style={{
+                                    color: "#33FF00",
+                                    width: "20px",
+                                    height: "20px",
+                                  }}
+                                />
+                              )} */}
+                              <span
+                                style={{
+                                  marginLeft: "5px",
+                                  fontSize: "14px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                <b>{HOTWaterStaus}</b>
+                              </span>
+                            </span>
 
-
-           <Box sx={{ flexGrow: 1 }}> 
-           <Grid container spacing={1}> 
-           <Grid item xs={12} md={6}>
-            
-           <div> 
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"30%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
-            Total Charging Energy
-            <p style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(HOTWaterTotalCHG)} kWh</p>
-            </span>
-
-            <span style={{textAlign:"start",marginLeft:"30px",position: "absolute",top:"50%", fontWeight: "500", fontSize:"14px", color: "#fff"}}>
-            Total Discharging Energy
-            <p style={{fontWeight: "600",fontSize:"14px",}}>{Math.trunc(HOTWaterTotalDCHG)} kWh</p>
-            </span>
-            
-            
-
-            <span style={{textAlign:"start",marginLeft:"27px",position: "absolute",top:"87%", fontWeight: "800", color: "#fff"}}>
-              
-              {
-                HOTWaterStaus==="OFF"?<CircleIcon style={{color:"red",width:"20px",height:"20px"}} />:<CircleIcon style={{color:"#33FF00",width:"20px",height:"20px"}} />
-              }
-
-
-
-              
-              
-            <span style={{marginLeft:"5px",fontSize: "14px",fontWeight:"600"}}><b>{HOTWaterStaus}</b></span>
-            </span>
-
-            
-         
-           <div style={{marginTop:"370px",position:"absolute",marginLeft:"3%",width:"100%"}}>
-            <Box sx={{ flexGrow: 1 }}> 
-            <Grid container spacing={1}>
-            <Grid item  md={7}>
-            <span style={{textAlign:"start",position:"relative", fontWeight: "500", fontSize:"16px", color: "#000000",marginLeft:"10px"}}>
-            Stored Water Temperature
-            <p style={{fontWeight: "600", fontSize:"24px",marginLeft:"10px"}}>{storedwatertemperature}° C</p>
-            </span>
-            </Grid>
-            {/* <Grid item  md={5}>
+                            <div
+                              style={{
+                                marginTop: "370px",
+                                position: "absolute",
+                                marginLeft: "3%",
+                                width: "100%",
+                              }}
+                            >
+                              <Box sx={{ flexGrow: 1 }}>
+                                <Grid container spacing={1}>
+                                  <Grid item md={7}>
+                                    <span
+                                      style={{
+                                        textAlign: "start",
+                                        position: "relative",
+                                        fontWeight: "500",
+                                        fontSize: "16px",
+                                        color: "#000000",
+                                        marginLeft: "10px",
+                                      }}
+                                    >
+                                      Stored Water Temperature
+                                      <p
+                                        style={{
+                                          fontWeight: "600",
+                                          fontSize: "24px",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {storedwatertemperature}° C
+                                      </p>
+                                    </span>
+                                  </Grid>
+                                  {/* <Grid item  md={5}>
             <span style={{textAlign:"start",position: "relative", fontWeight: "600", color: "#000000"}}>
             Refrigerant Temperature
             <p style={{marginTop:"20px"}}>250 kWh</p>
             </span>
             </Grid>   */}
-            </Grid> 
-            </Box>
-            </div>
-            
-             
-            
-            </div>
-
-           </Grid>
-           <Grid item xs={12} md={6}>
-           <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={1}> 
-              {/* <Grid item  md={6}> 
+                                </Grid>
+                              </Box>
+                            </div>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={1}>
+                              {/* <Grid item  md={6}> 
            <div style={{marginTop:"100px",position:"absolute"}}>
            <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
       <span style={{position: "relative", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #6c54ff 0.01%, #8d5ebc)",width: "76px", height: "30px",textAlign:"center",marginTop:"13px"}} >11° C</span>
@@ -506,32 +808,129 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
   </div>
             </div>
           </Grid> */}
-          {/* <Grid item  md={6}> 
+                              {/* <Grid item  md={6}> 
          
 
           </Grid> */}
 
-<div tyle={{marginTop:"100px",position:"absolute"}}>
-<div style={{position: "absolute", top: "12%", left: "52%", borderRadius: "5px", background: "linear-gradient(180deg, #612fb2, #8d5ebc)", width: "166px", height: "53px", mixBlendMode: "normal",}} >
+                              <div
+                                tyle={{
+                                  marginTop: "100px",
+                                  position: "absolute",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "12%",
+                                    left: "52%",
+                                    borderRadius: "5px",
+                                    background:
+                                      "linear-gradient(180deg, #612fb2, #8d5ebc)",
+                                    width: "166px",
+                                    height: "53px",
+                                    mixBlendMode: "normal",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "7px",
+                                      left: "13px",
+                                      fontWeight: "500",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Delivery Flow Rate
+                                  </div>
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "27px",
+                                      left: "13px",
+                                      fontSize: "14px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    {Deliveryflowrate} m<sup>3</sup>/h
+                                  </div>
+                                </div>
 
-<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Delivery Flow Rate</div>
-<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Deliveryflowrate} m<sup>3</sup>/h</div>
-</div>
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "65%",
+                                    left: "28%",
+                                    borderRadius: "5px",
+                                    background:
+                                      "linear-gradient(180deg, #612FB2,#8D5EBC)",
+                                    width: "200px",
+                                    height: "53px",
+                                    mixBlendMode: "normal",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "7px",
+                                      left: "13px",
+                                      fontWeight: "500",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    DeliveryTemperature
+                                  </div>
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "27px",
+                                      left: "13px",
+                                      fontSize: "14px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    {DeliveryTemperature} ° C
+                                  </div>
+                                </div>
 
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "83%",
+                                    left: "63%",
+                                    borderRadius: "5px",
+                                    background:
+                                      "linear-gradient(180deg, #612FB2,#8D5EBC)",
+                                    width: "200px",
+                                    height: "53px",
+                                    mixBlendMode: "normal",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "7px",
+                                      left: "13px",
+                                      fontWeight: "500",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Mass of stored water
+                                  </div>
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "27px",
+                                      left: "13px",
+                                      fontSize: "14px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    {Mass_of_storedwater} (L)
+                                  </div>
+                                </div>
 
-<div style={{position: "absolute", top: "65%", left: "28%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
-
-<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>DeliveryTemperature</div>
-<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{DeliveryTemperature} ° C</div>
-</div>
-
-<div style={{position: "absolute", top: "83%", left: "63%", borderRadius: "5px",background: "linear-gradient(180deg, #612FB2,#8D5EBC)", width: "200px", height: "53px", mixBlendMode: "normal",}} >
-
-<div style={{position: "absolute", top: "7px", left: "13px", fontWeight: "500",fontSize:"14px"}}>Mass of stored water</div>
-<div style={{position: "absolute", top: "27px", left: "13px", fontSize: "14px", fontWeight: "600",}}>{Mass_of_storedwater} (L)</div>
-</div>
-
-{/* <div style={{marginLeft:"80%"}}> 
+                                {/* <div style={{marginLeft:"80%"}}> 
 
 {[0, 0.3, 0.6].map((delay, index) => (
         <div key={index} style={{ ...arrowStyle, animationDelay: `${delay}s` }}>
@@ -540,51 +939,38 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
       ))}
 </div> */}
 
-          
-<img 
-        style={{
-          position: "absolute",
-          width: "180.66px",
-          height: "100%",
-          marginTop: "10px",
-          objectFit: "contain",
-          mixBlendMode: "soft-light",
-          marginLeft: "80px",
-          animation: HOTWaterStaus === "Discharging" ? "imageBlink 1s infinite" : "none",
-        }} 
-        alt="" 
-        src={HotTank} 
-      />
-  </div>
-         
-
+                                <img
+                                  style={{
+                                    position: "absolute",
+                                    width: "180.66px",
+                                    height: "100%",
+                                    marginTop: "10px",
+                                    objectFit: "contain",
+                                    mixBlendMode: "soft-light",
+                                    marginLeft: "80px",
+                                    animation:
+                                      HOTWaterStaus === "Discharging"
+                                        ? "imageBlink 1s infinite"
+                                        : "none",
+                                  }}
+                                  alt=""
+                                  src={HotTank}
+                                />
+                              </div>
+                            </Grid>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Grid>
-          </Box>
-           </Grid>
-           </Grid>
-           </Box>
-    
-      
-          
-           
-      
-      </div>
-     
-    
-     
-        </div>
-        </div>
-       
-        </div>
+        </Grid>
+      </Box>
 
-        
-           </Grid>
-      </Grid>
-  </Box>
-   
-
-
-{/* 
+      {/* 
     <div style={{position: "absolute", top: "2073px", left: "873px", width: "547px", height: "497px", fontSize: "16px", color: "#fff",}}>
         <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "547px", height: "497px",}} />
         <div style={{position: "absolute", top: "419px", left: "28px", fontSize: "24px", fontWeight: "600", color: "#2b2b2b",}}>16° C</div>
@@ -611,7 +997,7 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
       </div> */}
 
       {/* --------------------- */}
-{/* 
+      {/* 
      <div style={{position: "absolute", top: "2073px", left: "20px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "547px", height: "497px",}} />
       <div style={{position: "absolute", top: "2073px", left: "20px", borderRadius: "10px 10px 0px 0px", background: "linear-gradient(180deg, #003e9b, #35d2e7)", width: "547px", height: "348px",}} />
       <div style={{position: "absolute", top: "2492px", left: "20px", fontSize: "24px", fontWeight: "600",}}>7° C</div>
@@ -651,10 +1037,8 @@ console.log(`hot water total charge ${HOTWaterTotalCHG} and total hot water disc
       <div style={{position: "absolute", top: "2305px", left: "653px", fontSize: "16px", fontWeight: "600", color: "#fff",}}>T-1</div>
       <div style={{position: "absolute", top: "2381px", left: "361px", fontWeight: "600", color: "#fff",}}>ON</div>
       <div style={{position: "absolute", top: "2385px", left: "342px", borderRadius: "50%", backgroundColor: "#33ff00", width: "12px", height: "12px",}} /> */}
-      
-        
-      </div> 
-  )
+    </div>
+  );
 }
 
-export default HotWaterTS
+export default HotWaterTS;

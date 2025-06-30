@@ -46,12 +46,11 @@
   width: 25px;
   height: 50px;
   background-color: rgb(206, 206, 199);
-border-top-right-radius: 15px;
-border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 
-
-cursor: pointer;
-/* border-top-left-radius: 30px; */
+  cursor: pointer;
+  /* border-top-left-radius: 30px; */
 }
 .sidebar .logo .logo-name {
   font-size: 22px;
@@ -144,8 +143,7 @@ cursor: pointer;
   transition: all 0.3s ease;
 }
 
-
-.sidebar .nav-list li .nested-sub-menu{
+.sidebar .nav-list li .nested-sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
   background: #1d1b31;
@@ -212,7 +210,6 @@ cursor: pointer;
   transform: translateY(-50%);
 }
 
-
 .sidebar .nav-list li .nested-sub-menu {
   padding: 6px 0 0 80px; /* Adjust padding as needed */
   margin-top: 0; /* Remove margin top */
@@ -225,7 +222,11 @@ cursor: pointer;
   display: block; /* Show when the parent item is clicked */
 }
 
-
+/* .FixedHeader {
+  display: flex;
+  alignitems: center;
+  marginleft: 72%;
+} */
 /* 
 .profile-details {
   position: fixed;

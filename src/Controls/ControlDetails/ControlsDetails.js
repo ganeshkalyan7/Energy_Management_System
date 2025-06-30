@@ -1,127 +1,125 @@
-import React, { useState, useEffect,useRef  } from 'react';
-import "./ControlsDetails.css"
-import {ControlAPi,nodeAdress} from  "../../ipAdress";
-import axios from 'axios';
-import LTOStorageSystemControl from '../StorageSystemsControls/LTOStorageSystemControls/LTOStorageSystemControl';
-import IOEStorageSystemControl from '../StorageSystemsControls/IOEStorageSystemControls/IOEStorageSystemControl';
+import React, { useState, useEffect, useRef } from "react";
+import "./ControlsDetails.css";
+import { ControlAPi, nodeAdress, bmssAdress } from "../../ipAdress";
+import axios from "axios";
+import LTOStorageSystemControl from "../StorageSystemsControls/LTOStorageSystemControls/LTOStorageSystemControl";
+import IOEStorageSystemControl from "../StorageSystemsControls/IOEStorageSystemControls/IOEStorageSystemControl";
 import UPSStorageSystemControl from "../StorageSystemsControls/UPSStorageSystemControls/UPSStorageSystemControl";
 import { FaCarSide } from "react-icons/fa";
-import { motion } from 'framer-motion';
-
-
-
-
-
+import { motion } from "framer-motion";
 
 function ControlsDetails() {
-const [IOEDetails,setIOEDetails]=useState([])
-const [LTODetails,setLTODetails]=useState([])
-const [UPSDetails,setUPSDetails]=useState([])
-const [HOTwaterDetails,setHOTwaterDetails]=useState([])
-const [ColdWaterDetails,setColdWaterDetails]=useState([])
+  const [IOEDetails, setIOEDetails] = useState([]);
+  const [LTODetails, setLTODetails] = useState([]);
+  const [UPSDetails, setUPSDetails] = useState([]);
+  const [HOTwaterDetails, setHOTwaterDetails] = useState([]);
+  const [ColdWaterDetails, setColdWaterDetails] = useState([]);
 
-const [StorageSysytemControlSelector,setStorageSysytemControlSelector]=useState("IOE")
+  const [StorageSysytemControlSelector, setStorageSysytemControlSelector] =
+    useState("IOE");
 
-const handleStorageControlSelector = (value) => {
-  setStorageSysytemControlSelector(value);
-};
-
- const IOEOverView_API=`${ControlAPi}/control/ioeDetails`
- const UPSOverView_API=`${ControlAPi}/control/UpsDetails`
- const LTOOvervies_API=`${nodeAdress}/battery/lto`
- 
- //-----------------------------IOE Details -----------------------------------------//
-
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(IOEOverView_API);
-      const dataResponse = res.data;
-      setIOEDetails(dataResponse);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleStorageControlSelector = (value) => {
+    setStorageSysytemControlSelector(value);
   };
 
-  // Initial data fetch
-  fetchData();
+  const IOEOverView_API = `${ControlAPi}/control/ioeDetails`;
+  const UPSOverView_API = `${ControlAPi}/control/UpsDetails`;
+  const LTOOvervies_API = `${nodeAdress}/battery/lto`;
+  const ColdWater_API = `${bmssAdress}/thermal/summaryCard`;
+  //-----------------------------IOE Details -----------------------------------------//
 
-  // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
-  const intervalId = setInterval(fetchData, 60000);
-  
-  // Clean up the interval on component unmount
-  return () => clearInterval(intervalId);
-}, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(IOEOverView_API);
+        const dataResponse = res.data;
+        setIOEDetails(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-let  IOEStatus=""
-let IOESoc=0
-let AvgNumber=0
+    // Initial data fetch
+    fetchData();
 
-for(let i=0;i<IOEDetails.length;i++){
-  if(IOEDetails[i].packSoc1!=null){
-      AvgNumber+=1
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 60000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  let IOEStatus = "";
+  let IOESoc = 0;
+  let AvgNumber = 0;
+
+  for (let i = 0; i < IOEDetails.length; i++) {
+    if (IOEDetails[i].packSoc1 != null) {
+      AvgNumber += 1;
     }
-    if(IOEDetails[i].packSoc2!=null){
-      AvgNumber+=1
+    if (IOEDetails[i].packSoc2 != null) {
+      AvgNumber += 1;
     }
-    if(IOEDetails[i].packSoc3!=null){
-      AvgNumber+=1
+    if (IOEDetails[i].packSoc3 != null) {
+      AvgNumber += 1;
     }
-    if(IOEDetails[i].packSoc4!=null){
-      AvgNumber+=1
+    if (IOEDetails[i].packSoc4 != null) {
+      AvgNumber += 1;
     }
-    if(IOEDetails[i].packSoc5!=null){
-      AvgNumber+=1
+    if (IOEDetails[i].packSoc5 != null) {
+      AvgNumber += 1;
     }
 
-    IOESoc=((IOEDetails[i].packSoc1+IOEDetails[i].packSoc2+IOEDetails[i].packSoc3+IOEDetails[i].packSoc4+IOEDetails[i].packSoc5)/AvgNumber)
-   if(IOEDetails[i].batteryStatus1==="DCHG"){
-    IOEStatus="DISCHARGING"
-   }
-   else if (IOEDetails[i].batteryStatus1==="CHG"){
-    IOEStatus="CHARGING"
-   }
-   else if (IOEDetails[i].batteryStatus1==="IDLE"){
-    IOEStatus="IDLE"
-   }
-//   PackSOC=IOEDetails[i].packSoc1
-//   Status=IOEDetails[i].batteryStatus
-// Voltage=IOEDetails[i].batteryVoltage
-// Current=IOEDetails[i].batteryCurrent
-// MainContactorStatus=IOEDetails[i].mainContactorStatus
-// PrechargeContactorStatus=IOEDetails[i].prechargeContactorStatus
-}
+    IOESoc = Math.trunc(
+      (IOEDetails[i].packSoc1 +
+        IOEDetails[i].packSoc2 +
+        IOEDetails[i].packSoc3 +
+        IOEDetails[i].packSoc4 +
+        IOEDetails[i].packSoc5) /
+        AvgNumber
+    );
 
+    if (IOEDetails[i].batteryStatus1 === "DCHG") {
+      IOEStatus = "DISCHARGING";
+    } else if (IOEDetails[i].batteryStatus1 === "CHG") {
+      IOEStatus = "CHARGING";
+    } else if (IOEDetails[i].batteryStatus1 === "IDLE") {
+      IOEStatus = "IDLE";
+    }
+    //   PackSOC=IOEDetails[i].packSoc1
+    //   Status=IOEDetails[i].batteryStatus
+    // Voltage=IOEDetails[i].batteryVoltage
+    // Current=IOEDetails[i].batteryCurrent
+    // MainContactorStatus=IOEDetails[i].mainContactorStatus
+    // PrechargeContactorStatus=IOEDetails[i].prechargeContactorStatus
+  }
 
+  const percentage = IOESoc;
+  let backgroundColor = "green";
 
-    const percentage = IOESoc; 
-    let backgroundColor='green'
+  //   if(packSOC>40){
+  //     backgroundColor="#389c24"
+  //   }
+  //   if(packSOC<40){
+  //     backgroundColor="#fa840f"
+  //   }
 
-//   if(packSOC>40){
-//     backgroundColor="#389c24"
-//   }
-//   if(packSOC<40){
-//     backgroundColor="#fa840f"
-//   }
+  const IOEBattery = {
+    width: "150px",
+    height: "180px",
+    background: `linear-gradient(to top, ${backgroundColor} ${percentage}%, #D3D3D3 ${percentage}%)`,
+    borderRadius: "9%",
+    paddingLeft: "0px",
+    display: "grid",
+    gridTemplateRows: "1fr auto",
+    marginLeft: "40px",
+  };
 
-    const IOEBattery = {
-        width: "150px",
-        height: "180px",
-        background:`linear-gradient(to top, ${backgroundColor} ${percentage}%, #D3D3D3 ${percentage}%)`,
-        borderRadius:"9%",
-        paddingLeft:"0px",
-        display:"grid",
-        gridTemplateRows: "1fr auto",
-        marginLeft:"40px",
-      };
-  
+  //-----------------------------IOE Details -----------------------------------------//
 
-   //-----------------------------IOE Details -----------------------------------------//
+  //------------------------------------LTO Details ------------------------------------------//
 
-
-   //------------------------------------LTO Details ------------------------------------------//
-
-   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(LTOOvervies_API);
@@ -131,339 +129,544 @@ for(let i=0;i<IOEDetails.length;i++){
         console.error(err);
       }
     };
-  
+
     // Initial data fetch
     fetchData();
-  
+
     // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
     const intervalId = setInterval(fetchData, 60000);
-    
+
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
+  let LTOSOCPercentage = 0;
+  let LTOStatus = "";
 
-  let LTOSOCPercentage=0
-  let LTOStatus=""
-
-  for(let i=0;i<LTODetails.length;i++){
-    LTOSOCPercentage=LTODetails[i].packSOC
-    LTOStatus=LTODetails[i].batteryStatus
-
+  for (let i = 0; i < LTODetails.length; i++) {
+    LTOSOCPercentage = LTODetails[i].packSOC;
+    LTOStatus = LTODetails[i].batteryStatus;
   }
 
-
-      const LTOBattery = {
-        width: "150px",
-        height: "170px",
-        background:`linear-gradient(to top, ${backgroundColor} ${LTOSOCPercentage}%, #D3D3D3 ${LTOSOCPercentage}%)`,
-        borderRadius:"9%",
-        paddingLeft:"0px",
-        display:"grid",
-        gridTemplateRows: "1fr auto",
-        marginLeft:"40px",
-      };
-
- //------------------------------------LTO Details ------------------------------------------//
- 
-
-
-
- //---------------------------------------------UPS Details ------------------------------------------//
-
-
- 
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(UPSOverView_API);
-      const dataResponse = res.data;
-      setUPSDetails(dataResponse);
-    } catch (err) {
-      console.error(err);
-    }
+  const LTOBattery = {
+    width: "150px",
+    height: "170px",
+    background: `linear-gradient(to top, ${backgroundColor} ${LTOSOCPercentage}%, #D3D3D3 ${LTOSOCPercentage}%)`,
+    borderRadius: "9%",
+    paddingLeft: "0px",
+    display: "grid",
+    gridTemplateRows: "1fr auto",
+    marginLeft: "40px",
   };
 
-  // Initial data fetch
-  fetchData();
+  //------------------------------------LTO Details ------------------------------------------//
 
-  // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
-  const intervalId = setInterval(fetchData, 60000);
-  
-  // Clean up the interval on component unmount
-  return () => clearInterval(intervalId);
-}, []);
+  //---------------------------------------------UPS Details ------------------------------------------//
 
-
-let UPS_SOCPercentage=0
-let UPS_Status=""
-
-for(let i=0;i<UPSDetails.length;i++){
-  UPS_SOCPercentage=UPSDetails[i].packSOC
-  UPS_Status=UPSDetails[i].batteryStatus
-
-}
-
-      const UPSBattery = {
-        width: "150px",
-        height: "170px",
-        background:`linear-gradient(to top, ${backgroundColor} ${UPS_SOCPercentage}%, #D3D3D3 ${UPS_SOCPercentage}%)`,
-        borderRadius:"9%",
-        paddingLeft:"0px",
-        display:"grid",
-        gridTemplateRows: "1fr auto",
-        marginLeft:"40px",
-      };
-
-
-//---------------------------------------------UPS Details ------------------------------------------//
-
-//----------------------------------------------------hotWater Details -------------------------------//
-
-
-      const ColdWater = {
-        width: "150px",
-        height: "150px",
-        background: `linear-gradient(to top, #FFA654 ${percentage}%, #D3D3D3 ${percentage}%)`,
-        borderRadius:"9%",
-        borderTopLeftRadius: "20%",
-        borderTopRightRadius: "20%",
-        paddingLeft: "0px",
-        display: "grid",
-        gridTemplateRows: "1fr auto",
-        marginLeft: "40px",
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(UPSOverView_API);
+        const dataResponse = res.data;
+        setUPSDetails(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
+    // Initial data fetch
+    fetchData();
 
-//----------------------------------------------------hotWater Details -------------------------------//
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 60000);
 
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
-    const HotWater = {
-      width: "150px",
-      height: "160px",
-      background: `linear-gradient(to top, #2FB9E4 ${percentage}%, #D3D3D3 ${percentage}%)`,
-      borderRadius:"9%",
-      borderTopLeftRadius: "25%",
-      borderTopRightRadius: "25%",
-      paddingLeft: "0px",
-      display: "grid",
-      gridTemplateRows: "1fr auto",
-      marginLeft: "40px",
+  let UPS_SOCPercentage = 0;
+  let UPS_Status = "";
+
+  for (let i = 0; i < UPSDetails.length; i++) {
+    UPS_SOCPercentage = UPSDetails[i].packSOC;
+    UPS_Status = UPSDetails[i].batteryStatus;
+  }
+
+  const UPSBattery = {
+    width: "150px",
+    height: "170px",
+    background: `linear-gradient(to top, ${backgroundColor} ${UPS_SOCPercentage}%, #D3D3D3 ${UPS_SOCPercentage}%)`,
+    borderRadius: "9%",
+    paddingLeft: "0px",
+    display: "grid",
+    gridTemplateRows: "1fr auto",
+    marginLeft: "40px",
   };
 
+  //---------------------------------------------UPS Details ------------------------------------------//
 
-  console.log(StorageSysytemControlSelector)
+  //----------------------------------------------------hotWater Details -------------------------------//
 
+  const HotWater = {
+    width: "150px",
+    height: "150px",
+    background: `linear-gradient(to top, #FFA654 ${percentage}%, #D3D3D3 ${percentage}%)`,
+    borderRadius: "9%",
+    borderTopLeftRadius: "20%",
+    borderTopRightRadius: "20%",
+    paddingLeft: "0px",
+    display: "grid",
+    gridTemplateRows: "1fr auto",
+    marginLeft: "40px",
+  };
 
+  //----------------------------------------------------ColdWater Details -------------------------------//
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(ColdWater_API);
+        const dataResponse = res.data;
+        setColdWaterDetails(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    // Initial data fetch
+    fetchData();
 
-    
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 60000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  let ColdPercentage = 0;
+  let ColdWaterStatus = "";
+
+  for (let i = 0; i < ColdWaterDetails.length; i++) {
+    ColdPercentage = Math.trunc(ColdWaterDetails[i].EnergyPercentage);
+  }
+
+  const ColdWater = {
+    width: "150px",
+    height: "160px",
+    background: `linear-gradient(to top, #2FB9E4 ${ColdPercentage}%, #D3D3D3 ${ColdPercentage}%)`,
+    borderRadius: "9%",
+    borderTopLeftRadius: "25%",
+    borderTopRightRadius: "25%",
+    paddingLeft: "0px",
+    display: "grid",
+    gridTemplateRows: "1fr auto",
+    marginLeft: "40px",
+  };
+
+  console.log(StorageSysytemControlSelector);
+
   return (
-    <div className='detailsMaincontainer'>
-        <p style={{textAlign:"start",fontSize:"24px",fontWeight:"500",marginLeft:"00px"}}>Controls</p>
-       <div className='storageSystems'> 
-        
-        <div className='LTO'> 
-            <div> 
-                
+    <div className="detailsMaincontainer">
+      <p
+        style={{
+          textAlign: "start",
+          fontSize: "24px",
+          fontWeight: "500",
+          marginLeft: "00px",
+        }}
+      >
+        Controls
+      </p>
+      <div className="storageSystems">
+        <div className="LTO">
+          <div>
             <div style={IOEBattery}>
-                
-                
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>{IOEStatus}</div>
-                <br/>
-                <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{percentage}%</div>
-                <br/>
+              <div
+                style={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
+                {IOEStatus}
+              </div>
+              <br />
+              <div
+                style={{
+                  fontWeight: "700",
+                  paddingLeft: "4%",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                {percentage}%
+              </div>
+              <br />
             </div>
-            <br/>
-            <div style={{marginLeft:"37px"}}> 
-              <div style={{fontSize:"16px",fontWeight:"600"}}>IOE</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  840 kWh</div>
+            <br />
+            <div style={{ marginLeft: "37px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "600" }}>IOE</div>
+              <div
+                style={{
+                  border: "1px solid #ADADAD",
+                  width: "152.32px",
+                  height: "28.85px",
+                  borderRadius: "5px",
+                  color: "#ADADAD",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
+              >
+                Capacity 840 kWh
+              </div>
             </div>
-            
-            </div>
-            {/* <div className='endLineDetail'> </div> */}
+          </div>
+          {/* <div className='endLineDetail'> </div> */}
         </div>
 
-
-
-
-        <div className='LTO'> 
-            <div> 
-             <div className='UpsTop'>
-             <div className='one ltoTop1'></div>
-             <div className='one ltoTop2'> </div>
-             {/* <div className='one ltoTop3'></div>
+        <div className="LTO">
+          <div>
+            <div className="UpsTop">
+              <div className="one ltoTop1"></div>
+              <div className="one ltoTop2"> </div>
+              {/* <div className='one ltoTop3'></div>
              <div className='one ltoTop4'> </div> */}
-
-             </div>
+            </div>
             <div style={LTOBattery}>
-                
-                
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>{LTOStatus}</div>
-                <br/>
-                <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{LTOSOCPercentage}%</div>
-                <br/>
+              <div
+                style={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
+                {LTOStatus}
+              </div>
+              <br />
+              <div
+                style={{
+                  fontWeight: "700",
+                  paddingLeft: "4%",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                {LTOSOCPercentage}%
+              </div>
+              <br />
             </div>
-            <br/>
-            <div style={{marginLeft:"37px"}}> 
-              <div style={{fontSize:"16px",fontWeight:"600"}}>LTO</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  15 kWh</div>
+            <br />
+            <div style={{ marginLeft: "37px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "600" }}>LTO</div>
+              <div
+                style={{
+                  border: "1px solid #ADADAD",
+                  width: "152.32px",
+                  height: "28.85px",
+                  borderRadius: "5px",
+                  color: "#ADADAD",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
+              >
+                Capacity 15 kWh
+              </div>
             </div>
-            
-            </div>
-            {/* <div className='endLineDetail'> </div> */}
+          </div>
+          {/* <div className='endLineDetail'> </div> */}
         </div>
 
+        <div className="LTO">
+          <div>
+            <div className="ltoTop">
+              <div className="one ltoTop1"></div>
+              <div className="one ltoTop2"> </div>
+              <div className="one ltoTop3"></div>
+              <div className="one ltoTop4"> </div>
+            </div>
 
-
-
-        <div className='LTO'> 
-            <div> 
-            <div className='ltoTop'>
-             <div className='one ltoTop1'></div>
-             <div className='one ltoTop2'> </div>
-             <div className='one ltoTop3'></div>
-             <div className='one ltoTop4'> </div>
-
-             </div>
-                
             <div style={UPSBattery}>
-                
-                
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>{UPS_Status}</div>
-                <br/>
-                <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{UPS_SOCPercentage}%</div>
-                <br/>
+              <div
+                style={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
+                {UPS_Status}
+              </div>
+              <br />
+              <div
+                style={{
+                  fontWeight: "700",
+                  paddingLeft: "4%",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                {UPS_SOCPercentage}%
+              </div>
+              <br />
             </div>
-            <br/>
-            <div style={{marginLeft:"37px"}}> 
-              <div style={{fontSize:"16px",fontWeight:"600"}}>UPS</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  44 kWh</div>
+            <br />
+            <div style={{ marginLeft: "37px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "600" }}>UPS</div>
+              <div
+                style={{
+                  border: "1px solid #ADADAD",
+                  width: "152.32px",
+                  height: "28.85px",
+                  borderRadius: "5px",
+                  color: "#ADADAD",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
+              >
+                Capacity 44 kWh
+              </div>
             </div>
-            
-            </div>
-            {/* <div className='endLineDetail'> </div> */}
+          </div>
+          {/* <div className='endLineDetail'> </div> */}
         </div>
 
-        
-
-
-        <div className='LTO'> 
-            <div> 
-            <div className='ColdTop'>
-            <div className='one ltoTop1' style={{width:"28px",marginLeft:"-3%",height:"20px"}}></div>
-             
-             </div>
-                
-            <div style={HotWater}>
-                
-                
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>Discharging</div>
-                <br/>
-                <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{percentage}%</div>
-                <br/>
+        <div className="LTO">
+          <div>
+            <div className="ColdTop">
+              <div
+                className="one ltoTop1"
+                style={{ width: "28px", marginLeft: "-3%", height: "20px" }}
+              ></div>
             </div>
-            <br/>
-            <div style={{marginLeft:"37px"}}> 
-               
-              <div style={{fontSize:"16px",fontWeight:"600"}}>Cold Water Storage</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  2.5 MWh</div>
-              
-            </div>
-            
-            </div>
-            {/* <div className='endLineDetail'> </div> */}
-        </div>
 
-        
-
-        <div className='LTO'> 
-            <div> 
-            <div className='ColdTop'>
-            <div className='one ltoTop1' style={{width:"18px",marginLeft:"37%",height:"20px"}}></div>
-             <div className='one ltoTop1' style={{width:"90px"}}></div>
-             </div>
-                
             <div style={ColdWater}>
-                
-                
-                <div style={{color:"white",fontSize: "14px", fontWeight: "700",display:"flex",justifyContent:"center",alignItems:"end"}}>Discharging</div>
-                <br/>
-                <div style={{fontWeight: "700",paddingLeft:"4%",color:"white",display:"flex",justifyContent:"start"}}>{percentage}%</div>
-                <br/>
+              <div
+                style={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
+                {ColdWaterStatus}
+              </div>
+              <br />
+              <div
+                style={{
+                  fontWeight: "700",
+                  paddingLeft: "4%",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                {ColdPercentage}%
+              </div>
+              <br />
             </div>
-            <br/>
-            <div style={{marginLeft:"37px"}}> 
-              <div style={{fontSize:"16px",fontWeight:"600"}}>Hot Water Storage</div>
-              <div style={{border:"1px solid #ADADAD",width:"152.32px",height:"28.85px",borderRadius:"5px",color:"#ADADAD",textAlign:"center",fontSize:"14px",fontWeight:"500"}}>Capacity  18 kWh</div>
+            <br />
+            <div style={{ marginLeft: "37px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "600" }}>
+                Cold Water Storage
+              </div>
+              <div
+                style={{
+                  border: "1px solid #ADADAD",
+                  width: "152.32px",
+                  height: "28.85px",
+                  borderRadius: "5px",
+                  color: "#ADADAD",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
+              >
+                Capacity 2.5 MWh
+              </div>
             </div>
-            
-            </div>
-            {/* <div className='endLineDetail'> </div> */}
+          </div>
+          {/* <div className='endLineDetail'> </div> */}
         </div>
 
-        
-        
+        <div className="LTO">
+          <div>
+            <div className="ColdTop">
+              <div
+                className="one ltoTop1"
+                style={{ width: "18px", marginLeft: "37%", height: "20px" }}
+              ></div>
+              <div className="one ltoTop1" style={{ width: "90px" }}></div>
+            </div>
 
+            <div style={HotWater}>
+              <div
+                style={{
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                }}
+              >
+                Discharging
+              </div>
+              <br />
+              <div
+                style={{
+                  fontWeight: "700",
+                  paddingLeft: "4%",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                {percentage}%
+              </div>
+              <br />
+            </div>
+            <br />
+            <div style={{ marginLeft: "37px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "600" }}>
+                Hot Water Storage
+              </div>
+              <div
+                style={{
+                  border: "1px solid #ADADAD",
+                  width: "152.32px",
+                  height: "28.85px",
+                  borderRadius: "5px",
+                  color: "#ADADAD",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                }}
+              >
+                Capacity 18 kWh
+              </div>
+            </div>
+          </div>
+          {/* <div className='endLineDetail'> </div> */}
+        </div>
+      </div>
 
-       </div>
+      <div className="storageSystemsControls">
+        {StorageSysytemControlSelector === "IOE" ? (
+          <div
+            onClick={() => handleStorageControlSelector("IOE")}
+            style={{ color: "black", borderBottom: "3px solid #78a4eb" }}
+          >
+            IOE
+          </div>
+        ) : (
+          <div
+            onClick={() => handleStorageControlSelector("IOE")}
+            style={{ color: "gray" }}
+          >
+            IOE
+          </div>
+        )}
+        {StorageSysytemControlSelector === "UPS" ? (
+          <div
+            onClick={() => handleStorageControlSelector("UPS")}
+            style={{ color: "black", borderBottom: "3px solid #78a4eb" }}
+          >
+            UPS
+          </div>
+        ) : (
+          <div
+            onClick={() => handleStorageControlSelector("UPS")}
+            style={{ color: "gray" }}
+          >
+            UPS
+          </div>
+        )}
+        {StorageSysytemControlSelector === "LTO" ? (
+          <div
+            onClick={() => handleStorageControlSelector("LTO")}
+            style={{ color: "black", borderBottom: "3px solid #78a4eb" }}
+          >
+            LTO
+          </div>
+        ) : (
+          <div
+            onClick={() => handleStorageControlSelector("LTO")}
+            style={{ color: "gray" }}
+          >
+            LTO
+          </div>
+        )}
+        {StorageSysytemControlSelector === "HOTWater" ? (
+          <div
+            onClick={() => handleStorageControlSelector("HOTWater")}
+            style={{ color: "black", borderBottom: "3px solid #78a4eb" }}
+          >
+            HOTWater
+          </div>
+        ) : (
+          <div
+            onClick={() => handleStorageControlSelector("HOTWater")}
+            style={{ color: "gray" }}
+          >
+            HOTWater
+          </div>
+        )}
+        {StorageSysytemControlSelector === "ColdWater" ? (
+          <div
+            onClick={() => handleStorageControlSelector("ColdWater")}
+            style={{ color: "black", borderBottom: "3px solid #78a4eb" }}
+          >
+            ColdWater
+          </div>
+        ) : (
+          <div
+            onClick={() => handleStorageControlSelector("ColdWater")}
+            style={{ color: "gray" }}
+          >
+            ColdWater
+          </div>
+        )}
+      </div>
+      <br />
 
-       <div className='storageSystemsControls'>
-        {
-          StorageSysytemControlSelector==="IOE"?<div onClick={() => handleStorageControlSelector("IOE")} style={{color:"black",borderBottom:"3px solid #78a4eb"}}>IOE</div> :<div onClick={() => handleStorageControlSelector("IOE")} style={{color:"gray"}}>IOE</div> 
-        }
-        {
-          StorageSysytemControlSelector==="UPS"?<div onClick={() => handleStorageControlSelector("UPS")} style={{color:"black",borderBottom:"3px solid #78a4eb"}}>UPS</div>:<div onClick={() => handleStorageControlSelector("UPS")} style={{color:"gray"}}>UPS</div> 
-        }
-        {
-          StorageSysytemControlSelector==="LTO"? <div onClick={() => handleStorageControlSelector("LTO")} style={{color:"black",borderBottom:"3px solid #78a4eb"}}>LTO</div>:<div onClick={() => handleStorageControlSelector("LTO")} style={{color:"gray"}}>LTO</div> 
-        }
-        {
-         StorageSysytemControlSelector==="HOTWater" ?<div onClick={() => handleStorageControlSelector("HOTWater")} style={{color:"black",borderBottom:"3px solid #78a4eb"}}>HOTWater</div>:<div onClick={() => handleStorageControlSelector("HOTWater")} style={{color:"gray"}}>HOTWater</div> 
-        }
-        {
-          StorageSysytemControlSelector==="ColdWater"?<div onClick={() => handleStorageControlSelector("ColdWater")} style={{color:"black",borderBottom:"3px solid #78a4eb"}} >ColdWater</div>:<div onClick={() => handleStorageControlSelector("ColdWater")} style={{color:"gray"}}>ColdWater</div> 
-        }
-        
-        
-
-
-       </div>
-<br/>
-       
-
-{
-  StorageSysytemControlSelector === "IOE" ? (
-    <React.Fragment> 
-  <IOEStorageSystemControl/>
-    </React.Fragment>
-      
-  ) : StorageSysytemControlSelector === "LTO" ? (
-    <React.Fragment> 
-      <LTOStorageSystemControl/>
-    </React.Fragment>
-     
-  ) : StorageSysytemControlSelector === "UPS" ? (
-    <React.Fragment> 
-     <UPSStorageSystemControl/>
-    </React.Fragment>
-      
-  ) : StorageSysytemControlSelector === "HOTWater" ? (
-      <React.Fragment> 
-        <UPSStorageSystemControl/>
-      </React.Fragment>
-  ):(
-    <React.Fragment>
-
-    </React.Fragment>
-  )
-}
-<br/>
-
-
+      {StorageSysytemControlSelector === "IOE" ? (
+        <React.Fragment>
+          <IOEStorageSystemControl />
+        </React.Fragment>
+      ) : StorageSysytemControlSelector === "LTO" ? (
+        <React.Fragment>
+          <LTOStorageSystemControl />
+        </React.Fragment>
+      ) : StorageSysytemControlSelector === "UPS" ? (
+        <React.Fragment>
+          <UPSStorageSystemControl />
+        </React.Fragment>
+      ) : StorageSysytemControlSelector === "HOTWater" ? (
+        <React.Fragment>
+          <UPSStorageSystemControl />
+        </React.Fragment>
+      ) : (
+        <React.Fragment></React.Fragment>
+      )}
+      <br />
     </div>
-  )
+  );
 }
 
-export default ControlsDetails
+export default ControlsDetails;

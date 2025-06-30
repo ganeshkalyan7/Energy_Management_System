@@ -250,7 +250,7 @@ function BuildindConsumptionPage2() {
   {/* striped bordered hover variant="light" */}
   <Table  >
   <thead>
-    <tr style={{textAlign:"center",fontSize:"14px"}}>
+   <tr style={{textAlign:"center",fontSize:"14px"}}>
       <th>Grid Energy</th>
       <th>Rooftop Energy</th>
       <th>Solar Without Trackers</th>

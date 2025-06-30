@@ -1,32 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
-import "./DashboardBatteries.css"
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import group153 from '../../images/group-153.svg' 
-import rectangle56 from "../../images/rectangle-56.svg"
-import LTODashBoradBattery from './LTODashBoradBattery';
-import UPSDashBoardBattery from './UPSDashBoardBattery';
-import IOEDashBoardBattery from './IOEDashBoardBattery';
+import React, { useState, useEffect, useRef } from "react";
+import "./DashboardBatteries.css";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import group153 from "../../images/group-153.svg";
+import rectangle56 from "../../images/rectangle-56.svg";
+import LTODashBoradBattery from "./LTODashBoradBattery";
+import UPSDashBoardBattery from "./UPSDashBoardBattery";
+import IOEDashBoardBattery from "./IOEDashBoardBattery";
 import { GoTriangleDown } from "react-icons/go";
 import { RxTriangleDown } from "react-icons/rx";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import {dashboardAddress} from "../../ipAdress";
-import axios from 'axios';
-
+import { dashboardAddress } from "../../ipAdress";
+import axios from "axios";
 
 function DashboardBatteries() {
+  const [chgDchgTimings, setChgDchgTimings] = useState([]);
+  const chgDchgTimings_API = `${dashboardAddress}/Dashboard/batterytimes`;
 
-  const[chgDchgTimings,setChgDchgTimings]=useState([])
-  const chgDchgTimings_API=`${dashboardAddress}/Dashboard/batterytimes`
-
-
-  let ioeChgTime=""
-  let ioeDchgTime=""
-  let ltoChgTime=""
-  let ltoDchgTime=""
-  let upsChgTime=""
-  let upsDchgTime=""
-
+  let ioeChgTime = "";
+  let ioeDchgTime = "";
+  let ltoChgTime = "";
+  let ltoDchgTime = "";
+  let upsChgTime = "";
+  let upsDchgTime = "";
 
   useEffect(() => {
     axios
@@ -40,220 +36,398 @@ function DashboardBatteries() {
       });
   }, []);
 
-  for(let i=0;i<chgDchgTimings.length;i++){
-    ioeChgTime=chgDchgTimings[i].ioeChg
-    ioeDchgTime=chgDchgTimings[i].ioeDchg
-    ltoChgTime=chgDchgTimings[i].ltoChg
-    ltoDchgTime=chgDchgTimings[i].ltoDchg
-    upsChgTime=chgDchgTimings[i].upsChg
-    upsDchgTime=chgDchgTimings[i].upsDchg
+  for (let i = 0; i < chgDchgTimings.length; i++) {
+    ioeChgTime = chgDchgTimings[i].ioeChg;
+    ioeDchgTime = chgDchgTimings[i].ioeDchg;
+    ltoChgTime = chgDchgTimings[i].ltoChg;
+    ltoDchgTime = chgDchgTimings[i].ltoDchg;
+    upsChgTime = chgDchgTimings[i].upsChg;
+    upsDchgTime = chgDchgTimings[i].upsDchg;
   }
 
-
-  const[batterySelect,setBatterySelect]=useState("IOE")
+  const [batterySelect, setBatterySelect] = useState("IOE");
   const percentage = 40;
   // Calculate the gradient color based on the percentage
-const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
+  const gradientColor = `linear-gradient(to right, green ${percentage}%, transparent ${percentage}%)`;
 
-// Apply the gradient color as a background for the image
-// boxStyle
-const boxStyle = {
-  position: "absolute",
-  top: "39px",
-  left: "0px",
-  width: "132px",
-  height: "140px",
-  background: `linear-gradient(to top, green ${percentage}%, #F5F5F5 ${percentage}%)`,
-  borderRadius:"9%"
-};
+  // Apply the gradient color as a background for the image
+  // boxStyle
+  const boxStyle = {
+    position: "absolute",
+    top: "39px",
+    left: "0px",
+    width: "132px",
+    height: "140px",
+    background: `linear-gradient(to top, green ${percentage}%, #F5F5F5 ${percentage}%)`,
+    borderRadius: "9%",
+  };
 
+  const Battery2 = {
+    position: "absolute",
+    top: "39px",
+    left: "0px",
+    width: "132px",
+    height: "140px",
+    background: `linear-gradient(to top, orange ${percentage}%, #F5F5F5 ${percentage}%)`,
+    borderRadius: "9%",
+  };
 
+  const handleBatteryChange = (event) => {
+    setBatterySelect(event.target.value);
+  };
 
-const Battery2 = {
-  position: "absolute",
-  top: "39px",
-  left: "0px",
-  width: "132px",
-  height: "140px",
-  background: `linear-gradient(to top, orange ${percentage}%, #F5F5F5 ${percentage}%)`,
-  borderRadius:"9%"
-};
-
-
-
-const handleBatteryChange = (event) => {
-  setBatterySelect(event.target.value);
-};
-
-console.log(batterySelect)
+  console.log(batterySelect);
   return (
-    <div className= "maincontainer">
-         <section className="Batterymaincontainer">
-         <div > 
- <div >
+    <div className="maincontainer">
+      <section className="Batterymaincontainer">
+        <div>
+          <div>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} md={6}>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "600",
+                      color: "#2B2B2B",
+                      marginLeft: "5%",
+                      marginTop: "3%",
+                    }}
+                  >
+                    Batteries{" "}
+                  </div>
 
- <Box sx={{ flexGrow: 1 }}>
-     <Grid container spacing={1} >
-        <Grid item xs={6} md={6}> 
-        <div style={{fontSize:"18px",fontWeight:"600",color:"#2B2B2B",marginLeft:"5%",marginTop:"3%"}}>Batteries </div>
-          
-        <div onChange={handleBatteryChange} value={batterySelect}  style={{width:"110px",marginLeft:"5%",marginTop:"4%",fontWeight:"700"}}>
-  <select class="form-select"  style={{textAlign:"center"}} >
-  <option selected value="IOE">IOE </option>
-  <option value="UPS">UPS</option>
-  <option value="LTO">LTO</option>
-  </select>
-</div>
+                  <div
+                    onChange={handleBatteryChange}
+                    value={batterySelect}
+                    style={{
+                      width: "110px",
+                      marginLeft: "5%",
+                      marginTop: "4%",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <select class="form-select" style={{ textAlign: "center" }}>
+                      <option selected value="IOE">
+                        IOE{" "}
+                      </option>
+                      <option value="UPS">UPS</option>
+                      <option value="LTO">LTO</option>
+                    </select>
+                  </div>
+                </Grid>
+                <Grid item xs={6} md={6}>
+                  {/* <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div> */}
+                </Grid>
+              </Grid>
+            </Box>
 
-        </Grid>
-        <Grid item xs={6} md={6}> 
-        {/* <div style={{fontSize:"14px",fontWeight:"500",color:"#000",marginTop:"3%",textAlign:"end",marginRight:"5%"}}>Today <span ><RxTriangleDown size="25px" style={{marginTop:"-5px"}}/></span> </div> */}
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={1}>
+                {batterySelect === "IOE" ? (
+                  <React.Fragment>
+                    <Grid item xs={12} md={6}>
+                      <IOEDashBoardBattery />
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          width: "90%",
+                          height: "50%",
+                          marginTop: "5%",
+                          marginLeft: "5%",
+                          borderRadius: "1%",
+                        }}
+                      >
+                        <p
+                          style={{
+                            color: "black",
+                            margin: "5%",
+                            marginTop: "5%",
+                          }}
+                        >
+                          Previous Cycle
+                        </p>
 
+                        <div
+                          style={{
+                            justifyContent: "start",
+                            alignItems: "center",
+                            display: "flex",
+                            gap: "10px",
+                            margin: "5%",
+                          }}
+                        >
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Charge time
+                            </span>
+                            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+                              {ioeChgTime}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              border: "1px solid #D5D5D5",
+                              height: "100px",
+                              width: "1px",
+                            }}
+                          ></div>
 
-        </Grid>
-       
-      </Grid>
-     </Box>
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Discharge Time
+                            </span>
+                            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+                              {ioeDchgTime}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        LTO
+                      </div>
+                      <LTODashBoradBattery />
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          marginRight: "3%",
+                          marginLeft: "5%",
+                          marginTop: "5%",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          marginTop: "3%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        UPS
+                      </div>
+                      <UPSDashBoardBattery />
+                    </Grid>
+                  </React.Fragment>
+                ) : batterySelect === "LTO" ? (
+                  <React.Fragment>
+                    <Grid item xs={12} md={6}>
+                      <LTODashBoradBattery />
 
-<Box sx={{ flexGrow: 1 }}> 
-<Grid container spacing={1} >
-  {
-    batterySelect === 'IOE' ? (
-      <React.Fragment>
-         <Grid item xs={12} md={6}> 
-           <IOEDashBoardBattery/>
-           <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}>
-           <p style={{color:"black",margin:"5%",marginTop:"5%"}}>Previous Cycle</p>
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          width: "90%",
+                          height: "50%",
+                          marginTop: "5%",
+                          marginLeft: "5%",
+                          borderRadius: "1%",
+                        }}
+                      >
+                        <p
+                          style={{
+                            color: "black",
+                            margin: "5%",
+                            marginTop: "5%",
+                          }}
+                        >
+                          Previous Cycle
+                        </p>
 
-<div style={{justifyContent:"start",alignItems:"center",display:"flex",gap:"10px",margin:"5%"}}>
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Charge  time</span>
-            <p style={{fontSize:"16px",fontWeight:"400"}}>{(ioeChgTime)}</p>
-            </div>
-            <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
+                        <div
+                          style={{
+                            justifyContent: "start",
+                            alignItems: "center",
+                            display: "flex",
+                            gap: "10px",
+                            margin: "5%",
+                          }}
+                        >
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Charge Start time
+                            </span>
+                            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+                              {ltoChgTime}
+                            </p>
+                          </div>
 
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Discharge  Time</span>
-            <p style={{fontSize:"16px",fontWeight:"400"}} >{ioeDchgTime}</p>
-            </div>
- </div>
-            
-           </div>
-         </Grid>
-         <Grid item xs={12} md={6}> 
-         <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>LTO</div>
-        <LTODashBoradBattery/>
-        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
-        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>UPS</div>
-        <UPSDashBoardBattery/>
-        
-      </Grid>
-      </React.Fragment>
-    ): batterySelect === 'LTO' ?(
-      <React.Fragment> 
-        <Grid item xs={12} md={6}> 
-        <LTODashBoradBattery/>
+                          <div
+                            style={{
+                              border: "1px solid #D5D5D5",
+                              height: "100px",
+                              width: "1px",
+                            }}
+                          ></div>
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Discharge Start Time
+                            </span>
+                            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+                              {ltoDchgTime}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        IOE
+                      </div>
+                      <IOEDashBoardBattery />
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          marginRight: "3%",
+                          marginLeft: "5%",
+                          marginTop: "5%",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          marginTop: "3%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        UPS
+                      </div>
+                      <UPSDashBoardBattery />
+                    </Grid>
+                  </React.Fragment>
+                ) : batterySelect === "UPS" ? (
+                  <React.Fragment>
+                    <Grid item xs={12} md={6}>
+                      <UPSDashBoardBattery />
 
-        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}> 
-        <p style={{color:"black",margin:"5%",marginTop:"5%"}}>Previous Cycle</p>
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          width: "90%",
+                          height: "50%",
+                          marginTop: "5%",
+                          marginLeft: "5%",
+                          borderRadius: "1%",
+                        }}
+                      >
+                        <p
+                          style={{
+                            color: "black",
+                            margin: "5%",
+                            marginTop: "5%",
+                          }}
+                        >
+                          Previous Cycle
+                        </p>
 
-<div style={{justifyContent:"start",alignItems:"center",display:"flex",gap:"10px",margin:"5%"}}>
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Charge Start time</span>
-            <p style={{fontSize:"16px",fontWeight:"400"}}>{(ltoChgTime)}</p>
-            </div>
+                        <div
+                          style={{
+                            justifyContent: "start",
+                            alignItems: "center",
+                            display: "flex",
+                            gap: "10px",
+                            margin: "5%",
+                          }}
+                        >
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Charge Start time
+                            </span>
+                            <p style={{ fontSize: "186x", fontWeight: "400" }}>
+                              {upsChgTime}
+                            </p>
+                          </div>
 
-            <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Discharge Start Time</span>
-            <p style={{fontSize:"16px",fontWeight:"400"}} >{ltoDchgTime}</p>
-            </div>
+                          <div
+                            style={{
+                              border: "1px solid #D5D5D5",
+                              height: "100px",
+                              width: "1px",
+                            }}
+                          ></div>
+
+                          <div>
+                            <span
+                              style={{ fontSize: "16px", fontWeight: "600" }}
+                            >
+                              Discharge Start Time
+                            </span>
+                            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+                              {upsDchgTime}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        LTO
+                      </div>
+                      <LTODashBoradBattery />
+                      <div
+                        style={{
+                          border: "1px solid #D5D5D5",
+                          marginRight: "3%",
+                          marginLeft: "5%",
+                          marginTop: "5%",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          textAlign: "start",
+                          marginBottom: "-8%",
+                          marginTop: "3%",
+                          fontWeight: "700",
+                        }}
+                      >
+                        IOE
+                      </div>
+                      <IOEDashBoardBattery />
+                    </Grid>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {/* Default case, add content if needed */}
+                  </React.Fragment>
+                )}
+              </Grid>
+            </Box>
+          </div>
+        </div>
+      </section>
     </div>
-            
-           </div>
-        
-        </Grid>
-        <Grid item xs={12} md={6}>
-        <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>IOE</div> 
-        <IOEDashBoardBattery/>
-        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
-        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>UPS</div>
-        <UPSDashBoardBattery/>
-        
-        </Grid>
-
-
-      </React.Fragment>
-
-
-    ): batterySelect === 'UPS' ?(
-      <React.Fragment> 
-        <Grid item xs={12} md={6}>
-        <UPSDashBoardBattery/>
-         
-        <div style={{border:"1px solid #D5D5D5",width:"90%",height:"50%",marginTop:"5%",marginLeft:"5%",borderRadius:"1%"}}>
-        <p style={{color:"black",margin:"5%",marginTop:"5%"}}>Previous Cycle</p>
-
-          <div style={{justifyContent:"start",alignItems:"center",display:"flex",gap:"10px",margin:"5%"}}>
-
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Charge Start time</span>
-            <p style={{fontSize:"186x",fontWeight:"400"}}>{(upsChgTime)}</p>
-            </div>
-
-             <div style={{border:"1px solid #D5D5D5",height:"100px",width:"1px"}}></div>
-             
-            <div> 
-            <span style={{fontSize:"16px",fontWeight:"600"}}>Discharge Start Time</span>
-            <p style={{fontSize:"16px",fontWeight:"400"}} >{upsDchgTime}</p>
-            </div>
-            </div>
-            
-           </div>
-        
-        </Grid>
-        <Grid item xs={12} md={6}>
-        <div style={{textAlign:"start",marginBottom:"-8%",fontWeight: "700"}}>LTO</div>
-        <LTODashBoradBattery/>
-        <div style={{border:"1px solid #D5D5D5",marginRight:"3%",marginLeft:"5%",marginTop:"5%"}}></div>
-        <div style={{textAlign:"start",marginBottom:"-8%",marginTop:"3%", fontWeight: "700"}}>IOE</div>
-        <IOEDashBoardBattery/>
-        </Grid>
-      </React.Fragment>
-    ):(
-      <React.Fragment>
-        {/* Default case, add content if needed */}
-      </React.Fragment>
-    )
-  }
-</Grid>
-
-</Box>
-
-
-
-
-
-
-
-</div>
-
-
-</div>
-
-
-
-    </section>
-
-
-
-
-
-      
-    </div>
-  )
+  );
 }
-
 
 // {
 //   batterySelect === 'UPS' ? (
@@ -262,16 +436,14 @@ console.log(batterySelect)
 //     </React.Fragment>
 //   ) : (
 //     <React.Fragment>
-      
+
 //     </React.Fragment>
 //   )
 // }
 
-export default DashboardBatteries
+export default DashboardBatteries;
 
-
-
-// <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",}}> 
+// <div style={{position: "relative", width: "100%", height: "497px",  fontSize: "16px", color: "#fff",}}>
 // <div style={{position: "absolute", top: "0px", left: "0px", borderRadius: "10px", backgroundColor: "#fff", boxShadow: "0px 4px 28.3px rgba(0, 0, 0, 0.05)", width: "100%", height: "497px",}}>
 // <div style={{position: "absolute", top: "30%", left: "341px", backgroundColor: "rgba(242, 242, 242, 0.8)", width: "461px", height: "252px",}}>
 // <img style={{position: "absolute", top: "30%", left: "880px", width: "510px", height: "3px", objectFit: "contain",}} alt="" src="/vector-4.svg" />
