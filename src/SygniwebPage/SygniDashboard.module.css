@@ -1,0 +1,25 @@
+.header {
+  margin-top: 6rem;
+  margin-left: 8rem;
+}
+
+.head {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.body {
+  font-size: 0.8rem;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.Home {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 4rem;
+}

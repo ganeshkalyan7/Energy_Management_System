@@ -385,7 +385,15 @@ function HotWaterTS() {
                                 color: "#fff",
                               }}
                             >
-                              {Status === "OFF" ? (
+                              <CircleIcon
+                                style={{
+                                  color: "red",
+                                  width: "20px",
+                                  height: "20px",
+                                }}
+                              />{" "}
+                              OFF
+                              {/* {Status === "OFF" ? (
                                 <CircleIcon
                                   style={{
                                     color: "red",
@@ -401,9 +409,8 @@ function HotWaterTS() {
                                     height: "20px",
                                   }}
                                 />
-                              )}
-
-                              <span
+                              )} */}
+                              {/* <span
                                 style={{
                                   marginLeft: "5px",
                                   fontSize: "14px",
@@ -411,7 +418,7 @@ function HotWaterTS() {
                                 }}
                               >
                                 <b>{Status}</b>
-                              </span>
+                              </span> */}
                             </span>
 
                             <div

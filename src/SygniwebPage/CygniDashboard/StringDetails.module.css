@@ -1,0 +1,36 @@
+.container {
+  padding: 2rem;
+  margin-left: 5rem;
+  margin-top: 5rem;
+  padding-right: 5rem;
+}
+
+/* Keep charts responsive and inside screen */
+.chartContainer {
+  width: 100%;
+  max-width: calc(100vw - 280px); /* adjust sidebar width (e.g., 280px) */
+  margin: 1rem auto;
+}
+
+.buttonGroup {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  background: #e5e7eb;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activeButton {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

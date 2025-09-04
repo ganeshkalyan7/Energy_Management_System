@@ -34,27 +34,27 @@ function DashboardPage1({ selectedDate }) {
     useState([]);
   const energyConsumptionsDateFiltered_API = `${dashboardAddress}/EnergyProfile/Consumption/Filtered`;
 
-    //Co2ReductionData data
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const res = await axios.get(co2Reduction_api);
-          const dataResponse = res.data;
-          setCo2Reduction(dataResponse);
-        } catch (err) {
-          console.error(err);
-        }
-      };
+  //Co2ReductionData data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(co2Reduction_api);
+        const dataResponse = res.data;
+        setCo2Reduction(dataResponse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-      // Initial data fetch
-      fetchData();
+    // Initial data fetch
+    fetchData();
 
-      // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
-      const intervalId = setInterval(fetchData, 300000);
+    // Set up interval to fetch data every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(fetchData, 300000);
 
-      // Clean up the interval on component unmount
-      return () => clearInterval(intervalId);
-    }, []);
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   //Co2ReductionData data
   useEffect(() => {
