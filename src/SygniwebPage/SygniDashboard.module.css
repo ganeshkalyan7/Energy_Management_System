@@ -4,8 +4,8 @@
 }
 
 .head {
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 500;
 }
 .body {
   font-size: 0.8rem;
@@ -16,10 +16,11 @@
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
+  margin-left: 5rem;
 }
 
 .Home {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-  gap: 4rem;
+  row-gap: 4rem;
 }

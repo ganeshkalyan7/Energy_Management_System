@@ -1,0 +1,40 @@
+.battery-summary {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.battery-summary h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.battery-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.battery-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-left: 2px solid #ffe066;
+  border-bottom: 2px solid #ffe066;
+}
+
+.battery-card h3 {
+  font-size: 12px;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.battery-card p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #212529;
+}

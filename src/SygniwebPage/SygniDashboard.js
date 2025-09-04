@@ -3,6 +3,7 @@ import styles from "./SygniDashboard.module.css";
 import axios from "axios";
 import CygniCardCom from "./CygniDashboard/CygniCardCom";
 import Spinner from "./Spinner";
+import BatterySummaryDashboard from "./CygniDashboard/BatterySummaryDashboard";
 
 function SygniDashboard() {
   const VoltageAPI = "https://ems.tre100.in/cygni/Cygni/SlaveBatteryVoltage";
@@ -73,7 +74,9 @@ function SygniDashboard() {
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.head}> Battery Pack Dashboard</div>
+        <BatterySummaryDashboard />
+        <br />
+        <div className={styles.head}> Battery Pack </div>
         <div className={styles.body}>
           9 Strings • 19 Cell Voltages • 6 Temparature each
         </div>
