@@ -1,5 +1,5 @@
 .stringcard {
-  width: 400px;
+  width: 90vw;
   padding: 16px;
   margin: 12px;
   border: 1px solid #ddd;
@@ -42,6 +42,13 @@
 .temp {
   background-color: #ffe3e3;
   color: #dc2626;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+}
+
+.pcb {
+  background-color: #c3fae8;
+  color: #087f5b;
   border-radius: 0.3rem;
   padding: 0.3rem;
 }

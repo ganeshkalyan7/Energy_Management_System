@@ -20,11 +20,13 @@ const BatterySummaryDashboard = () => {
 
   return (
     <div>
-      {voltageData && batteryData ? (
+      {/* {voltageData && batteryData ? (
         <BatterySummary voltageData={voltageData} batteryData={batteryData} />
       ) : (
         <p>Loading...</p>
-      )}
+      )} */}
+
+      <BatterySummary />
     </div>
   );
 };

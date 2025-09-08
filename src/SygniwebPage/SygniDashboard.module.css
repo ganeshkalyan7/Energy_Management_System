@@ -7,6 +7,7 @@
   font-size: 2rem;
   font-weight: 500;
 }
+
 .body {
   font-size: 0.8rem;
 }
@@ -21,6 +22,6 @@
 
 .Home {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-columns: repeat(1, 1fr); /* 3 equal columns */
   row-gap: 4rem;
 }
