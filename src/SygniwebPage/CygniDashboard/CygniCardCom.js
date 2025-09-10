@@ -14,12 +14,13 @@ import {
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 
-function CygniCardCom({ stringId, voltages = [], temps = [] }) {
+function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
   const navigate = useNavigate();
 
   // latest snapshot (0th index of 240 points)
   const snapshotVoltages = voltages[0] || {};
   const snapshotTemps = temps[0] || {};
+  const snapshotPcbTemps = pcbtemps[0] || {};
 
   // Build chartData for voltages (16 cells)
   const voltageData = snapshotVoltages
@@ -32,8 +33,16 @@ function CygniCardCom({ stringId, voltages = [], temps = [] }) {
   // Build chartData for temps (6 sensors)
   const tempData = snapshotTemps
     ? Array.from({ length: 6 }, (_, i) => ({
-        name: `Temp ${i + 1}`,
+        name: `cell ${i + 1}`,
         temp: snapshotTemps[`temperature${i + 1}`] ?? 0,
+      }))
+    : [];
+
+  // Build chartData for pcbtemps (6 sensors)
+  const PCBtempData = snapshotTemps
+    ? Array.from({ length: 6 }, (_, i) => ({
+        name: `cell ${i + 1}`,
+        PCBtemp: snapshotPcbTemps[`temperature${i + 1}`] ?? 0,
       }))
     : [];
 
@@ -99,8 +108,8 @@ function CygniCardCom({ stringId, voltages = [], temps = [] }) {
           </ResponsiveContainer>
 
           {/* PCB Temperature as Line/Area Chart */}
-          {/* <ResponsiveContainer>
-            <AreaChart data={tempData}>
+          <ResponsiveContainer>
+            <AreaChart data={PCBtempData}>
               <defs>
                 <linearGradient
                   id="pcbTempGradient"
@@ -130,7 +139,7 @@ function CygniCardCom({ stringId, voltages = [], temps = [] }) {
                 strokeDasharray="5 5"
               />
             </AreaChart>
-          </ResponsiveContainer> */}
+          </ResponsiveContainer>
 
           {/* Temperature as Line/Area Chart */}
           <ResponsiveContainer>

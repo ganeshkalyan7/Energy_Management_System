@@ -9,8 +9,11 @@ import DeviceFaults from "./CygniDashboard/DeviceFaults";
 function SygniDashboard() {
   const VoltageAPI = "https://ems.tre100.in/cygni/Cygni/SlaveBatteryVoltage";
   const tempAPI = "https://ems.tre100.in/cygni/Cygni/SlaveBatteryTemperature";
+  const PCBTempAPI =
+    "https://ems.tre100.in/cygni/Cygni/SlaveBatteryPCBTemperature";
   const [voltagedata, setvoltagedata] = useState({});
   const [tempdata, settempdata] = useState({});
+  const [pcbtemdata, setpcbtempdata] = useState({});
   const [isloading, setisloading] = useState(false);
 
   // useEffect(() => {
@@ -46,9 +49,10 @@ function SygniDashboard() {
       try {
         setisloading(true);
         // call both APIs in parallel
-        const [voltageData, tempData] = await Promise.all([
+        const [voltageData, tempData, Pcbtempdata] = await Promise.all([
           axios.get(VoltageAPI),
           axios.get(tempAPI),
+          axios.get(PCBTempAPI),
         ]);
 
         // extract responses
@@ -57,6 +61,10 @@ function SygniDashboard() {
 
         const TempdataResponse = tempData.data[0];
         settempdata(TempdataResponse);
+
+        const PcbTempdataResponse = Pcbtempdata.data[0];
+        console.log(PcbTempdataResponse);
+        setpcbtempdata(TempdataResponse);
       } catch (error) {
         console.log(error);
       } finally {
@@ -81,7 +89,7 @@ function SygniDashboard() {
         <br />
         <div className={styles.head}> Battery Pack </div>
         <div className={styles.body}>
-          9 Strings • 16 Cell Voltages • 6 Temparature • 6 PCB Temparature each
+          9 Strings • 16 Cell Voltages • 6 Temperature • 6 PCB Temperature each
         </div>
       </div>
 
@@ -93,6 +101,7 @@ function SygniDashboard() {
               stringId={stringId}
               voltages={voltagedata[stringId]}
               temps={tempdata[stringId]}
+              pcbtemps={pcbtemdata[stringId]}
             />
           ))}
         </div>
