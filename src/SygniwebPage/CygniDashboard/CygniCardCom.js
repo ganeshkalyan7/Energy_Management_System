@@ -24,7 +24,8 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
   const snapshotVoltages = voltages[0] || {};
   const snapshotTemps = temps[0] || {};
   const snapshotPcbTemps = pcbtemps[0] || {};
-
+  console.log(snapshotPcbTemps);
+  console.log(pcbtemps);
   // Build chartData for voltages (16 cells)
   const voltageData = snapshotVoltages
     ? Array.from({ length: 16 }, (_, i) => ({
@@ -42,12 +43,13 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
     : [];
 
   // Build chartData for pcbtemps (6 sensors)
-  const PCBtempData = snapshotTemps
+  const PCBtempData = snapshotPcbTemps
     ? Array.from({ length: 6 }, (_, i) => ({
         name: `cell ${i + 1}`,
-        PCBtemp: snapshotPcbTemps[`PCBtemperature${i + 1}`] ?? 0,
+        PCBtemp: snapshotPcbTemps[`pcbTemp${i + 1}`] ?? 0,
       }))
     : [];
+  console.log(PCBtempData);
 
   // overview metrics
   const voltArray = voltageData.map((d) => d.voltage).filter((v) => v !== 0);
@@ -209,7 +211,7 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
 
               <Area
                 type="monotone"
-                dataKey="voltage"
+                dataKey="PCBtemp"
                 stroke="#fcc419"
                 fill="url(#pcbGradient)" // <-- updated to match
                 strokeWidth={2}

@@ -63,8 +63,8 @@ function SygniDashboard() {
         settempdata(TempdataResponse);
 
         const PcbTempdataResponse = Pcbtempdata.data[0];
+        setpcbtempdata(PcbTempdataResponse);
         console.log(PcbTempdataResponse);
-        setpcbtempdata(TempdataResponse);
       } catch (error) {
         console.log(error);
       } finally {
@@ -77,6 +77,7 @@ function SygniDashboard() {
 
   console.log(voltagedata);
   console.log(tempdata);
+  console.log(pcbtemdata);
   console.log(isloading);
 
   if (isloading) return <Spinner />;
