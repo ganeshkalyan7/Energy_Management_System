@@ -14,6 +14,9 @@ import {
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+
 function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
   const navigate = useNavigate();
 
@@ -42,7 +45,7 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
   const PCBtempData = snapshotTemps
     ? Array.from({ length: 6 }, (_, i) => ({
         name: `cell ${i + 1}`,
-        PCBtemp: snapshotPcbTemps[`temperature${i + 1}`] ?? 0,
+        PCBtemp: snapshotPcbTemps[`PCBtemperature${i + 1}`] ?? 0,
       }))
     : [];
 
@@ -58,16 +61,22 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
       <div className={dashboardstyles.stringcard}>
         <div className={dashboardstyles.stringsummary}>
           <div>
-            <p className={dashboardstyles.stringno}>String {stringId}</p>
+            <p className={dashboardstyles.stringno}>String {stringId} </p>
             <p className={dashboardstyles.num}>
               16 Cells | 6 Temps | 6 PCB Temps
+              <span
+                onClick={() => navigate(`/Cygni/string/${stringId}`)}
+                style={{
+                  fontSize: "0.9em",
+                  paddingInlineStart: "1rem",
+                  textDecoration: "underline", // ✅ proper value
+                  cursor: "pointer", // (optional) makes it look clickable
+                  color: "blue",
+                }}
+              >
+                Know More.....
+              </span>
             </p>
-          </div>
-
-          <div className={dashboardstyles.properysummary}>
-            <p className={dashboardstyles.vol}>Max Voltage: {maxVoltage} V</p>
-            <p className={dashboardstyles.temp}>Max Temp: {maxTemp} °C</p>
-            <p className={dashboardstyles.pcb}>Max PCB Temp: {30.67} °C</p>
           </div>
         </div>
 
@@ -75,7 +84,10 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
         <div style={{ display: "flex", height: 200 }}>
           {/* Voltage as Line/Area Chart */}
           <ResponsiveContainer>
-            <AreaChart data={voltageData}>
+            <AreaChart
+              data={voltageData}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient
                   id="voltageGradient"
@@ -89,51 +101,31 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
                 </linearGradient>
               </defs>
 
-              <XAxis dataKey="name" hide />
-              <YAxis hide />
+              {/* ✅ Show X and Y Axis */}
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 10, fill: "#495057" }} // tick style
+                axisLine={{ stroke: "#dee2e6" }} // axis line color
+                tickLine={false} // hide small tick lines
+              />
+              <YAxis
+                tick={{ fontSize: 10, fill: "#495057" }}
+                axisLine={{ stroke: "#dee2e6" }}
+                tickLine={false}
+              />
+
+              {/* Tooltip */}
               <Tooltip
                 contentStyle={{ fontSize: "10px", padding: "2px 6px" }}
                 itemStyle={{ fontSize: "10px" }}
               />
+
+              {/* Area Line */}
               <Area
                 type="monotone"
                 dataKey="voltage"
                 stroke="#fa5252"
                 fill="url(#voltageGradient)"
-                strokeWidth={2}
-                dot={false}
-                strokeDasharray="5 5"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-
-          {/* PCB Temperature as Line/Area Chart */}
-          <ResponsiveContainer>
-            <AreaChart data={PCBtempData}>
-              <defs>
-                <linearGradient
-                  id="pcbTempGradient"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor="#63e6be" stopOpacity={0.8} />
-                  <stop offset="100%" stopColor="#63e6be" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
-
-              <XAxis dataKey="name" hide />
-              <YAxis hide />
-              <Tooltip
-                contentStyle={{ fontSize: "10px", padding: "2px 6px" }}
-                itemStyle={{ fontSize: "10px" }}
-              />
-              <Area
-                type="monotone"
-                dataKey="pcbTemp" // ⚡ use a proper field from tempData
-                stroke="#63e6be"
-                fill="url(#pcbTempGradient)"
                 strokeWidth={2}
                 dot={false}
                 strokeDasharray="5 5"
@@ -151,8 +143,18 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
                 </linearGradient>
               </defs>
 
-              <XAxis dataKey="name" hide />
-              <YAxis hide />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 10, fill: "#495057" }}
+                axisLine={{ stroke: "#dee2e6" }}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 10, fill: "#495057" }}
+                axisLine={{ stroke: "#dee2e6" }}
+                tickLine={false}
+              />
+
               <Tooltip
                 contentStyle={{ fontSize: "10px", padding: "2px 6px" }}
                 itemStyle={{ fontSize: "10px" }}
@@ -168,14 +170,61 @@ function CygniCardCom({ stringId, voltages = [], temps = [], pcbtemps = [] }) {
               />
             </AreaChart>
           </ResponsiveContainer>
+
+          {/* PCB Temperature as Line/Area Chart */}
+          <ResponsiveContainer>
+            <AreaChart
+              data={PCBtempData}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient
+                  id="pcbGradient" // <-- changed to unique id
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop offset="0%" stopColor="#fcc419" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#fcc419" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 10, fill: "#495057" }}
+                axisLine={{ stroke: "#dee2e6" }}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 10, fill: "#495057" }}
+                axisLine={{ stroke: "#dee2e6" }}
+                tickLine={false}
+              />
+
+              <Tooltip
+                contentStyle={{ fontSize: "10px", padding: "2px 6px" }}
+                itemStyle={{ fontSize: "10px" }}
+              />
+
+              <Area
+                type="monotone"
+                dataKey="voltage"
+                stroke="#fcc419"
+                fill="url(#pcbGradient)" // <-- updated to match
+                strokeWidth={2}
+                dot={false}
+                strokeDasharray="5 5"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
 
-        <button
-          className={dashboardstyles.detailsbtn}
-          onClick={() => navigate(`/Cygni/string/${stringId}`)}
-        >
-          View Details....
-        </button>
+        <div className={dashboardstyles.properysummary}>
+          <p className={dashboardstyles.vol}>Max Voltage: {maxVoltage} V</p>
+          <p className={dashboardstyles.temp}>Max Temp: {maxTemp} °C</p>
+          <p className={dashboardstyles.pcb}>Max PCB Temp: {30.67} °C</p>
+        </div>
       </div>
     </div>
   );

@@ -27,43 +27,48 @@
   margin: 0;
 }
 
+.properysummary {
+  display: flex;
+  gap: 1.5rem;
+  /* justify-content: space-evenly; */
+}
+
 .properysummary p {
   margin: 2px 0;
   font-size: 13px;
 }
 
 .vol {
-  background-color: #d0ebff;
-  color: #2563eb;
-  border-radius: 0.3rem;
-  padding: 0.3rem;
-}
-
-.temp {
   background-color: #ffe3e3;
   color: #dc2626;
   border-radius: 0.3rem;
   padding: 0.3rem;
 }
 
-.pcb {
-  background-color: #c3fae8;
-  color: #087f5b;
+.temp {
+  background-color: #d0ebff;
+  color: #2563eb;
   border-radius: 0.3rem;
   padding: 0.3rem;
 }
 
+.pcb {
+  background-color: #ffec99;
+  color: #e67700;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+}
 .detailsbtn {
-  margin-top: 10px;
-  padding: 6px 12px;
+  /* margin-top: 10px; */
+  /* padding: 6px 12px; */
   border: none;
   border-radius: 6px;
-  background: #2563eb;
-  color: white;
+  /* background: #2563eb; */
+  /* color: white; */
   font-size: 14px;
   cursor: pointer;
 }
 
 .detailsbtn:hover {
-  background: #1e40af;
+  /* background: #1e40af; */
 }
